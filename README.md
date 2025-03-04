@@ -8,11 +8,13 @@
 ## Running and Maintaining the Model
 **Always use the MATLAB Project source control.** MATLAB has developed this tool to prevent sharing of temporary files and other unwanted information. A project also has associated start-up files, so starting without first running the project will cause the Simulink model to fail. 
 
+![project page](docs/project.png)
+
+
 > [!WARNING]
 > If you add additional files to the directory that you want source controlled, you need to manually add them to the project by right-clicking on the file and going `Source Control > Add to Git` 
 > ![add to git](docs/git.png)
 
-![project page](docs/project.png)
 
 ## Notes About This Model
 - All position vectors and matrixes are with respect to the center of mass of the robot. 
