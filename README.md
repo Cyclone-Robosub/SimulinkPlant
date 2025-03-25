@@ -25,10 +25,9 @@
 
 ![project page](docs/project.png)
 
-
 > [!WARNING]
-> If you add additional files to the directory that you want source controlled, you need to manually add them to the project by right-clicking on the file and going `Source Control > Add to Git` 
-> ![add to git](docs/git.png)
+> If you add additional files to the directory that you want source controlled, you need to manually add them to the project by right-clicking on the file and going `Add to Project` 
+> ![add to project](docs/add-to-project.png)
 
 
 ## Notes About This Model
