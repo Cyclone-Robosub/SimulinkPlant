@@ -1,7 +1,6 @@
 ## Task List
 ### PID
-- [ ] Replace Manual PID parameters with tuning blocks
-- [ ] Merge and replace inidivual PID components
+- [x] Replace Manual PID parameters with tuning blocks
 - [x] Change `constants.mat` to constants `constants.m`
 ### IMU
 - [ ] accepts six axis body frame acceleration as input (one, six-axis input signal)
