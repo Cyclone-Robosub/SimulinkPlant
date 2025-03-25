@@ -40,3 +40,9 @@
 > Mathematically, its far more convenint to keep the convention that center-of-mass is origin. Practically, it might become annoying because the center of mass can change. 
 > 
 > I think the ideal solution is to keep the center of mass orgin, but at some point add a function that would redefine the center of mass relative to a static point (say, thruster 0), and then recalculate all other points, keeping the center of mass at origin.
+
+## Resources
+- [Project Information Page](https://www.mathworks.com/help/releases/R2024b/simulink/ug/try-simulink-project-tools-with-the-airframe-project.html)
+- [Creating a System in Simulink](https://www.mathworks.com/help/releases/R2024b/simulink/gs/system-definition-and-layout.html) (Part 1 of 3)
+- [Model-Based Design](https://www.mathworks.com/help/releases/R2024b/simulink/gs/model-based-design.html)
+- [Best Practices](https://www.mathworks.com/company/technical-articles/best-practices-for-implementing-modeling-guidelines-in-simulink.html)
