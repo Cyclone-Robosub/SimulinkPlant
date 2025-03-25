@@ -3,11 +3,11 @@
 - [x] Replace Manual PID parameters with tuning blocks
 - [x] Change `constants.mat` to constants `constants.m`
 ### IMU
-- [ ] accepts six axis body frame acceleration as input (one, six-axis input signal)
-- [ ] adds Gaussian white noise
-- [ ] sends six axis body frame acceleration w/ noise as output (one, six-axis output signal)
+- [x] accepts six axis body frame acceleration as input (one, six-axis input signal)
+- [x] adds Gaussian white noise
+- [x] sends six axis body frame acceleration w/ noise as output (one, six-axis output signal)
 ### SPU
-- [ ] accepts six axis body frame acceleration w/ noise as input (one, six-axis input signal)
+- [x] accepts six axis body frame acceleration w/ noise as input (one, six-axis input signal)
 - [ ] applies low pass digital filter to remove noise
 - [ ] integrates and applies rotation matrix to find body frame and world frame acceleration, velocity, position
 - [ ] outputs six axis acceleration, velocity, and position in world frame and body frame (six, six-axis output signals)
