@@ -12,6 +12,8 @@ volume_center = [0, 0, 0.1];
 
 %% Electronics
 pwm_stop = 1500;
+rot_noise = 60e-6;
+lin_noise = 5e-3;
 
 %% Math
 wrench = [
