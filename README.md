@@ -1,16 +1,27 @@
 ## Task List
-### PID
+### PID 
 - [x] Replace Manual PID parameters with tuning blocks
 - [x] Change `constants.mat` to constants `constants.m`
+- [ ] Tune PID to improve sim reslts
+### Plant
+- [ ] Break up `drag_wrench` into rows for experiments
+- [ ] Break up mass constants in model for easy tuning 
+- [ ] Check mass and volume
+- [ ] Find volume center
 ### IMU
 - [x] accepts six axis body frame acceleration as input (one, six-axis input signal)
 - [x] adds Gaussian white noise
 - [x] sends six axis body frame acceleration w/ noise as output (one, six-axis output signal)
+- [ ] find noise of actual imu (does it match the model)
 ### SPU
 - [x] accepts six axis body frame acceleration w/ noise as input (one, six-axis input signal)
 - [ ] applies low pass digital filter to remove noise
-- [ ] integrates and applies rotation matrix to find body frame and world frame acceleration, velocity, position
-- [ ] outputs six axis acceleration, velocity, and position in world frame and body frame (six, six-axis output signals)
+- [x] integrates and applies rotation matrix to find body frame and world frame acceleration, velocity, position
+- [x] outputs six axis acceleration, velocity, and position in world frame and body frame (six, six-axis output signals)
+### Pathfinding
+- [ ] understand pathfinding
+- [ ] Implement pathfinding 
+
 
 ## Opening the Model
 1. Install [MATLAB](https://www.mathworks.com/help/install/install-products.html)
