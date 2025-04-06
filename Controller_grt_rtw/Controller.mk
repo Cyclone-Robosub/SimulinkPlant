@@ -2,7 +2,7 @@
 ## Makefile generated for component 'Controller'. 
 ## 
 ## Makefile     : Controller.mk
-## Generated on : Sun Apr 06 12:02:08 2025
+## Generated on : Sun Apr 06 12:26:35 2025
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/Controller.exe
 ## Product type : executable
 ## 
@@ -23,7 +23,7 @@ MAKEFILE                  = Controller.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2024b
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2024b/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Users/PAMARI~1/OneDrive/DOCUME~1/MATLAB
+START_DIR                 = C:/Users/PAMARI~1/OneDrive/DOCUME~1/GitHub/SIMULI~1
 SOLVER                    = 
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
