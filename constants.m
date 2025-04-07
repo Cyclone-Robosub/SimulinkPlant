@@ -48,23 +48,31 @@ x0_e = [0, 0, 0]';
 v0_e = [0, 0, 0]';
 
 %initial euler angles
-E0 = [0, 0, 0]';
+E0 = [pi/6, pi/6, pi/6]';
 
 %initial angular velocity
 w0 = [0, 0, 0]';
 %initial states for sensor processing unit 
 x0_e_est = [0, 0, 0]';
 v0_e_est = [0, 0, 0]';
-E0_est = [0, 0, 0]';
+E0_est = E0;
 
 %target states
 x_des = [1;1;1];
-E_des = [0;0;1];
+E_des = [0;0;0];
 states_desired = [x_des;E_des];
 
 %PID coefficients
-kp = 500*[1;1;1;1;1;1];
-ki = 1*[1;1;1;1;1;1];
-kd = 1000*[1;1;1;1;1;1];
+kp_F = 1000;
+ki_F = 50;
+kd_F = 2000;
+kp_T = 2000;
+ki_T = 10;
+kd_T = 4000;
+
+%PID saturation and clamping
+%to do - calculate reasonable values for this
+
 %simulation time step
+
 dt = 0.001;
