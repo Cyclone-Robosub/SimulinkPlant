@@ -76,3 +76,11 @@ kd_T = 4000;
 %simulation time step
 
 dt = 0.001;
+
+%%
+%IMU Struture and constants
+IMU.accelMaxRating = 10^4 * g;
+IMU.accelResolution = 122 * 10^-6 * g;
+IMU.accelOffsetBias = 0;
+
+
