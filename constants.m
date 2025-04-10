@@ -79,8 +79,24 @@ dt = 0.001;
 
 %%
 %IMU Struture and constants
+%Accelerometer
 IMU.accelMaxRating = 10^4 * g;
 IMU.accelResolution = 122 * 10^-6 * g;
 IMU.accelOffsetBias = 0;
+IMU.accelVelRNDWalk = 0.02/(6*sqrt(360));
+
+%Gyros
+IMU.gyroResolution =      0.0076*pi/180;
+IMU.gyroAccelBias =       0;
+IMU.gyroAngleRNDWalk =    0.16*pi/180/sqrt(360);
+IMU.gyroBiasInstability = 0;
+IMU.gyroRateRNDWalk =     0;
+
+%Magnetometer
+IMU.magsResolution =      0.3;
+IMU.magsAccelBias =       0;
+IMU.magsRNDWalk =         0;
+IMU.magsBiasInstability = 0;
+IMU.magsRateRNDWalk =     0;
 
 
