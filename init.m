@@ -1,13 +1,15 @@
 % close all plots
 close all
 clc
+clear all
 
 % run constants.m
 run("constants.m");
-run("wrench.m");
+run("calculate_wrench.m");
+run("calculate_inertia.m")
 
 % run simulation
-run('PID_LOOP_2024a.slx')
+%run('PID_LOOP_2024a.slx')
 
 % unpack data
 

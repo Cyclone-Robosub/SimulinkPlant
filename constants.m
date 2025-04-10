@@ -3,10 +3,12 @@ g = 9.8067;
 water_density = 997;
 
 %% System Properties
+%{functionality moved to inertia.m
 m = 5.51 ; % kg
 I_x = 1;
 I_y = 1;
 I_z = 1;
+%}
 volume = 0.0074;
 volume_center = [0, 0, 0.1];
 
@@ -16,7 +18,8 @@ rot_noise = 60e-6;
 lin_noise = 5e-3;
 
 %% Math
-%{
+%{ 
+
 wrench = [
          0         0    -1.0000   -0.2035   -0.2535         0
          0         0    -1.0000    0.2035   -0.2535         0
@@ -40,8 +43,8 @@ drag_wrench = [
 
 %% Simulation Setup
 %parameters needed in Matlab functions
-P.m = m;
-P.I = diag([I_x,I_y,I_z]);
+% P.m = m; moved to inertia.m
+% P.I = diag([I_x,I_y,I_z]);
 P.g = g;
 
 %initial states in earth frame
