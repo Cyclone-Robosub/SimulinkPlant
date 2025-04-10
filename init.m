@@ -1,8 +1,13 @@
 % close all plots
+close all
+clc
 
 % run constants.m
+run("constants.m");
+run("wrench.m");
 
 % run simulation
+run('PID_LOOP_2024a.slx')
 
 % unpack data
 
