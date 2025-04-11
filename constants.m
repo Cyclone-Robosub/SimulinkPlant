@@ -41,35 +41,13 @@ drag_wrench = [
          0         0         0         0         0    0.5000
 ];
 
-%% Simulation Setup
-%parameters needed in Matlab functions
-% P.m = m; moved to inertia.m
-% P.I = diag([I_x,I_y,I_z]);
-P.g = g;
 
-%initial states in earth frame
-x0_e = [0, 0, 0]';
-v0_e = [0, 0, 0]';
-
-%initial euler angles
-E0 = [pi/6, pi/6, pi/6]';
-
-%initial angular velocity
-w0 = [0, 0, 0]';
-%initial states for sensor processing unit 
-x0_e_est = [0, 0, 0]';
-v0_e_est = [0, 0, 0]';
-E0_est = E0;
-
-%target states
-x_des = [1;1;1];
-E_des = [0;0;0];
-states_desired = [x_des;E_des];
 
 %PID coefficients
-kp_F = 1000;
-ki_F = 50;
-kd_F = 2000;
+kp_F = 2000;
+ki_F = 10;
+kd_F = 4000;
+
 kp_T = 2000;
 ki_T = 10;
 kd_T = 4000;
