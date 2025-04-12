@@ -1,15 +1,3 @@
-% to do: link picture of model for reference
-
-%{
-
-This script inputs the coordinates of each thrust vector relative to the
-body center of mass and the direction of each thrust vector in the body
-coordinate frame and returns the wrench matrix W such that:
-[Force;Torque] = W*[F1 F2 ... F8]' where F1 ... F8 are the force commands
-of the individual thrusters.
-
-%}
-%%
 % thruster coordinate reference (m)
 xo = 25e-2;
 xi = 15e-2;
@@ -41,7 +29,6 @@ t_b = [t_b_top,t_b_bottom];
 syms F1 F2 F3 F4 F5 F6 F7 F8 real
 F = [F1 F2 F3 F4 F5 F6 F7 F8]';
 
-
 T_b = zeros(3,1);
 
 for i = 1:8
@@ -63,6 +50,7 @@ eqn = [F_b_lhs == F_b_rhs;...
 
 wrench = eval(w);
 inverse_wrench = pinv(wrench);
+save("geometry_properties.mat","wrench","inverse_wrench")
 
 %Individual Thruster Saturation Point
 F_max = 30; %[N]
