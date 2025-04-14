@@ -2,49 +2,32 @@
 close all
 clc
 
-% run constants.m
-run("constants.m");
 
 % if the wrench and inertia matrix have changed, re-run these
 %run("calculate_wrench.m");
 %run("calculate_inertia.m");
 
+% run constants.m
+run("constants.m");
 
-%% Sim Setup
 close all
 
-% configure test parameters
-do_gravity_flag = 0;
-do_bouyancy_flag = 0;
-do_imu_noise_flag = 0;
 
-tspan = 100;
-
-dt = 0.001; %simulation timestep
-
-Dt = 0.01; %controller timestep
-
-%parameters needed in Matlab functions
-P.g = g;
-
-%initial states in earth frame
+%% Simulation initial conditions
+%initial states for plant model
 x0_e = [0, 0, 0]';
 v0_e = [0, 0, 0]';
+E0 = [0,0,0]'; %initial euler angles
+w0 = [0, 0, 0]'; %initial angular velocity
 
-%initial euler angles
-E0 = [0,0,0]';
-
-%initial angular velocity
-w0 = [0, 0, 0]';
-
-%initial states for sensor processing unit 
-x0_e_est = [0, 0, 0]';
+%initial state for estimator
+x0_e_est = [0, 0, 0]'; %initial states for sensor processing unit 
 v0_e_est = [0, 0, 0]';
 E0_est = E0;
 
-%target states
+%target states for controller
 x_des = [1, 0, 0]';
-E_des = [0, 0, 0]';
+E_des = [0, 0, pi/3]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -53,9 +36,20 @@ waypoints = [5, 0, 0;...
              -5, 0, 0;...
              0, 0, 0]';
 
-tol = 0.1; %tolerance when waypoint is considered "reached"
+tol = 0.001; %tolerance when waypoint is considered "reached"
 
-% run simulation
+%% Test parameters 
+% simulation parameters
+do_gravity_flag = 0;
+do_bouyancy_flag = 0;
+do_imu_noise_flag = 0;
+do_waypoint_control_flag = 1;
+
+%time span and step
+tspan = 100;
+dt = 0.001; %simulation timestep
+Dt = 0.01; %controller timestep
+
 tic
 results = sim('PID_LOOP_2024a.slx');
 toc
@@ -91,7 +85,7 @@ xlabel("t [s]")
 ylabel('Angle [rad]')
 legend("Roll (phi)","Pitch (theta)","Yaw (psi)")
 
-    % velocity vs time
+% velocity vs time
 
 figure
 plot(t,v_e)
@@ -106,4 +100,4 @@ ylabel("[m/s]")
 % thruster duty cycle vs time
 
 % call animation function
-
+%animate_vehicle(initial_states,x_e,E)

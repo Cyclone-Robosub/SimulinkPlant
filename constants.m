@@ -1,5 +1,6 @@
 %% Constants 
 g = 9.8067;
+P.g = g;
 water_density = 997;
 
 %% System Properties
@@ -7,11 +8,6 @@ water_density = 997;
 volume = 0.0074;
 volume_center = [0, 0, 0.1];
 
-
-%% Electronics
-pwm_stop = 1500;
-rot_noise = 60e-6;
-lin_noise = 5e-3;
 
 % load wrench and inertia matrix
 geometry_properties = load('geometry_properties.mat');
