@@ -1,0 +1,10 @@
+This file is the manifest for the generated code from model 'Controller'.
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\Controller.cpp
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\Controller_data.cpp
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\ert_main.cpp
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\Controller.h
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\rtwtypes.h
+C:\Program Files\MATLAB\R2024b\simulink\include\rtw_continuous.h
+C:\Program Files\MATLAB\R2024b\simulink\include\rtw_solver.h
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\html
+C:\Users\Pamarit - Test\OneDrive\Documents\GitHub\SimulinkPlant\IntelWin64\Controller\Controller_manifest.txt

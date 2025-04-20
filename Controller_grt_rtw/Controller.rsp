@@ -1,6 +1,0 @@
-rt_logging.obj
-Controller.obj
-Controller_data.obj
-rtGetNaN.obj
-rt_nonfinite.obj
-rt_main.obj
