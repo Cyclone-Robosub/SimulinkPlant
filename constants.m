@@ -31,13 +31,13 @@ drag_wrench = [
 
 
 %PID coefficients
-kp_F = 2000;
-ki_F = 100;
-kd_F = 4000;
+kp_F = 18.5;
+ki_F = 8.7;
+kd_F = 9.7;
 
-kp_T = 2000;
-ki_T = 100;
-kd_T = 4000;
+kp_T = 18.5;
+ki_T = 8.7;
+kd_T = 9.7;
 
 %IMU Struture and constants
 %Accelerometer
