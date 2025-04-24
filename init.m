@@ -20,14 +20,34 @@ v0_e = [0, 0, 0]';
 E0 = [0,0,0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
-%initial state for estimator
-x0_e_est = [0, 0, 0]'; %initial states for sensor processing unit 
-v0_e_est = [0, 0, 0]';
-E0_est = E0;
+%kalman filter initial conditions
+P0 = 10*eye(3);
+xhat0 = [0;0;0]'; 
+
+%kalman filter constants
+dt_filter = 0.01; %filter time step
+H = [1 0 0;
+    0 1 0]; %measurement matrix
+
+%kalman filter parameters
+Q = diag([0.0001, 0.0001, 0.1]); %process noise matrix (tune this)
+R = [.1 0;
+    0 .1]; %measurement noise matrix (tune this)
+
+
+%IMU (combine these w/ Alex's stuff)
+acc_vel_rw = 0.02/sqrt(3600);
+acc_bias_instability = 19e-6*9.81; 
+acc_noise = 60e-6*9.81;
+gyro_rw = 0.16*2*pi/360/sqrt(3600);
+gyro_noise = 5e-3*2*pi/360;
+gyro_bias_instability = 1.5/3600/360;
+mag_noise = 0.1;
+
 
 %target states for controller
 x_des = [0, 0, 0]';
-E_des = [0, 0, 0]';
+E_des = [0, pi/6, 0]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -46,6 +66,7 @@ do_waypoint_control_flag = 1;
 tspan = 30;
 dt = 0.001; %simulation timestep
 Dt = 0.01; %controller timestep
+dt_plot = 0.1;
 
 tic
 results = sim('PID_LOOP_2024a.slx');
@@ -58,7 +79,7 @@ v_e = squeeze(results.v_e.Data);
 w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data);
-current_waypoint = squeeze(results.current_waypoint.Data);
+%current_waypoint = squeeze(results.current_waypoint.Data);
 intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
 % for each simulation run create plots
 
