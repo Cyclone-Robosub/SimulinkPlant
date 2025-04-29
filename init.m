@@ -47,11 +47,11 @@ mag_noise = 0.1;
 
 %target states for controller
 x_des = [0, 0, 0]';
-E_des = [0, pi/6, 0]';
+E_des = [0, 0, 2]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
-waypoints = [1, 0, 0];
+waypoints = [0, -0, 0];
 
 tol = 0.1; %tolerance when waypoint is considered "reached"
 
@@ -63,7 +63,7 @@ do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
 %time span and step
-tspan = 30;
+tspan = 100;
 dt = 0.001; %simulation timestep
 Dt = 0.01; %controller timestep
 plot_dt = 0.1;
@@ -79,8 +79,8 @@ v_e = squeeze(results.v_e.Data);
 w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data);
-%current_waypoint = squeeze(results.current_waypoint.Data);
-% intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
+current_waypoint = squeeze(results.current_waypoint.Data);
+intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
 % for each simulation run create plots
 
 % position vs time
