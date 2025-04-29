@@ -66,7 +66,7 @@ do_waypoint_control_flag = 1;
 tspan = 30;
 dt = 0.001; %simulation timestep
 Dt = 0.01; %controller timestep
-dt_plot = 0.1;
+plot_dt = 0.1;
 
 tic
 results = sim('PID_LOOP_2024a.slx');
@@ -80,7 +80,7 @@ w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data);
 %current_waypoint = squeeze(results.current_waypoint.Data);
-intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
+% intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
 % for each simulation run create plots
 
 % position vs time
