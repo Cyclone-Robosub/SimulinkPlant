@@ -19,7 +19,7 @@
 - [x] integrates and applies rotation matrix to find body frame and world frame acceleration, velocity, position
 - [x] outputs six axis acceleration, velocity, and position in world frame and body frame (six, six-axis output signals)
 ### Pathfinding
-- [ ] understand pathfinding
+- [x] understand pathfinding
 - [ ] Implement pathfinding 
 
 
