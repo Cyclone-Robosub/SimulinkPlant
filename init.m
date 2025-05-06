@@ -17,7 +17,7 @@ close all
 %initial states for plant model
 x0_e = [0, 0, 0]';
 v0_e = [0, 0, 0]';
-E0 = [0,0,0]'; %initial euler angles
+E0 = [pi/6,-pi/6,pi/4]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %kalman filter initial conditions
@@ -47,7 +47,7 @@ mag_noise = 0.1;
 
 %target states for controller
 x_des = [1, 1, 1]';
-E_des = [pi/12, -pi/12, pi/6]';
+E_des = [0, 0, pi/3]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -63,7 +63,7 @@ do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
 %time span and step
-tspan = 100;
+tspan = 30;
 dt = 0.001; %simulation timestep
 Dt = 0.001; %controller timestep
 plot_dt = 0.1;
