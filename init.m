@@ -44,10 +44,19 @@ gyro_noise = 5e-3*2*pi/360;
 gyro_bias_instability = 1.5/3600/360;
 mag_noise = 0.1;
 
+%gain scheduling parameters
+roll_upper = 5*pi/180;
+roll_lower = 1*pi/180;
+pitch_upper = 5*pi/180;
+pitch_lower = 1*pi/180;
+yaw_upper = 5*pi/180;
+yaw_lower = 1*pi/180;
+
+
 
 %target states for controller
 x_des = [1, 1, 1]';
-E_des = [0, 0, pi/3]';
+E_des = [0, 0, -pi/4]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -63,10 +72,10 @@ do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
 %time span and step
-tspan = 30;
+tspan = 60;
 dt = 0.001; %simulation timestep
-Dt = 0.001; %controller timestep
-plot_dt = 0.1;
+Dt = 0.01; %controller timestep
+plot_dt = 0.01;
 
 tic
 results = sim('PID_LOOP_2024a.slx');
@@ -79,6 +88,8 @@ v_e = squeeze(results.v_e.Data);
 w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data); 
+flags = squeeze(results.flags.Data);
+E_error = squeeze(results.E_error.Data);
 %current_waypoint = squeeze(results.current_waypoint.Data);
 % intermediate_waypoint = squeeze(results.intermediate_waypoint.Data);
 % for each simulation run create plots
@@ -145,7 +156,7 @@ plot3(results.x_e.Data(:,1),results.x_e.Data(:,2),results.x_e.Data(:,3))
 %hold on
 %plot3(current_waypoint(1,:),current_waypoint(2,:),current_waypoint(3,:),'Linestyle','none','Marker','.','MarkerSize',15)
 %plot3(intermediate_waypoint(:,1),intermediate_waypoint(:,2),intermediate_waypoint(:,3),'LineStyle','none','Marker','*','MarkerSize',10)
-legend("Body Position","Current WP","Intermediate WP")
+%legend("Body Position","Current WP","Intermediate WP")
 
 grid on
 
@@ -156,11 +167,51 @@ title("3D Trajectory")
 xlabel("X [m]")
 ylabel("Y [m]")
 zlabel("Z [m]")
+
+% state error vs time
+figure
+subplot(2,3,1)
+plot(t,abs(E_error(:,1))*180/pi)
+yline(roll_upper*180/pi,'color','r')
+yline(roll_lower*180/pi,'color','y')
+title("Roll Error")
+xlabel("Time (s)")
+ylabel("Angle (deg)")
+ylim([-max(abs(E_error(:,1)*180/pi)),max(abs(E_error(:,1)*180/pi))])
+subplot(2,3,4)
+plot(t,flags(:,1))
+title("Roll Flag")
+xlabel("Time (s)")
+ylabel("Value")
+subplot(2,3,2)
+plot(t,abs(E_error(:,2))*180/pi)
+yline(pitch_upper*180/pi,'color','r')
+yline(pitch_lower*180/pi,'color','y')
+title("Pitch Error")
+xlabel("Time (s)")
+ylabel("Angle (deg)")
+ylim([-max(abs(E_error(:,2)*180/pi)),max(abs(E_error(:,2)*180/pi))])
+subplot(2,3,5)
+plot(t,flags(:,2))
+title("Pitch Flag")
+xlabel("Time (s)")
+ylabel("Value")
+subplot(2,3,3)
+plot(t,abs(E_error(:,3))*180/pi)
+yline(yaw_upper*180/pi,'color','r')
+yline(yaw_lower*180/pi,'color','y')
+title("Yaw Error")
+xlabel("Time (s)")
+ylabel("Angle (deg)")
+ylim([-max(abs(E_error(:,3)*180/pi)),max(abs(E_error(:,3)*180/pi))])
+subplot(2,3,6)
+plot(t,flags(:,3))
+title("Yaw Flag")
+xlabel("Time (s)")
+ylabel("Value")
+
 % angular velocity vs time
 % force vector vs time
 % thrust vector vs time
 % PID error vs time
 % thruster duty cycle vs time
-
-% call animation function
-%animate_vehicle(initial_states,x_e,E)
