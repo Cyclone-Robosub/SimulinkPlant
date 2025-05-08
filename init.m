@@ -9,15 +9,15 @@ clc
 
 % run constants.m
 run("constants.m");
-
+addpath('plot functions')
 close all
 
 
 %% Simulation initial conditions
 %initial states for plant model
 x0_e = [0, 0, 0]';
-v0_e = [0, 0, 0]';
-E0 = [pi/6,-pi/6,pi/4]'; %initial euler angles
+v0_e = [pi/6, -pi/6, pi]';
+E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %kalman filter initial conditions
@@ -56,7 +56,7 @@ yaw_lower = 1*pi/180;
 
 %target states for controller
 x_des = [1, 1, 1]';
-E_des = [0, 0, -pi/4]';
+E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -78,7 +78,7 @@ Dt = 0.01; %controller timestep
 plot_dt = 0.01;
 
 tic
-results = sim('PID_LOOP_2024a.slx');
+results = sim('PID_LOOP_2023a.slx');
 toc
 
 %% unpack data
@@ -148,7 +148,9 @@ ylabel("[m/s]")
 % ylabel("[m]")
 % title("Z in NED")
 
-%%
+%% Plotting
+plot_individual_thruster_forces(results)
+plot_forces_and_torques(results)
 
 %top down view
 figure
