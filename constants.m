@@ -1,10 +1,12 @@
 %% Constants 
+
 g = 9.8067;
 P.g = g;
-water_density = 997;
+water_density = 997; 
 
 %% System Properties
 
+%to do: validate this
 volume = 0.0074;
 volume_center = [0, 0, 0.1];
 
@@ -31,33 +33,33 @@ drag_wrench = [
 
 
 %PID coefficients
-kp_F = 18.5;
-ki_F = 8.7;
-kd_F = 9.7;
-
-kp_T = 18.5;
-ki_T = 8.7;
-kd_T = 9.7;
+%currently these are hard coded in the gain scheduler
 
 %IMU Struture and constants
 %Accelerometer
-IMU.accelMaxRating =    10^4 * g;
-IMU.accelResolution =   122 * 10^-6 * g;
-IMU.accelOffsetBias =   0;
-IMU.accelVelRNDWalk =   0.02/(6*sqrt(360));
+IMU.accelMaxRating =    10^4 * g; %[m/s^2]
+IMU.accelResolution =   122e-6 * g; % [m/s^2] convert to m/s^2/LSB
+IMU.accelOffsetBias =   0; %
+IMU.accelVelRNDWalk =   0.02 / sqrt(3600); %[(m/s^2)/sqrt(Hz)]
+IMU.accelBiasInstability = 19 * 1e-6 * g; %[m/s^2]
+IMU.accelAccelRNDWalk = 60 * 1e-6 * g * 100; %[(m/s^2)*sqrt(Hz)] times
+
 
 %Gyros
-IMU.gyroResolution =      0.0076*pi/180;
+IMU.gyroResolution =      0.0076*pi/180; %[rad/hr]
 IMU.gyroAccelBias =       0;
-IMU.gyroAngleRNDWalk =    0.16*pi/180/sqrt(360);
-IMU.gyroBiasInstability = 0;
-IMU.gyroRateRNDWalk =     0;
+IMU.gyroAngleRNDWalk =    0.16 / sqrt(3600) * 2*pi/360; %[deg/sqrt(hr)]
+IMU.gyroBiasInstability = 1.5 / 3600 * 2*pi / 360; %[rad/hr]
+IMU.gyroRateRNDWalk =     5 * 1e-3 * 2*pi / 360 * 100; %[mdps/sqrt(hr)]
 
 %Magnetometer
-IMU.magsResolution =      0.3;
-IMU.magsAccelBias =       0;
-IMU.magsRNDWalk =         0;
-IMU.magsBiasInstability = 0;
-IMU.magsRateRNDWalk =     0;
+IMU.magsResolution =      0.3; %[uT]
+IMU.magsAccelBias =       0; %measure this
+IMU.magsRNDWalk =         0; %measure this
+IMU.magsBiasInstability = 0; %measure this
+IMU.magsRateRNDWalk =     0; %measure this
 
-
+%AHRS (given RMS error, need to convert to PSD for noise block)
+IMU.AHRS_roll_noise = 0; %measure this
+IMU.AHRS_pitch_noise = 0; %measure this
+IMU.AHRS_yaw_noise = 0; %measure this

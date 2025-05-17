@@ -74,8 +74,8 @@ do_waypoint_control_flag = 1;
 %time span and step
 tspan = 60;
 dt = 0.001; %simulation timestep
-Dt = 0.01; %controller timestep
-plot_dt = 0.01;
+dt_controller = 0.01; %controller timestep
+dt_plotting = 0.01;
 
 tic
 results = sim('PID_LOOP_2023a.slx');
@@ -217,3 +217,5 @@ ylabel("Value")
 % thrust vector vs time
 % PID error vs time
 % thruster duty cycle vs time
+
+%% 
