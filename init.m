@@ -4,8 +4,8 @@ clc
 
 
 % if the wrench and inertia matrix have changed, re-run these
-%run("calculate_wrench.m");
-%run("calculate_inertia.m");
+run("calculate_wrench.m");
+run("calculate_inertia.m");
 
 % run constants.m
 run("constants.m");
@@ -74,11 +74,11 @@ do_waypoint_control_flag = 1;
 %time span and step
 tspan = 60;
 dt = 0.001; %simulation timestep
-dt_controller = 0.01; %controller timestep
-dt_plotting = 0.01;
+Dt = 0.01; %controller timestep
+plot_dt = 0.01;
 
 tic
-results = sim('PID_LOOP_2023a.slx');
+results = sim('PID_LOOP_2024a.slx');
 toc
 
 %% unpack data
@@ -217,5 +217,16 @@ ylabel("Value")
 % thrust vector vs time
 % PID error vs time
 % thruster duty cycle vs time
-
 %% 
+%This is before and after Marco's noise filter is applied.
+acceleration_before = squeeze(results.accelerationBefore.Data);
+acceleration_after = squeeze(results.accelerationAfter.Data);
+time_scale_one = 1:1:length(acceleration_before(3,:));
+time_scale_two = 1:1:length(myAccelerationAfter(3,:));
+figure;
+plot(timeScaleAfter, acceleration_after(1,:));
+hold on
+plot(timeScaleBefore, acceleration_before(1,:));
+title("Acceleration in x direction")
+xlabel("Time (s)")
+ylabel("Meters / seconds squared")
