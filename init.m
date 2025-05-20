@@ -4,8 +4,8 @@ clc
 
 
 % if the wrench and inertia matrix have changed, re-run these
-%run("calculate_wrench.m");
-%run("calculate_inertia.m");
+run("calculate_wrench.m");
+run("calculate_inertia.m");
 
 % run constants.m
 run("constants.m");
@@ -14,9 +14,9 @@ close all
 
 
 %% Simulation initial conditions
-%initial states for plant model
+%initial states for plant model and state estimator
 x0_e = [0, 0, 0]';
-v0_e = [pi/6, -pi/6, pi]';
+v0_e = [0, 0, 0]';
 E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
@@ -25,7 +25,6 @@ P0 = 10*eye(3);
 xhat0 = [0;0;0]'; 
 
 %kalman filter constants
-dt_filter = 0.01; %filter time step
 H = [1 0 0;
     0 1 0]; %measurement matrix
 
@@ -35,14 +34,6 @@ R = [.1 0;
     0 .1]; %measurement noise matrix (tune this)
 
 
-%IMU (combine these w/ Alex's stuff)
-acc_vel_rw = 0.02/sqrt(3600);
-acc_bias_instability = 19e-6*9.81; 
-acc_noise = 60e-6*9.81;
-gyro_rw = 0.16*2*pi/360/sqrt(3600);
-gyro_noise = 5e-3*2*pi/360;
-gyro_bias_instability = 1.5/3600/360;
-mag_noise = 0.1;
 
 %gain scheduling parameters
 roll_upper = 5*pi/180;
@@ -55,7 +46,7 @@ yaw_lower = 1*pi/180;
 
 
 %target states for controller
-x_des = [1, 1, 1]';
+x_des = [1, 0, 0]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 
@@ -66,7 +57,7 @@ tol = 0.1; %tolerance when waypoint is considered "reached"
 
 %% Test parameters 
 % simulation parameters
-do_gravity_flag = 0;
+do_gravity_flag = 1;
 do_bouyancy_flag = 0;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
@@ -76,6 +67,7 @@ tspan = 60;
 dt = 0.001; %simulation timestep
 dt_controller = 0.01; %controller timestep
 dt_plotting = 0.01;
+dt_filter = 0.01;
 
 tic
 results = sim('PID_LOOP_2023a.slx');
@@ -149,9 +141,11 @@ ylabel("[m/s]")
 % title("Z in NED")
 
 %% Plotting
-plot_individual_thruster_forces(results)
-plot_forces_and_torques(results)
-
+%plot_individual_thruster_forces(results)
+%plot_forces_and_torques(results)
+plot_position(results)
+plot_velocity(results)
+plot_acceleration(results)
 %top down view
 figure
 plot3(results.x_e.Data(:,1),results.x_e.Data(:,2),results.x_e.Data(:,3))
@@ -170,47 +164,47 @@ xlabel("X [m]")
 ylabel("Y [m]")
 zlabel("Z [m]")
 
-% state error vs time
-figure
-subplot(2,3,1)
-plot(t,abs(E_error(:,1))*180/pi)
-yline(roll_upper*180/pi,'color','r')
-yline(roll_lower*180/pi,'color','y')
-title("Roll Error")
-xlabel("Time (s)")
-ylabel("Angle (deg)")
-ylim([-max(abs(E_error(:,1)*180/pi)),max(abs(E_error(:,1)*180/pi))])
-subplot(2,3,4)
-plot(t,flags(:,1))
-title("Roll Flag")
-xlabel("Time (s)")
-ylabel("Value")
-subplot(2,3,2)
-plot(t,abs(E_error(:,2))*180/pi)
-yline(pitch_upper*180/pi,'color','r')
-yline(pitch_lower*180/pi,'color','y')
-title("Pitch Error")
-xlabel("Time (s)")
-ylabel("Angle (deg)")
-ylim([-max(abs(E_error(:,2)*180/pi)),max(abs(E_error(:,2)*180/pi))])
-subplot(2,3,5)
-plot(t,flags(:,2))
-title("Pitch Flag")
-xlabel("Time (s)")
-ylabel("Value")
-subplot(2,3,3)
-plot(t,abs(E_error(:,3))*180/pi)
-yline(yaw_upper*180/pi,'color','r')
-yline(yaw_lower*180/pi,'color','y')
-title("Yaw Error")
-xlabel("Time (s)")
-ylabel("Angle (deg)")
-ylim([-max(abs(E_error(:,3)*180/pi)),max(abs(E_error(:,3)*180/pi))])
-subplot(2,3,6)
-plot(t,flags(:,3))
-title("Yaw Flag")
-xlabel("Time (s)")
-ylabel("Value")
+% % state error vs time
+% figure
+% subplot(2,3,1)
+% plot(t,abs(E_error(:,1))*180/pi)
+% yline(roll_upper*180/pi,'color','r')
+% yline(roll_lower*180/pi,'color','y')
+% title("Roll Error")
+% xlabel("Time (s)")
+% ylabel("Angle (deg)")
+% ylim([-max(abs(E_error(:,1)*180/pi)),max(abs(E_error(:,1)*180/pi))])
+% subplot(2,3,4)
+% plot(t,flags(:,1))
+% title("Roll Flag")
+% xlabel("Time (s)")
+% ylabel("Value")
+% subplot(2,3,2)
+% plot(t,abs(E_error(:,2))*180/pi)
+% yline(pitch_upper*180/pi,'color','r')
+% yline(pitch_lower*180/pi,'color','y')
+% title("Pitch Error")
+% xlabel("Time (s)")
+% ylabel("Angle (deg)")
+% ylim([-max(abs(E_error(:,2)*180/pi)),max(abs(E_error(:,2)*180/pi))])
+% subplot(2,3,5)
+% plot(t,flags(:,2))
+% title("Pitch Flag")
+% xlabel("Time (s)")
+% ylabel("Value")
+% subplot(2,3,3)
+% plot(t,abs(E_error(:,3))*180/pi)
+% yline(yaw_upper*180/pi,'color','r')
+% yline(yaw_lower*180/pi,'color','y')
+% title("Yaw Error")
+% xlabel("Time (s)")
+% ylabel("Angle (deg)")
+% ylim([-max(abs(E_error(:,3)*180/pi)),max(abs(E_error(:,3)*180/pi))])
+% subplot(2,3,6)
+% plot(t,flags(:,3))
+% title("Yaw Flag")
+% xlabel("Time (s)")
+% ylabel("Value")
 
 % angular velocity vs time
 % force vector vs time

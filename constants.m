@@ -31,6 +31,8 @@ drag_wrench = [
 ];
 
 
+%rotation matrix from sensor frame to body frame
+DCMbs = [-1 0 0;0 -1 0;0 0 -1];
 
 %PID coefficients
 %currently these are hard coded in the gain scheduler
@@ -42,7 +44,7 @@ IMU.accelResolution =   122e-6 * g; % [m/s^2] convert to m/s^2/LSB
 IMU.accelOffsetBias =   0; %
 IMU.accelVelRNDWalk =   0.02 / sqrt(3600); %[(m/s^2)/sqrt(Hz)]
 IMU.accelBiasInstability = 19 * 1e-6 * g; %[m/s^2]
-IMU.accelAccelRNDWalk = 60 * 1e-6 * g * 100; %[(m/s^2)*sqrt(Hz)] times
+IMU.accelAccelRNDWalk = 60 * 1e-6 * g ; %[(m/s^2)*sqrt(Hz)] times
 
 
 %Gyros
@@ -50,7 +52,7 @@ IMU.gyroResolution =      0.0076*pi/180; %[rad/hr]
 IMU.gyroAccelBias =       0;
 IMU.gyroAngleRNDWalk =    0.16 / sqrt(3600) * 2*pi/360; %[deg/sqrt(hr)]
 IMU.gyroBiasInstability = 1.5 / 3600 * 2*pi / 360; %[rad/hr]
-IMU.gyroRateRNDWalk =     5 * 1e-3 * 2*pi / 360 * 100; %[mdps/sqrt(hr)]
+IMU.gyroRateRNDWalk =     5 * 1e-3 * 2*pi / 360 ; %[mdps/sqrt(hr)]
 
 %Magnetometer
 IMU.magsResolution =      0.3; %[uT]
