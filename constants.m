@@ -36,7 +36,7 @@ DCMbs = [-1 0 0;0 -1 0;0 0 -1];
 
 %PID coefficients
 %currently these are hard coded in the gain scheduler
-
+%{
 %IMU Struture and constants
 %Accelerometer
 IMU.accelMaxRating =    10^4 * g; %[m/s^2]
@@ -60,8 +60,42 @@ IMU.magsAccelBias =       0; %measure this
 IMU.magsRNDWalk =         0; %measure this
 IMU.magsBiasInstability = 0; %measure this
 IMU.magsRateRNDWalk =     0; %measure this
+%}
 
-%AHRS (given RMS error, need to convert to PSD for noise block)
-IMU.AHRS_roll_noise = 0; %measure this
-IMU.AHRS_pitch_noise = 0; %measure this
-IMU.AHRS_yaw_noise = 0; %measure this
+%IMU Noiseless for testing
+%Accelerometer
+IMU.accelMaxRating =    10^4 * g; %[m/s^2]
+IMU.accelResolution =   0; % [m/s^2] convert to m/s^2/LSB
+IMU.accelOffsetBias =   0; %
+IMU.accelVelRNDWalk =   0; %[(m/s^2)/sqrt(Hz)]
+IMU.accelBiasInstability = 0; %[m/s^2]
+IMU.accelAccelRNDWalk = 0; %[(m/s^2)*sqrt(Hz)] times
+
+
+%Gyros
+IMU.gyroResolution =      0; %[rad/hr]
+IMU.gyroAccelBias =       0;
+IMU.gyroAngleRNDWalk =    0; %[deg/sqrt(hr)]
+IMU.gyroBiasInstability = 0; %[rad/hr]
+IMU.gyroRateRNDWalk =     0; %[mdps/sqrt(hr)]
+
+%Magnetometer
+IMU.magsResolution =      0; %[uT]
+IMU.magsAccelBias =       0; %measure this
+IMU.magsRNDWalk =         0; %measure this
+IMU.magsBiasInstability = 0; %measure this
+IMU.magsRateRNDWalk =     0; %measure this
+%}
+
+%AHRS Sensor Noise (left as default until measured)
+AHRS.accel_noise = 0.0001924722;
+AHRS.gyro_noise = 9.1385e-5;
+AHRS.mag_noise = 0.1;
+AHRS.gyro_drift_noise = 3.0462e-13;
+
+%AHRS Environment Noise (left at defaults by block until I find better vals)
+AHRS.env_lin_accel_noise = 0.00962361;
+AHRS.env_mag_disturbance_noise = 0.5;
+AHRS.env_lin_accel_decay_factor = 0.5;
+AHRS.env_mag_disturbance_decay_factor = 0.5;
+AHRS.env_mag_field_strength = 50;
