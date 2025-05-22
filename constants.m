@@ -6,9 +6,9 @@ water_density = 997;
 
 %% System Properties
 
-%to do: validate this
-volume = 0.0074;
-volume_center = [0, 0, 0.1];
+%to do: 
+volume = 0.0074; 
+volume_center = [0, 0, -0.07]; %distance from center of mass in m
 
 
 % load wrench and inertia matrix
@@ -31,8 +31,6 @@ drag_wrench = [
 ];
 
 
-%rotation matrix from sensor frame to body frame
-DCMbs = [-1 0 0;0 -1 0;0 0 -1];
 
 %PID coefficients
 %currently these are hard coded in the gain scheduler

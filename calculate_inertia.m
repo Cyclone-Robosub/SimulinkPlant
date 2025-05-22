@@ -10,13 +10,13 @@ density_al = 2700; %[kg/m3]
 %cylinder
 rc = 10e-2;
 lc = 50e-2;
-mc = 3; %this was a random guess. update it
+mc = 5; %this was a random guess. update it
 
 %plate
 wp = 44e-2;
 lp = 50e-2;
 hp = 2e-2;
-mp = 3;
+mp = 5;
 
 %specify the position of each rigid body relative to the geometric center of base plate.
 dp_2_geo_center = [0;0;0];

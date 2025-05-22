@@ -29,8 +29,8 @@ yaw_upper = 5*pi/180;
 yaw_lower = 1*pi/180;
 
 %target states for controller
-x_des = [0, 0, 0]';
-E_des = [0, 0, pi/6]';
+x_des = [1, 1, 1]';
+E_des = [0, 0, pi/3]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -39,15 +39,16 @@ tol = 0.1; %tolerance when waypoint is considered "reached"
 
 %% Test parameters 
 % simulation parameters
-do_gravity_flag = 0;
-do_bouyancy_flag = 0;
+do_gravity_flag = 1;
+do_bouyancy_flag = 1;
+do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
 %time span and step
-tspan = 20;
+tspan = 100;
 dt = 0.001; %simulation timestep
-dt_controller = 0.01; %controller timestep
+dt_controller = 0.001; %controller timestep
 dt_plotting = 0.01;
 dt_filter = 0.01;
 dt_imu = 0.01;
@@ -95,13 +96,13 @@ ylabel("[m/s]")
 
 
 
-%% Plotting
-%plot_individual_thruster_forces(results)
-%plot_forces_and_torques(results)
-plot_position(results)
-plot_velocity(results)
-plot_acceleration(results)
-plot_eulers(results)
+%% Plotting%plot_individual_thruster_forces(results)
+plot_forces_and_torques(results)
+plot_individual_thruster_forces(results)
+%plot_position(results)
+%plot_velocity(results)
+%plot_acceleration(results)
+%plot_eulers(results)
 
 %top down view
 figure
