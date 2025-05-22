@@ -21,16 +21,16 @@ E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %gain scheduling parameters
-roll_upper = 5*pi/180;
-roll_lower = 1*pi/180;
-pitch_upper = 5*pi/180;
-pitch_lower = 1*pi/180;
-yaw_upper = 5*pi/180;
-yaw_lower = 1*pi/180;
+roll_upper = 1*pi/180;
+roll_lower = 0.1*pi/180;
+pitch_upper = 1*pi/180;
+pitch_lower = 0.1*pi/180;
+yaw_upper = 1*pi/180;
+yaw_lower = 0.1*pi/180;
 
 %target states for controller
-x_des = [1, 1, 1]';
-E_des = [0, 0, pi/3]';
+x_des = [1, 1, 2]';
+E_des = [pi/6, pi/6, pi/3]';
 states_desired = [x_des;E_des];
 
 %list of waypoints
@@ -46,7 +46,7 @@ do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
 %time span and step
-tspan = 100;
+tspan = 30;
 dt = 0.001; %simulation timestep
 dt_controller = 0.001; %controller timestep
 dt_plotting = 0.01;
@@ -99,6 +99,7 @@ ylabel("[m/s]")
 %% Plotting%plot_individual_thruster_forces(results)
 plot_forces_and_torques(results)
 plot_individual_thruster_forces(results)
+plot_flags(results)
 %plot_position(results)
 %plot_velocity(results)
 %plot_acceleration(results)
