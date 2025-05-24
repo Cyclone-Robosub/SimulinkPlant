@@ -222,11 +222,11 @@ ylabel("Value")
 acceleration_before = squeeze(results.accelerationBefore.Data);
 acceleration_after = squeeze(results.accelerationAfter.Data);
 time_scale_one = 1:1:length(acceleration_before(3,:));
-time_scale_two = 1:1:length(myAccelerationAfter(3,:));
+time_scale_two = 1:1:length(acceleration_after(3,:));
 figure;
-plot(timeScaleAfter, acceleration_after(1,:));
+plot(time_scale_one, acceleration_after(1,:));
 hold on
-plot(timeScaleBefore, acceleration_before(1,:));
+plot(time_scale_two, acceleration_before(1,:));
 title("Acceleration in x direction")
 xlabel("Time (s)")
 ylabel("Meters / seconds squared")

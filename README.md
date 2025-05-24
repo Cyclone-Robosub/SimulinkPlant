@@ -15,7 +15,7 @@
 - [ ] find noise of actual imu (does it match the model)
 ### SPU
 - [x] accepts six axis body frame acceleration w/ noise as input (one, six-axis input signal)
-- [x] applies low pass digital filter to remove noise. (I literally spent hours on this)
+- [ ] applies low pass digital filter to remove noise
 - [x] integrates and applies rotation matrix to find body frame and world frame acceleration, velocity, position
 - [x] outputs six axis acceleration, velocity, and position in world frame and body frame (six, six-axis output signals)
 ### Pathfinding

@@ -18,7 +18,12 @@ mass_properties = load('mass_properties.mat');
 P.I = mass_properties.I;
 P.m = mass_properties.m;
 
-
+x_force = [0.4100         0         0         0         0         0];
+y_force = [0    0.5000         0         0         0         0];
+z_force = [0         0    1.2500         0         0         0];
+roll_force = [0         0         0    0.5000         0         0];
+pitch_force = [0         0         0         0    1.0000         0];
+yaw_force = [0         0         0         0         0    0.5000];
 drag_wrench = [
     0.4100         0         0         0         0         0
          0    0.5000         0         0         0         0
