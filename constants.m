@@ -34,7 +34,7 @@ drag_wrench = [
 
 %PID coefficients
 %currently these are hard coded in the gain scheduler
-%{
+
 %IMU Struture and constants
 %Accelerometer
 IMU.accelMaxRating =    10^4 * g; %[m/s^2]
@@ -58,8 +58,8 @@ IMU.magsAccelBias =       0; %measure this
 IMU.magsRNDWalk =         0; %measure this
 IMU.magsBiasInstability = 0; %measure this
 IMU.magsRateRNDWalk =     0; %measure this
-%}
 
+%{
 %IMU Noiseless for testing
 %Accelerometer
 IMU.accelMaxRating =    10^4 * g; %[m/s^2]
