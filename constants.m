@@ -99,3 +99,7 @@ AHRS.env_mag_disturbance_noise = 0.5/1000;
 AHRS.env_lin_accel_decay_factor = 0.5;
 AHRS.env_mag_disturbance_decay_factor = 0.5;
 AHRS.env_mag_field_strength = 50;
+
+%Battery Operating Stats
+Voltage = 16;
+OperatingVoltage = Voltage;
