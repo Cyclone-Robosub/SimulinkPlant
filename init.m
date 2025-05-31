@@ -29,7 +29,7 @@ yaw_upper = 1*pi/180;
 yaw_lower = 0.1*pi/180;
 
 %target states for controller
-x_des = [0, 0, 0]';
+x_des = [0, 1, 0]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 
@@ -39,9 +39,9 @@ tol = 0.1; %tolerance when waypoint is considered "reached"
 
 %% Test parameters 
 % simulation parameters
-do_gravity_flag = 0;
-do_bouyancy_flag = 0;
-do_drag_flag = 0;
+do_gravity_flag = 1;
+do_bouyancy_flag = 1;
+do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 
@@ -64,7 +64,7 @@ v_e = squeeze(results.v_e.Data);
 w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data); 
-flags = squeeze(results.flags.Data);
+%flags = squeeze(results.flags.Data);
 E_error = squeeze(results.E_error.Data);
 
 % position vs time
@@ -99,7 +99,7 @@ ylabel("[m/s]")
 %% Plotting
 plot_forces_and_torques(results)
 plot_individual_thruster_forces(results)
-plot_flags(results)
+%plot_flags(results)
 plot_position(results)
 plot_velocity(results)
 plot_acceleration(results)
