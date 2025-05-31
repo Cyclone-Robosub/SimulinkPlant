@@ -32,7 +32,7 @@ yaw_lower = 0.1*pi/180;
 x_des = [0, 0, 0]';
 E_des = [0, 0, pi/6]';
 states_desired = [x_des;E_des];
-Zero_Time = 5;
+Zero_Time = 0;
 
 %list of waypoints
 waypoints = [0, 0, 0];
@@ -45,6 +45,7 @@ do_bouyancy_flag = 1;
 do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
+control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
 tspan = 30;
@@ -53,6 +54,11 @@ dt_controller = 0.01; %controller timestep
 dt_plotting = 0.01;
 dt_filter = 0.01;
 dt_imu = 0.01;
+
+%axis control flags
+%[x y z roll pitch yaw]
+axis_control_flags = [0 0 1 1 1 1];
+
 
 tic
 results = sim('PID_LOOP_2023a.slx');
