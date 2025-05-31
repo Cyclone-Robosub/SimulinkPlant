@@ -1,7 +1,8 @@
 function plot_eulers(results)
 
 t = results.E.Time; %N x 1
-E = results.E.Data; %N x 3
+E = squeeze(results.E.Data); %N x 3
+E = E';
 E_desired = results.desired_states.Data(:,4:6); 
 E_hat = squeeze(results.E_hat.Data);
 E_hat = E_hat';

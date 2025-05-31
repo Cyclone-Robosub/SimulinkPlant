@@ -30,7 +30,7 @@ yaw_lower = 0.1*pi/180;
 
 %target states for controller
 x_des = [0, 0, 0]';
-E_des = [0, 0, pi/6]';
+E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 Zero_Time = 0;
 
@@ -45,7 +45,8 @@ do_bouyancy_flag = 1;
 do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
-control_mode = 1; %1 = full state, %2 = z + angles
+use_estimated_states_flag = 0;
+control_mode = 2; %1 = full state, %2 = z + angles
 
 %time span and step
 tspan = 30;
@@ -104,8 +105,8 @@ ylabel("[m/s]")
 
 
 %% Plotting
-plot_forces_and_torques(results)
-plot_individual_thruster_forces(results)
+%plot_forces_and_torques(results)
+%plot_individual_thruster_forces(results)
 %plot_flags(results)
 plot_position(results)
 plot_velocity(results)
