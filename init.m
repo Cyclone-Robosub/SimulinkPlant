@@ -29,9 +29,10 @@ yaw_upper = 1*pi/180;
 yaw_lower = 0.1*pi/180;
 
 %target states for controller
-x_des = [0, 1, 0]';
-E_des = [0, 0, 0]';
+x_des = [0, 0, 0]';
+E_des = [0, 0, pi/6]';
 states_desired = [x_des;E_des];
+Zero_Time = 5;
 
 %list of waypoints
 waypoints = [0, 0, 0];
