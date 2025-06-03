@@ -46,7 +46,7 @@ do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_waypoint_control_flag = 1;
 use_estimated_states_flag = 0;
-control_mode = 2; %1 = full state, %2 = z + angles
+control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
 tspan = 30;
