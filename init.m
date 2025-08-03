@@ -15,24 +15,16 @@ close all
 
 %% Simulation initial conditions
 %initial states for plant model and state estimator
-x0_e = [0, 0, 0]';
-v0_e = [0, 0, 0]';
-E0 = [0, 0, 0]'; %initial euler angles
+x0_e = [10, -6, -5]';
+v0_e = [2, 4, 1]';
+E0 = [pi/4, pi/3, pi/2]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
-
-%gain scheduling parameters
-roll_upper = 1*pi/180;
-roll_lower = 0.1*pi/180;
-pitch_upper = 1*pi/180;
-pitch_lower = 0.1*pi/180;
-yaw_upper = 1*pi/180;
-yaw_lower = 0.1*pi/180;
 
 %target states for controller
 x_des = [0, 0, 0]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
-Zero_Time = 0;
+
 
 %list of waypoints
 waypoints = [0, 0, 0];
@@ -40,25 +32,21 @@ tol = 0.1; %tolerance when waypoint is considered "reached"
 
 %% Test parameters 
 % simulation parameters
-do_gravity_flag = 1;
-do_bouyancy_flag = 1;
+do_gravity_flag = 0;
+do_bouyancy_flag = 0;
 do_drag_flag = 1;
 do_imu_noise_flag = 0;
+do_control_force_flag = 1;
 do_waypoint_control_flag = 1;
-use_estimated_states_flag = 0;
 control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
-tspan = 30;
+tspan = 100;
 dt = 0.001; %simulation timestep
 dt_controller = 0.01; %controller timestep
 dt_plotting = 0.01;
 dt_filter = 0.01;
 dt_imu = 0.01;
-
-%axis control flags
-%[x y z roll pitch yaw]
-axis_control_flags = [0 0 1 1 1 1];
 
 
 tic
@@ -74,6 +62,7 @@ x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data); 
 %flags = squeeze(results.flags.Data);
 E_error = squeeze(results.E_error.Data);
+yaw_torque = squeeze(results.yaw_torque.Data);
 
 % position vs time
 figure
@@ -97,21 +86,42 @@ legend("Roll (phi)","Pitch (theta)","Yaw (psi)")
 % velocity vs time
 
 figure
+subplot(2,1,1)
 plot(t,v_e)
 title("Velocity in NED Inertial Frame")
 xlabel("t [s]")
 ylabel("[m/s]")
+legend('vx','vy','vz')
+
+
+subplot(2,1,2)
+plot(t,w_b)
+title("Angular Velocity")
+xlabel("t [s]")
+ylabel("[rad/s]")
+legend('wx','wy','wz')
+
 
 
 
 %% Plotting
-%plot_forces_and_torques(results)
-%plot_individual_thruster_forces(results)
+plot_forces_and_torques(results)
+plot_individual_thruster_forces(results)
 %plot_flags(results)
-plot_position(results)
-plot_velocity(results)
-plot_acceleration(results)
-plot_eulers(results)
+%plot_position(results)
+%plot_velocity(results)
+%plot_acceleration(results)
+%plot_eulers(results)
+
+figure
+plot(results.E_error.Time,E_error(1,:))
+hold on
+plot(results.E_error.Time,E_error(2,:))
+plot(results.E_error.Time,E_error(3,:))
+legend("Roll Error","Pitch Error","Yaw Error")
+xlabel("Time (s)")
+ylabel("Euler Angles (rad)")
+
 
 %top down view
 figure

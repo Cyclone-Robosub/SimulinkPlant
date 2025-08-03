@@ -2,7 +2,7 @@ function plot_forces_and_torques(results)
 
 t_cmd = squeeze(results.force_torque_cmd.Time); %nx1
 t_del = squeeze(results.force_torque_delivered.Time); %nx1
-F_cmd = squeeze(results.force_torque_cmd.Data); %nx6
+F_cmd = squeeze(results.force_torque_cmd.Data)'; %nx6
 F_del = squeeze(results.force_torque_delivered.Data)'; %nx6
 
 figure

@@ -2,7 +2,7 @@ function plot_individual_thruster_forces(results)
 
 t_cmd = squeeze(results.thruster_cmd.Time); %nx1
 t_del = squeeze(results.thruster_delivered.Time); %nx1
-F_cmd = squeeze(results.thruster_cmd.Data); %nx8
+F_cmd = squeeze(results.thruster_cmd.Data)'; %nx8
 F_del = squeeze(results.thruster_delivered.Data)'; %nx8
 
 figure
