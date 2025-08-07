@@ -50,7 +50,7 @@ dt_imu = 0.01;
 
 
 tic
-results = sim('PID_LOOP_2023a.slx');
+results = sim('PID_LOOP_2024b.slx');
 toc
 
 %% unpack data
