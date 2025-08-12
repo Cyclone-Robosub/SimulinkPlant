@@ -15,13 +15,13 @@ close all
 
 %% Simulation initial conditions
 %initial states for plant model and state estimator
-x0_e = [1, 1, 0]';
-v0_e = [0, 0, 0]';
+x0_e = [10, -6, 0]';
+v0_e = [0, pi/6, 0]';
 E0 = [0, 0, pi/12]'; %initial euler angles
 w0 = [2.1, 0, 0]'; %initial angular velocity
 
 %target states for controller
-x_des = [10,10,0]';
+x_des = [0,0,2]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 
@@ -29,7 +29,7 @@ states_desired = [x_des;E_des];
 %list of waypoints
 waypoints = [0, 0, 0];
 tol = 0.1; %tolerance when waypoint is considered "reached"
-bin_loc = [0;0];
+bin_loc = [2;2];
 
 %% Test parameters 
 % simulation parameters
