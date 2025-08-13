@@ -29,18 +29,20 @@ states_desired = [x_des;E_des];
 
 x0_e = [10, 10, 0]';
 v0_e = [0, 0, 0]';
-E0 = [0, 0, pi/4]'; %initial euler angles
+E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %target states for controller
 x_des = [0,0,0]';
-E_des = [0, 0, 0]';
+E_des = [0,0,0]';
 states_desired = [x_des;E_des];
+
+s = 1;
 
 %list of waypoints
 waypoints = [0, 0, 0];
 tol = 0.1; %tolerance when waypoint is considered "reached"
-bin_loc = [5;5];
+bin_loc = [99;99];
 
 %% Test parameters 
 % simulation parameters
@@ -50,6 +52,7 @@ do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_control_force_flag = 1;
 do_waypoint_control_flag = 1;
+do_prioritizer_flag = 1;
 control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
@@ -72,7 +75,7 @@ v_e = squeeze(results.v_e.Data);
 w_b = squeeze(results.w_b.Data);
 x_e = squeeze(results.x_e.Data);
 desired_states = squeeze(results.desired_states.Data); 
-%flags = squeeze(results.flags.Data);
+flags = squeeze(results.flags.Data);
 E_error = squeeze(results.E_error.Data);
 yaw_torque = squeeze(results.yaw_torque.Data);
 dfc_error = squeeze(results.dfc_error.Data);
@@ -121,7 +124,7 @@ legend('wx','wy','wz')
 %% Plotting
 plot_forces_and_torques(results)
 plot_individual_thruster_forces(results)
-%plot_flags(results)
+plot_flags(results)
 %plot_position(results)
 %plot_velocity(results)
 %plot_acceleration(results)
