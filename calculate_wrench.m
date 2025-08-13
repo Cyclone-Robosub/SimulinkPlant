@@ -52,13 +52,18 @@ wrench = eval(w);
 inverse_wrench = pinv(wrench);
 save("geometry_properties.mat","wrench","inverse_wrench")
 
-%Individual Thruster Saturation Point
-F_max = 30; %[N]
+% %Individual Thruster Saturation Point
+% F_max = 30; %[N]
+% 
+% max_roll_torque = norm(wrench*(F_max*[1 -1 1 -1 0 0 0 0]'));
+% max_yaw_torque = norm(wrench*(F_max*[0 0 0 0 -1 1 -1 1]'));
+% max_pitch_torque = norm(wrench*(F_max*[1 1 -1 -1 0 0 0 0]'));
+% 
+% max_forward_thrust = norm(wrench*(F_max*[0 0 0 0 1 1 1 1]'));
+% max_sideways_thrust = norm(wrench*(F_max*[0 0 0 0 1 -1 -1 1]'));
+% max_upward_force = norm(wrench*(F_max*[1 1 1 1 0 0 0 0]'));
 
-max_roll_torque = norm(wrench*(F_max*[1 -1 1 -1 0 0 0 0]'));
-max_yaw_torque = norm(wrench*(F_max*[0 0 0 0 -1 1 -1 1]'));
-max_pitch_torque = norm(wrench*(F_max*[1 1 -1 -1 0 0 0 0]'));
-
-max_forward_thrust = norm(wrench*(F_max*[0 0 0 0 1 1 1 1]'));
-max_sideways_thrust = norm(wrench*(F_max*[0 0 0 0 1 -1 -1 1]'));
-max_upward_force = norm(wrench*(F_max*[1 1 1 1 0 0 0 0]'));
+max_xyz_force = 24;
+max_roll_torque = 5;
+max_pitch_torque = 5;
+max_yaw_torque = 5;
