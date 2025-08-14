@@ -27,13 +27,13 @@ E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 %}
 
-x0_e = [10, 10, 0]';
+x0_e = [0, 0, 0]';
 v0_e = [0, 0, 0]';
 E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %target states for controller
-x_des = [0,0,0]';
+x_des = [10,10,0]';
 E_des = [0,0,0]';
 states_desired = [x_des;E_des];
 
@@ -52,11 +52,11 @@ do_drag_flag = 1;
 do_imu_noise_flag = 0;
 do_control_force_flag = 1;
 do_waypoint_control_flag = 1;
-do_prioritizer_flag = 1;
+do_prioritizer_flag = 0;
 control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
-tspan = 50;
+tspan = 100;
 dt = 0.001; %simulation timestep
 dt_controller = 0.01; %controller timestep
 dt_plotting = 0.01;
