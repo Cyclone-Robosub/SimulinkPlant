@@ -15,18 +15,18 @@ close all
 
 %% Simulation initial conditions
 %initial states for plant model and state estimator
-%{
-x0_e = [10, 10, 3]';
-v0_e = [4, -2, -2]';
-E0 = [pi, pi/4, -pi/6]'; %initial euler angles
-w0 = [0.1, 0.5, 2]'; %initial angular velocity
+
+x0_e = [10, 10, 10]';
+v0_e = [0, 0, 0]';
+E0 = [0, 0, 0]'; %initial euler angles
+w0 = [0, 0, 0]'; %initial angular velocity
 
 %target states for controller
 x_des = [0,0,0]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
-%}
 
+%{
 x0_e = [10, 10, 0]';
 v0_e = [0, 0, 0]';
 E0 = [0, 0, pi/4]'; %initial euler angles
@@ -36,11 +36,11 @@ w0 = [0, 0, 0]'; %initial angular velocity
 x_des = [0,0,0]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
-
+%}
 %list of waypoints
 waypoints = [0, 0, 0];
 tol = 0.1; %tolerance when waypoint is considered "reached"
-bin_loc = [5;5];
+bin_loc = [99;99];
 
 %% Test parameters 
 % simulation parameters
@@ -53,7 +53,7 @@ do_waypoint_control_flag = 1;
 control_mode = 1; %1 = full state, %2 = z + angles
 
 %time span and step
-tspan = 50;
+tspan = 100;
 dt = 0.001; %simulation timestep
 dt_controller = 0.01; %controller timestep
 dt_plotting = 0.01;
