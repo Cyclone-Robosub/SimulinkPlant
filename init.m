@@ -22,7 +22,7 @@ E0 = [0, 0, 0]'; %initial euler angles
 w0 = [0, 0, 0]'; %initial angular velocity
 
 %target states for controller
-x_des = [0,0,0]';
+x_des = [0,0,2]';
 E_des = [0, 0, 0]';
 states_desired = [x_des;E_des];
 
@@ -62,7 +62,7 @@ dt_imu = 0.01;
 
 
 tic
-results = sim('PID_LOOP_2023a.slx');
+results = sim('PID_Loop_2023a.slx');
 toc
 
 %% unpack data
