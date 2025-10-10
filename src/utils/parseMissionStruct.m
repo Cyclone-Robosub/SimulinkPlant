@@ -24,7 +24,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = forwardProfile(this_maneuver_time,this_maneuver_intensity);
+            command = forwardProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
@@ -47,7 +47,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = rightTurnProfile(this_maneuver_time,this_maneuver_intensity);
+            command = rightTurnProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
@@ -68,7 +68,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = leftTurnProfile(this_maneuver_time,this_maneuver_intensity);
+            command = leftTurnProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
@@ -89,7 +89,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = reverseProfile(this_maneuver_time,this_maneuver_intensity);
+            command = reverseProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
@@ -110,7 +110,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = upProfile(this_maneuver_time,this_maneuver_intensity);
+            command = upProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
@@ -131,7 +131,7 @@ switch current_maneuver
         elseif(this_maneuver_end_time > time)
             %we still have time left in the maneuver
             this_maneuver_time = time - (this_maneuver_end_time - this_maneuver_duration);
-            command = downProfile(this_maneuver_time,this_maneuver_intensity);
+            command = downProfile(this_maneuver_time,this_maneuver_intensity,this_maneuver_duration);
         else
             %the maneuver timer has expired
             %advance the index, indicate you just ended, reset vars
