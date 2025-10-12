@@ -1,4 +1,4 @@
-function drive_in_a_square_feedforward_missionfile = importMissionFile(filename, dataLines)
+function missionfile = importMissionFile(filename, dataLines)
 %IMPORTFILE Import data from a text file
 %  DRIVE_IN_A_SQUARE_FEEDFORWARD_MISSIONFILE = IMPORTFILE(FILENAME)
 %  reads data from text file FILENAME for the default selection.
@@ -47,6 +47,6 @@ opts = setvaropts(opts, ["var1", "var2", "var3", "var4", "var5", "var6", "var7",
 opts = setvaropts(opts, ["var1", "var2", "var3", "var4", "var5", "var6", "var7", "var8", "var9"], "ThousandsSeparator", ",");
 
 % Import the data
-drive_in_a_square_feedforward_missionfile = readtable(filename, opts);
+missionfile = readtable(filename, opts);
 
 end
