@@ -1,4 +1,4 @@
-function PWM = thrusterMaskToPWM(thruster_mask)
+function PWM = thrusterMaskToForce(thruster_mask)
 
 %max thruster force is defined in constants.m
 

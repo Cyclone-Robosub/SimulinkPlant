@@ -1,7 +1,9 @@
 function [command, current_maneuver_index, this_maneuver_end_time] = parseMissionStruct(mission_file,time,...
     current_maneuver_index,this_maneuver_end_time)
 
-if ~exist('control_type','var')
+persistent control_type
+
+if isempty(control_type)
     control_type = mission_file(2).Maneuver;
     current_maneuver_index = 3; %this will need to be updated if importMissionFile changes
     
