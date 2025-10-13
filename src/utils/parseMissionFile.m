@@ -1,8 +1,14 @@
-function [command, current_maneuver_index, this_maneuver_end_time] = parseMissionStruct(mission_struct,time,...
+function [command, current_maneuver_index, this_maneuver_end_time] = parseMissionStruct(mission_file,time,...
     current_maneuver_index,this_maneuver_end_time)
 
-%lookup current maneuver in the list
-current_maneuver = mission_struct.command_type(current_maneuver_index);
+if ~exist('control_type','var')
+    control_type = mission_file(2).Maneuver;
+    current_maneuver_index = 3; %this will need to be updated if importMissionFile changes
+    
+end
+
+%lookup current maneuver in the listhold on
+current_maneuver = mission_file(current_maneuver_index).Maneuver;
 
 %depending on what type of maneuver it is, update timers, index, and the
 %command
@@ -14,8 +20,8 @@ switch current_maneuver
         
     case "Forward"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
@@ -37,8 +43,8 @@ switch current_maneuver
        
     case "RightTurn"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
@@ -58,8 +64,8 @@ switch current_maneuver
         end
     case "LeftTurn"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
@@ -79,8 +85,8 @@ switch current_maneuver
         end
     case "Reverse"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
@@ -100,8 +106,8 @@ switch current_maneuver
         end
     case "Up"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
@@ -121,8 +127,8 @@ switch current_maneuver
         end
     case "Down"
         %get this maneuver's data
-        this_maneuver_duration = mission_struct.var2(current_maneuver_index);
-        this_maneuver_intensity = mission_struct.var1(current_maneuver_index);
+        this_maneuver_duration = mission_file(current_maneuver_index).Duration;
+        this_maneuver_intensity = mission_file(current_maneuver_index).Parameter;
 
         %see if another maneuver just ended
         if(this_maneuver_end_time==-1)
