@@ -1,0 +1,1 @@
+max_thruster_force = 40;

@@ -12,5 +12,5 @@ f = sin(2*pi*t/T);
 f = f*I;
 
 %pack output
-cmd = {"-x",f};
+cmd = [5,f];
 end

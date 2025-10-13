@@ -22,8 +22,7 @@ function PWM = forceToPWM(force_input,voltage_input)
     end
 
     %calculate the closest PWM to the known voltage and desired force combo
-    %this could be optimized by using lookups for forces_at_this_voltage,
-    %forces unique, and pwms unique
+    %this could be optimized by using lookups for pwms unique
     forces_at_this_voltage = interp_function_PWMToForce(pwm,voltage_input * ones(size(pwm)));
     [forces_unique,idx] = unique(forces_at_this_voltage,'stable'); %remove duplicate forces for interpolation
     %force uniqueness in case of noise flipping adjacent force ordering
