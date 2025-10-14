@@ -1,4 +1,4 @@
-function PWM = commandToPWM(command,max_thruster_force)
+function PWM = commandToPWM(command,max_thruster_force) %#codegen
 %{
 This function uses the command forward, reverse, up, down, etc... to 
 send commands corresponding to that maneuver to the right thrusters at 
@@ -19,7 +19,7 @@ switch(type)
     case 4 %"-yaw"
         thruster_mask = intensity*[0 0 0 0 1 -1 1 -1]';
         %yaw ccw
-    case 4 %"+yaw"
+    case 3 %"+yaw"
         thruster_mask = intensity*[0 0 0 0 -1 1 -1 1]';
         %yaw cw
     case 6 %"-z"
@@ -34,7 +34,7 @@ switch(type)
         thruster_mask = zeros(8,1);
 end
 
-PWM = thrusterMaskToForce(thruster_mask,max_thruster_force); %see utils, TBA
+PWM = thrusterMaskToForce(thruster_mask,max_thruster_force); 
 
 
 end

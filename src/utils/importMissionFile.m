@@ -1,4 +1,4 @@
-function missionfile_FF_v0 = importfile(workbookFile, sheetName, dataLines)
+function missionfile_FF_v0 = importMissionFile(workbookFile, sheetName, dataLines) 
 %IMPORTFILE Import data from a spreadsheet
 %  MISSIONFILE_FF_V0 = IMPORTFILE(FILE) reads data from the first
 %  worksheet in the Microsoft Excel spreadsheet file named FILE.
