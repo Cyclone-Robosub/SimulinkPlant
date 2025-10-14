@@ -22,4 +22,4 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Run Post Processing
-plotAllOutputs(results);
+%plotAllOutputs(results);
