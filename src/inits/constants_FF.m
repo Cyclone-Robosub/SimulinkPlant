@@ -42,11 +42,4 @@ for k = 1:8
     MT_wrench(:,k) = cross(R_tb(:,k),NTb(k,:));
 end
 
-%load in the interp function for PWMToForce
-file_info = dir(fullfile(pwd,'**','interp_function_PWMToForce.mat'));
 
-%assemble file path
-path = fullfile(file_info.folder,file_info.name);
-
-[PWMgrid,voltagegrid,Forces] = loadThrusterData();
-PWMToForce(1100,10,PWMgrid,voltagegrid,Forces)
