@@ -1,8 +1,7 @@
 function plotPWM(PWM)
     t = PWM.Time; %Nx1
     PWM = squeeze(PWM.Data); %8xN
-    size(PWM)
-    figure
+    figure('Name','PWM','NumberTitle','off')
     for k = 1:8
     subplot(4,2,k)
     plot(t,PWM(k,:),'Color','b')

@@ -5,7 +5,7 @@ close all
 run('constants_FF.m')
 
 %% Set Sim Parameters
-name = "missionfile_FF_v0.xlsx";
+name = "missionfile_FF_v1.xlsx";
 mission_file = importMissionFile(name); %make sure mission file is in the search path
 mission_file = numericMissionFile(mission_file); %convert to numeric array to be supported by Codegen
 reltol = 1e-8;
