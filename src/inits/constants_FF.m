@@ -2,7 +2,7 @@
 max_thruster_force = 40;
 
 %thruster voltage
-voltage = 14;
+battery_voltage = 15;
 
 %Inertia Matrix TODO - Update this KJH
 J = diag([0.2572,0.3723,0.3015]);
@@ -42,4 +42,10 @@ for k = 1:8
     MT_wrench(:,k) = cross(R_tb(:,k),NTb(k,:));
 end
 
-
+%load forceToPWM fit data
+force_struct = coder.load("src\utils\T200 Thruster Lookups\force.mat");
+force_table = force_struct.forces;
+pwm_struct = coder.load("src\utils\T200 Thruster Lookups\pwm.mat");
+pwm_list = pwm_struct.pwm;
+voltage_struct = coder.load("src\utils\T200 Thruster Lookups\voltage.mat","voltage");
+voltage_list = voltage_struct.voltage;
