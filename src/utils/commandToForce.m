@@ -1,4 +1,4 @@
-function [PWM, thrust] = commandToPWM(command,max_thruster_force) %#codegen
+function [FT_cmd_list] = commandToForce(command,max_thruster_force) %#codegen
 %{
 This function uses the command forward, reverse, up, down, etc... to 
 send commands corresponding to that maneuver to the right thrusters at 
@@ -34,7 +34,7 @@ switch(type)
         thruster_mask = zeros(8,1);
 end
 
-[PWM, thrust]= thrusterMaskToForce(thruster_mask,max_thruster_force); 
+FT_cmd_list = thrusterMaskToForce(thruster_mask,max_thruster_force); 
 
 
 end

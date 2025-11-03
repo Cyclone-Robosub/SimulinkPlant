@@ -47,4 +47,13 @@ fields = results.who;
         plotMTb(MTb);
      end
 
+     if ismember('fT_cmd_list',fields)
+         fT_cmd_list = results.fT_cmd_list;
+         plotfT_cmd_list(fT_cmd_list);
+     end
+
+     if ismember('pwm_cmd_list',fields)
+         pwm_cmd_list = results.pwm_cmd_list;
+         plotpwm_cmd_list(pwm_cmd_list);
+     end
 end
