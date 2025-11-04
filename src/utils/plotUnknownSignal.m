@@ -26,5 +26,6 @@ end
 xlabel("Time (s)")
 ylabel("?")
 title(sprintf("Unknown Variable ""%s""",name))
+legend(arrayfun(@(x) sprintf("component %d",x),1:m)) %create automatic legend names
 
 end
