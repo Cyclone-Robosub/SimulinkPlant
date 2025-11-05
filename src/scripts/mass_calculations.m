@@ -2,7 +2,7 @@
 
 %dimensions and local moments
 %main cylinder
-rm = 6.3;
+rm = 3.15;
 lm = 18;
 mm = 1; %PLACEHOLDER
 Rm = [0 0 -4.53]';
@@ -17,7 +17,7 @@ Rt2 = [9.95 -8 -1.675]';
 Rt3 = [-9.95 8 -1.675]';
 Rt4 = [-9.95 -8 -1.675]';
 Rt5 = [7.03 -4.95 1.93]';
-Rt6 = [7.03 -4.95 1.93]';
+Rt6 = [7.03 4.95 1.93]';
 Rt7 = [-8.3 3.7 1.93]';
 Rt8 = [-8.3 -3.7 1.93]';
 %for simplicity, thrusters are treated as point masses for inertia matrix

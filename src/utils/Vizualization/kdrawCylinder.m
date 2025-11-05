@@ -41,14 +41,12 @@ p.addParameter('CircleLineColor','k')
 p.addParameter('CirclePoints',100)
 p.addParameter('Figure',[])
 parse(p,'radius','height','height_direction','center_position',varargin{:});
-%0.0015 (6%)
 
 
 
 %figure creation, if necessary
 
 % Handle figure selection or creation
-tic
 if isempty(p.Results.Figure) || ~ishandle(p.Results.Figure)
     fig = figure();
 else
@@ -60,7 +58,6 @@ else
     
 end
 
-%0.0002 (1%)
 
 
 n = p.Results.CirclePoints;
@@ -79,7 +76,6 @@ if(norm(rotation_axis)<1e-12 || norm(rotation_angle)<1e-12)
 else
     Reb = axang2rotm([rotation_axis' rotation_angle]);
 end
-%0.0058 (21%)
 
 %unpack into vector to apply rotation
 
@@ -96,8 +92,6 @@ X = X + center_position(1);
 Y = Y + center_position(2);
 Z = Z + center_position(3);
 
-%0.0006 (2.23%)
-
 
 %draw the cylindrical shell
 [F,V,~] = surf2patch(X,Y,Z,'triangles');   % convert to patch
@@ -108,9 +102,6 @@ patch('Faces',F,'Vertices',V,'FaceColor',p.Results.FaceColor, ...
 if (~ishold(gca))
     hold on;
 end
-
-%0.0042 (15%)
-
 
 %draw the end circle outlines
 
@@ -124,14 +115,10 @@ Z_odd = Z(odd_indices);
 Z_even = Z(even_indices);
 plot3(X_odd,Y_odd,Z_odd,'Color',p.Results.CircleLineColor,'LineStyle','-','Marker','none','LineWidth',p.Results.LineWidth)
 plot3(X_even,Y_even,Z_even,'Color',p.Results.CircleLineColor,'LineStyle','-','Marker','none','LineWidth',p.Results.LineWidth)
-
-%0.003 (11%)
-
 %shade in end caps
 
 bottom_center = [mean(X_even);mean(Y_even);mean(Z_even)];
 top_center = [mean(X_odd);mean(Y_odd);mean(Z_odd)];
-%0.0055 (20%)
 
 
 
@@ -141,7 +128,6 @@ Zi_bottom = zeros(n+1,3);
 Xi_top = zeros(n+1,3);
 Yi_top = zeros(n+1,3);
 Zi_top = zeros(n+1,3);
-%0.0001 (0%)
 
 
 for i=1:n+1
@@ -160,13 +146,11 @@ for i=1:n+1
     Zi_top(i,:) = [top_center(3), Z_odd(i1), Z_odd(i2)];
 
 end
-%0.0016 (6%)
 
 
 fill3(Xi_bottom,Yi_bottom, Zi_bottom,p.Results.FaceColor,'EdgeColor',p.Results.PatchLineColor,'FaceAlpha',p.Results.FaceAlpha)
 fill3(Xi_top,Yi_top, Zi_top,p.Results.FaceColor,'EdgeColor',p.Results.PatchLineColor,'FaceAlpha',p.Results.FaceAlpha)
 
-%0.0041 (15%)
 
 
 end
