@@ -8,7 +8,7 @@ Rt6 = [7.03 4.95 1.93]';
 Rt7 = [-8.3 3.7 1.93]';
 Rt8 = [-8.3 -3.7 1.93]';
 
-R_t_o = [Rt1 Rt2 Rt3 Rt4 Rt5 Rt6 Rt7 Rt8];
+R_t_o = [Rt1 Rt2 Rt3 Rt4 Rt5 Rt6 Rt7 Rt8].*(2.54/100); %converted to m
 
 %position of the onshape origin relative to the center of mass
 R_o_cm = [0.0096;0.0210;-.0009];

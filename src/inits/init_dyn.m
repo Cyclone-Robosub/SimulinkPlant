@@ -2,16 +2,13 @@ clc
 close all
 
 %% Run setup scripts
-run('constants_FF.m')
+run('constants_dyn.m')
 
 %% Set Sim Parameters
-name = "missionfile_FF_v1.xlsx";
-mission_file = importMissionFile(name); %make sure mission file is in the search path
-mission_file = numericMissionFile(mission_file); %convert to numeric array to be supported by Codegen
-reltol = 1e-8;
-abstol = 1e-8;
+reltol = 1e-9;
+abstol = 1e-9;
 
-tspan = 20;
+tspan = 5;
 dt_data = 0.1;
 dt_control = 0.01;
 
@@ -46,9 +43,14 @@ Wb_0 = [p_0; q_0; r_0];
 %% Run Sim
 %create the simIn object to pass in model parameters
 
-simIn = Simulink.SimulationInput("Feedforward_Control");
-simIn = simIn.setVariable('mission_file',mission_file);
+ft_list_test = 0.025*[0 0 0 0 0 0 0 1]';
+simIn = Simulink.SimulationInput("Dynamics");
+simIn = simIn.setVariable('ft_list_test',ft_list_test);
 results = sim(simIn);
 
+gif_data = {results.Ri,results.Eul,ft_list_test};
+
 %% Run Post Processing
-plotAllOutputs(results);
+%plotAllOutputs(results);
+
+

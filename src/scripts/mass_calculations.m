@@ -4,14 +4,14 @@
 %main cylinder
 rm = 3.15;
 lm = 18;
-mm = 1; %PLACEHOLDER
+mm = 3.5; %PLACEHOLDER
 Rm = [0 0 -4.53]';
 Im = diag([0.5*mm*rm^2, 1/12*mm*(3*rm^2+lm^2),1/12*mm*(3*rm^2+lm^2)]);
 
 %thruster cylinders
 rt = 1.6;
 lt = 4.6;
-mt = 1; %PLACEHOLDER
+mt = .25; %PLACEHOLDER
 Rt1 = [9.95 8 -1.675]';
 Rt2 = [9.95 -8 -1.675]';
 Rt3 = [-9.95 8 -1.675]';
@@ -28,7 +28,7 @@ It = diag([mt, mt, mt]);
 lc = 5;
 wc = 5;
 hc = 5;
-mc = 1; %PLACEHOLDER
+mc = 2; %PLACEHOLDER
 Rc = [2 0 2.3]';
 Ic = diag([1/12*mc*(wc^2+hc^2), 1/12*mc*(lc^2 + hc^2), 1/12*mc*(lc^2+wc^2)]);
 
@@ -36,7 +36,7 @@ Ic = diag([1/12*mc*(wc^2+hc^2), 1/12*mc*(lc^2 + hc^2), 1/12*mc*(lc^2+wc^2)]);
 lp = 18;
 wp = 10.25;
 hp = 0.25;
-mp = 1; %PLACEHOLDER
+mp = 4; %PLACEHOLDER
 Rp = [0 0 0.125]';
 Ip = diag([1/12*mp*(wp^2+hp^2), 1/12*mp*(lp^2 + hp^2), 1/12*mp*(lp^2+wp^2)]);
 
@@ -44,7 +44,7 @@ Ip = diag([1/12*mp*(wp^2+hp^2), 1/12*mp*(lp^2 + hp^2), 1/12*mp*(lp^2+wp^2)]);
 rd = 1.7;
 ld = 1.65;
 Rd = [-4 0 1.5]';
-md = 1; %PLACEHOLDER
+md = .5; %PLACEHOLDER
 Id = diag([1/12*md*(3*rd^2+ld^2), 1/12*md*(3*rd^2+ld^2),0.5*md*rd^2]);
 
 %apply the parallel axis theorem to find the mass moment of inertia about
