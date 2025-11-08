@@ -4,6 +4,7 @@ This function uses the command forward, reverse, up, down, etc... to
 send commands corresponding to that maneuver to the right thrusters at 
 the specified intensity.
 
+{1,0.5}
 %}
 %unpack the command
 type = command(1);

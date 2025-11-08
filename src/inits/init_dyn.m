@@ -1,5 +1,6 @@
 clc
 close all
+clear all
 
 %% Run setup scripts
 run('constants_dyn.m')
@@ -9,7 +10,7 @@ reltol = 1e-9;
 abstol = 1e-9;
 
 tspan = 5;
-dt_data = 0.1;
+dt_data = 1/30;
 dt_control = 0.01;
 %% Initial Conditions
 %initial intertial position
@@ -42,7 +43,7 @@ Wb_0 = [p_0; q_0; r_0];
 %% Run Sim
 %create the simIn object to pass in model parameters
 
-ft_list_test = 0.025*[0 0 0 0 0 0 0 1]';
+ft_list_test = [0 0 0 0 0 0 0 1]';
 simIn = Simulink.SimulationInput("Dynamics");
 simIn = simIn.setVariable('ft_list_test',ft_list_test);
 results = sim(simIn);

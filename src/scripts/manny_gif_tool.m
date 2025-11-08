@@ -24,13 +24,67 @@ folderNames = {data_folders.name}; %get list of names
 frame_rate = 30;
 
 %% Script
-
+%loop through all the folders
 for k = 1:length(folderNames)
+
+    %loop through all the files in the folder
     name_structk = folderNames(k);
     folder_name_k = name_structk{1};
-    data_file_path = fullfile(data_folders_path,name_k);
-    data_files = dir(fullfile(data_file_path,"*.txt"));
-    data_file
+    data_file_path = fullfile(data_folders_path,folder_name_k);
+    data_files = dir(data_file_path); %find all files at the path
+    data_files = data_files(~ismember({data_files.name},{'.','..','slprj'}));  %remove non-data folders
+    data_file_names = {data_files.name}; %get list of names
+    
+    %make sure 'Eul.txt' and 'Ri.txt' exist
+    if(sum(ismember(data_file_names,{'FT_list.txt'})) + sum(ismember(data_file_names,{'Eul.txt'})) + sum(ismember(data_file_names,{'Ri.txt'})) == 3)
+        %do plotting
+        FT_list_full = readmatrix(fullfile(data_file_path,"FT_list.txt"));
+        Eul_full = readmatrix(fullfile(data_file_path,"Eul.txt"));
+        Ri_full = readmatrix(fullfile(data_file_path,"Ri.txt"));
+
+        %make sure all the time vectors have the same length, and throw an
+        %error otherwise.
+        l1 = length(FT_list_full(:,1));
+        l2 = length(Eul_full(:,2));
+        l3 = length(Ri_full(:,3));
+        if(~((l1 == l2) &&  (l2 == l3)))
+            error("Time axis in saved data must have the same length. Check samplinging time in toworkspace blocks.");
+        else
+            t = FT_list_full(:,1); %extract the time
+        end
+
+        %set up figure
+        f = figure('Visible','off');
+        dt = t(2)-t(1);
+        ax = axes('Parent',f);
+        axis(ax,[-1 1 -1 1 -1 1])
+        axis(ax,'manual')
+        view(ax,3)
+        set(gca,'Zdir','reverse')
+        set(gca,'Ydir','reverse')
+        for j = 1:length(t)
+            cla(f) %clear the figure
+            R = Ri_full(j,2:4);
+            axis(ax,[-1+R(1) 1+R(1) -1+R(2) 1+R(2) -1+R(3) 1+R(3)]);
+            Eul = Eul_full(j,2:4);
+            C = eul2rotm([Eul(3) Eul(2) Eul(1)]);
+            kdrawManny(R,C,'Figure',f)
+            kdrawAxis('Figure',f)
+            frame = getframe(f);
+            [A,map] = rgb2ind(frame2im(frame),256);
+            gif_path = fullfile(data_file_path,strcat(folder_name_k,".gif"));
+            if k == 1
+                imwrite(A,map,gif_path,'gif','LoopCount',inf,'DelayTime',dt);
+            else
+                imwrite(A,map,gif_path,'gif','WriteMode','append','DelayTime',dt);
+            end
+
+
+        end
+        close(f);
+    end
+    
+
 
 end
 

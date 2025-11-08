@@ -37,7 +37,7 @@ p.addParameter('FaceAlpha',0.25);
 p.addParameter('LineWidth',1)
 p.addParameter('PatchLineColor','k')
 p.addParameter('Figure',[])
-parse(p,'x','y','x','Cbo','center_position',varargin{:});
+parse(p,'x','y','z','Cbo','center_position',varargin{:});
 
 %define corners in body frame
 v1 = center_position + Cbo*[x/2 y/2 z/2]';
