@@ -9,7 +9,7 @@ Created on Nov 6, 2025 -KJH
 %}
 
 %% Setup
-data_file_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+data_file_path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
 
 %the higher this frame rate is the longer it will take to render
 frame_rate = 30;
@@ -27,6 +27,8 @@ Eul = squeeze(data(2)); %eulers
 Eul = Eul{1}.Data;
 ft_list = squeeze(data(3));
 ft_list = ft_list{1};
+
+
 
 %TODO:
 % add function to automatically save selected results

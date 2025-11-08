@@ -34,9 +34,10 @@ R_cv_o = [-0.0069;-0.0065;-0.093]; %position of the center of volume relative to
 
 
 %load forceToPWM fit data
-force_struct = coder.load("src\utils\T200 Thruster Lookups\force.mat");
+%to do, have the script search for these folders
+force_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/force.mat");
 force_table = force_struct.forces;
-pwm_struct = coder.load("src\utils\T200 Thruster Lookups\pwm.mat");
+pwm_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/pwm.mat");
 pwm_list = pwm_struct.pwm;
-voltage_struct = coder.load("src\utils\T200 Thruster Lookups\voltage.mat","voltage");
+voltage_struct = coder.load("src/utils/T200 Thruster Lookups/voltage.mat","voltage");
 voltage_list = voltage_struct.voltage;

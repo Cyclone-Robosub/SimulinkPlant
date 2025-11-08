@@ -11,7 +11,6 @@ abstol = 1e-9;
 tspan = 5;
 dt_data = 0.1;
 dt_control = 0.01;
-
 %% Initial Conditions
 %initial intertial position
 xi_0 = 0;
@@ -52,5 +51,6 @@ gif_data = {results.Ri,results.Eul,ft_list_test};
 
 %% Run Post Processing
 %plotAllOutputs(results);
-
+path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
+saveAllOutputs(results,path);
 
