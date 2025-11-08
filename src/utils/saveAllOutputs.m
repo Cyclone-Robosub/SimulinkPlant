@@ -19,14 +19,15 @@ mkdir(filepath);
 for k = 1:length(fields)
     name_struct = fields(k);
     name = name_struct{1};
-
-    this_data_struct = results.(name)
-    t = squeeze(this_data_struct.Time);
-    data = squeeze(this_data_struct.Data);
-
-    to_save = [t,data];
-    writematrix(to_save,fullfile(filepath,strcat(name,'.txt')));
     
+    if(name ~= "tout")
+        this_data_struct = results.(name);
+        t = squeeze(this_data_struct.Time);
+        data = squeeze(this_data_struct.Data);
+    
+        to_save = [t,data];
+        writematrix(to_save,fullfile(filepath,strcat(name,'.txt')));
+    end
 end
 
 end

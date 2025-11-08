@@ -9,25 +9,30 @@ Created on Nov 6, 2025 -KJH
 %}
 
 %% Setup
-data_file_path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
+data_folders_path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
 
-%the higher this frame rate is the longer it will take to render
+%specifiy the names of the specific data folders in the source directory.
+%leave this empty to plot all folders.
+folders_to_plot = "";
+
+%find all the folders at path
+data_folders = dir(data_folders_path); %find all files at the path
+data_folders = data_folders([data_folders.isdir]); % keep only folders
+data_folders = data_folders(~ismember({data_folders.name},{'.','..','slprj'}));  %remove non-data folders
+folderNames = {data_folders.name}; %get list of names
+
 frame_rate = 30;
 
 %% Script
-data_file_type = '*.mat';
-path = fullfile(data_file_path,data_file_type);
-data_files = dir(path);
 
-data = load(fullfile(data_file_path,data_files(1).name),'gif_data');
-data = data.gif_data;
-R = squeeze(data(1)); %extract position
-R = R{1}.Data;
-Eul = squeeze(data(2)); %eulers
-Eul = Eul{1}.Data;
-ft_list = squeeze(data(3));
-ft_list = ft_list{1};
+for k = 1:length(folderNames)
+    name_structk = folderNames(k);
+    folder_name_k = name_structk{1};
+    data_file_path = fullfile(data_folders_path,name_k);
+    data_files = dir(fullfile(data_file_path,"*.txt"));
+    data_file
 
+end
 
 
 %TODO:
