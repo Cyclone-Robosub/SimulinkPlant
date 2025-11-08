@@ -5,16 +5,16 @@ made to the vehicle, ALL THREE of these scripts must be updated.
 %}
 
 %max thrust force
-max_thruster_force = 40;
+max_thruster_force = 40; %[N]
 
 %thruster voltage
-battery_voltage = 14;
+battery_voltage = 14; %[V]
 
 %Inertia Matrix TODO - Update this KJH
-J = diag([0.2572,0.3723,0.3015]);
+J = [0.1474 0 -.0039;0 0.3085 0;-0.0039 0 0.3318];
 
 %mass TODO - Update this KJH
-m = 10; %[kg]
+m = 14; %[kg]
 
 
 %total volume
