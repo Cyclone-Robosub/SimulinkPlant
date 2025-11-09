@@ -9,7 +9,7 @@ Created on Nov 6, 2025 -KJH
 %}
 
 %% Setup
-data_folders_path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
+data_folders_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
 
 %specifiy the names of the specific data folders in the source directory.
 %leave this empty to plot all folders.
@@ -48,7 +48,7 @@ for k = 1:length(folderNames)
         l2 = length(Eul_full(:,2));
         l3 = length(Ri_full(:,3));
         if(~((l1 == l2) &&  (l2 == l3)))
-            error("Time axis in saved data must have the same length. Check samplinging time in toworkspace blocks.");
+            error("Time axis in saved data must have the same length. Check sampling time in toworkspace blocks.");
         else
             t = FT_list_full(:,1); %extract the time
         end
@@ -60,25 +60,27 @@ for k = 1:length(folderNames)
         axis(ax,[-1 1 -1 1 -1 1])
         axis(ax,'manual')
         view(ax,3)
-        set(gca,'Zdir','reverse')
-        set(gca,'Ydir','reverse')
+        
+        gif_path = fullfile(data_file_path,strcat(folder_name_k,".gif"));
         for j = 1:length(t)
             cla(f) %clear the figure
+            set(gca,'Zdir','reverse')
+            set(gca,'Ydir','reverse')
             R = Ri_full(j,2:4);
+            R = R';
             axis(ax,[-1+R(1) 1+R(1) -1+R(2) 1+R(2) -1+R(3) 1+R(3)]);
             Eul = Eul_full(j,2:4);
             C = eul2rotm([Eul(3) Eul(2) Eul(1)]);
-            kdrawManny(R,C,'Figure',f)
-            kdrawAxis('Figure',f)
+            kdrawManny(R,C,'Figure',f);
+            kdrawAxis('Figure',f);
+            title(folder_name_k)
             frame = getframe(f);
             [A,map] = rgb2ind(frame2im(frame),256);
-            gif_path = fullfile(data_file_path,strcat(folder_name_k,".gif"));
-            if k == 1
+            if j == 1
                 imwrite(A,map,gif_path,'gif','LoopCount',inf,'DelayTime',dt);
             else
                 imwrite(A,map,gif_path,'gif','WriteMode','append','DelayTime',dt);
             end
-
 
         end
         close(f);

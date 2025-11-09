@@ -47,5 +47,9 @@ if(numel(temp_contents)>0)
         end
     end
 end
-cd(origin_dir);
+try
+    cd(origin_dir);
+catch
+    warning("Original directory was missing or deleted. Leaving you here.")
+end
 end

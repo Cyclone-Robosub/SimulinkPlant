@@ -32,11 +32,11 @@ p.addRequired('z');
 p.addRequired('Cbo');
 p.addRequired('center_position');
 
-p.addParameter('FaceColor','k')
+p.addParameter('FaceColor','k');
 p.addParameter('FaceAlpha',0.25);
-p.addParameter('LineWidth',1)
-p.addParameter('PatchLineColor','k')
-p.addParameter('Figure',[])
+p.addParameter('LineWidth',1);
+p.addParameter('PatchLineColor','k');
+p.addParameter('Figure',[]);
 parse(p,'x','y','z','Cbo','center_position',varargin{:});
 
 %define corners in body frame

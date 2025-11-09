@@ -33,13 +33,13 @@ p.addRequired('height');
 p.addRequired('height_direction');
 p.addRequired('center_position');
 
-p.addParameter('FaceColor','k')
+p.addParameter('FaceColor','k');
 p.addParameter('FaceAlpha',0.25);
-p.addParameter('LineWidth',1)
-p.addParameter('PatchLineColor','none')
-p.addParameter('CircleLineColor','k')
-p.addParameter('CirclePoints',100)
-p.addParameter('Figure',[])
+p.addParameter('LineWidth',1);
+p.addParameter('PatchLineColor','none');
+p.addParameter('CircleLineColor','k');
+p.addParameter('CirclePoints',100);
+p.addParameter('Figure',[]);
 parse(p,'radius','height','height_direction','center_position',varargin{:});
 
 

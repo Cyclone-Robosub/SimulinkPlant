@@ -1,4 +1,4 @@
-function [ddR,dw] = dynamics(T,F,w,invM,invI)
+function [ddR,dw] = dynamics(T,F,w,I,invM,invI)
 %{
 This function computes the accelerations ddR and dw given the torque and
 force on the rigid body in addition to the inverse of the mass matrix invM 

@@ -1,7 +1,6 @@
 clc
 close all
 clear all
-
 %% Run setup scripts
 run('constants_dyn.m')
 
@@ -30,28 +29,36 @@ phi_0 = 0;
 theta_0 = 0;
 psi_0 = 0;
 Eul_0 = [phi_0; theta_0; psi_0];
-
 Cbi_0 = eul2rotm([psi_0,theta_0,phi_0]);
+q_0 = rotm2quat(Cbi_0);
+%repack because the scalar should be at the end
+q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
 Vb_0 = Cbi_0*Vi_0;
 
 
 %initial angular velocity
-p_0 = 0;
-q_0 = 0;
-r_0 = 0;
-Wb_0 = [p_0; q_0; r_0];
+wx_0 = 0;
+wy_0 = 0;
+wz_0 = 0;
+wb_0 = [wx_0; wy_0; wz_0];
+
+%pack initial state
+X0 = [Ri_0;q_0;Vi_0;wb_0];
+
 %% Run Sim
 %create the simIn object to pass in model parameters
-
-ft_list_test = [0 0 0 0 0 0 0 1]';
-simIn = Simulink.SimulationInput("Dynamics");
-simIn = simIn.setVariable('ft_list_test',ft_list_test);
-results = sim(simIn);
-
-gif_data = {results.Ri,results.Eul,ft_list_test};
-
-%% Run Post Processing
-%plotAllOutputs(results);
-path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
-saveAllOutputs(results,path);
-
+ft_lists = eye(8);
+for k = 1:8
+    ft_list_test = 0.1*ft_lists(k,:);
+    simIn = Simulink.SimulationInput("Dynamics");
+    simIn = simIn.setVariable('ft_list_test',ft_list_test);
+    results = sim(simIn);
+    
+    gif_data = {results.Ri,results.Eul,ft_list_test};
+    
+    %% Run Post Processing
+    %plotAllOutputs(results);
+    path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+    saveAllOutputs(results,path);
+    k
+end

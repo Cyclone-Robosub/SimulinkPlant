@@ -12,6 +12,7 @@ battery_voltage = 14; %[V]
 
 %Inertia Matrix TODO - Update this KJH
 J = [0.1474 0 -.0039;0 0.3085 0;-0.0039 0 0.3318];
+invJ = inv(J);
 
 %force wrench
 FT_wrench = [0 0 0 0 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2;...
@@ -25,7 +26,8 @@ MT_wrench = [-0.2242    0.1822   -0.2242    0.1822   -0.0340    0.0340    0.0340
 
 %mass TODO - Update this KJH
 m = 14; %[kg]
-
+M = diag([m m m]);
+invM = inv(M);
 
 %total volume
 V = 0.0441; %[m3]

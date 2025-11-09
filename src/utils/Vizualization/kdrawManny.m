@@ -7,12 +7,12 @@ function kdrawManny(Ri,Cib,varargin)
 p = inputParser;
 p.addRequired('Ri');
 p.addRequired('Cib');
-p.addParameter('FaceColor','k')
+p.addParameter('FaceColor','k');
 p.addParameter('FaceAlpha',0.25);
-p.addParameter('LineWidth',1)
-p.addParameter('PatchLineColor','k')
-p.addParameter('CylinderPatchLineColor','none')
-p.addParameter('Figure',[])
+p.addParameter('LineWidth',1);
+p.addParameter('PatchLineColor','k');
+p.addParameter('CylinderPatchLineColor','none');
+p.addParameter('Figure',[]);
 parse(p,'Ri','Cib',varargin{:});
 
 % Handle figure selection or creation
@@ -37,22 +37,22 @@ kdrawCylinder(rm,lm,Cib*[1;0;0],Ri + Cib*Rm,'Figure',fig,'FaceColor',p.Results.F
 %thruster cylinders
 rt = 1.6*(2.54/100);
 lt = 4.6*(2.54/100);
+Rt0 = [9.95 -8 -1.675]'*(2.54/100);
 Rt1 = [9.95 8 -1.675]'*(2.54/100);
-Rt2 = [9.95 -8 -1.675]'*(2.54/100);
-Rt3 = [-9.95 8 -1.675]'*(2.54/100);
-Rt4 = [-9.95 -8 -1.675]'*(2.54/100);
-Rt5 = [7.03 -4.95 1.93]'*(2.54/100);
-Rt6 = [7.03 4.95 1.93]'*(2.54/100);
+Rt2 = [-9.95 8 -1.675]'*(2.54/100);
+Rt3 = [-9.95 -8 -1.675]'*(2.54/100);
+Rt4 = [7.03 -4.95 1.93]'*(2.54/100);
+Rt5 = [7.03 4.95 1.93]'*(2.54/100);
+Rt6 = [-8.3 -3.7 1.93]'*(2.54/100);
 Rt7 = [-8.3 3.7 1.93]'*(2.54/100);
-Rt8 = [-8.3 -3.7 1.93]'*(2.54/100);
-kdrawCylinder(rt,lt,Cib*[0 0 1]',Ri + Cib*Rt1,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
-kdrawCylinder(rt,lt,Cib*[0 0 1]',Ri + Cib*Rt2,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
-kdrawCylinder(rt,lt,Cib*[0 0 1]',Ri + Cib*Rt3,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
-kdrawCylinder(rt,lt,Cib*[0 0 1]',Ri + Cib*Rt4,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
-kdrawCylinder(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt5,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt0,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt1,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt2,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt3,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt4,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+kdrawCylinder(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt5,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
 kdrawCylinder(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt6,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
 kdrawCylinder(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt7,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
-kdrawCylinder(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt8,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
 
 
 %camera box
