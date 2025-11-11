@@ -1,4 +1,4 @@
-function [Fb_drag, Mb_drag] = Hydrodynamics_force(dRb, W, drag_wrench, do_drag_flag)
+function [Fb_drag, Mb_drag] = drag(dRb, W, drag_wrench, do_drag_flag)
 %{
 @dRb - the velocity vector in body coordinates
 @W - the angular velocity vector in body coordinates

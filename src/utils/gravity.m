@@ -1,4 +1,4 @@
-function [Fb_g, Mb_g] = Gravity_force(Cbi, do_gravity_flag, m)
+function [Fb_g, Mb_g] = gravity(Cbi, do_gravity_flag, m)
 %{
 @Cbi - the rotation matrix from inertial coordinates to the body
 @Fb_g - the gravity force vector expressed in body coordinates
