@@ -8,7 +8,7 @@ run('constants_dyn.m')
 reltol = 1e-9;
 abstol = 1e-9;
 
-tspan = 10;
+tspan = 5;
 dt_data = 1/30;
 dt_control = 0.01;
 %% Initial Conditions
@@ -25,7 +25,7 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = pi/4;
+phi_0 = 0;
 theta_0 = 0;
 psi_0 = 0;
 Eul_0 = [phi_0; theta_0; psi_0];
@@ -48,7 +48,7 @@ wb_0 = [wx_0; wy_0; wz_0];
 X0 = [Ri_0;qib_0;dRi_0;wb_0];
 
 %flags
-do_buoyancy_flag = 0;
+do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 0;
 
