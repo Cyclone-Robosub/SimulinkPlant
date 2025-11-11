@@ -16,7 +16,7 @@ will not be considered
 
 gb = Cbi*[0;0;9.81];
 
-Fb_buoy = rho * V * gb;
+Fb_buoy = -rho * V * gb;
 
 Mb_buoy = cross(R_cm2cv,Fb_buoy);
 
