@@ -45,6 +45,11 @@ wb_0 = [wx_0; wy_0; wz_0];
 %pack initial state
 X0 = [Ri_0;q_0;Vi_0;wb_0];
 
+%flags
+do_buoyancy_flag = 0;
+do_gravity_flag = 0;
+do_drag_flag = 0;
+
 %% Run Sim
 %create the simIn object to pass in model parameters
 ft_lists = eye(8);
@@ -59,6 +64,6 @@ for k = 1:8
     %% Run Post Processing
     %plotAllOutputs(results);
     path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
-    saveAllOutputs(results,path);
-    k
+    % saveAllOutputs(results,path);
+    
 end

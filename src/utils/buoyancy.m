@@ -1,4 +1,4 @@
-function [Fb_buoy, Mb_buoy] =  buoyancy(Cbi, rho, V, R_cv2cm, buoyancy_flag)
+function [Fb_buoy, Mb_buoy] =  buoyancy(Cbi, rho, V, R_cm2cv, buoyancy_flag)
 
 %{
 Cbi - the rotation matrix from inertial coordinates to the body
@@ -18,7 +18,7 @@ gb = Cbi*[0;0;9.81];
 
 Fb_buoy = rho * V * gb;
 
-Mb_buoy = cross(R_cv2cm,Fb_buoy);
+Mb_buoy = cross(R_cm2cv,Fb_buoy);
 
 if(buoyancy_flag==0)
     Mb_buoy=[0;0;0];

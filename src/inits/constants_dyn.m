@@ -11,8 +11,10 @@ max_thruster_force = 40; %[N]
 battery_voltage = 14; %[V]
 
 %Inertia Matrix TODO - Update this KJH
-J = [0.1474 0 -.0039;0 0.3085 0;-0.0039 0 0.3318];
-invJ = inv(J);
+I = [3.6142 0 -0.0009;...
+    0 3.8165 0;...
+    -0.0009 0 3.8551];
+invI = inv(I);
 
 %force wrench
 FT_wrench = [0 0 0 0 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2;...
@@ -20,20 +22,22 @@ FT_wrench = [0 0 0 0 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2 sqrt(2)/2;...
     -1 -1 -1 -1 0 0 0 0];
 
 %moment wrench
-MT_wrench = [-0.2242    0.1822   -0.2242    0.1822   -0.0340    0.0340    0.0340   -0.0340;...
-    0.2623    0.2623   -0.2431   -0.2431    0.0340    0.0340    0.0340    0.0340;...
-    0         0         0         0    0.2071   -0.2368    0.0610   -0.0907];
+MT_wrench = [-0.2527   -0.2032    0.0425   -0.2527    0.1291   -0.0155   -0.1641   -0.1583;...
+    0.2498    0.2003   -0.0454    0.2498   -0.1291   -0.0155   -0.1641    0.1583;...
+    0         0         0         0   -0.0021    0.0622    0.3595   -0.0021];
 
 %mass TODO - Update this KJH
-m = 14; %[kg]
+m = 12.4513; %[kg]
 M = diag([m m m]);
 invM = inv(M);
 
 %total volume
-V = 0.0441; %[m3]
-R_cv_o = [-0.0069;-0.0065;-0.093]; %position of the center of volume relative to the Onshape origin
+V = 0.0165; %[m3]
 
-
+%vector from center of mass to center of volume for buoyancy calcs
+R_o2cv = [-0.0011;-0.0011;-0.0011]; %Onshape origin to CV
+R_o2cm = [0.0029; 0; -0.0206]; %Onshape origin to CM
+R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 
 %load forceToPWM fit data
 %to do, have the script search for these folders
