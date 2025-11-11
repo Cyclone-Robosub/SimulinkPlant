@@ -14,6 +14,8 @@ battery_voltage = 14; %[V]
 I = [3.6142 0 -0.0009;...
     0 3.8165 0;...
     -0.0009 0 3.8551];
+I_added = diag([0.0211,0.1721,1.8290]);
+I = I + I_added;
 invI = inv(I);
 
 %force wrench
@@ -26,11 +28,14 @@ MT_wrench = [-0.2527   -0.2032    0.0425   -0.2527    0.1291   -0.0155   -0.1641
     0.2498    0.2003   -0.0454    0.2498   -0.1291   -0.0155   -0.1641    0.1583;...
     0         0         0         0   -0.0021    0.0622    0.3595   -0.0021];
 
-drag_wrench = zeros(6,6); %PLACEHOLDER 
+%drag wrench estimate based on rectangular prism assumption
+drag_wrench = diag([19.8131, 56.6159, 40.1531, 0.0689, 0.6689, 0.4282]);
 
 %mass TODO - Update this KJH
 m = 12.4513; %[kg]
 M = diag([m m m]);
+M_added = diag([2.4705 9.0585 9.0585]);
+M = M + M_added;
 invM = inv(M);
 
 %density of water
