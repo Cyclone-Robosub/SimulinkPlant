@@ -4,6 +4,9 @@ results for debugging purposes. The objective is to input a file path
 filled with .mat files of data, then let this script automatically create a
 gif for each test case.
 
+The user can set the toggles in the Setup section to choose what is
+plotted. 
+
 Changelog:
 Created on Nov 6, 2025 -KJH
 %}
@@ -11,6 +14,10 @@ Created on Nov 6, 2025 -KJH
 %% Setup
 data_folders_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
 
+%toggles
+draw_manny_body = 1;
+draw_thrust_vectors = 0; %not yet written
+draw_Ri = 0; %not yet written
 %specifiy the names of the specific data folders in the source directory.
 %leave this empty to plot all folders.
 folders_to_plot = "";

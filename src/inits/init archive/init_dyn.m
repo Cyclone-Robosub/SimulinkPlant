@@ -5,8 +5,8 @@ clear all
 run('constants_dyn.m')
 
 %% Set Sim Parameters
-reltol = 1e-9;
-abstol = 1e-9;
+rel_tol = 1e-9;
+abs_tol = 1e-9;
 
 tspan = 5;
 dt_data = 1/30;
@@ -32,10 +32,10 @@ Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
 Cib_0 = eul2rotm([psi_0,theta_0,phi_0],'ZYX');
-qib_0 = rotm2quat(Cib_0); 
+q_0 = rotm2quat(Cib_0); 
 
 %reorder because the scalar should be at the end for calcs in the sim
-qib_0 = [qib_0(2); qib_0(3); qib_0(4); qib_0(1)];
+q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
 
 
 %initial angular velocity
@@ -45,7 +45,7 @@ wz_0 = 0;
 wb_0 = [wx_0; wy_0; wz_0];
 
 %pack initial state
-X0 = [Ri_0;qib_0;dRi_0;wb_0];
+X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %flags
 do_buoyancy_flag = 1;
