@@ -1,10 +1,11 @@
-function [Fb_bouy, Mb_bouy] =  Bouyancy_force(Cib, rho, V, R_cv2cm, bouyancy_flag)
+function [Fb_bouy, Mb_bouy] =  Bouyancy_force(Cbi, rho, V, R_cv2cm, bouyancy_flag)
 
 %{
-@Fb_bouy is the bouyancy vector to the body coordinate
-@Mb_bony is the bouyancy momentum vector to the body coordinate
+Cbi - the rotation matrix from inertial coordinates to the body
+Fb_buoy - the buoyant force vector expressed in body coordinates
+Mb_buoy - the moment due to the buoyant force expressed in body coordinates 
 
-@Cib is  
+
 
 @rho is the density of the water which can be found in the constant table
 @V is the volume of boat
@@ -13,7 +14,7 @@ will not be considered
 %}
 
 
-gb = Cib*[0;0;9.81];
+gb = Cbi*[0;0;9.81];
 
 Fb_bouy = rho * V * gb;
 
