@@ -52,18 +52,16 @@ do_drag_flag = 0;
 
 %% Run Sim
 %create the simIn object to pass in model parameters
-ft_lists = eye(8);
-for k = 1:8
-    ft_list_test = 0.1*ft_lists(k,:);
-    simIn = Simulink.SimulationInput("Dynamics");
-    simIn = simIn.setVariable('ft_list_test',ft_list_test);
-    results = sim(simIn);
+ft_list = [0 0 0 0 0 0 0 0];
+simIn = Simulink.SimulationInput("Dynamics");
+simIn = simIn.setVariable('ft_list_test',ft_list);
+results = sim(simIn);
+
+gif_data = {results.Ri,results.Eul,ft_list};
     
-    gif_data = {results.Ri,results.Eul,ft_list_test};
+%% Run Post Processing
+plotAllOutputs(results);
+path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+% saveAllOutputs(results,path);
     
-    %% Run Post Processing
-    %plotAllOutputs(results);
-    path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
-    % saveAllOutputs(results,path);
-    
-end
+

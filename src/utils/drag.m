@@ -11,8 +11,8 @@ VW2=[dRb.*abs(dRb);W.*abs(W)];
 
 result=-drag_wrench*VW2;
 
-Fb_drag=result(0:3);
-Mb_drag=result(3:6);
+Fb_drag=result(1:3);
+Mb_drag=result(4:6);
 
 if(do_drag_flag==0)
     Fb_drag=[0;0;0];

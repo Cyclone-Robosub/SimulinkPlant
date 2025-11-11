@@ -26,11 +26,15 @@ MT_wrench = [-0.2527   -0.2032    0.0425   -0.2527    0.1291   -0.0155   -0.1641
     0.2498    0.2003   -0.0454    0.2498   -0.1291   -0.0155   -0.1641    0.1583;...
     0         0         0         0   -0.0021    0.0622    0.3595   -0.0021];
 
+drag_wrench = zeros(6,6); %PLACEHOLDER 
+
 %mass TODO - Update this KJH
 m = 12.4513; %[kg]
 M = diag([m m m]);
 invM = inv(M);
 
+%density of water
+rho = 998; %[kg/m3] at 20 C
 %total volume
 V = 0.0165; %[m3]
 
