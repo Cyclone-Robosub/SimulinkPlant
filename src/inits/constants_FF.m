@@ -29,7 +29,9 @@ MT_wrench = [-0.2527   -0.2032    0.0425   -0.2527    0.1291   -0.0155   -0.1641
     0         0         0         0   -0.0021    0.0622    0.3595   -0.0021];
 
 %drag wrench estimate based on rectangular prism assumption
-drag_wrench = diag([19.8131, 56.6159, 40.1531, 0.0689, 0.6689, 0.4282]);
+%TO DO - validate the calculations in the drag script
+drag_wrench = diag([19.8131, 56.6159, 40.1531, 10*0.0689, 10*0.6689, 10*0.4282]);
+
 
 %mass TODO - Update this KJH
 m = 12.4513; %[kg]
@@ -38,17 +40,21 @@ M_added = diag([2.4705 9.0585 9.0585]);
 M = M + M_added;
 invM = inv(M);
 
-
+%density of water
+rho = 998; %[kg/m3] at 20 C
 %total volume
-V = 0.0441; %[m3]
-R_cv_o = [-0.0069;-0.0065;-0.093]; %position of the center of volume relative to the Onshape origin
+V = 0.0165; %[m3]
 
-
+%vector from center of mass to center of volume for buoyancy calcs
+R_o2cv = [-0.0011;-0.0011;-0.0011]; %Onshape origin to CV
+R_o2cm = [0.0029; 0; -0.0206]; %Onshape origin to CM
+R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 
 %load forceToPWM fit data
-force_struct = coder.load("src\utils\T200 Thruster Lookups\force.mat");
+%to do, have the script search for these folders
+force_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/force.mat");
 force_table = force_struct.forces;
-pwm_struct = coder.load("src\utils\T200 Thruster Lookups\pwm.mat");
+pwm_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/pwm.mat");
 pwm_list = pwm_struct.pwm;
-voltage_struct = coder.load("src\utils\T200 Thruster Lookups\voltage.mat","voltage");
+voltage_struct = coder.load("src/utils/T200 Thruster Lookups/voltage.mat","voltage");
 voltage_list = voltage_struct.voltage;
