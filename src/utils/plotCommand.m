@@ -2,7 +2,7 @@ function plotCommand(command)
 
     t = command.Time; %Nx1
     command = squeeze(command.Data)'; %Nx2
-
+    command = enforceTallSkinny(command);
     ID = command(:,1); %1xN
     %Intensity = command(:,2); %1xN
     if(isValidPlotData(t,ID,[length(t),1]))

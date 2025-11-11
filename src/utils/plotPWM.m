@@ -1,7 +1,8 @@
 function plotPWM(PWM)
     t = PWM.Time; %Nx1
     PWM = squeeze(PWM.Data)'; %Nx8
- 
+    PWM = enforceTallSkinny(PWM);
+    
     if(isValidPlotData(t,PWM,[length(t),8]))
         figure('Name','PWM','NumberTitle','off')
         for k = 1:8

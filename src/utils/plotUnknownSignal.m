@@ -8,15 +8,8 @@ associated with it.
 data = squeeze(timeseries.Data);
 t = squeeze(timeseries.Time);
 
-%get the size of data
-[n,m] = size(data);
-
-%make sure the data is a tall skinny matrix not a short wide one
-if(n<m)
-    data = data';
-    [~,m] = size(data);
-end
-
+data = enforceTallSkinny(data);
+[~,m] = size(data);
 %loop through each column of data and add it to the plot
 figure('Name',name,'NumberTitle','off') %set the panel name to the input name
 hold on

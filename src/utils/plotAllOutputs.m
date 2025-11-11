@@ -20,10 +20,10 @@ recognized_fields = [];
         plotRi(Ri);
     end
 
-    if ismember('Vi',fields)
-        recognized_fields = [recognized_fields, 'Vi'];
-        Vi = results.Vi;
-        plotVi(Vi);
+    if ismember('dRi',fields)
+        recognized_fields = [recognized_fields, 'dRi'];
+        dRi = results.dRi;
+        plotdRi(dRi);
     end
 
     if ismember('Eul',fields)
@@ -32,10 +32,10 @@ recognized_fields = [];
         plotEul(Eul);
     end
 
-    if ismember('Wb',fields)
-        recognized_fields = [recognized_fields, 'Wb'];
-        Wb = results.Wb;
-        plotWb(Wb);
+    if ismember('w',fields)
+        recognized_fields = [recognized_fields, 'w'];
+        w = results.w;
+        plotw(w);
     end
 
     if ismember('FT_list',fields)

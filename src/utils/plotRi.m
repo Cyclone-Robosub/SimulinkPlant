@@ -1,6 +1,8 @@
 function plotRi(Ri)
     t = Ri.Time; %Nx1
     Ri = squeeze(Ri.Data); %Nx3
+
+    Ri = enforceTallSkinny(Ri);
    
     if(isValidPlotData(t,Ri,[length(t),3]))
         figure('Name','Ri','NumberTitle','off')
