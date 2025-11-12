@@ -14,7 +14,7 @@ condemned_contents = condemned_contents(~ismember({condemned_contents.name},{'.'
 
 if(numel(condemned_contents)>0)
     for k = 1:numel(condemned_contents)
-        item_path = fullfile(pwd,condemned_contents(k).name);
+        item_path = fullfile(condemned_contents.folder,condemned_contents(k).name);
         if condemned_contents(k).isdir
             rmdir(item_path,'s');
         else
