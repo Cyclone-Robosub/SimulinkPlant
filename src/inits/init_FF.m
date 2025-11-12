@@ -73,7 +73,7 @@ results = sim(simIn);
 close all
 %plotAllOutputs(results); %uncomment this to plot every signal
 plots = {'MTb','FTb','fT_cmd_list','Ri','Eul'};
-%plotAllOutputs(results,plots); %use this to plot only specific variables
+plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
 %path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';

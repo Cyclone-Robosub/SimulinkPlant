@@ -1,6 +1,5 @@
 function stashASVFiles()
 
-fprintf("Stashing away .asv files to avoid clutter.\n")
 % Moves all .asv files in the SimulinkPlant project and subfolders
 % into a dedicated autosave folder: SimulinkPlant/codegen/autosaves
 % Generative AI was used in the creation of this code.
