@@ -8,7 +8,7 @@ run('constants.m')
 rel_tol = 1e-9;
 abs_tol = 1e-9;
 
-tspan =30;
+tspan = 30;
 dt_data = 1/30;
 dt_control = 0.01;
 %% Initial Conditions
@@ -37,7 +37,6 @@ q_0 = rotm2quat(Cib_0);
 %reorder because the scalar should be at the end for calcs in the sim
 q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
 
-
 %initial angular velocity
 wx_0 = 0;
 wy_0 = 0;
@@ -51,10 +50,11 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
-do_thrusters_flag = 0;
+do_thrusters_flag = 1;
+do_time_flag = 1; %used to freeze time at the given initial conditions without having to change plot functions
 
 %mission file
-mission_file_path = '/home/kjhaydon/Github/SimulinkPlant/src/inits/mission file archive/missionfile_FF_v1.xlsx';
+mission_file_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\inits\mission file archive\missionfile_FF_v2.xlsx';
 mission_file_struct = importMissionFile(mission_file_path);
 mission_file = numericMissionFile(mission_file_struct);
 %% Run Sim
@@ -63,16 +63,15 @@ mission_file = numericMissionFile(mission_file_struct);
 simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
-
-gif_data = {results.Ri,results.Eul,results.FT_list};
     
 %% Run Post Processing
+close all
 %plotAllOutputs(results); %uncomment this to plot every signal
-plots = {'Ri'};
-plotAllOutputs(results,plots); %use this to plot only specific variables
+plots = {'MTb','FTb','fT_cmd_list','Ri','Eul'};
+%plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
-% path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
-% saveAllOutputs(results,path);
+path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+saveAllOutputs(results,path);
     
 

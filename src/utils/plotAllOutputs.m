@@ -49,7 +49,9 @@ recognized_fields = [];
     end
 
     if (ismember('ddRi',fields) && (ismember('ddRi',plots) || plot_all_flag))
-        %to do
+        recognized_fields = [recognized_fields, 'ddRi'];
+        ddRi = results.ddRi;
+        plotddRi(ddRi);
     end
 
     if (ismember('dq',fields) && (ismember('dq',plots) || plot_all_flag))
@@ -84,17 +86,27 @@ recognized_fields = [];
     end
 
     if (ismember('FTb',fields) && (ismember('FTb',plots) || plot_all_flag))
-         recognized_fields = [recognized_fields, 'FTb'];
+        recognized_fields = [recognized_fields, 'FTb'];
         FTb = results.FTb;
         plotFTb(FTb);
      end
 
-    if (ismember('Mtb',fields) && (ismember('Mtb',plots) || plot_all_flag))
-         %todo
+    if (ismember('MTb',fields) && (ismember('MTb',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'MTb'];
+        MTb = results.MTb;
+        plotMTb(MTb);
      end
 
     if (ismember('Fb',fields) && (ismember('Fb',plots) || plot_all_flag))
-         %todo
+         recognized_fields = [recognized_fields,'Fb'];
+         Fb = results.Fb;
+         plotFb(Fb);
+    end
+
+    if (ismember('Fi',fields) && (ismember('Fi',plots) || plot_all_flag))
+         recognized_fields = [recognized_fields,'Fi'];
+         Fi = results.Fi;
+         plotFi(Fi);
     end
 
     if (ismember('Mb',fields) && (ismember('Mb',plots) || plot_all_flag))
@@ -138,13 +150,6 @@ recognized_fields = [];
 
      if (ismember('Mb_g',fields) && (ismember('Mb_g',plots) || plot_all_flag))
          %todo
-     end
-
-     
-     if (ismember('MT_b',fields) && (ismember('MT_b',plots) || plot_all_flag))
-        recognized_fields = [recognized_fields, 'MTb'];
-        MTb = results.MTb;
-        plotMTb(MTb);
      end
 
      if (ismember('fT_cmd_list',fields) && (ismember('fT_cmd_list',plots) || plot_all_flag))

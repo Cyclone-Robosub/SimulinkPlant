@@ -33,4 +33,6 @@ Lxy = sqrt(a^2 + b^2);
 
 D_rot = 0.5*rho*diag([Cr*Ayz*Lyz^2 Cr*Axz*Lxz^2 Cr*Axy*Lxy^2]);
 
-drag_matrix = [[D_lin, zeros(3)];[zeros(3), D_rot]];
+%fudge factor to better match experimental data
+D_rot = D_rot + diag([10,20,20]);
+drag_wrench = [[D_lin, zeros(3)];[zeros(3), D_rot]];

@@ -1,4 +1,4 @@
-path = '/home/kjhaydon/Github/SimulinkPlant/src/codegen';
+path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\codegen';
 
 try
     Simulink.fileGenControl('set', 'CacheFolder', path);

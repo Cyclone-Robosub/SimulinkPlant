@@ -1,4 +1,4 @@
-function [Fb_drag, Mb_drag] = drag(dRb, W, drag_wrench, do_drag_flag)
+function [Fb_drag, Mb_drag] = drag(dRb, w, drag_wrench, do_drag_flag)
 %{
 @dRb - the velocity vector in body coordinates
 @W - the angular velocity vector in body coordinates
@@ -8,7 +8,7 @@ function [Fb_drag, Mb_drag] = drag(dRb, W, drag_wrench, do_drag_flag)
 %}
 
 
-VW2=[dRb.*abs(dRb);W.*abs(W)];
+VW2=[dRb.*abs(dRb);w.*abs(w)];
 
 result=-drag_wrench*VW2;
 
