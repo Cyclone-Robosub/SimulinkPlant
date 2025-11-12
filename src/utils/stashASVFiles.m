@@ -11,7 +11,7 @@ fprintf("Stashing away .asv files to avoid clutter.\n")
     end
     
     % Destination folder
-    autosaves_folder = fullfile(prj_paths.codegen_path,'autosaves');
+    autosaves_folder = fullfile(prj_paths.asv_path,'autosaves');
     if ~isfolder(autosaves_folder)
         mkdir(autosaves_folder);
     end

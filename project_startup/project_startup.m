@@ -25,7 +25,8 @@ thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
 user_data_path = temp_path;
 startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
-codegen_path = fullfile(root_path,'codegen','slprj_and_caches');
+cache_path = fullfile(root_path,'codegen','slprj_and_caches');
+asv_path = fullfile(root_path,'codegen','autosaves');
 %add all necessary paths to the project path
 addpath(root_path);
 addpath(startup_path);
@@ -54,9 +55,13 @@ if(~isfolder(temp_path))
     fprintf("Folder for temporary files is missing. Creating it now.\n")
     mkdir(temp_path);
 end
-if(~isfolder(codegen_path))
+if(~isfolder(cache_path))
     fprintf("Folder for automatically generated files is missing. Creating it now.\n")
-    mkdir(codegen_path);
+    mkdir(cache_path);
+end
+if(~isfolder(asv_path))
+    fprintf("Creating a folder for autosaves.\n")
+    mkdir(asv_path);
 end
 if(~isfolder(inits_path))
     error("You are missing the inits folder. Not sure how you managed that. You may need to re-clone the repo.")
@@ -78,7 +83,8 @@ prj_path_list.temp_path = temp_path;
 prj_path_list.inits_path = inits_path;
 prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.user_data_path = user_data_path;
-prj_path_list.codegen_path = codegen_path;
+prj_path_list.cache_path = cache_path;
+prj_path_list.asv_path = asv_path;
 prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
@@ -88,8 +94,8 @@ fprintf("Filepaths configured successfully. Moving you to inits.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
 Simulink.fileGenControl('set',...
-    'CacheFolder',codegen_path,...
-    'CodeGenFolder',codegen_path);
+    'CacheFolder',cache_path,...
+    'CodeGenFolder',cache_path);
 
 fprintf("Cache and CodeGen file paths are setup.\n");
 
