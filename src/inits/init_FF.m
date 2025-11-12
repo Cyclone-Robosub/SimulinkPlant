@@ -1,6 +1,11 @@
-clc
-close all
-clear all
+%% Housekeeping
+clc %clears command line
+close all %closes figures
+%clear all %deletes workspace, optional
+
+prj_paths = getProjectPaths(); %load the file paths identified on prj start
+stashASVFiles(); %move pesky .asv files out of the way
+
 %% Run setup scripts
 run('constants.m')
 
@@ -54,7 +59,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1; %used to freeze time at the given initial conditions without having to change plot functions
 
 %mission file
-mission_file_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\inits\mission file archive\missionfile_FF_v2.xlsx';
+mission_file_path = fullfile(prj_paths.inits_path,"missionfile_FF_v2.xlsx");
 mission_file_struct = importMissionFile(mission_file_path);
 mission_file = numericMissionFile(mission_file_struct);
 %% Run Sim
@@ -71,7 +76,7 @@ plots = {'MTb','FTb','fT_cmd_list','Ri','Eul'};
 %plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
-path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
-saveAllOutputs(results,path);
+%path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+%saveAllOutputs(results,path);
     
 

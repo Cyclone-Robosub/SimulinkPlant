@@ -8,6 +8,11 @@ Constant files named constants_[modifier].m are used for specific test
 cases that don't reflect the values used for the vehicle normally.
 %}
 
+% call getProjectPaths if it doesn't exist
+if(~exist('prj_paths','var'))
+    prj_paths = getProjectPaths();
+end
+
 %load physical data
 run('physical_data_calculations');
 
@@ -38,11 +43,11 @@ R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 %load forceToPWM fit data
 %to do, have the script search for these folders
 try
-    force_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/force.mat");
+    force_struct = coder.load(fullfile(prj_paths.thruster_lookup_path,"force.mat"));
     force_table = force_struct.forces;
-    pwm_struct = coder.load("SimulinkPlant/src/utils/T200 Thruster Lookups/pwm.mat");
+    pwm_struct = coder.load(fullfile(prj_paths.thruster_lookup_path,"pwm.mat"));
     pwm_list = pwm_struct.pwm;
-    voltage_struct = coder.load("src/utils/T200 Thruster Lookups/voltage.mat","voltage");
+    voltage_struct = coder.load(fullfile(prj_paths.thruster_lookup_path,"voltage.mat"),"voltage");
     voltage_list = voltage_struct.voltage;
 catch
     error("Unable to load thruster data. Fix the path in your constants file.")

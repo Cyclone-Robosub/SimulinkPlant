@@ -10,7 +10,6 @@ close all
 clear all
 
 %% 1 - Add files to the search path.
-root_path = pwd; %project root
 
 %get the current project
 try
@@ -18,7 +17,7 @@ try
 catch
     error("You are running the startup script before you opened the project. That won't work.")
 end
-
+root_path = prj.RootFolder;
 src_path = fullfile(root_path,'src');
 temp_path = fullfile(src_path,'temp');
 inits_path = fullfile(src_path,'inits');
@@ -79,6 +78,7 @@ prj_path_list.temp_path = temp_path;
 prj_path_list.inits_path = inits_path;
 prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.user_data_path = user_data_path;
+prj_path_list.codegen_path = codegen_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(inits_path)
