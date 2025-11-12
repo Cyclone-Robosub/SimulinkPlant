@@ -2,13 +2,13 @@ clc
 close all
 clear all
 %% Run setup scripts
-run('constants_FF.m')
+run('constants.m')
 
 %% Set Sim Parameters
 rel_tol = 1e-9;
 abs_tol = 1e-9;
 
-tspan = 60;
+tspan =30;
 dt_data = 1/30;
 dt_control = 0.01;
 %% Initial Conditions
@@ -51,9 +51,10 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
+do_thrusters_flag = 0;
 
 %mission file
-mission_file_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\inits\mission file archive\missionfile_FF_v1.xlsx';
+mission_file_path = '/home/kjhaydon/Github/SimulinkPlant/src/inits/mission file archive/missionfile_FF_v1.xlsx';
 mission_file_struct = importMissionFile(mission_file_path);
 mission_file = numericMissionFile(mission_file_struct);
 %% Run Sim
@@ -66,10 +67,12 @@ results = sim(simIn);
 gif_data = {results.Ri,results.Eul,results.FT_list};
     
 %% Run Post Processing
-plotAllOutputs(results);
+%plotAllOutputs(results); %uncomment this to plot every signal
+plots = {'Ri'};
+plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
-% path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+% path = '/home/kjhaydon/Github/SimulinkPlant/src/temp';
 % saveAllOutputs(results,path);
     
 

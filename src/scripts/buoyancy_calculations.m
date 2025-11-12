@@ -11,44 +11,47 @@ in2m = 2.54/100;
 %main cylinder
 rm = 3.15*in2m;
 lm = 18*in2m;
-Rm = [0 0 -4.53]*in2m';
+Rm = [0 0 -4.53]'*in2m;
 
 %thruster cylinders
+%effective volume of the thruster cylinder is smaller than the envelope 
 rt = 1.6*in2m;
 lt = 4.6*in2m;
-Rt1 = [9.95 8 -1.675]*in2m';
-Rt2 = [9.95 -8 -1.675]*in2m';
-Rt3 = [-9.95 8 -1.675]*in2m';
-Rt4 = [-9.95 -8 -1.675]*in2m';
-Rt5 = [7.03 -4.95 1.93]*in2m';
-Rt6 = [7.03 4.95 1.93]*in2m';
-Rt7 = [-8.3 3.7 1.93]*in2m';
-Rt8 = [-8.3 -3.7 1.93]*in2m';
+Rt1 = [9.95 8 -1.675]'*in2m;
+Rt2 = [9.95 -8 -1.675]'*in2m;
+Rt3 = [-9.95 8 -1.675]'*in2m;
+Rt4 = [-9.95 -8 -1.675]'*in2m;
+Rt5 = [7.03 -4.95 1.93]'*in2m;
+Rt6 = [7.03 4.95 1.93]'*in2m;
+Rt7 = [-8.3 3.7 1.93]'*in2m;
+Rt8 = [-8.3 -3.7 1.93]'*in2m;
+
 
 %camera box
 lc = 5*in2m;
 wc = 5*in2m;
 hc = 5*in2m;
-Rc = [2 0 2.3]*in2m';
+Rc = [2 0 2.3]'*in2m;
 
 %base plate
 lp = 18*in2m;
 wp = 10.25*in2m;
 hp = 0.25*in2m;
-Rp = [0 0 0.125]*in2m';
+Rp = [0 0 0.125]'*in2m;
 
 %DVL cylinder
 rd = 1.7*in2m;
 ld = 1.65*in2m;
-Rd = [-4 0 1.5]*in2m';
+Rd = [-4 0 1.5]'*in2m;
 
 %calculate all the volumes
 Vm = pi*rm^2*lm;
 Vt = pi*rt^2*lt;
+Vt = 0; %test to fix buoyancy math
 Vc = lc*wc*hc;
 Vp = lp*wp*hp;
 Vd = pi*rd^2*ld;
-V = [Vm Vt Vt Vt Vt Vt Vt Vt Vc Vp Vd];
+V = [Vm Vt Vt Vt Vt Vt Vt Vt Vt Vc Vp Vd];
 
 %pack of positions
 R_o2obj = [Rm Rt1 Rt2 Rt3 Rt4 Rt5 Rt6 Rt7 Rt8 Rc Rp Rd];

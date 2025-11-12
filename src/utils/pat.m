@@ -1,7 +1,5 @@
-function J = pat(I,R_new_point_to_body,m)
-%we need the vector from the body to the new point
-R = -R_new_point_to_body;
+function J = pat(I,R_obj2newpoint,m)
 
 %calculate J
-J = I + m*((dot(R,R)*eye(3) - outer(R,R)));
+J = I + m*((dot(R_obj2newpoint,R_obj2newpoint)*eye(3) - R_obj2newpoint*R_obj2newpoint'));
 end
