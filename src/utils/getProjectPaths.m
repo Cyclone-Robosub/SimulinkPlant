@@ -1,4 +1,4 @@
-function prj_paths = getProjectPaths()
+function prj_paths_list = getProjectPaths()
 origin_dir = pwd;
 in_SimulinkPlant_flag = 0;
 %if 'SimulinkPlant is a substring of parent, move up
@@ -23,7 +23,7 @@ end
 %we should now be within the SimulinkPlant folder
 cd('project_startup'); %switch into the project_startup folder
 temp = load('prj_path_list.mat');
-prj_paths = temp.prj_path_list;
+prj_paths_list = temp.prj_path_list;
 
 try
     cd(origin_dir);

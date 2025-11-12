@@ -3,7 +3,7 @@ clc %clears command line
 close all %closes figures
 %clear all %deletes workspace, optional
 
-prj_paths = getProjectPaths(); %load the file paths identified on prj start
+prj_paths_list = getProjectPaths(); %load the file paths identified on prj start
 stashASVFiles(); %move pesky .asv files out of the way
 
 %% Run setup scripts

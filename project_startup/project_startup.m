@@ -79,6 +79,8 @@ prj_path_list.inits_path = inits_path;
 prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.user_data_path = user_data_path;
 prj_path_list.codegen_path = codegen_path;
+prj_path_list.startup_path = startup_path;
+prj_path_list.closedown_path = closedown_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(inits_path)
