@@ -29,6 +29,23 @@ recognized_fields = [];
         PWM = results.PWM;
         plotPWM(PWM);
     end
+    %check if the given fields exist and call the appropriate plot function
+    if (ismember('Fb_cmd_PID',fields) && (ismember('Fb_cmd_PID',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Fb_cmd_PID'];
+        Fb_cmd_PID = results.Fb_cmd_PID;
+        plotFb_cmd_PID(Fb_cmd_PID);
+    end
+    if (ismember('Mb_cmd_PID',fields) && (ismember('Mb_cmd_PID',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Mb_cmd_PID'];
+        Mb_cmd_PID = results.Mb_cmd_PID;
+        plotMb_cmd_PID(Mb_cmd_PID);
+    end
+
+     if (ismember('Fb_correction',fields) && (ismember('Fb_correction',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Fb_correction'];
+        Fb_correction = results.Fb_correction;
+        plotFb_correction(Fb_correction);
+    end
 
     if (ismember('command',fields) && (ismember('command',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'command'];

@@ -1,10 +1,9 @@
-function [FT_cmd_list] = commandToForce(command,max_thruster_force,invFT_wrench,invMT_wrench,ff_force_max) %#codegen
+function [FT_cmd_list] = commandToForce(command,max_thruster_force) %#codegen
 %{
 This function uses the command forward, reverse, up, down, etc... to 
 send commands corresponding to that maneuver to the right thrusters at 
 the specified intensity.
 
-{1,0.5}
 %}
 %unpack the command
 type = command(1);
