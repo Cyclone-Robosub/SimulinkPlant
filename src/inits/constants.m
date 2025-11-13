@@ -13,6 +13,17 @@ if(~exist('prj_paths','var'))
     prj_paths = getProjectPaths();
 end
 
+%PID 
+PID = [3 0.14 17 5.3;...
+    4.3 0.19 23.5 5.3;...
+    4.3 0.19 23.5 5.3;...
+    37.7 18.3 17.2 195.8;...
+    52.3 55.5 10.6 182.4;...
+    100 294 42 60];
+
+linear_saturation = 3;
+rotational_saturation = 5;
+
 %load physical data
 run('physical_data_calculations');
 

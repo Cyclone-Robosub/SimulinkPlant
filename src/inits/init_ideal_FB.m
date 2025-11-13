@@ -18,9 +18,9 @@ dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multipl
 dt_control = 0.01;
 %% Initial Conditions
 %initial intertial position
-xi_0 = 0;
-yi_0 = 0;
-zi_0 = 0;
+xi_0 = 10;
+yi_0 = 10;
+zi_0 = 10;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -30,9 +30,9 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = 0;
-theta_0 = 0;
-psi_0 = 0;
+phi_0 = -pi/6;
+theta_0 = pi/6;
+psi_0 = pi/2;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
