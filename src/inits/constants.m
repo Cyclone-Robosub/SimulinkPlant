@@ -21,7 +21,7 @@ PID = [3 0.14 17 5.3;...
     52.3 55.5 10.6 182.4;...
     100 294 42 60];
 
-linear_saturation = 3;
+linear_saturation = 4;
 rotational_saturation = 5;
 
 %load physical data

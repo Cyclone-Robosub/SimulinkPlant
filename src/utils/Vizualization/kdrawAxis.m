@@ -17,7 +17,6 @@ if(p.Results.Figure == [])
 else
     f = p.Results.Figure;
 end
-p.Results.Length
 x1 = p.Results.Translation + rotatepoint(p.Results.Rotation, p.Results.Length.*[1 0 0]);
 x2 = p.Results.Translation + rotatepoint(p.Results.Rotation, p.Results.Length.*[-1 0 0]);
 y1 = p.Results.Translation + rotatepoint(p.Results.Rotation, p.Results.Length.*[0 1 0]);
