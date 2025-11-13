@@ -1,7 +1,8 @@
 function plotEul(Eul)
     t = Eul.Time; %Nx1
     Eul = squeeze(Eul.Data); %Nx3
-
+    Eul = enforceTallSkinny(Eul);
+    
     if(isValidPlotData(t,Eul,[length(t),3]))
         figure('Name','Eul','NumberTitle','off')
         hold on
