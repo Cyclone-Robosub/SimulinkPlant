@@ -1,7 +1,7 @@
 function plotMTb(MTb)
     t = MTb.Time; %Nx1
     MTb = squeeze(MTb.Data)'; %Nx3
-
+    MTb = enforceTallSkinny(MTb);
     if(isValidPlotData(t,MTb,[length(t),3]))
         figure('Name','MTb','NumberTitle','off')
         hold on

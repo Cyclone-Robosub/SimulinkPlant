@@ -1,4 +1,4 @@
-function [ddR,dw] = dynamics(T,F,w,invM,invI)
+function [ddRi,dw] = dynamics(T,F,w,Cib,I,invM,invI)
 %{
 This function computes the accelerations ddR and dw given the torque and
 force on the rigid body in addition to the inverse of the mass matrix invM 
@@ -29,16 +29,16 @@ Created on Nov 4, 2025 -KJH
 %}
 
 %enforce column vectors
-T = T(:);
-F = F(:);
+Tb = T(:);
+Fb = F(:);
 w = w(:);
 
 %compute the angular velocity derivative
-dw = invI*(T - vectorCross(w)*I*w); %Curtis Eqn 11.8
+dw = invI*(Tb - vectorCross(w)*I*w); %Curtis Eqn 11.8
 
-%compute the acceleration
-ddR = invM*(F);
-
+%compute the acceleration using inertial coordinates
+Fi = Cib*Fb;
+ddRi = invM*(Fi);
 
 
 

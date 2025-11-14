@@ -1,7 +1,8 @@
 function plotFTb(FTb)
     t = FTb.Time; %Nx1
     FTb = squeeze(FTb.Data)'; %Nx3
-
+    FTb = enforceTallSkinny(FTb);
+    
     if(isValidPlotData(t,FTb,[length(t),3]))
         figure('Name','FTb','NumberTitle','off')
         hold on

@@ -8,9 +8,8 @@ data contained in it to a comma deliminated file.
 fields = results.who;
 
 %get the timestamp to be used as the folder name
-this_time = datetime('now');
+this_time = datetime("now","Format","uuuu-MM-dd HH-mm-ss");
 time_string = string(this_time);
-
 %create a new folder at the path
 filepath = fullfile(path,time_string);
 mkdir(filepath);
@@ -24,7 +23,12 @@ for k = 1:length(fields)
         this_data_struct = results.(name);
         t = squeeze(this_data_struct.Time);
         data = squeeze(this_data_struct.Data);
-    
+
+        %make sure the data is oriented correctly
+        [m,~] = size(data);
+        if(length(t)~=m)
+            data = data';
+        end
         to_save = [t,data];
         writematrix(to_save,fullfile(filepath,strcat(name,'.txt')));
     end

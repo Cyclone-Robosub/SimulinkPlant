@@ -20,7 +20,6 @@ end
 %loop through each column of data and add it to the plot
 figure('Name',name,'NumberTitle','off') %set the panel name to the input name
 hold on
-legend_list = [];
 for k = 1:m
     plot(t,data(:,k))
 end
@@ -28,4 +27,5 @@ xlabel("Time (s)")
 ylabel("?")
 title(sprintf("Unknown Variable ""%s""",name))
 legend(arrayfun(@(x) sprintf("component %d",x),1:m)) %create automatic legend names
+
 end

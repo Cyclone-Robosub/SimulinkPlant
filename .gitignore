@@ -29,3 +29,5 @@ resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/61Jq6-PuTmBAhTRz_8WYvQ4yL5wd.xml
 /resources/plot functions/slprj
 *.autosave
 SimulinkPlant old/
+*/slprj
+*.slxc
