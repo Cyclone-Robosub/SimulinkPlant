@@ -13,6 +13,7 @@ p.addParameter('LineWidth',1);
 p.addParameter('PatchLineColor','k');
 p.addParameter('CylinderPatchLineColor','none');
 p.addParameter('Figure',[]);
+p.addParameter('PWM',[]);
 parse(p,'Ri','Cib',varargin{:});
 
 % Handle figure selection or creation
@@ -53,6 +54,15 @@ kdrawCylinder(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt4,'Figure',fig,'FaceColor',p.Results
 kdrawCylinder(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt5,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
 kdrawCylinder(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt6,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
 kdrawCylinder(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt7,'Figure',fig,'FaceColor',p.Results.FaceColor,'LineWidth',p.Results.LineWidth,'PatchLineColor',p.Results.CylinderPatchLineColor)
+
+kdrawThrusterVector(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt0,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(1))
+kdrawThrusterVector(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt1,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(2))
+kdrawThrusterVector(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt2,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(3))
+kdrawThrusterVector(rt,lt,Cib*[0 0 -1]',Ri + Cib*Rt3,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(4))
+kdrawThrusterVector(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt4,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(5))
+kdrawThrusterVector(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt5,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(6))
+kdrawThrusterVector(rt,lt,Cib*[1 -1 0]',Ri + Cib*Rt6,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(7))
+kdrawThrusterVector(rt,lt,Cib*[1 1 0]',Ri + Cib*Rt7,'Figure',fig,'Color',p.Results.FaceColor,'PWM',p.Results.PWM(8))
 
 
 %camera box
