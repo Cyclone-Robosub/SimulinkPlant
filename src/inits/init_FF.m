@@ -10,17 +10,17 @@ stashASVFiles(); %move pesky .asv files out of the way
 run('constants.m')
 
 %% Set Sim Parameters
-rel_tol = 1e-9;
-abs_tol = 1e-9;
+dt_sim = 0.0001;
 
-tspan = 30;
-dt_data = 1/30;
+tspan = 1;
+dt_data_target = 1/30;
+dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 dt_control = 0.01;
 %% Initial Conditions
 %initial intertial position
-xi_0 = 0;
-yi_0 = 0;
-zi_0 = 0;
+xi_0 = 10;
+yi_0 = 10;
+zi_0 = 10;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -30,9 +30,9 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = 0;
-theta_0 = 0;
-psi_0 = 0;
+phi_0 = -pi/6;
+theta_0 = pi/6;
+psi_0 = pi/2;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
@@ -57,11 +57,23 @@ do_gravity_flag = 1;
 do_drag_flag = 1;
 do_thrusters_flag = 1;
 do_time_flag = 1; %used to freeze time at the given initial conditions without having to change plot functions
+do_torque_flag = 1; %prevent vehicle from rotating for PID tuning
+do_force_flag = 1; %prevent the vehicle from translating for PID tuning
+do_Fb_correction = 0; 
 
 %mission file
 mission_file_path = fullfile(prj_paths.inits_path,"missionfile_FF_v2.xlsx");
 mission_file_struct = importMissionFile(mission_file_path);
 mission_file = numericMissionFile(mission_file_struct);
+
+%control mode
+mode_id = 2;
+
+%target state
+R_target = [0; 0; 0;];
+Eul_target = [0; 0; 0];
+X_target = [R_target;Eul_target];
+
 %% Run Sim
 %create the simIn object to pass in model parameters
 
@@ -72,7 +84,7 @@ results = sim(simIn);
 %% Run Post Processing
 close all
 %plotAllOutputs(results); %uncomment this to plot every signal
-plots = {'MTb','FTb','fT_cmd_list','Ri','Eul'};
+plots = {'Ri','Eul','FT_list','Fb_cmd_PID','Mb_cmd_PID','dRi'};
 plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
