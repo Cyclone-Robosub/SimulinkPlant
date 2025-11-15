@@ -12,7 +12,7 @@ run('constants.m')
 %% Set Sim Parameters
 dt_sim = 0.0001;
 
-tspan = 1;
+tspan = 5;
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 dt_control = 0.01;
