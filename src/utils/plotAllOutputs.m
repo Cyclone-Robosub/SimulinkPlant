@@ -59,6 +59,18 @@ recognized_fields = [];
         plotRi(Ri);
     end
 
+    if (ismember('R_error',fields) && (ismember('R_error',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'R_error'];
+        R_error = results.R_error;
+        plotR_error(R_error);
+    end
+
+    if (ismember('Eul_error',fields) && (ismember('Eul_error',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Eul_error'];
+        Eul_error = results.Eul_error;
+        plotEul_error(Eul_error);
+    end
+
     if (ismember('dRi',fields) && (ismember('dRi',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'dRi'];
         dRi = results.dRi;

@@ -13,8 +13,8 @@ archive.
 clc
 close all
 
-if(~exist('prj_paths','var'))
-    prj_paths = getProjectPaths();
+if(~exist('prj_path_list','var'))
+    prj_path_list = getProjectPaths();
 end
 
 stashASVFiles(); %move pesky .asv files out of the way
@@ -62,11 +62,12 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
-%simulation time step
-dt_sim = 0.0001;
 
 %simulation duration
-tspan = 10;
+tspan = 60;
+
+%simulation time step
+dt_sim = 0.0001;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -83,23 +84,27 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-do_Fb_correction = 0; 
+do_Fb_correction = 1; 
+overwrite_mission_file_wp_flag = 1;
+overwrite_mission_file_mode_flag = 1;
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"mission_file.txt");
+mission_file_path = fullfile(prj_path_list.inits_path,"mission_file.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
-mode_id = 0;
+mode_overwrite = 2;
 
-%target state
-R_target = [0; 0; 0;];
-Eul_target = [0; 0; 0];
-X_target = [R_target;Eul_target];
+%target state (only used if overwrite_mission_file_wp_flag = 1)
+R_target = [0; 10; 0;];
+Eul_target = [0; 0; pi];
+state_overwrite = [R_target;Eul_target];
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("PID_Tuning_Ideal_Feedback_Control");
+simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
+plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error'};
+plotAllOutputs(results,plots);

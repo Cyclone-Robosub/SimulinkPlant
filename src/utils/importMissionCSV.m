@@ -5,28 +5,25 @@ data = readtable(path,'Delimiter',',');
 
 
 %remove the header
-mission_table = data{4:end,:};
+mission_table = data(4:end,:);
+mission_table = table2cell(mission_table);
 
 %find the size
 nrows = height(mission_table);
 ncols = width(mission_table);
+mission_file = zeros(nrows,ncols);
 
-for k = 1:nrows
-    for j = 1:ncols
-        %replace empty values with zero
-        if(isequal(mission_table{k,j},{''}))
-            mission_table{k,j} = 0;
-        else
-            %case the entry in the cell to a double
-            mission_table{k,j} = str2double(cell2mat(mission_table(k,j)));
-            %replace NaN values with 0
-            if(isnan(mission_table{k,j}))
-                mission_table{k,j} = 0;
-            end
+for j = 1:ncols
+    for i = 1:nrows
+        val = mission_table{i,j};   
+        if iscell(val)
+            val = val{1};           
         end
+        if isempty(val)
+            val = 0;
+        elseif ischar(val) || isstring(val)
+            val = str2double(val);
+        end
+        mission_file(i,j) = val;
     end
-end
-
-%convert to matrix
-mission_file = cell2mat(mission_table);
 end

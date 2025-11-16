@@ -2,4 +2,4 @@ Name, PID Control
 Date, 11/15/25
 Created by, Kory
 Control Mode, Maneuver ID, Maneuver Duration, Maneuver Intensity,WPx,PWy,WPz,WProll,WPpitch,WPyaw
-2
+2,0,999,1,10,0,0,0,0,0
