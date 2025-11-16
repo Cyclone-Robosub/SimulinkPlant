@@ -4,7 +4,10 @@ function [do_FF_flag,do_PID_flag,FF_maneuver_data,state_target] = commandParser(
 %command = [this_control_mode,this_maneuver_id,...
             %this_maneuver_duration,this_maneuver_intensity,state_target...
             % this_maneuver_time] 
- 
+
+%enforce command is a row
+command = command(:);
+command = command';
 mode = command(1);
 switch mode
     case 0 %control off
@@ -28,3 +31,5 @@ maneuver_t = command(11); %how long have you been in the maneuver
 FF_maneuver_data = [maneuver_id,maneuver_dur,maneuver_int,maneuver_t];
 %pid target state vector
 state_target = command(5:10)';
+
+

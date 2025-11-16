@@ -17,6 +17,7 @@ if(~exist('prj_paths','var'))
     prj_paths = getProjectPaths();
 end
 
+stashASVFiles(); %move pesky .asv files out of the way
 
 %% Parameters
 run('constants.m')
@@ -56,8 +57,24 @@ wb_0 = [wx_0; wy_0; wz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
+%% Test Conditions
+%list of thruster forces
+test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
+%simulation time step
+dt_sim = 0.0001;
+
+%simulation duration
+tspan = 10;
+
+%data saving rate
+dt_data_target = 1/30;
+dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
+
+%controller update rate
+dt_control = 0.01;
+
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
 do_gravity_flag = 1;
@@ -81,8 +98,8 @@ Eul_target = [0; 0; 0];
 X_target = [R_target;Eul_target];
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Dynamics");
+simIn = Simulink.SimulationInput("PID_Tuning_Ideal_Feedback_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
-%results = sim(simIn);
+results = sim(simIn);
 
 %% Post Processing
