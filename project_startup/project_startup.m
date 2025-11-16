@@ -89,8 +89,8 @@ prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
-cd(inits_path)
-fprintf("Filepaths configured successfully. Moving you to inits.\n");
+cd(root_path)
+fprintf("Filepaths configured successfully. Moving you to root.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
 Simulink.fileGenControl('set',...
