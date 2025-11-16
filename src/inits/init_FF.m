@@ -12,15 +12,15 @@ run('constants.m')
 %% Set Sim Parameters
 dt_sim = 0.0001;
 
-tspan = 5;
+tspan = 10;
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 dt_control = 0.01;
 %% Initial Conditions
 %initial intertial position
-xi_0 = 10;
-yi_0 = 10;
-zi_0 = 10;
+xi_0 = 0;
+yi_0 = 0;
+zi_0 = 0;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -30,9 +30,9 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = -pi/6;
-theta_0 = pi/6;
-psi_0 = pi/2;
+phi_0 = 0;
+theta_0 = 0;
+psi_0 = 0;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
@@ -67,7 +67,7 @@ mission_file_struct = importMissionFile(mission_file_path);
 mission_file = numericMissionFile(mission_file_struct);
 
 %control mode
-mode_id = 2;
+mode_id = 1;
 
 %target state
 R_target = [0; 0; 0;];
@@ -84,11 +84,10 @@ results = sim(simIn);
 %% Run Post Processing
 close all
 %plotAllOutputs(results); %uncomment this to plot every signal
-plots = {'Ri','Eul','FT_list','Fb_cmd_PID','Mb_cmd_PID','dRi'};
+plots = {'Ri','Eul','FT_list'};
 plotAllOutputs(results,plots); %use this to plot only specific variables
 
 % To save data to the a folder
-%path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
-%saveAllOutputs(results,path);
+saveAllOutputs(results,prj_path_list.user_data_path);
     
 
