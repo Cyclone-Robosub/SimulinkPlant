@@ -25,7 +25,7 @@ switch(type)
         thruster_mask = intensity*[0 0 0 0 -1 -1 -1 -1]';
         %drive backward
     case 4 %"-yaw"
-        thruster_mask = intensity*[0 0 0 0 -1 1 -1 1]';
+        thruster_mask = intensity*[0 0 0 0 0 0 0 0]';
         %yaw ccw
     case 3 %"+yaw"
         thruster_mask = intensity*[0 0 0 0 1 -.93 1 -.93]';
