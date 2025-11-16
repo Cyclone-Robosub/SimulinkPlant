@@ -166,7 +166,6 @@ recognized_fields = [];
 
      if (ismember('Fb_drag',fields) && (ismember('Fb_drag',plots) || plot_all_flag))
          %todo
-         plotFTb
      end
 
      if (ismember('Mb_drag',fields) && (ismember('Mb_drag',plots) || plot_all_flag))

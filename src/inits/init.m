@@ -4,7 +4,7 @@ This is the master initialization file for the Cyclone Robosub Simulink.
 This file can setup, run, plot, and save data from any simulation variant
 included in the system. 
 
-If you need to make significant modifcations to this file, create a copy
+If you need to make significant modifications to this file, create a copy
 instead and give it an extension such as init_variant and place it in init
 archive.
 %}
@@ -84,7 +84,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-do_Fb_correction = 1; 
+do_Fb_correction = 0; 
 overwrite_mission_file_wp_flag = 1;
 overwrite_mission_file_mode_flag = 1;
 
@@ -96,15 +96,22 @@ mission_file = importMissionCSV(mission_file_path);
 mode_overwrite = 2;
 
 %target state (only used if overwrite_mission_file_wp_flag = 1)
-R_target = [0; 10; 0;];
-Eul_target = [0; 0; pi];
+R_target = [10; 0; 0;];
+Eul_target = [0; 0; 0];
 state_overwrite = [R_target;Eul_target];
+
+%tolerances
+roll_error_tol = 5*pi/180;
+pitch_error_tol = 5*pi/180;
+yaw_error_tol = 5*pi/180;
+w_tol = 0.1;
 %% Simulation
+
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error'};
+plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
 plotAllOutputs(results,plots);
