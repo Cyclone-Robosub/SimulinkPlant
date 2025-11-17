@@ -12,7 +12,8 @@ Created on Nov 6, 2025 -KJH
 %}
 
 %% Setup
-data_folders_path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';
+
+data_folders_path = '/Users/matthewlin/coding/SimulinkPlant/src/temp';
 
 %toggles
 draw_manny_body = 1;

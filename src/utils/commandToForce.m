@@ -1,4 +1,4 @@
-function [FT_cmd_list] = commandToForce(command,max_thruster_force) %#codegen
+function [FT_cmd_list] = commandToForce(command,max_thruster_force, yaw_thrusters) %#codegen
 %{
 This function uses the command forward, reverse, up, down, etc... to 
 send commands corresponding to that maneuver to the right thrusters at 
@@ -8,6 +8,15 @@ the specified intensity.
 %unpack the command
 type = command(1);
 intensity = command(2);
+
+t0 = yaw_thrusters(1);
+t1 = yaw_thrusters(2);
+t2 = yaw_thrusters(3);
+t3 = yaw_thrusters(4);
+t4 = yaw_thrusters(5);
+t5 = yaw_thrusters(6);
+t6 = yaw_thrusters(7);
+t7 = yaw_thrusters(8);
 
 switch(type)
     case 2 %"+x"
@@ -28,7 +37,7 @@ switch(type)
         thruster_mask = intensity*[0 0 0 0 -1 1 -1 1]';
         %yaw ccw
     case 3 %"+yaw"
-        thruster_mask = intensity*[0 0 0 0 1 -.93 1 -.93]';
+        thruster_mask = intensity*[-0.01 -0.01 -0.01 -0.01 0.95 -0.88 0.94 -0.87]';
         %yaw cw
     case 6 %"-z"
         thruster_mask = intensity*[1 1 1 1 0 0 0 0]';
