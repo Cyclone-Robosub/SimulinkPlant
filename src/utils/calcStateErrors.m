@@ -6,9 +6,6 @@ the error in position and attitude.
 X_target is a column vectors of [Ri_target; Eul_target] while X is a column
 vector of [Ri; q; dRi; w];
 %}
-%enforce column
-X_target = X_target(:);
-X = X(:);
 
 %unpack
 Ri_target = X_target(1:3);
@@ -22,6 +19,8 @@ Eul = quatToEul(qib);
 Eul = Eul(:);
 
 %calculate errors
+Ri_target = Ri_target(:);
+Ri = Ri(:);
 R_error = Ri_target - Ri;
 
 

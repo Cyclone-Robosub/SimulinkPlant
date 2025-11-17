@@ -1,16 +1,22 @@
-clc
-close all
-clear all
+%% Housekeeping
+clc %clears command line
+close all %closes figures
+%clear all %deletes workspace, optional
+
+prj_paths_list = getProjectPaths(); %load the file paths identified on prj start
+stashASVFiles(); %move pesky .asv files out of the way
+
 %% Run setup scripts
-run('constants_dyn.m')
+run('constants.m')
 
 %% Set Sim Parameters
-rel_tol = 1e-9;
-abs_tol = 1e-9;
+dt_sim = 0.0001;
 
-tspan = 5;
-dt_data = 1/30;
+tspan = 10;
+dt_data_target = 1/30;
+dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 dt_control = 0.01;
+
 %% Initial Conditions
 %initial intertial position
 xi_0 = 0;
@@ -60,7 +66,14 @@ simIn = simIn.setVariable('ft_list_test',ft_list);
 results = sim(simIn);
 
 gif_data = {results.Ri,results.Eul,ft_list};
-    
+
+%control mode
+mode_id = 1;
+
+%target state
+R_target = [0; 0; 0;];
+Eul_target = [0; 0; 0];
+X_target = [R_target;Eul_target];
 %% Run Post Processing
 plotAllOutputs(results);
 path = 'C:\GitHub\Cyclone Robosub\SimulinkPlant\src\temp';

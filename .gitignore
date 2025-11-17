@@ -31,3 +31,4 @@ resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/61Jq6-PuTmBAhTRz_8WYvQ4yL5wd.xml
 SimulinkPlant old/
 */slprj
 *.slxc
+/codegen/slprj_and_caches

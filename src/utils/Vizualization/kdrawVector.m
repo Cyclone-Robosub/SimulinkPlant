@@ -23,6 +23,7 @@ addRequired(p, 'vector',@(x) isvector(x) && isnumeric(x));
 %optional inputs
 addParameter(p, 'Figure',[]);
 addParameter(p, 'LineStyle','-');
+addParameter(p, 'LineWidth',1)
 addParameter(p, 'Color','k');
 addParameter(p, 'Translation',[0 0 0], @(x) isvector(x) && isnumeric(x));
 addParameter(p,'Rotation',quaternion(1, 0, 0, 0));
@@ -53,7 +54,7 @@ y2 = vertex2(2);
 z2 = vertex2(3);
 
 hold on
-quiver3(x1,y1,z1,x2-x1,y2-y1,z2-z1,0,'Color',p.Results.Color)
+quiver3(x1,y1,z1,x2-x1,y2-y1,z2-z1,0,'Color',p.Results.Color,'LineWidth',p.Results.LineWidth)
 plot3(x1,y1,z1,'Color',p.Results.Color,'Marker','.')
 plot3(x2,y2,z2,'Color',p.Results.Color,'Marker','none')
 end
