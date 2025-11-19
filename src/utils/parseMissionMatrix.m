@@ -14,7 +14,7 @@ mission_file = mission_file(:).';
 [nrows,~] = size(mission_file);
 
 %lookup current maneuver on the list
-if(current_maneuver_index < nrows)
+if(current_maneuver_index <= nrows)
     this_control_mode = mission_file(current_maneuver_index,1);
     this_maneuver_id = mission_file(current_maneuver_index,2);
     this_maneuver_duration = mission_file(current_maneuver_index,3);

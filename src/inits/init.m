@@ -63,10 +63,10 @@ test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
 %simulation time step
-dt_sim = 0.0001;
+dt_sim = 0.001;
 
 %simulation duration
-tspan = 10;
+tspan = 5;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -90,7 +90,8 @@ mission_file_path = fullfile(prj_paths.inits_path,"mission_file.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
-mode_id = 0;
+mode_id = 1;
+
 
 %target state
 R_target = [0; 0; 0;];
@@ -98,8 +99,10 @@ Eul_target = [0; 0; 0];
 X_target = [R_target;Eul_target];
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("PID_Tuning_Ideal_Feedback_Control");
+simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
+plots = {'Ri','Rb','Eul','FT_list','PWM'};
+plotAllOutputs(results,plots);

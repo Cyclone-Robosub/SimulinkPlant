@@ -1,32 +1,25 @@
 function mission_file = importMissionCSV(path)
-%pause warnings due to empty columns
-%read csv data into a table
-data = readtable(path,'Delimiter',',');
 
+C = readcell(path);      % read everything as cells
+C = C(5:end,:);          % skip first 4 lines: metadata + header
 
-%remove the header
-mission_table = data{4:end,:};
-
-%find the size
-nrows = height(mission_table);
-ncols = width(mission_table);
-
-for k = 1:nrows
-    for j = 1:ncols
-        %replace empty values with zero
-        if(isequal(mission_table{k,j},{''}))
-            mission_table{k,j} = 0;
-        else
-            %case the entry in the cell to a double
-            mission_table{k,j} = str2double(cell2mat(mission_table(k,j)));
-            %replace NaN values with 0
-            if(isnan(mission_table{k,j}))
-                mission_table{k,j} = 0;
+% convert empty or nonnumeric cells to zero
+for k = 1:size(C,1)
+    for j = 1:size(C,2)
+        v = C{k,j};
+        if isempty(v) || ismissing(v)
+            C{k,j} = 0;
+        elseif ischar(v) || isstring(v)
+            x = str2double(v);
+            if isnan(x)
+                C{k,j} = 0;
+            else
+                C{k,j} = x;
             end
         end
     end
 end
 
-%convert to matrix
-mission_file = cell2mat(mission_table);
+mission_file = cell2mat(C);
+
 end

@@ -59,6 +59,12 @@ recognized_fields = [];
         plotRi(Ri);
     end
 
+    if (ismember('Rb',fields) && (ismember('Rb',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Rb'];
+        Rb = results.Rb;
+        plotRb(Rb);
+    end
+
     if (ismember('dRi',fields) && (ismember('dRi',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'dRi'];
         dRi = results.dRi;

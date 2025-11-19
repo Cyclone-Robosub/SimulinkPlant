@@ -9,7 +9,7 @@ switch mode_id
         X_target = zeros(6,1);
     case 1
         %lookup current maneuver in the listhold on
-        if(current_maneuver_index < length(mission_file))
+        if(current_maneuver_index <= length(mission_file))
             current_maneuver = mission_file(current_maneuver_index,1);
             
             %depending on what type of maneuver it is, update timers, index, and the
