@@ -68,13 +68,7 @@ for k = 1:length(force_list)
         if(lower_force_index == upper_force_index)
             alpha = 0;
         else
-            if(upper_force_index <= length(force_list) && lower_force_index >= 0)
-                alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
-            else
-                upper_force_index = length(force_list);
-                lower_force_index = 1;
-                alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
-            end
+            alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
         end
     
         %find closest pwm to this force

@@ -12,10 +12,13 @@ Created on Nov 6, 2025 -KJH
 %}
 
 %% Setup
-prj_paths_list = getProjectPaths(); %load the file paths identified on prj start
-data_folders_path = prj_paths_list.user_data_path;
+
+data_folders_path = '/Users/matthewlin/coding/SimulinkPlant/src/temp';
 
 %toggles
+draw_manny_body = 1;
+draw_thrust_vectors = 0; %not yet written
+draw_Ri = 0; %not yet written
 %specifiy the names of the specific data folders in the source directory.
 %leave this empty to plot all folders.
 folders_to_plot = "";
@@ -77,7 +80,7 @@ for k = 1:length(folderNames)
             Eul = Eul_full(j,2:4);
             C = eul2rotm([Eul(3) Eul(2) Eul(1)]);
             kdrawManny(R,C,'Figure',f);
-            kdrawAxis('Figview(ax,3)ure',f);
+            kdrawAxis('Figure',f);
             title(folder_name_k)
             frame = getframe(f);
             [A,map] = rgb2ind(frame2im(frame),256);

@@ -7,6 +7,7 @@ on how to use this codebase.
 %}
 clc
 close all
+clear all
 
 %% 1 - Add files to the search path.
 
@@ -16,7 +17,6 @@ try
 catch
     error("You are running the startup script before you opened the project. That won't work.")
 end
-%get all the relevant paths to things in the project
 root_path = prj.RootFolder;
 src_path = fullfile(root_path,'src');
 temp_path = fullfile(src_path,'temp');
@@ -27,9 +27,7 @@ startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
 cache_path = fullfile(root_path,'codegen','slprj_and_caches');
 asv_path = fullfile(root_path,'codegen','autosaves');
-
-
-%add all necessary paths to the project path so it can see them
+%add all necessary paths to the project path
 addpath(root_path);
 addpath(startup_path);
 addpath(closedown_path);
@@ -41,11 +39,8 @@ src_sub_folders = split(src_sub_folders,pathsep);
 src_sub_folders(src_sub_folders=="") = [];
 %convert to cell array for addpath
 src_sub_folders = cellstr(src_sub_folders);
-
-warningState = warning('off','all');
 %add them all to the path
 addpath(src_sub_folders{:});
-warning(warningState);
 
 %% 2 - Check for and/or create missing folders.
 
@@ -94,8 +89,8 @@ prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
-cd(prj_path_list.root_path)
-fprintf("Filepaths configured successfully. Moving you to project root folder.\n");
+cd(inits_path)
+fprintf("Filepaths configured successfully. Moving you to inits.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
 Simulink.fileGenControl('set',...
