@@ -66,14 +66,15 @@ test_ft_list = zeros(8,1); %used by Dynamics
 dt_sim = 0.001;
 
 %simulation duration
-tspan = 5;
+tspan = Inf;
 
 %data saving rate
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 
 %controller update rate
-dt_control = 0.01;
+dt_control_target = 1/60;
+dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -86,12 +87,8 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"mission_file.txt");
+mission_file_path = fullfile(prj_paths.inits_path,"MF_JOY_Infinite.txt");
 mission_file = importMissionCSV(mission_file_path);
-
-%control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
-mode_id = 1;
-
 
 %target state
 R_target = [0; 0; 0;];
@@ -99,10 +96,10 @@ Eul_target = [0; 0; 0];
 X_target = [R_target;Eul_target];
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Feedforward_Control");
+simIn = Simulink.SimulationInput("Full_System_HIL");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {'Ri','Rb','Eul','FT_list','PWM'};
-plotAllOutputs(results,plots);
+%plots = {'Ri','Rb','Eul','FT_list','PWM'};
+%plotAllOutputs(results,plots);

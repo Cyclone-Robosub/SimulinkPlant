@@ -25,9 +25,9 @@ pitchUp = maneuver(FT_wrench,MT_wrench,[0 0 0 0 1 0]); %9
 
 pitchDown = maneuver(FT_wrench,MT_wrench,[0 0 0 0 -1 0]); %10
 
-rollLeft = maneuver(FT_wrench,MT_wrench,[0 0 0 -1 0 0]);
+rollLeft = maneuver(FT_wrench,MT_wrench,[0 0 0 -1 0 0]); %11
 
-rollRight = maneuver(FT_wrench,MT_wrench,[0 0 0 1 0 0]);
+rollRight = maneuver(FT_wrench,MT_wrench,[0 0 0 1 0 0]); %12
 
 %masks to pass into simulink
 masks = zeros(8,12);
