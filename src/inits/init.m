@@ -65,10 +65,10 @@ test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
 %simulation time step
-dt_sim = 0.0001;
+dt_sim = 0.001;
 
 %simulation duration
-tspan = 10;
+tspan = 30;
 
 %data saving rate
 dt_data_target = 1/30;

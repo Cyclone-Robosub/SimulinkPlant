@@ -24,8 +24,8 @@ p = inputParser;
 addParameter(p,'Margin',1) %sets spacing around the center of Manny
 addParameter(p,'View',3) %controls the direction of the observer
 addParameter(p,'DynamicCameraMotion',1) %controls whether the camera tracks Manny
-addParameter(p,'MakeGif',0)
-addParameter(p,'MakeVideo',1)
+addParameter(p,'MakeGif',1)
+addParameter(p,'MakeVideo',0)
 addParameter(p,'OpenFolder',1)
 
 %parse
@@ -123,7 +123,7 @@ for k = 1:frameskip:length(t)
         percent_complete = frame_index/nFrames*100;
 
         fprintf(repmat('\b',1,percent_text));
-        percent_text = fprintf("Gif is %.2f%% Complete\n",percent_complete);
+        percent_text = fprintf("Media is %.2f%% Complete\n",percent_complete);
     end
 end
 

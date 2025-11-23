@@ -2,7 +2,7 @@ clear forward backward up down left right yawLeft yawRight pitchUp pitchDown rol
 
 %sets up a maneuver (tuned for sim)
 forward = maneuver(FT_wrench,MT_wrench,[1 0 0 0 0 0]); %1
-forward = forward.setCorrectionFM([0 0 -1 0 0 0],0.1);
+forward = forward.setCorrectionFM([0 0 -1 0 0 0],0.029);
 
 backward = maneuver(FT_wrench,MT_wrench,[-1 0 0 0 0 0]); %2
 backward = backward.setCorrectionFM([0 0 1 0 0 0],-.008);

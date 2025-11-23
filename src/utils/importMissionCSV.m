@@ -1,11 +1,12 @@
 function mission_file = importMissionCSV(path)
 
 C = readcell(path);      % read everything as cells
-C = C(5:end,:);          % skip first 4 lines: metadata + header
+C = C(5:end,:);     % skip first 4 lines: metadata + header
 
+[n,m] = size(C);
 % convert empty or nonnumeric cells to zero
-for k = 1:size(C,1)
-    for j = 1:size(C,2)
+for k = 1:n
+    for j = 1:m
         v = C{k,j};
         if isempty(v) || ismissing(v)
             C{k,j} = 0;

@@ -10,7 +10,6 @@ function [command, current_maneuver_index, this_maneuver_end_time] = parseMissio
 % size(command) is 1x11, the extra time field is useful for FF control
 
 %enforce mission file orientation
-mission_file = mission_file(:).';
 [nrows,~] = size(mission_file);
 
 %lookup current maneuver on the list
