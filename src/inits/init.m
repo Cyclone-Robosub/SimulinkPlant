@@ -2,7 +2,8 @@
 This is the master initialization file for the Cyclone Robosub Simulink.
 
 This file can setup, run, plot, and save data from any simulation variant
-included in the system. 
+included in the system that does not require communication with systems
+external to MATLAB such as the joystick website, the robot, or Gazebo. 
 
 If you need to make significant modifcations to this file, create a copy
 instead and give it an extension such as init_variant and place it in init
@@ -12,13 +13,14 @@ archive.
 %% Housekeeping and Path Management
 clc
 close all
+clear results
 
 if(~exist('prj_paths','var'))
     prj_paths = getProjectPaths();
 end
 
 stashASVFiles(); %move pesky .asv files out of the way
-
+clearTemp();
 %% Parameters
 run('constants.m')
 
@@ -63,17 +65,17 @@ test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
 %simulation time step
-dt_sim = 0.001;
+dt_sim = 0.0001;
 
 %simulation duration
-tspan = Inf;
+tspan = 10;
 
 %data saving rate
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 
 %controller update rate
-dt_control_target = 1/60;
+dt_control_target = 1/100;
 dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
@@ -87,19 +89,19 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"MF_JOY_Infinite.txt");
+mission_file_path = fullfile(prj_paths.inits_path,"MF_FF_2_sec_yaw.txt");
 mission_file = importMissionCSV(mission_file_path);
 
-%target state
-R_target = [0; 0; 0;];
-Eul_target = [0; 0; 0];
-X_target = [R_target;Eul_target];
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Full_System_HIL");
+simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-%plots = {'Ri','Rb','Eul','FT_list','PWM'};
-%plotAllOutputs(results,plots);
+do_gif_flag = 1; %to create the gif
+do_state_save_flag = 0;
+saveAllOutputs(results,prj_path_list.temp_path,do_state_save_flag,do_gif_flag);
+
+plots = {'Ri','Eul','command','FT_cmd_list'};
+plotAllOutputs(results,plots);

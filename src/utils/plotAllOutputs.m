@@ -175,10 +175,10 @@ recognized_fields = [];
          %todo
      end
 
-     if (ismember('fT_cmd_list',fields) && (ismember('fT_cmd_list',plots) || plot_all_flag))
-         recognized_fields = [recognized_fields, 'fT_cmd_list'];
-         fT_cmd_list = results.fT_cmd_list;
-         plotfT_cmd_list(fT_cmd_list);
+     if (ismember('FT_cmd_list',fields) && (ismember('FT_cmd_list',plots) || plot_all_flag))
+         recognized_fields = [recognized_fields, 'FT_cmd_list'];
+         FT_cmd_list = results.FT_cmd_list;
+         plotFT_cmd_list(FT_cmd_list);
      end
 
      if (ismember('pwm_cmd_list',fields) && (ismember('pwm_cmd_list',plots) || plot_all_flag))
@@ -186,6 +186,8 @@ recognized_fields = [];
          pwm_cmd_list = results.pwm_cmd_list;
          plotpwm_cmd_list(pwm_cmd_list);
      end
+
+
 
      % %loop through unrecognized fields and plot using plotUnknownSignal.
      if(plot_all_flag)

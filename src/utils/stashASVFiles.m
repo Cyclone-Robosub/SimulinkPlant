@@ -2,7 +2,6 @@ function stashASVFiles()
 
 % Moves all .asv files in the SimulinkPlant project and subfolders
 % into a dedicated autosave folder: SimulinkPlant/codegen/autosaves
-% Generative AI was used in the creation of this code.
 
     % call getProjectPaths if it doesn't exist
     if(~exist('prj_paths','var'))

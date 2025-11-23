@@ -45,6 +45,6 @@ switch(id)
 end
 
 FT_cmd_list = thrusterMaskToForce(thruster_mask,max_thruster_force); 
-
+FT_cmd_list = FT_cmd_list(:); %enforce column
 
 end

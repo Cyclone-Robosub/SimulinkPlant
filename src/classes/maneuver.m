@@ -27,7 +27,10 @@ classdef maneuver
             if nargin >= 3
                 targetFM = targetFM(:);
                 obj.default_mask = obj.inv_wrench*targetFM;
+                obj.default_mask = obj.normalizeMask(obj.default_mask);
             end
+
+            obj.total_mask = obj.default_mask;
 
         end
         
@@ -59,13 +62,6 @@ classdef maneuver
             
         end
         
-        function FT_list = getFT_list(obj)
-            temp_mask = obj.default_mask + obj.correction_mask;
-            temp_mask = obj.normalizeMask(temp_mask);
-            obj.total_mask = temp_mask;
-            %scale mask by intensity
-            FT_list = obj.intensity.*obj.total_mask;
-        end
 
         function printManeuverData(obj)
             fprintf("Default Mask:\n")
@@ -84,7 +80,7 @@ classdef maneuver
             obj.correction_mask = obj.correction_mask + mask_addition;
             obj.total_mask = obj.correction_mask + obj.default_mask;
             
-
+            
         end
 
         function obj = tweakThrusters(obj,tweak_mask,tweak_intensity)
@@ -99,13 +95,22 @@ classdef maneuver
             %}
             addedFM = addedFM(:);
             new_mask = obj.inv_wrench*addedFM;
-            obj.correction_mask = correction_intensity*obj.normalizeMask(new_mask);
-
+            obj.correction_mask = correction_intensity.*obj.normalizeMask(new_mask);
+            
+            %update the total mask
+            temp_mask = obj.default_mask + obj.correction_mask;
+            temp_mask = obj.normalizeMask(temp_mask);
+            obj.total_mask = temp_mask;
         end
 
         function norm_mask = normalizeMask(obj,temp_mask)
-            temp_mask = temp_mask(:);
-            norm_mask = temp_mask./(max(abs(temp_mask)));
+            max_val = max(abs(temp_mask));
+            if(max_val > 1e-3)
+                temp_mask = temp_mask(:);
+                norm_mask = temp_mask./(max(abs(temp_mask)));
+            else
+                norm_mask = zeros(8,1);
+            end
         end
     end
 end
