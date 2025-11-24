@@ -59,7 +59,8 @@ if(~exist("project_path_list","var"))
 end
 
 %set up the figure
-f = figure('Visible','off','Position',[400 2400 1200 800]);ax = axes('Parent',f);
+f = figure('Visible','off','Position',[400 2400 1200 800]);
+ax = axes('Parent',f);
 axis(ax,'manual')
 axis(ax,Margin.*[-1 1 -1 1 -1 1])
 view(ax,View)

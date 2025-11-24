@@ -8,6 +8,7 @@ function [command, current_maneuver_index, this_maneuver_end_time] = parseMissio
             %this_maneuver_duration,this_maneuver_intensity,state_target...
             % this_maneuver_time] 
 % size(command) is 1x11, the extra time field is useful for FF control
+mission_file = mission_file(:)';
 
 %enforce mission file orientation
 [nrows,~] = size(mission_file);

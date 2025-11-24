@@ -28,7 +28,7 @@ run('constants.m')
 %initial intertial position
 xi_0 = 0;
 yi_0 = 0;
-zi_0 = 0;
+zi_0 = 3;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -68,7 +68,7 @@ test_ft_list = zeros(8,1); %used by Dynamics
 dt_sim = 0.001;
 
 %simulation duration
-tspan = 30;
+tspan = 10;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -89,7 +89,7 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"MF_FF_2_sec_yaw.txt");
+mission_file_path = fullfile(prj_paths.inits_path,"PID.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %% Simulation
