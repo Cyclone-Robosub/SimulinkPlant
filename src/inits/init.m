@@ -64,7 +64,7 @@ test_ft_list = zeros(8,1); %used by Dynamics
 %% Simulation Parameters
 
 %simulation duration
-tspan = 60;
+tspan = 5;
 
 %simulation time step
 dt_sim = 0.0001;
@@ -85,7 +85,7 @@ do_time_flag = 1;
 do_torque_flag = 1; 
 do_force_flag = 1; 
 do_Fb_correction = 0; 
-overwrite_mission_file_wp_flag = 1;
+overwrite_mission_file_wp_flag = 0;
 overwrite_mission_file_mode_flag = 1;
 
 %mission file
@@ -93,10 +93,10 @@ mission_file_path = fullfile(prj_path_list.inits_path,"mission_file.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
-mode_overwrite = 2;
+mode_overwrite = 1;
 
 %target state (only used if overwrite_mission_file_wp_flag = 1)
-R_target = [10; 0; 0;];
+R_target = [0; 0; 0;];
 Eul_target = [0; 0; 0];
 state_overwrite = [R_target;Eul_target];
 
