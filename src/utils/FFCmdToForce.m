@@ -18,19 +18,19 @@ switch(id)
         pitching moment due to the location of the forward and backward
         thrusters.
         %}
-        pif = 0.2; %pitch intensity front thrusters
-        pib = -0.2; %pitch intensity back thrusters
+        pif = -0.2; %pitch intensity front thrusters
+        pib = 0.2; %pitch intensity back thrusters
         thruster_mask = int*[pif pif pib pib 1 1 1 1]';
         %drive forward
 
     case 5 %"-x"
-        thruster_mask = int*[0 0 0 0 -1 -1 -1 -1]';
+        thruster_mask = int*[0.1 0.1 -0.1 -0.1 -1 -1 -1 -1]';
         %drive backward
     case 4 %"-yaw"
-        thruster_mask = int*[0 0 0 0 0 0 0 0]';
+        thruster_mask = int*[-0.02 -0.02 -0.02 -0.02 -0.88 0.95 -0.87 0.94]';
         %yaw ccw
     case 3 %"+yaw"
-        thruster_mask = int*[0 0 0 0 1 -.93 1 -.93]';
+        thruster_mask = int*[-0.01 -0.01 -0.01 -0.01 0.95 -0.88 0.94 -0.87]';
         %yaw cw
     case 6 %"-z"
         thruster_mask = int*[1 1 1 1 0 0 0 0]';
