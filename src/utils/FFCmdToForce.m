@@ -24,13 +24,13 @@ switch(id)
         %drive forward
 
     case 5 %"-x"
-        thruster_mask = int*[0.3 0.3 -0.2 -0.2 -1 -1 -1 -1]';
+        thruster_mask = int*[0.2 0.2 -0.2 -0.2 -1 -1 -1 -1]';
         %drive backward
     case 4 %"-yaw"
-        thruster_mask = int*[0.2 0.2 0.2 0.2 -0.88 0.95 -0.87 0.94]';
+        thruster_mask = int*[0.3 0.3 0.3 0.3 -0.01 1 -0.01 1]';
         %yaw ccw
     case 3 %"+yaw"
-        thruster_mask = int*[0.2 0.2 0.2 0.2 0.95 -0.88 0.94 -0.87]';
+        thruster_mask = int*[0.3 0.3 0.3 0.3 1 -0.01 1 -0.01]';
         %yaw cw
     case 6 %"-z"
         thruster_mask = int*[1 1 1 1 0 0 0 0]';
