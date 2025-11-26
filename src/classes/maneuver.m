@@ -70,6 +70,17 @@ classdef maneuver
             obj.correction_mask'
         end
 
+        function obj = setTotalMask(obj,mask)
+            mask = obj.normalizeMask(mask);
+            obj.total_mask = mask;
+
+        end
+
+        function obj = addCorrectionMask(obj, mask)
+            mask = obj.total_mask + mask;
+            obj.total_mask = obj.normalizeMask(mask);
+        end
+
         function obj = addCorrectionFM(obj,addedFM)
             %{
             Adds the specified force and moment to the existing correction
