@@ -59,16 +59,10 @@ recognized_fields = [];
         plotRi(Ri);
     end
 
-    if (ismember('R_error',fields) && (ismember('R_error',plots) || plot_all_flag))
-        recognized_fields = [recognized_fields, 'R_error'];
-        R_error = results.R_error;
-        plotR_error(R_error);
-    end
-
-    if (ismember('Eul_error',fields) && (ismember('Eul_error',plots) || plot_all_flag))
-        recognized_fields = [recognized_fields, 'Eul_error'];
-        Eul_error = results.Eul_error;
-        plotEul_error(Eul_error);
+    if (ismember('Rb',fields) && (ismember('Rb',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Rb'];
+        Rb = results.Rb;
+        plotRb(Rb);
     end
 
     if (ismember('dRi',fields) && (ismember('dRi',plots) || plot_all_flag))
@@ -166,6 +160,7 @@ recognized_fields = [];
 
      if (ismember('Fb_drag',fields) && (ismember('Fb_drag',plots) || plot_all_flag))
          %todo
+         plotFTb
      end
 
      if (ismember('Mb_drag',fields) && (ismember('Mb_drag',plots) || plot_all_flag))
@@ -180,10 +175,10 @@ recognized_fields = [];
          %todo
      end
 
-     if (ismember('fT_cmd_list',fields) && (ismember('fT_cmd_list',plots) || plot_all_flag))
-         recognized_fields = [recognized_fields, 'fT_cmd_list'];
-         fT_cmd_list = results.fT_cmd_list;
-         plotfT_cmd_list(fT_cmd_list);
+     if (ismember('FT_cmd_list',fields) && (ismember('FT_cmd_list',plots) || plot_all_flag))
+         recognized_fields = [recognized_fields, 'FT_cmd_list'];
+         FT_cmd_list = results.FT_cmd_list;
+         plotFT_cmd_list(FT_cmd_list);
      end
 
      if (ismember('pwm_cmd_list',fields) && (ismember('pwm_cmd_list',plots) || plot_all_flag))
@@ -191,6 +186,8 @@ recognized_fields = [];
          pwm_cmd_list = results.pwm_cmd_list;
          plotpwm_cmd_list(pwm_cmd_list);
      end
+
+
 
      % %loop through unrecognized fields and plot using plotUnknownSignal.
      if(plot_all_flag)

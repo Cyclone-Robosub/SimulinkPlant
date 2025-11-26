@@ -27,6 +27,7 @@ startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
 cache_path = fullfile(root_path,'codegen','slprj_and_caches');
 asv_path = fullfile(root_path,'codegen','autosaves');
+manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
 
 
 %add all necessary paths to the project path so it can see them
@@ -92,6 +93,7 @@ prj_path_list.cache_path = cache_path;
 prj_path_list.asv_path = asv_path;
 prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
+prj_path_list.manny_patch_path = manny_patch_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)

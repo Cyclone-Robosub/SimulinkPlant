@@ -77,7 +77,7 @@ for k = 1:length(folderNames)
             Eul = Eul_full(j,2:4);
             C = eul2rotm([Eul(3) Eul(2) Eul(1)]);
             kdrawManny(R,C,'Figure',f);
-            kdrawAxis('Figview(ax,3)ure',f);
+            kdrawAxis('Figure',f);
             title(folder_name_k)
             frame = getframe(f);
             [A,map] = rgb2ind(frame2im(frame),256);
