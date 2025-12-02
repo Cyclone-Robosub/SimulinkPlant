@@ -53,6 +53,8 @@ recognized_fields = [];
         plotCommand(command);
     end
 
+   
+
     if (ismember('Ri',fields) && (ismember('Ri',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'Ri'];
         Ri = results.Ri;

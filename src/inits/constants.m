@@ -21,6 +21,11 @@ PID = [3 0.14 17 5.3;...
     25.3 25.5 5.6 90.4;...
     50 150 21 30];
 
+% Unpack maneuverPlannerData
+maneuverPlannerData.ang_tol = 5*pi/180; % angle tolerance for holding angle setpoints
+maneuverPlannerData.trans_tol = 1; % transition tolerance from hybrid to 6dof mode
+maneuverPlannerData.hold_duration = 2;
+
 linear_saturation = 4;
 rotational_saturation = 5;
 

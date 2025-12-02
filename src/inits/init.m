@@ -15,8 +15,8 @@ clc
 close all
 clear results
 
-if(~exist('prj_paths','var'))
-    prj_paths = getProjectPaths();
+if(~exist('prj_path_list','var'))
+    prj_path_list = getProjectPaths();
 end
 
 stashASVFiles(); %move pesky .asv files out of the way
@@ -26,9 +26,9 @@ run('constants.m')
 
 %% Initial Conditions
 %initial intertial position
-xi_0 = 0;
-yi_0 = 0;
-zi_0 = 3;
+xi_0 = 10;
+yi_0 = 10;
+zi_0 = .5;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -65,7 +65,7 @@ test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
 %simulation time step
-dt_sim = 0.001;
+dt_sim = 0.0001;
 
 %simulation duration
 tspan = 10;
@@ -89,12 +89,12 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"PID.txt");
+mission_file_path = fullfile(prj_path_list.inits_path,"PID.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Feedforward_Control");
+simIn = Simulink.SimulationInput("Ideal_Control_System");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
