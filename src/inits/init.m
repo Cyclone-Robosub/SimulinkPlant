@@ -106,12 +106,36 @@ pitch_error_tol = 5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
 %% Simulation
+name = "Feedforward_Control";
+
+%specify all variables that will be logged w/ to-workspace
+%if no plots are provided, EVERYTHING will be plotted
+plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
+
+%disable unneeded to-workspace blocks for performance
+%TODO move this to a simulation startup script if possible
+
+%find all the to-workspace blocks
+to_workspace_blocks = find_system(name,'BlockType','ToWorkspace');
+
+%if the user chose some variable names to plot
+if exist('plots','var') && ~isempty(plots)
+    %loop over all the to-workspace blocks
+    for k = 1:numel(to_workspace_blocks)
+
+        %disable the blocks that are not included in plots
+        var_name = get_param(to_workspace_blocks{k},VariableName');
+        if ~ismember(var_name, plots)
+            set_param(to_workspace_blocks{k},'SaveOutput','off');
+        end
+    end
+end
+
 
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Feedforward_Control");
+simIn = Simulink.SimulationInput(name);
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
 plotAllOutputs(results,plots);

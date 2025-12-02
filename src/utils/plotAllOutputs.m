@@ -8,6 +8,9 @@ This function also plots any variables detected in the results structure
 that do not already have a plot function associated with them.
 
 The name of the field must match the name in plots exactly. 
+
+Changelog: 
+- Created 10/21/25 KJH
 %}
 
 %disable latex interpretations (they get confused by underscores)
@@ -85,14 +88,17 @@ recognized_fields = [];
 
     if (ismember('dq',fields) && (ismember('dq',plots) || plot_all_flag))
         %to do
+        %[4x1]
     end
 
     if (ismember('q',fields) && (ismember('q',plots) || plot_all_flag))
         %to do
+        %[4x1]
     end
 
     if (ismember('dw',fields) && (ismember('dw',plots) || plot_all_flag))
         %to do
+        %[3x1]
     end
 
     
@@ -140,6 +146,7 @@ recognized_fields = [];
 
     if (ismember('Mb',fields) && (ismember('Mb',plots) || plot_all_flag))
          %todo
+         %[3x1]
          
      end
 
@@ -151,14 +158,12 @@ recognized_fields = [];
      end
 
      if (ismember('Mb_buoy',fields) && (ismember('Mb_buoy',plots) || plot_all_flag))
-         %todo
          recognized_fields = [recognized_fields,'Mb_buoy'];
          Mb_buoy = results.Mb_buoy;
          plotMb_buoy(Mb_buoy);
      end
 
      if (ismember('Fi_buoy',fields) && (ismember('Fi_buoy',plots) || plot_all_flag))
-         %todo
          recognized_fields = [recognized_fields,'Fi_buoy'];
          Fi_buoy = results.Fi_buoy;
          plotFi_buoy(Fi_buoy);
@@ -166,24 +171,28 @@ recognized_fields = [];
 
      if (ismember('Fb_drag',fields) && (ismember('Fb_drag',plots) || plot_all_flag))
          %todo
+         %[3x1]
      end
 
      if (ismember('Mb_drag',fields) && (ismember('Mb_drag',plots) || plot_all_flag))
          %todo
+         %[3x1]
      end
 
      if (ismember('Fb_g',fields) && (ismember('Fb_g',plots) || plot_all_flag))
          %todo
+         %[3x1]
      end
 
      if (ismember('Mb_g',fields) && (ismember('Mb_g',plots) || plot_all_flag))
          %todo
+         %[3x1]
      end
 
-     if (ismember('fT_cmd_list',fields) && (ismember('fT_cmd_list',plots) || plot_all_flag))
-         recognized_fields = [recognized_fields, 'fT_cmd_list'];
-         fT_cmd_list = results.fT_cmd_list;
-         plotfT_cmd_list(fT_cmd_list);
+     if (ismember('FT_cmd_list',fields) && (ismember('FT_cmd_list',plots) || plot_all_flag))
+         recognized_fields = [recognized_fields, 'FT_cmd_list'];
+         FT_cmd_list = results.FT_cmd_list;
+         plotFT_cmd_list(FT_cmd_list);
      end
 
      if (ismember('pwm_cmd_list',fields) && (ismember('pwm_cmd_list',plots) || plot_all_flag))
