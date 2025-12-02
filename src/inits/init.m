@@ -110,7 +110,7 @@ name = "Feedforward_Control";
 
 %specify all variables that will be logged w/ to-workspace
 %if no plots are provided, EVERYTHING will be plotted
-plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
+plots = {'Ri','Eul'};
 
 %disable unneeded to-workspace blocks for performance
 %TODO move this to a simulation startup script if possible

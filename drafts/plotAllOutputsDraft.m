@@ -25,6 +25,7 @@ better scalability and cleaner implimentation. 12/01/25 KJH
 %disable latex interpretations (they get confused by underscores)
 set(groot,'defaultTextInterpreter','none')
 
+
 %detects if the user specified specific plots or if we should do everything
 if(isempty(varargin))
     plot_all_flag = 1;
