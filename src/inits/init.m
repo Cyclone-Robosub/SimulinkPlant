@@ -94,7 +94,7 @@ mission_file = importMissionCSV(mission_file_path);
 
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Feedforward_Control");
+simIn = Simulink.SimulationInput("Full_System_HIL");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
