@@ -1,9 +1,9 @@
 function mission_file = importMissionCSV(path)
-%pause warnings due to empty columns
-%read csv data into a table
-data = readtable(path,'Delimiter',',');
 
+C = readcell(path);      % read everything as cells
+C = C(5:end,:);     % skip first 4 lines: metadata + header
 
+<<<<<<< HEAD
 %remove the header
 mission_table = data(4:end,:);
 mission_table = table2cell(mission_table);
@@ -18,6 +18,22 @@ for j = 1:ncols
         val = mission_table{i,j};   
         if iscell(val)
             val = val{1};           
+=======
+[n,m] = size(C);
+% convert empty or nonnumeric cells to zero
+for k = 1:n
+    for j = 1:m
+        v = C{k,j};
+        if isempty(v) || ismissing(v)
+            C{k,j} = 0;
+        elseif ischar(v) || isstring(v)
+            x = str2double(v);
+            if isnan(x)
+                C{k,j} = 0;
+            else
+                C{k,j} = x;
+            end
+>>>>>>> 535677b54e63118dea342045f2f7a7cd66f7e9c6
         end
         if isempty(val)
             val = 0;
@@ -27,3 +43,10 @@ for j = 1:ncols
         mission_file(i,j) = val;
     end
 end
+<<<<<<< HEAD
+=======
+
+mission_file = cell2mat(C);
+
+end
+>>>>>>> 535677b54e63118dea342045f2f7a7cd66f7e9c6

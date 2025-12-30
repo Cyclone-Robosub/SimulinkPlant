@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>saveStateGif</title>
+<meta name="generator" content="MATLAB 25.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-11-23">
+<meta name="DC.source" content="saveStateGif.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<pre class="codeinput">
+<span class="keyword">function</span> saveStateGif(t,Ri,Cib,filepath,name,varargin)
+<span class="comment">%{
+</span><span class="comment">This function creates an animated gif of Manny and saves it to a file.
+</span><span class="comment">Using default settings, the gif will need about 1 second of render time per
+</span><span class="comment">one second of simulated time. Adjusting the settings from default can
+</span><span class="comment">reduce or improve this time, the most influential factor being the
+</span><span class="comment">framerate.
+</span><span class="comment">
+</span><span class="comment">INPUTS
+</span><span class="comment">t - [Nx1] time vector (s)
+</span><span class="comment">Ri - [Nx3] inertial position vector (m)
+</span><span class="comment">Cib - [3x3xN] vector of rotation matrices from the body to inertial frame
+</span><span class="comment">filepath - [string] path where the output media will be saved
+</span><span class="comment">name - [string] name assigned to the output media
+</span><span class="comment">
+</span><span class="comment">%}
+</span><span class="comment">%parse optional kwargs</span>
+p = inputParser;
+
+<span class="comment">%optional inputs</span>
+addParameter(p,<span class="string">'Margin'</span>,1) <span class="comment">%sets spacing around the center of Manny</span>
+addParameter(p,<span class="string">'View'</span>,3) <span class="comment">%controls the direction of the observer</span>
+addParameter(p,<span class="string">'DynamicCameraMotion'</span>,1) <span class="comment">%controls whether the camera tracks Manny</span>
+addParameter(p,<span class="string">'MakeGif'</span>,0)
+addParameter(p,<span class="string">'MakeVideo'</span>,1)
+addParameter(p,<span class="string">'OpenFolder'</span>,1)
+
+<span class="comment">%parse</span>
+parse(p,varargin{:});
+
+<span class="comment">%name the variables more sensible things</span>
+Margin = p.Results.Margin;
+View = p.Results.View;
+DynamicCameraMotion = p.Results.DynamicCameraMotion;
+MakeGif = p.Results.MakeGif;
+MakeVideo = p.Results.MakeVideo;
+OpenFolder = p.Results.OpenFolder;
+
+<span class="comment">%start a timer</span>
+tic
+
+<span class="comment">%enforce Ri [3xN] for later manipulation</span>
+Ri = enforceTallSkinny(Ri)';
+
+fprintf(<span class="string">"Creating media.\n"</span>);
+
+<span class="comment">%precompute axis bounds</span>
+<span class="keyword">if</span>(DynamicCameraMotion)
+    bound_matrix = [-Margin+Ri(1,:);Margin+Ri(1,:);-Margin+Ri(2,:);Margin+Ri(2,:);<span class="keyword">...</span>
+        -Margin+Ri(3,:);Margin+Ri(3,:)];
+<span class="keyword">end</span>
+
+<span class="comment">% Make sure file paths are available to this function</span>
+<span class="keyword">if</span>(~exist(<span class="string">"project_path_list"</span>,<span class="string">"var"</span>))
+    project_path_list = getProjectPaths();
+<span class="keyword">end</span>
+
+<span class="comment">%identify sensible data bounds based on how far the robot moves</span>
+<span class="comment">%lower_bound = floor(min([min(Ri(:,1)),min(Ri(:,2)),min(Ri(:,3))]));</span>
+<span class="comment">%upper_bound = ceil(max([max(Ri(:,1)),max(Ri(:,2)),max(Ri(:,3))]));</span>
+
+<span class="comment">%set up the figure</span>
+f = figure(<span class="string">'Visible'</span>,<span class="string">'off'</span>,<span class="string">'Position'</span>,[400 2400 1200 800]);ax = axes(<span class="string">'Parent'</span>,f);
+axis(ax,<span class="string">'manual'</span>)
+axis(ax,Margin.*[-1 1 -1 1 -1 1])
+view(ax,View)
+hold <span class="string">on</span>
+xlabel(<span class="string">"x"</span>)
+ylabel(<span class="string">"y"</span>)
+zlabel(<span class="string">"z"</span>)
+title(name)
+set(gca,<span class="string">'Zdir'</span>,<span class="string">'reverse'</span>)
+set(gca,<span class="string">'Ydir'</span>,<span class="string">'reverse'</span>)
+
+<span class="comment">%load the patch data for Manny from where it is stored in the file system</span>
+<span class="comment">%will be already on path if using project structure correctly</span>
+p_struct = load(<span class="string">"manny_patch.mat"</span>,<span class="string">"p"</span>);
+p = p_struct.p;
+
+<span class="comment">% Set up lighting</span>
+light(<span class="string">'Position'</span>,[1 1 1],<span class="string">'Style'</span>,<span class="string">'infinite'</span>);
+
+<span class="comment">%identify timestep in data</span>
+dt = t(2)-t(1);
+
+<span class="comment">%get frames</span>
+tObj = hgtransform(<span class="string">'Parent'</span>,ax);
+p.Parent = tObj;
+
+<span class="comment">%TODO - Make frameskip a keyword argument</span>
+frameskip = 1;
+frame_index = 1;
+
+<span class="comment">%frames</span>
+nFrames = round(length(t)/frameskip);
+frameArray = cell(1,nFrames);  <span class="comment">% store frames</span>
+
+<span class="comment">%Start printout percentage</span>
+percent_text = fprintf(<span class="string">"Media is 0.00%% Complete"</span>);
+
+<span class="keyword">for</span> k = 1:frameskip:length(t)
+    <span class="comment">%get rotation and position at timestep k</span>
+    Cibk = Cib(:,:,k);
+    Rik = Ri(:,k);
+
+    <span class="comment">%build transform matrix</span>
+    T = eye(4);
+    T(1:3,1:3) = Cibk;
+    T(1:3,4) = Rik;
+    tObj.Matrix = T;
+
+    <span class="comment">%draw plot and save the frame</span>
+    drawnow <span class="string">limitrate</span>;
+    frameArray{frame_index} = getframe(f);
+    frame_index = frame_index + 1;
+
+    <span class="comment">%update axis to track Manny's position</span>
+    <span class="keyword">if</span>(DynamicCameraMotion)
+        axis(ax,bound_matrix(:,k))
+    <span class="keyword">end</span>
+
+    <span class="comment">%print progress to user every 10 frames</span>
+    <span class="keyword">if</span>(mod(frame_index,10)==0)
+        percent_complete = frame_index/nFrames*100;
+
+        fprintf(repmat(<span class="string">'\b'</span>,1,percent_text));
+        percent_text = fprintf(<span class="string">"Gif is %.2f%% Complete\n"</span>,percent_complete);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+close(f);
+
+
+<span class="keyword">if</span>(MakeVideo)
+    video_path = fullfile(filepath,name + <span class="string">".avi"</span>);
+    v = VideoWriter(video_path,<span class="string">'Motion JPEG AVI'</span>);
+    v.FrameRate = 1/dt;
+    open(v);
+
+    <span class="keyword">for</span> k = 1:nFrames
+        writeVideo(v,frameArray{k});
+    <span class="keyword">end</span>
+
+    close(v);
+<span class="keyword">end</span>
+
+
+<span class="keyword">if</span>(MakeGif)
+    <span class="comment">%define the path for the gif</span>
+    gif_path = fullfile(filepath,name+<span class="string">".gif"</span>);
+    <span class="keyword">for</span> k = 1:nFrames
+        <span class="comment">%convert each frame to grayscale for speed</span>
+        grayFrame = rgb2gray(frameArray{k}.cdata);
+        <span class="comment">%convert each frame to a 256x256 indexed image "A" with colormap "map"</span>
+        [A,map] = gray2ind(grayFrame,256);
+        <span class="comment">%append the image to the gif</span>
+        <span class="keyword">if</span> k == 1
+            imwrite(A,map,gif_path,<span class="string">'gif'</span>,<span class="string">'LoopCount'</span>,inf,<span class="string">'DelayTime'</span>,frameskip*dt);
+        <span class="keyword">else</span>
+            imwrite(A,map,gif_path,<span class="string">'gif'</span>,<span class="string">'WriteMode'</span>,<span class="string">'append'</span>,<span class="string">'DelayTime'</span>,frameskip*dt);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">%Overwrite prior text line with new one to avoid annoying scrolling</span>
+fprintf(repmat(<span class="string">'\b'</span>,1,percent_text));
+fprintf(<span class="string">"Gif is 100.0%% Complete\n"</span>);
+t1 = toc;
+fprintf(<span class="string">"Time elapsed: %.2f seconds.\n"</span>,t1)
+
+<span class="comment">%Open the file location of the gif if the user chooses</span>
+<span class="keyword">if</span>(OpenFolder)
+    <span class="keyword">try</span>
+        winopen(filepath);
+    <span class="keyword">catch</span>
+        fprintf(<span class="string">"Failed to open the gif folder.\nThis feature only works on windows right now ):"</span>)
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2025b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+function saveStateGif(t,Ri,Cib,filepath,name,varargin)
+%{
+This function creates an animated gif of Manny and saves it to a file.
+Using default settings, the gif will need about 1 second of render time per
+one second of simulated time. Adjusting the settings from default can
+reduce or improve this time, the most influential factor being the 
+framerate.
+
+INPUTS
+t - [Nx1] time vector (s)
+Ri - [Nx3] inertial position vector (m)
+Cib - [3x3xN] vector of rotation matrices from the body to inertial frame
+filepath - [string] path where the output media will be saved
+name - [string] name assigned to the output media
+
+%}
+%parse optional kwargs
+p = inputParser;
+
+%optional inputs
+addParameter(p,'Margin',1) %sets spacing around the center of Manny
+addParameter(p,'View',3) %controls the direction of the observer
+addParameter(p,'DynamicCameraMotion',1) %controls whether the camera tracks Manny
+addParameter(p,'MakeGif',0)
+addParameter(p,'MakeVideo',1)
+addParameter(p,'OpenFolder',1)
+
+%parse
+parse(p,varargin{:});
+
+%name the variables more sensible things
+Margin = p.Results.Margin;
+View = p.Results.View;
+DynamicCameraMotion = p.Results.DynamicCameraMotion;
+MakeGif = p.Results.MakeGif;
+MakeVideo = p.Results.MakeVideo;
+OpenFolder = p.Results.OpenFolder;
+
+%start a timer
+tic
+
+%enforce Ri [3xN] for later manipulation
+Ri = enforceTallSkinny(Ri)';
+
+fprintf("Creating media.\n");
+
+%precompute axis bounds
+if(DynamicCameraMotion)
+    bound_matrix = [-Margin+Ri(1,:);Margin+Ri(1,:);-Margin+Ri(2,:);Margin+Ri(2,:);...
+        -Margin+Ri(3,:);Margin+Ri(3,:)];
+end
+
+% Make sure file paths are available to this function
+if(~exist("project_path_list","var"))
+    project_path_list = getProjectPaths();
+end
+
+%identify sensible data bounds based on how far the robot moves
+%lower_bound = floor(min([min(Ri(:,1)),min(Ri(:,2)),min(Ri(:,3))]));
+%upper_bound = ceil(max([max(Ri(:,1)),max(Ri(:,2)),max(Ri(:,3))]));
+
+%set up the figure
+f = figure('Visible','off','Position',[400 2400 1200 800]);ax = axes('Parent',f);
+axis(ax,'manual')
+axis(ax,Margin.*[-1 1 -1 1 -1 1])
+view(ax,View)
+hold on
+xlabel("x")
+ylabel("y")
+zlabel("z")
+title(name)
+set(gca,'Zdir','reverse')
+set(gca,'Ydir','reverse')
+
+%load the patch data for Manny from where it is stored in the file system
+%will be already on path if using project structure correctly
+p_struct = load("manny_patch.mat","p");
+p = p_struct.p;
+
+% Set up lighting
+light('Position',[1 1 1],'Style','infinite');
+
+%identify timestep in data
+dt = t(2)-t(1);
+
+%get frames
+tObj = hgtransform('Parent',ax);
+p.Parent = tObj;
+
+%TODO - Make frameskip a keyword argument
+frameskip = 1;
+frame_index = 1;
+
+%frames
+nFrames = round(length(t)/frameskip);
+frameArray = cell(1,nFrames);  % store frames
+
+%Start printout percentage
+percent_text = fprintf("Media is 0.00%% Complete");
+
+for k = 1:frameskip:length(t)
+    %get rotation and position at timestep k
+    Cibk = Cib(:,:,k);
+    Rik = Ri(:,k);
+
+    %build transform matrix
+    T = eye(4);
+    T(1:3,1:3) = Cibk;
+    T(1:3,4) = Rik;
+    tObj.Matrix = T;
+
+    %draw plot and save the frame
+    drawnow limitrate;
+    frameArray{frame_index} = getframe(f);
+    frame_index = frame_index + 1;
+    
+    %update axis to track Manny's position
+    if(DynamicCameraMotion)
+        axis(ax,bound_matrix(:,k))
+    end
+
+    %print progress to user every 10 frames
+    if(mod(frame_index,10)==0)
+        percent_complete = frame_index/nFrames*100;
+
+        fprintf(repmat('\b',1,percent_text));
+        percent_text = fprintf("Gif is %.2f%% Complete\n",percent_complete);
+    end
+end
+
+close(f);
+
+
+if(MakeVideo)
+    video_path = fullfile(filepath,name + ".avi");
+    v = VideoWriter(video_path,'Motion JPEG AVI');
+    v.FrameRate = 1/dt;
+    open(v);
+
+    for k = 1:nFrames
+        writeVideo(v,frameArray{k});
+    end
+
+    close(v);
+end
+
+
+if(MakeGif)
+    %define the path for the gif
+    gif_path = fullfile(filepath,name+".gif");
+    for k = 1:nFrames
+        %convert each frame to grayscale for speed
+        grayFrame = rgb2gray(frameArray{k}.cdata);
+        %convert each frame to a 256x256 indexed image "A" with colormap "map"
+        [A,map] = gray2ind(grayFrame,256);
+        %append the image to the gif
+        if k == 1
+            imwrite(A,map,gif_path,'gif','LoopCount',inf,'DelayTime',frameskip*dt);
+        else
+            imwrite(A,map,gif_path,'gif','WriteMode','append','DelayTime',frameskip*dt);
+        end
+    end
+
+end
+
+%Overwrite prior text line with new one to avoid annoying scrolling
+fprintf(repmat('\b',1,percent_text));
+fprintf("Gif is 100.0%% Complete\n");
+t1 = toc;
+fprintf("Time elapsed: %.2f seconds.\n",t1)
+
+%Open the file location of the gif if the user chooses
+if(OpenFolder)
+    try
+        winopen(filepath);
+    catch
+        fprintf("Failed to open the gif folder.\nThis feature only works on windows right now ):")
+    end
+
+end
+##### SOURCE END #####
+-->
+</body>
+</html>
