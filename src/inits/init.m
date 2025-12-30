@@ -68,7 +68,7 @@ test_ft_list = zeros(8,1); %used by Dynamics
 dt_sim = 0.0001;
 
 %simulation duration
-tspan = 10;
+tspan = 1;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -89,19 +89,18 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 
 %mission file
-mission_file_path = fullfile(prj_path_list.inits_path,"PID.txt");
+mission_file_path = fullfile(prj_path_list.inits_path,"mission_file.txt");
 mission_file = importMissionCSV(mission_file_path);
 
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Ideal_Control_System");
+simIn = Simulink.SimulationInput("PID_Tuning_Ideal_Feedback_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-do_gif_flag = 1; %to create the gif
+do_gif_flag = 0; %to create the gif
 do_state_save_flag = 0;
-saveAllOutputs(results,prj_path_list.temp_path,do_state_save_flag,do_gif_flag);
+%saveAllOutputs(results,prj_path_list.temp_path,do_state_save_flag,do_gif_flag);
 
-plots = {'Ri','Eul','command','FT_cmd_list'};
-plotAllOutputs(results,plots);
+plotAllOutputs(results);
