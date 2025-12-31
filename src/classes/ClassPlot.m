@@ -7,6 +7,7 @@ classdef ClassPlot
         %set by constructor
         name
         layout
+        signal_map
         titles
         supertitle
         h_label
@@ -30,6 +31,7 @@ classdef ClassPlot
 
             obj.name = name;
             obj.layout = layout;
+            obj.signal_map = signal_map
 
             %verify the number of plots equals the number of rows of the
             %signal map and stop the plotting if the map is invalid
@@ -78,29 +80,7 @@ classdef ClassPlot
 
 
         end
-        
-        function plot(obj)
-            %{
-            This function overloads the "plot" method to allow the
-            plot(foo) function to input foo of type ClassPlot.
-            %}
 
-            %Code here to make the plot
-            
-        end
-
-        function newClassPlot = compare(obj,otherClassPlot,style)
-            %{
-            This function takes the current class plot and additional
-            ClassPlot and builds a new ClassPlot including both signals for
-            comparison. 
-
-            Style specifies whether the signals are compared by stacking
-            subplots vertically or by overlaying the signals. 
-            %}
-
-            %to do
-        end
 
         function obj = loadData(obj,results)
             %{
@@ -112,28 +92,83 @@ classdef ClassPlot
             fields = results.who; %list of names in the results structure
             if(ismember(obj.name,fields))
                 obj.data_struct = results.(obj.name);
-            end
-            obj.t = obj.data_struct.Time;
-            obj.signals = squeeze(obj.data_struct.Data);
-            obj.signals = enforceTallSkinny(obj.signals);
 
-            %make sure the data is plottable
-            [n_plots,signals_per_plot] = size(signal_map);
-            n_signals_expected = n_plots*signals_per_plot;
-            [~,n_signals] = size(obj.signals);
-            if(~isequal(n_signals,n_signals_expected))
-                warning("Invalid data in the ClassPlot for %s.",obj.name)
-                obj.valid_data_flag = false;
+                obj.t = results.Time;
+                obj.data_struct
+                obj.signals = squeeze(obj.data_struct.Data);
+                obj.signals = enforceTallSkinny(obj.signals);
+
+                %make sure the data is plottable
+                [n_plots,signals_per_plot] = size(obj.signal_map);
+                n_signals_expected = n_plots*signals_per_plot;
+                [~,n_signals] = size(obj.signals);
+                if(~isequal(n_signals,n_signals_expected))
+                    warning("Invalid data in the ClassPlot for %s.",obj.name)
+                    obj.valid_data_flag = false;
+                else
+                    obj.valid_data_flag = true;
+                end
+    
+                if(length(obj.t)<2)
+                    warning("Insufficient data points for plotting in ClassPlot for %s.",obj.name)
+                    obj.valid_data_flag = false;
+                end
+
             else
-                obj.valid_data_flag = true;
-            end
-
-            if(length(obj.t)<2)
-                warning("Insufficient data points for plotting in ClassPlot for %s.",obj.name)
+                %this flag will be set to invalid if the data is not in the
+                %results structure without a warning
                 obj.valid_data_flag = false;
             end
 
         end
 
+        function plot(obj)
+            %{
+            This function overloads the "plot" method to allow the
+            plot(foo) function to input foo of type ClassPlot.
+            %}
+
+            %Code here to make the plot
+            figure('Name',obj.name,'NumberTitle','off')
+            hold on
+            n_plots = obj.layout(1)*obj.layout(2);
+            row = 1;
+            col = 1;
+            for k = 1:n_plots
+                %if the number of columns exceeds what is expected, reset
+                %the column index and incriment to the next row
+                if(col > obj.layout(2))
+                    col = 1;
+                    row = row + 1;
+                end
+                
+                %figure out which signals belong on this subplot
+                subplot_signal_indices = obj.signal_map(k,:);
+                subplot_signals = obj.signals(:,subplot_signal_indices);
+
+                %figure out which legends belong on this subplot
+                subplot_legend = obj.legends(k,:);
+                
+                [~,n_signals] = size(subplot_signals);
+                subplot(row,col,k)
+                for j = 1:n_signals
+                    plot(obj.t,subplot_signals(:,j))
+                end
+                xlabel(obj.h_label)
+                ylabel(obj.v_labels(k))
+                legend(subplot_legend);
+
+                %if a super title is used, don't plot a title
+                if isempty(obj.titles)
+                    sgtitle(obj.supertitle)
+                else
+                    title(obj.titles(k))
+                end
+
+                %incriment the column count
+                col = col + 1;
+            end
+            
+        end
     end
 end
