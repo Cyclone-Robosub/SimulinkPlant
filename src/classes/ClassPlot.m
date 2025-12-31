@@ -39,7 +39,6 @@ classdef ClassPlot
             %todo: Input validation
         end
 
-
         function obj = loadData(obj,results)
             %{
             This function populates the classes time and data fields using
@@ -55,6 +54,7 @@ classdef ClassPlot
                     data = squeeze(results.(obj.fields(k)).Data);
                     data = enforceTallSkinny(data);
                     obj.signals = [obj.signals,data];
+                    obj.valid_data_flag = true;
                 else
                     %if the necessary field is not found, don't make plot
                     obj.valid_data_flag = false;
@@ -73,41 +73,47 @@ classdef ClassPlot
             n_rows = obj.layout(1);
             n_cols = obj.layout(2);
             n_plots = n_rows*n_cols;
-
-            %create the figure
-            figure('Name',obj.name,'NumberTitle','off')
             
-
-            %loop through each subplot
-            for k = 1:n_plots
-                subplot(n_rows,n_cols,k)
-                hold on
-                %get the settings for this subplot
-                signalsk = obj.signal_map{k};
-                v_labelk = obj.v_labels(k);
-                subtitlek = obj.subtitles(k);
-                legendk = obj.legends{k};
-
-                %plot each signal
-                for j = 1:length(signalsk)
-                    plot(obj.t,obj.signals(:,signalsk(j)))
-                    xlabel(obj.h_label)
-                    ylabel(v_labelk)
-                    if(~isequal(subtitlek,""))
-                        title(subtitlek)
+            if(obj.valid_data_flag)
+                %create the figure
+                figure('Name',obj.name,'NumberTitle','off')
+                
+    
+                %loop through each subplot
+                for k = 1:n_plots
+                    subplot(n_rows,n_cols,k)
+                    hold on
+                    %get the settings for this subplot
+                    signalsk = obj.signal_map{k};
+                    v_labelk = obj.v_labels(k);
+                    subtitlek = obj.subtitles(k);
+                    legendk = obj.legends{k};
+    
+                    %plot each signal
+                    for j = 1:length(signalsk)
+                        plot(obj.t,obj.signals(:,signalsk(j)))
+                        xlabel(obj.h_label)
+                        ylabel(v_labelk)
+                        if(~isequal(subtitlek,""))
+                            title(subtitlek)
+                        end
+                        
                     end
-                    
+    
+                    if(~isequal(legendk,""))
+                        legend(legendk)
+                    end
                 end
-
-                if(~isequal(legendk,""))
-                    legend(legendk)
+                
+                if(~isequal(obj.supertitle,""))
+                    sgtitle(obj.supertitle)
                 end
-            end
-            
-            if(~isequal(obj.supertitle,""))
-                sgtitle(obj.supertitle)
             end
         end %plot
 
+        function combinedClassPlot = compare(obj,other)
+            %this function combines two classplots
+            %todo
+        end
     end %methods
 end %ClassPlot
