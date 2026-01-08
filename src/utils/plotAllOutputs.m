@@ -53,12 +53,26 @@ recognized_fields = [];
         plotCommand(command);
     end
 
+   
+
     if (ismember('Ri',fields) && (ismember('Ri',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'Ri'];
         Ri = results.Ri;
         plotRi(Ri);
     end
 
+<<<<<<< HEAD
+    if (ismember('R_error',fields) && (ismember('R_error',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'R_error'];
+        R_error = results.R_error;
+        plotR_error(R_error);
+    end
+
+    if (ismember('Eul_error',fields) && (ismember('Eul_error',plots) || plot_all_flag))
+        recognized_fields = [recognized_fields, 'Eul_error'];
+        Eul_error = results.Eul_error;
+        plotEul_error(Eul_error);
+=======
     if (ismember('Rb',fields) && (ismember('Rb',plots) || plot_all_flag))
         recognized_fields = [recognized_fields, 'Rb'];
         Rb = results.Rb;
@@ -160,7 +174,6 @@ recognized_fields = [];
 
      if (ismember('Fb_drag',fields) && (ismember('Fb_drag',plots) || plot_all_flag))
          %todo
-         plotFTb
      end
 
      if (ismember('Mb_drag',fields) && (ismember('Mb_drag',plots) || plot_all_flag))

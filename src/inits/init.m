@@ -2,10 +2,9 @@
 This is the master initialization file for the Cyclone Robosub Simulink.
 
 This file can setup, run, plot, and save data from any simulation variant
-included in the system that does not require communication with systems
-external to MATLAB such as the joystick website, the robot, or Gazebo. 
+included in the system. 
 
-If you need to make significant modifcations to this file, create a copy
+If you need to make significant modifications to this file, create a copy
 instead and give it an extension such as init_variant and place it in init
 archive.
 %}
@@ -13,14 +12,13 @@ archive.
 %% Housekeeping and Path Management
 clc
 close all
-clear results
 
-if(~exist('prj_paths','var'))
-    prj_paths = getProjectPaths();
+if(~exist('prj_path_list','var'))
+    prj_path_list = getProjectPaths();
 end
 
 stashASVFiles(); %move pesky .asv files out of the way
-clearTemp();
+
 %% Parameters
 run('constants.m')
 
@@ -28,7 +26,7 @@ run('constants.m')
 %initial intertial position
 xi_0 = 0;
 yi_0 = 0;
-zi_0 = 3;
+zi_0 = 0;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -64,19 +62,19 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 test_ft_list = zeros(8,1); %used by Dynamics
 
 %% Simulation Parameters
-%simulation time step
-dt_sim = 0.001;
 
 %simulation duration
-tspan = 10;
+tspan = 60;
+
+%simulation time step
+dt_sim = 0.0001;
 
 %data saving rate
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 
 %controller update rate
-dt_control_target = 1/100;
-dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
+dt_control = 0.01;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -87,21 +85,33 @@ do_time_flag = 1;
 do_torque_flag = 1; 
 do_force_flag = 1; 
 do_Fb_correction = 0; 
+overwrite_mission_file_wp_flag = 1;
+overwrite_mission_file_mode_flag = 1;
 
 %mission file
-mission_file_path = fullfile(prj_paths.inits_path,"PID.txt");
+mission_file_path = fullfile(prj_path_list.inits_path,"mission_file.txt");
 mission_file = importMissionCSV(mission_file_path);
 
+%control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
+mode_overwrite = 2;
+
+%target state (only used if overwrite_mission_file_wp_flag = 1)
+R_target = [10; 0; 0;];
+Eul_target = [0; 0; 0];
+state_overwrite = [R_target;Eul_target];
+
+%tolerances
+roll_error_tol = 5*pi/180;
+pitch_error_tol = 5*pi/180;
+yaw_error_tol = 5*pi/180;
+w_tol = 0.1;
 %% Simulation
+
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput("Feedforward_Control");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-do_gif_flag = 1; %to create the gif
-do_state_save_flag = 0;
-saveAllOutputs(results,prj_path_list.temp_path,do_state_save_flag,do_gif_flag);
-
-plots = {'Ri','Eul','command','FT_cmd_list'};
+plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
 plotAllOutputs(results,plots);

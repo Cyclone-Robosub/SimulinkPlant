@@ -15,7 +15,21 @@ mission_file = mission_file(:)';
 
 %lookup current maneuver on the list
 if(current_maneuver_index <= nrows)
+<<<<<<< HEAD
     this_control_mode = mission_file(current_maneuver_index,1);
+=======
+<<<<<<< HEAD
+    if(overwrite_mission_file_mode_flag)
+        this_control_mode = mode_overwrite;
+        
+    else
+        this_control_mode = mission_file(current_maneuver_index,1);
+    end
+
+=======
+    this_control_mode = mission_file(current_maneuver_index,1);
+>>>>>>> 535677b54e63118dea342045f2f7a7cd66f7e9c6
+>>>>>>> main
     this_maneuver_id = mission_file(current_maneuver_index,2);
     this_maneuver_duration = mission_file(current_maneuver_index,3);
     this_maneuver_intensity = mission_file(current_maneuver_index,4);
