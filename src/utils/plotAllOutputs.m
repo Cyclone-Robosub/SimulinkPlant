@@ -27,11 +27,18 @@ plots(12) = ClassPlot("pwm_cmd",["pwm_cmd"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],
 plots(13) = ClassPlot("FT_list",["FT_list"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Thruster Forces",["","","","","","","",""]);
 plots(14) = ClassPlot("FT_cmd_list",["FT_cmd_list"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Commanded Thruster Forces",["","","","","","","",""]);
 
-%positions
+%positions & velocities
+plots(18) = ClassPlot("Ri",["Ri"], [1,1] ,{[1, 2, 3]}, ["Position (m)"],"Time (s)",[""],"Inertial Position",["Rx","Ry","Rz"]);
+plots(19) = ClassPlot("dRi",["dRi"],[1,1], {[1, 2, 3]},["Velocity (m/s)"],"Time (s)",[""],"Inertial Velocity (NED)",{[""]});
+plots(22) = ClassPlot("Rb",["Rb"],[1,1],{[1, 2, 3]},["Position (m)"],"Time (s)",[""],"Body Frame Position",[""]);
+plots(23) = ClassPlot("dRb",["dRb"],[1,1],{[1, 2, 3]},["Velocity (m/s)"],"Time (s)",[""],"Body Frame Velocity (NED)",{[""]});
 
 %attitudes
-
-%velocities
+plots(15) = ClassPlot("q",["q"], [2, 1],{[1, 2, 3],[4, 0, 0],["Quaternion Scalar","Quaternion Vector"]},"Time (s)",["Quaternion Vector", "Quaternion Scalar"],"",{["q1", "q2", "q3"], ["q4"]});
+plots(16) = ClassPlot("Eul",["Eul"], [1,1], {[1, 2, 3]},["Angle (rad)"],"Time (s)",["",""], "Euler Angles", ["Roll", "Pitch", "Yaw"]);
+plots(17) = ClassPlot("dq",["dq"], [2, 1],{[1, 2, 3],[4, 0, 0],["",""]},"Time (s)",["Quaternion Vector Rate", "Quaternion Scalar Rate"],"Quaternion Rates",["dq1", "dq2", "dq3", "dq4"]);
+plots(20) = ClassPlot("w",["w"], [1,1], {[1, 2, 3]},["Angular Velocity (rad/s)"],"Time (s)",["",""], "Angular Velocity", ["wx", "wy", "wz"]);
+plots(21) = ClassPlot("dw",["dw"], [1,1], {[1, 2, 3]},["Angular Acceleration (rad/s^2)"],"Time (s)",["",""], "Angular Acceleration", ["dwx", "dwy", "dwz"]);
 
 %load all the plots with data from results
 for k = 1:length(plots)
