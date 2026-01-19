@@ -8,51 +8,30 @@ else
     plot_all_flag = true;
 end
 
-% Add new plots here
-%force and moment data
-plots(1) = ClassPlot("Fb Mb",["Fb","Mb"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Total Force","Total Moment"],"Total Forces on the Robot in Body Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(2) = ClassPlot("Fi Mi",["Fi","Mi"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Total Force","Total Moment"],"Total Forces on the Robot in Inertial Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(3) = ClassPlot("Fb_buoy Mb_buoy",["Fb_buoy","Mb_buoy"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Buoyant Force","Buoyant Moment"],"Buoyant Forces on the Robot in Body Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(4) = ClassPlot("Fi_buoy Mi_buoy",["Fi_buoy","Mi_buoy"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Buoyant Force","Buoyant Moment"],"Buoyant Forces on the Robot in Inertial Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(5) = ClassPlot("Fb_drag Mb_drag",["Fb_drag","Mb_drag"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Drag Force","Drag Moment"],"Drag Forces on the Robot in Body Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(6) = ClassPlot("Fi_drag Mi_drag",["Fi_drag","Mi_drag"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Drag Force","Drag Moment"],"Drag Forces on the Robot in Inertial Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(7) = ClassPlot("Fb_g Mb_g",["Fb_g","Mb_g"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Gravitational Force","Gravitational Moment"],"Gravitational Forces on the Robot in Body Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(8) = ClassPlot("Fi_g Mi_g",["Fi_g","Mi_g"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Gravitational Force","Gravitational Moment"],"Gravitational Forces on the Robot in Inertial Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(9) = ClassPlot("Fb_T Mb_T",["Fb_T","Mb_T"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Thruster Force","Thruster Moment"],"Thruster Forces on the Robot in Body Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
-plots(10) = ClassPlot("Fi_T Mi_T",["Fi_T","Mi_T"],[2,1],{[1,2,3];[4,5,6]},["Force (N)","Moment (N*m)"],"Time (s)",["Thruster Force","Thruster Moment"],"Thruster Forces on the Robot in Inertial Coordinates",{["Fx","Fy","Fz"],["Mx","My","Mz"]});
+%Plot details defined here.
+plots(1) = ClassPlot("cmd","cmd",[4,1],{[5,6,7],[8,9,10],[1,2,4],[3,11]},["Position (m)", "Angle (rad)", "Value", "Time (s)"],"Time (s)",["Position Target", "Attitude Target", "Maneuver Metadata", "Maneuver Timing"],"Command vs Time",{["x","y","z"],["roll","pitch","yaw"],["Mode","Maneuver ID", "Maneuver Intensity"],["Maneuver Duration", "Maneuver Time"]});
 
-%individual thruster data
-plots(11) = ClassPlot("pwm",["pwm"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Thruster PWM",["","","","","","","",""]);
-plots(12) = ClassPlot("pwm_cmd",["pwm_cmd"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)","pwm (us)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Commanded Thruster PWM",["","","","","","","",""]);
-plots(13) = ClassPlot("FT_list",["FT_list"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Thruster Forces",["","","","","","","",""]);
-plots(14) = ClassPlot("FT_cmd_list",["FT_cmd_list"],[4, 2],{[1],[2],[3],[4],[5],[6],[7],[8]},["Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)","Force (N)"],"Time (s)",["Thruster 0","Thruster 1","Thruster 2","Thruster 3","Thruster 4","Thruster 5","Thruster 6","Thruster 7"],"Commanded Thruster Forces",["","","","","","","",""]);
+plots(end+1) = ClassPlot("pwm_cmd","pwm_cmd",[4,2],{1,2,3,4,5,6,7,8},["pwm (us)","pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster PWM",{"","","","","","","",""});
 
-%positions & velocities
-plots(18) = ClassPlot("Ri",["Ri"], [1,1] ,{[1, 2, 3]}, ["Position (m)"],"Time (s)",[""],"Inertial Position",["Rx","Ry","Rz"]);
-plots(19) = ClassPlot("dRi",["dRi"],[1,1], {[1, 2, 3]},["Velocity (m/s)"],"Time (s)",[""],"Inertial Velocity (NED)",{[""]});
-plots(22) = ClassPlot("Rb",["Rb"],[1,1],{[1, 2, 3]},["Position (m)"],"Time (s)",[""],"Body Frame Position",[""]);
-plots(23) = ClassPlot("dRb",["dRb"],[1,1],{[1, 2, 3]},["Velocity (m/s)"],"Time (s)",[""],"Body Frame Velocity (NED)",{[""]});
+plots(end+1) = ClassPlot("FT_cmd_list","FT_cmd_list",[4,2],{1,2,3,4,5,6,7,8},["Force (N)","Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster Force",{"","","","","","","",""});
 
-%attitudes
-plots(15) = ClassPlot("q",["q"], [2, 1],{[1, 2, 3],[4, 0, 0],["Quaternion Scalar","Quaternion Vector"]},"Time (s)",["Quaternion Vector", "Quaternion Scalar"],"",{["q1", "q2", "q3"], ["q4"]});
-plots(16) = ClassPlot("Eul",["Eul"], [1,1], {[1, 2, 3]},["Angle (rad)"],"Time (s)",["",""], "Euler Angles", ["Roll", "Pitch", "Yaw"]);
-plots(17) = ClassPlot("dq",["dq"], [2, 1],{[1, 2, 3],[4, 0, 0],["",""]},"Time (s)",["Quaternion Vector Rate", "Quaternion Scalar Rate"],"Quaternion Rates",["dq1", "dq2", "dq3", "dq4"]);
-plots(20) = ClassPlot("w",["w"], [1,1], {[1, 2, 3]},["Angular Velocity (rad/s)"],"Time (s)",["",""], "Angular Velocity", ["wx", "wy", "wz"]);
-plots(21) = ClassPlot("dw",["dw"], [1,1], {[1, 2, 3]},["Angular Acceleration (rad/s^2)"],"Time (s)",["",""], "Angular Acceleration", ["dwx", "dwy", "dwz"]);
+plots(end+1) = ClassPlot("Ri, dRi, ddRi",["Ri","dRi","ddRi"],[3,1],{[1,2,3],[4,5,6],[7,8,9]},["Position (m)", "Velocity (m/s)", "Acceleration (m/s2)"],"Time (s)",["Inertial Position","Inertial Velocity","Inertial Acceleration"],"",{["Rix", "Riy", "Riz"],["dRix", "dRiy", "dRiz"],["ddRix","ddRiy","ddRiz"]});
 
-%load all the plots with data from results
-for k = 1:length(plots)
-    plots(k).loadData(results);
-end
+plots(end+1) = ClassPlot("Rb, dRb, ddRb",["Rb","dRb","ddRb"],[3,1],{[1,2,3],[4,5,6],[7,8,9]},["Position (m)", "Velocity (m/s)", "Acceleration (m/s2)"],"Time (s)",["Body Position","Body Velocity","Body Acceleration"],"",{["Rbx", "Rby", "Rbz"],["dRbx", "dRby", "dRbz"],["ddRbx","ddRby","ddRbz"]});
+
+plots(end+1) = ClassPlot("Fb, Mb",["Fb","Mb"],[2,1],{[1,2,3],[4,5,6]},["Force (N)", "Moment (Nm)"], "Time (s)", ["Body Force","Body Moment"],"",{["Fbx","Fby","Fbz"],["Mbx","Mby","Mbz"]});
+
+plots(end+1) = ClassPlot("Fi, Mi",["Fi","Mi"],[2,1],{[1,2,3],[4,5,6]},["Force (N)", "Moment (Nm)"], "Time (s)", ["Inertial Force","Inertial Moment"],"",{["Fix","Fiy","Fiz"],["Mix","Miy","Miz"]});
+
 
 if(plot_all_flag)
     for k = 1:length(plots)
-        plot(plots(k));
+        plot(plots(k),results);
     end
 else
     for k = 1:length(plots)
         if ismember(plots(k).name,target_plot_names)
-            plot(plots(k));
+            plot(plots(k),results);
         end
     end
 end

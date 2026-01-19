@@ -113,5 +113,5 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {'Ri','Eul','Fb_cmd_PID','R_error','Eul_error','w'};
-plotAllOutputs(results,plots);
+plots = {};
+plotAllOutputs(results);

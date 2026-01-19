@@ -18,20 +18,17 @@ clc
 example1 = ClassPlot("FigName",["example_vector","example_scalar"],...
     [2,1], {[1, 2, 3],[4]},["v_label1","v_label2"],"h_label",...
     ["subtitle1","subtitle2"],"supertitle",{["x","y","z"],["w"]});
-example1 = example1.loadData(results);
-plot(example1);
+plot(example1, results);
 
 %% Example 2: 2x2 Subplot with One Signal on Each
 example2 = ClassPlot("FigName",["example_vector","example_scalar"],...
     [2,2],{[1],[2],[3],[4]},["v_label1","v_label2","v_label3","vlabel4"],...
     "h_label",["subtitle1","subtitle2","subtitle3","subtitle4"],...
     "supertitle",{["x"],["y"],["z"],["w"]});
-example2 = example2.loadData(results);
-plot(example2)
+plot(example2, results)
 
 %% Example 3: All Signals on One Plot
 example3 = ClassPlot("FigName",["example_vector","example_scalar"],...
     [1,1],{[1 2 3 4]},["v_label1"],"h_label",[""],...
     "supertitle",{["x" "y" "z" "w"]});
-example3 = example3.loadData(results);
-plot(example3)
+plot(example3, results)
