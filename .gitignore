@@ -32,3 +32,5 @@ SimulinkPlant old/
 */slprj
 *.slxc
 /codegen/slprj_and_caches
+
+/project_startup/prj_path_list.mat

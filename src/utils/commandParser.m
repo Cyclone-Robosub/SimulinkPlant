@@ -1,4 +1,4 @@
-function [do_JOY_flag,do_FF_flag,do_PID_flag,FF_maneuver_data,state_target] = commandParser(command)
+function [do_FF_flag,do_PID_flag,FF_maneuver_data,state_target] = commandParser(command)
 %This function uses the command vector to determine the robot control mode
 %and output the proper settings.
 %command = [this_control_mode,this_maneuver_id,...
