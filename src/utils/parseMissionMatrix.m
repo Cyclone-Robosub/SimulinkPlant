@@ -45,13 +45,13 @@ if(current_maneuver_index <= nrows)
         current_maneuver_index = current_maneuver_index+1;
         this_maneuver_time = this_maneuver_end_time;
         this_maneuver_end_time=-1;
-        
     end
     %overwrite the wp from the file with the user input if desired
     if(overwrite_mission_file_wp_flag)
         state_overwrite = state_overwrite(:)';
         state_target = state_overwrite;
     end
+
     %send the command 
     command = [this_control_mode,this_maneuver_id,...
             this_maneuver_duration,this_maneuver_intensity,state_target,...

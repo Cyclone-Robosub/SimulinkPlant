@@ -23,7 +23,7 @@ plots(end+1) = ClassPlot("Fb, Mb",["Fb","Mb"],[2,1],{[1,2,3],[4,5,6]},["Force (N
 
 plots(end+1) = ClassPlot("Fi, Mi",["Fi","Mi"],[2,1],{[1,2,3],[4,5,6]},["Force (N)", "Moment (Nm)"], "Time (s)", ["Inertial Force","Inertial Moment"],"",{["Fix","Fiy","Fiz"],["Mix","Miy","Miz"]});
 
-
+plots(end+1) = ClassPlot("mode_flags","mode_flags",[2,1],{1,2},["",""],"Time (s)",["FF Mode Flag","PID Mode Flag"],"Mode Flags",{"",""});
 if(plot_all_flag)
     for k = 1:length(plots)
         plot(plots(k),results);
