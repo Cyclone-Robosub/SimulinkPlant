@@ -1,4 +1,4 @@
-function [output_mask] = joyToManeuver(joy,masks)
+function [FT_cmd_list] = joyToManeuver(joy,masks,max_thruster_force)
 %{
 This function uses maneuver masks to map joystick inputs to maneuvers.
 
@@ -19,9 +19,13 @@ joy_masks = [fwd_mask,right_mask,pitch_mask,yaw_mask,up_mask,down_mask]; %8x6
 output_mask = (joy_masks*joy)'; %1x8
 
 %normalize
-output_mask = output_mask./(max(abs(output_mask)));
+if(max(abs(output_mask))<0.01)
+    output_mask = zeros(1,8);
+else
+    output_mask = output_mask./(max(abs(output_mask)));
+end
 
 %get force command list
-FT_cmd_list = thrusterMaskToForce(thruster_mask,max_thruster_force); 
+FT_cmd_list = thrusterMaskToForce(output_mask,max_thruster_force); 
 
 end
