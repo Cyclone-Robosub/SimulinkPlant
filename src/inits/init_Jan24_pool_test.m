@@ -92,4 +92,4 @@ plotAllOutputs(results, plots);
 
 %% Save Results
 %Code to save results here
-saveAllOutputs(results,prj_path_list.user_data_path,0,0);
+saveResultMat(results,prj_path_list.user_data_path);
