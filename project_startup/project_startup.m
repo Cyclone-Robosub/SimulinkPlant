@@ -107,6 +107,7 @@ Simulink.fileGenControl('set',...
 fprintf("Cache and CodeGen file paths are setup.\n");
 
 %% 4 - Clear the temporary folder for a clean workspace if there is anything in it.
+
 %suppress warnings for removed temp files
 warningState = warning('off','all');
 clearTemp();
@@ -114,4 +115,6 @@ warning(warningState);
 fprintf("Temporary files have been cleared out.\n");
 
 fprintf("Setup complete.\n\n")
+
+%% 5 - Run gen messages for ROS Integration
 

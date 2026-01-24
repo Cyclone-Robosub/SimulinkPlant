@@ -30,7 +30,7 @@ run('constants.m')
 %% Simulation Parameters
 
 %simulation duration
-tspan = 20;
+tspan = 10;
 
 %simulation time step
 dt_sim = 0.01; %only needs to run at 100Hz because no dynamics is done
@@ -59,7 +59,7 @@ mode_overwrite = 0;
 state_overwrite = zeros(6,1);
 
 %mission file
- mission_file_name = "forward1.txt";
+% mission_file_name = "forward1.txt";
 % mission_file_name = "backward2.txt";
 % mission_file_name = "up3.txt";
 % mission_file_name = "down4.txt";
@@ -71,7 +71,7 @@ state_overwrite = zeros(6,1);
 % mission_file_name = "pitchDown10.txt";
 % mission_file_name = "rollLeft11.txt";
 % mission_file_name = "rollRight12.txt";
-% mission_file_name = "roll_pitch_yaw_FF_demo.txt";
+ mission_file_name = "roll_pitch_yaw_FF_demo.txt";
 
 mission_file_path = fullfile(prj_path_list.inits_path, "mission file archive","Jan_24_Pool_Test",mission_file_name);
 mission_file = importMissionCSV(mission_file_path);

@@ -8,8 +8,6 @@ lines = lines(5:end,:);
 [rows,~] = size(lines);
 
 
-%split by commas
-
 %new array to hold split lines
 mission_file = [];
 
@@ -27,5 +25,8 @@ for k = 1:rows
     end
 end
 
+%If the mission file only has 1 row, add a padding row
+padding = zeros(1,10);
+mission_file = [padding',mission_file']';
 
 end
