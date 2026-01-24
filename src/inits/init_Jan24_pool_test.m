@@ -30,7 +30,7 @@ run('constants.m')
 %% Simulation Parameters
 
 %simulation duration
-tspan = 20;
+tspan = 10;
 
 %simulation time step
 dt_sim = 0.01; %only needs to run at 100Hz because no dynamics is done
@@ -65,19 +65,19 @@ state_overwrite = zeros(6,1);
 % mission_file_name = "down4.txt";
 % mission_file_name = "left5.txt";
 % mission_file_name = "right6.txt";
-% mission_file_name = "yawLeft7.txt";
-% mission_file_name = "yawRight8.txt";
-% mission_file_name = "pitchUp9.txt";
-% mission_file_name = "pitchDown10.txt";
-% mission_file_name = "rollLeft11.txt";
-% mission_file_name = "rollRight12.txt";
+% mission_file_name = "yawLeft7.txt"; %Too powerful for dry run(TPDR)
+% mission_file_name = "yawRight8.txt"; %TPDR
+% mission_file_name = "pitchUp9.txt"; %TPDR
+% mission_file_name = "pitchDown10.txt"; %TPDR
+% mission_file_name = "rollLeft11.txt"; %TPDR
+% mission_file_name = "rollRight12.txt"; %TPDR
 % mission_file_name = "roll_pitch_yaw_FF_demo.txt";
 
 mission_file_path = fullfile(prj_path_list.inits_path, "mission file archive","Jan_24_Pool_Test",mission_file_name);
 mission_file = importMissionCSV(mission_file_path);
 
 %enable ROS publishing and subscribing
-enable_publish_flag = 0;
+enable_publish_flag = 1;
 enable_subscribe_flag = 0;
 
 %% Simulation
