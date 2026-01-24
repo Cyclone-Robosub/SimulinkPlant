@@ -34,3 +34,7 @@ SimulinkPlant old/
 /codegen/slprj_and_caches
 
 /project_startup/prj_path_list.mat
+
+/src/models/+bus_conv_fcns/
+
+/+bus_conv_fcns/

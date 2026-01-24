@@ -77,7 +77,7 @@ mission_file_path = fullfile(prj_path_list.inits_path, "mission file archive","J
 mission_file = importMissionCSV(mission_file_path);
 
 %enable ROS publishing and subscribing
-enable_publish_flag = 0;
+enable_publish_flag = 1;
 enable_subscribe_flag = 0;
 
 %% Simulation
