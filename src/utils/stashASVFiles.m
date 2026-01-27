@@ -16,7 +16,6 @@ function stashASVFiles()
     
     % Find all .asv files recursively
     asvFiles = dir(fullfile(prj_paths.root_path,'**','*.asv'));
-    
     % Move each .asv file to the destination folder
     for k = 1:length(asvFiles)
         this_asv = fullfile(asvFiles(k).folder, asvFiles(k).name);

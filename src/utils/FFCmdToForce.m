@@ -5,6 +5,7 @@ send commands corresponding to that maneuver to the right thrusters at
 the specified intensity.
 
 %}
+
 %unpack the command
 id = FF_maneuver_data(1); %maneuver id
 dur = FF_maneuver_data(2); %duration of this maneuver
