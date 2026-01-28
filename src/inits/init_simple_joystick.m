@@ -14,7 +14,7 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-stashASVFiles(); %move pesky .asv files out of the way
+%stashASVFiles(); %move pesky .asv files out of the way
 
 
 
