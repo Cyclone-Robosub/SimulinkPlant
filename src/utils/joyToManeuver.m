@@ -2,11 +2,11 @@ function [FT_cmd_list] = joyToManeuver(joy,masks,max_thruster_force)
 %{
 This function uses maneuver masks to map joystick inputs to maneuvers.
 
-joy = [X,Y,Pitch,Yaw,Rise,Sink]
+joy = [X,Y,Rise,Sink,Yaw,Pitch]
 %}
 
 %enforce column joy
-joy = joy(:); %6x1
+joy = double(joy(:)); %6x1
 
 fwd_mask = masks(:,1);
 pitch_mask = masks(:,9);
@@ -14,7 +14,7 @@ right_mask = masks(:,6);
 up_mask = masks(:,3);
 yaw_mask = masks(:,8);
 down_mask = masks(:,4);
-joy_masks = [fwd_mask,right_mask,pitch_mask,yaw_mask,up_mask,down_mask]; %8x6
+joy_masks = [fwd_mask,right_mask,up_mask,down_mask,yaw_mask,pitch_mask]; %8x6
 
 output_mask = (joy_masks*joy)'; %1x8
 

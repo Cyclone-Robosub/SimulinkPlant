@@ -1,14 +1,14 @@
-function pwm_cmd_list = forceToPWMCalculator(force_list,voltage,force_table,voltage_list,pwm_list)
+function pwms_int32 = forceToPWMCalculator(force_list,voltage,force_table,voltage_list,pwm_list)
 %{
 This function figures out what pwm to send in order to get the appropriate
 force at the current voltage.
 
 
 %}
-pwm_cmd_list = zeros(size(force_list));
+pwms = zeros(size(force_list));
 
 for k = 1:length(force_list)
-    force = force_list(k);
+    force = double(force_list(k));
 
     if(abs(force)<1e-3)
         %if the force setting is very low, just set thruster to stop
@@ -68,18 +68,14 @@ for k = 1:length(force_list)
         if(lower_force_index == upper_force_index)
             alpha = 0;
         else
-            if(upper_force_index <= length(force_list) && lower_force_index >= 0)
-                alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
-            else
-                upper_force_index = length(force_list);
-                lower_force_index = 1;
-                alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
-            end
+            alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
         end
     
         %find closest pwm to this force
         pwm_cmd = pwm_list(lower_force_index) + alpha*(pwm_list(upper_force_index)-pwm_list(lower_force_index));
         pwm_cmd = round(pwm_cmd); %round to the nearest integer
     end
-    pwm_cmd_list(k) = pwm_cmd;
+    pwms(k) = pwm_cmd;
+
+    pwms_int32 = int32(pwms);
 end
