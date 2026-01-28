@@ -14,7 +14,7 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-stashASVFiles(); %move pesky .asv files out of the way
+%stashASVFiles(); %move pesky .asv files out of the way
 
 
 
@@ -30,7 +30,7 @@ run('constants.m')
 %% Simulation Parameters
 
 %simulation duration
-tspan = 10;
+tspan = 2;
 
 %simulation time step
 dt_sim = 0.01; %only needs to run at 100Hz because no dynamics is done
@@ -71,7 +71,7 @@ state_overwrite = zeros(6,1);
 % mission_file_name = "pitchDown10.txt";
 % mission_file_name = "rollLeft11.txt";
 % mission_file_name = "rollRight12.txt";
-mission_file_name = "roll_pitch_yaw_FF_demo.txt";
+% mission_file_name = "roll_pitch_yaw_FF_demo.txt";
 
 mission_file_path = fullfile(prj_path_list.inits_path, "mission file archive","Jan_24_Pool_Test",mission_file_name);
 mission_file = importMissionCSV(mission_file_path);
@@ -87,8 +87,8 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {'pwm_cmd','cmd','FF_maneuver_data','FT_cmd_list','mode_flags'};
-plotAllOutputs(results, plots);
+%plots = {'pwm_cmd','cmd','FF_maneuver_data','FT_cmd_list','mode_flags'};
+%plotAllOutputs(results, plots);
 
 %% Save Results
 %Code to save results here
