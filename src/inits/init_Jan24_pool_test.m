@@ -30,7 +30,7 @@ run('constants.m')
 %% Simulation Parameters
 
 %simulation duration
-tspan = 2;
+tspan = 60;
 
 %simulation time step
 dt_sim = 0.01; %only needs to run at 100Hz because no dynamics is done

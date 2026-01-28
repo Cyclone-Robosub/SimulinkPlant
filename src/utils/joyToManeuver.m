@@ -16,6 +16,8 @@ yaw_mask = masks(:,8);
 down_mask = masks(:,4);
 joy_masks = [fwd_mask,right_mask,up_mask,down_mask,yaw_mask,pitch_mask]; %8x6
 
+%[fwd_mask,right_mask,up_mask,down_mask,yaw_mask,pitch_mask];
+
 output_mask = (joy_masks*joy)'; %1x8
 
 %normalize
