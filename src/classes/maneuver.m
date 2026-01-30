@@ -62,7 +62,6 @@ classdef maneuver
             
         end
         
-
         function printManeuverData(obj)
             fprintf("Default Mask:\n")
             obj.default_mask'

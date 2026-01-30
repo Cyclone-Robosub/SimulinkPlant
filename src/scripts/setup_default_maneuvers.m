@@ -29,6 +29,8 @@ rollLeft = maneuver(FT_wrench,MT_wrench,[0 0 0 -1 0 0]); %11
 
 rollRight = maneuver(FT_wrench,MT_wrench,[0 0 0 1 0 0]); %12
 
+
+
 %masks to pass into simulink
 masks = zeros(8,12);
 masks(:,1) = forward.total_mask;

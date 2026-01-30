@@ -16,8 +16,6 @@ end
 
 %stashASVFiles(); %move pesky .asv files out of the way
 
-
-
 %% Parameters
 run('constants.m')
 
@@ -72,6 +70,12 @@ state_overwrite = zeros(6,1);
 % mission_file_name = "rollLeft11.txt";
 % mission_file_name = "rollRight12.txt";
 % mission_file_name = "roll_pitch_yaw_FF_demo.txt";
+
+%mask for debugging purposes (maneuver 13)
+user_mask = [0 0 0 0 0 0 0 0];
+debug = maneuver(FT_wrench, MT_wrench,[0 0 0 0 0 0]);
+debug = debug.setTotalMask(debug_mask);
+debug_mask = debug.total_mask;
 
 mission_file_path = fullfile(prj_path_list.inits_path, "mission file archive","Jan_24_Pool_Test",mission_file_name);
 mission_file = importMissionCSV(mission_file_path);
