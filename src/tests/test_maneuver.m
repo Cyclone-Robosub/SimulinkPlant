@@ -93,6 +93,16 @@ classdef test_maneuver < matlab.unittest.TestCase
             testCase.verifyEqual(testCase.maneuver.fm,expected,'AbsTol',1e-3);
         end
 
+        function testSetName(testCase)
+            testCase.maneuver = testCase.maneuver.setName("Ya like Jazz?");
+            testCase.verifyEqual(testCase.maneuver.name,"Ya like Jazz?");
+        end
+
+        function testSetID(testCase)
+            testCase.maneuver = testCase.maneuver.setID(99);
+            testCase.verifyEqual(testCase.maneuver.ID,99);
+        end
+
 
     end
 

@@ -56,8 +56,8 @@ versions of this class.
             Constrains user provided FT_list to allowable bounds then sets
             this maneuvers FT_list.
             %}
+            FT_list = FT_list(:);
             obj.FT_list = obj.constrain(FT_list);
-
             %set fm
             obj.fm = obj.wrench*obj.FT_list;
         end
@@ -69,6 +69,7 @@ versions of this class.
             the addition will put thruster values outside the
             maxManeuverForce.
             %}
+            FT_list_add = FT_list_add(:);
             FT_list = obj.FT_list + FT_list_add;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = constrain(obj,FT_list);
@@ -84,6 +85,7 @@ versions of this class.
             After this force vector is calculated it is constrained to the
             allowable bounds.
             %}
+            fm = fm(:);
             FT_list = pinv(obj.wrench)*fm;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
@@ -98,12 +100,17 @@ versions of this class.
             moment pair for this class. The result is used to generate a
             constrained FT_list. 
             %}
+            fm_add = fm_add(:);
             FT_list = pinv(obj.wrench)*(obj.fm + fm_add);
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
 
             %calculate the actual force and moment after constraint
             obj.fm = obj.wrench*obj.FT_list;
+        end
+
+        function obj = setName(obj,name)
+            obj.name = name;
         end
 
         function obj = setMask(obj,mask)
@@ -118,6 +125,7 @@ versions of this class.
             is not strictly necessary as the resulting FT_list will be
             constrained anyway.
             %}
+            mask = mask(:);
             FT_list = obj.maxManeuverForce*mask;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
@@ -125,6 +133,10 @@ versions of this class.
             obj.fm = obj.wrench*obj.FT_list;
 
 
+        end
+
+        function obj = setID(obj,ID)
+            obj.ID = ID;
         end
         
         function obj = setMaxManeuverForce(obj,maxForce)
@@ -157,6 +169,7 @@ versions of this class.
                 elseif(FT_list(k)<-obj.maxManeuverForce)
                     FT_list(k) = -obj.maxManeuverForce;
                 end
+                FT_list = FT_list(:);
                 out = FT_list;
             end
         end
