@@ -46,7 +46,7 @@ versions of this class.
             obj.MT_wrench = MT_wrench;
             obj.wrench = [FT_wrench;MT_wrench];
 
-            if(exists(varargin)) %set the name if user specified one
+            if(~isempty(varargin)) %set the name if user specified one
                 obj.name = varargin{1};
             end
         end
@@ -59,7 +59,7 @@ versions of this class.
             obj.FT_list = obj.constrain(FT_list);
 
             %set fm
-            obj.fm = pinv(obj.wrench)*obj.FT_list;
+            obj.fm = obj.wrench*obj.FT_list;
         end
 
         function obj = addFTList(obj,FT_list_add)
@@ -74,7 +74,7 @@ versions of this class.
             obj.FT_list = constrain(obj,FT_list);
 
             %set fm
-            obj.fm = pinv(obj.wrench)*obj.FT_list;
+            obj.fm = obj.wrench*obj.FT_list;
         end
         
         function obj = setForce(obj,fm)
@@ -84,12 +84,12 @@ versions of this class.
             After this force vector is calculated it is constrained to the
             allowable bounds.
             %}
-            FT_list = obj.wrench*fm;
+            FT_list = pinv(obj.wrench)*fm;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
             
             %calculate the actual force and moment after constraint
-            obj.fm = pinv(obj.wrench)*obj.FT_list;
+            obj.fm = obj.wrench*obj.FT_list;
         end
 
         function obj = addForce(obj,fm_add)
@@ -98,12 +98,12 @@ versions of this class.
             moment pair for this class. The result is used to generate a
             constrained FT_list. 
             %}
-            FT_list = obj.wrench*(obj.fm + fm_add);
+            FT_list = pinv(obj.wrench)*(obj.fm + fm_add);
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
 
             %calculate the actual force and moment after constraint
-            obj.fm = pinv(obj.wrench)*obj.FT_list;
+            obj.fm = obj.wrench*obj.FT_list;
         end
 
         function obj = setMask(obj,mask)
@@ -122,7 +122,7 @@ versions of this class.
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
 
-            obj.fm = pinv(obj.wrench)*obj.FT_list;
+            obj.fm = obj.wrench*obj.FT_list;
 
 
         end
@@ -153,9 +153,9 @@ versions of this class.
             %}
             for k = 1:length(FT_list)
                 if(FT_list(k)>obj.maxManeuverForce)
-                    FT_list(k) = maxManeuverForce);
+                    FT_list(k) = obj.maxManeuverForce;
                 elseif(FT_list(k)<-obj.maxManeuverForce)
-                    FT_list(k) = -maxManeuverForce);
+                    FT_list(k) = -obj.maxManeuverForce;
                 end
                 out = FT_list;
             end
