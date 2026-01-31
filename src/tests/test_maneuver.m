@@ -101,8 +101,9 @@ classdef test_maneuver < matlab.unittest.TestCase
         function testSetID(testCase)
             testCase.maneuver = testCase.maneuver.setID(99);
             testCase.verifyEqual(testCase.maneuver.ID,99);
-        end
 
+        end
+        
 
     end
 

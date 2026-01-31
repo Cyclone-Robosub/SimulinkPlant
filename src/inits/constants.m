@@ -13,7 +13,9 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%PID (
+inversion_mask = [1 -1 -1 1 1 1 -1 -1]';
+%PID
+
 PID = [4.6 0.08 55.4 128;...
     4.8 0.066 43.8 101.9;...
     2.29 0.025 45.9 104.2;...

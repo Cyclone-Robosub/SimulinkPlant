@@ -1,8 +1,14 @@
 %{
 This is the master initialization file for the Cyclone Robosub Simulink.
+This is intended to be the one-stop-shop for setting up and running
+simulations that are run purely in Matlab and Simulink.
 
 This file can setup, run, plot, and save data from any simulation variant
-included in the system. 
+that includes the _SIM extension in the project. Depending on how the host 
+machine has been configured, this init may fail for _HIL and _CGN models.
+For these it is recommended to create a custom init for each case. Whether
+this init will work with Unreal Engine cosimulation is to be determined - 
+that may need a custom init as well.
 
 If you need to make significant modifications to this file, create a copy
 instead and give it an extension such as init_variant and place it in init
@@ -12,15 +18,16 @@ archive.
 %% Housekeeping and Path Management
 clc
 close all
+%clear all %slows down startup so don't uncomment this unless you have a good reason to
 
-if(~exist('prj_path_list','var'))
+if(~exist('prj_path_list','var')) %refreshes the file path in case clear all was called
     prj_path_list = getProjectPaths();
 end
 
 stashASVFiles(); %move pesky .asv files out of the way
 
 %% Parameters
-run('constants.m')
+run('constants.m') %load all necessary constants into the workspace
 
 %% Initial Conditions
 %initial intertial position
@@ -59,8 +66,19 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %% Test Conditions
 %list of thruster forces
-test_ft_list = zeros(8,1); %used by Dynamics
+test_ft_list = [0 0 0 0 10 10 10 10];
+test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
+%assumes mission_file.txt is in the src/inits/ folder
+mission_file_name = "mission_file.txt"; 
 
+%name of the model to be ran
+%sim_select = "Dynamics_SIM.slx";
+sim_select = "Simple_Joystick_SIM.slx"
+%battery voltage if constant
+const_voltage = 14;
+
+%joystick input if constant
+const_joy = [-1 0 0 0 0 0]'; %[X,Y,Rise,Sink,Yaw,Pitch]
 %% Simulation Parameters
 
 %simulation duration
@@ -74,7 +92,8 @@ dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 
 %controller update rate
-dt_control = 0.01;
+dt_control_target = 0.01;
+dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -89,7 +108,7 @@ overwrite_mission_file_wp_flag = 0;
 overwrite_mission_file_mode_flag = 0;
 
 %mission file
-mission_file_path = fullfile(prj_path_list.inits_path,"mission_file.txt");
+mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission_file = importMissionCSV(mission_file_path);
 
 %control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
@@ -106,12 +125,11 @@ pitch_error_tol = 5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
 %% Simulation
-
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Full_System_HIL");
+simIn = Simulink.SimulationInput(sim_select);
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {};
-plotAllOutputs(results);
+plots = {"FT_list","Ri, dRi, ddRi","pwm_cmd","Eul"};
+plotAllOutputs(results,plots);

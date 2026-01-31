@@ -23,16 +23,26 @@ plots(end+1) = ClassPlot("Fb, Mb",["Fb","Mb"],[2,1],{[1,2,3],[4,5,6]},["Force (N
 
 plots(end+1) = ClassPlot("Fi, Mi",["Fi","Mi"],[2,1],{[1,2,3],[4,5,6]},["Force (N)", "Moment (Nm)"], "Time (s)", ["Inertial Force","Inertial Moment"],"",{["Fix","Fiy","Fiz"],["Mix","Miy","Miz"]});
 
-plots(end+1) = ClassPlot("mode_flags","mode_flags",[2,1],{1,2},["",""],"Time (s)",["FF Mode Flag","PID Mode Flag"],"Mode Flags",{"",""});
+plots(end+1) = ClassPlot("FT_list","FT_list",[4,2],{1,2,3,4,5,6,7,8},["F (N)","F (N)", "F (N)", "F (N)", "F (N)", "F (N)", "F (N)", "F (N)"],"T (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Thruster Forces",{"","","","","","","",""});
+
+plots(end+1) = ClassPlot("Eul","Eul",[1,1],{[1,2,3]},"Angle (rad)","Time (s)","","Euler Angles",{["roll","pitch","yaw"]});
+if(~isempty(target_plot_names))
+    names = cell(size(target_plot_names));
+    for k = 1:length(plots)
+        names{k} = plots(k).name;
+    end
+end
+
 if(plot_all_flag)
     for k = 1:length(plots)
         plot(plots(k),results);
     end
 else
-    for k = 1:length(plots)
-        if ismember(plots(k).name,target_plot_names)
+    for k = 1:length(names)
+        if(ismember(names{k},[target_plot_names{:}]))
             plot(plots(k),results);
         end
     end
 end
+    
 end

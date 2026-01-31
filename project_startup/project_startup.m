@@ -28,6 +28,7 @@ closedown_path = fullfile(root_path,'project_closedown');
 cache_path = fullfile(root_path,'codegen','slprj_and_caches');
 asv_path = fullfile(root_path,'codegen','autosaves');
 manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
+test_path = fullfile(root_path,"src/tests/");
 
 
 %add all necessary paths to the project path so it can see them
@@ -94,6 +95,7 @@ prj_path_list.asv_path = asv_path;
 prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
 prj_path_list.manny_patch_path = manny_patch_path;
+prj_path_list.test_path = test_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)
@@ -114,7 +116,8 @@ clearTemp();
 warning(warningState);
 fprintf("Temporary files have been cleared out.\n");
 
+
+%% 5 - Add tests to the Test Browser
+%TODO
+
 fprintf("Setup complete.\n\n")
-
-%% 5 - Run gen messages for ROS Integration
-
