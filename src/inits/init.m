@@ -66,21 +66,20 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %% Test Conditions
 %list of thruster forces
-test_ft_list = [0 0 0 0 10 10 10 10];
-test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
+%test_ft_list = [0 0 0 0 10 10 10 10];
+%test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
 %assumes mission_file.txt is in the src/inits/ folder
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
 %sim_select = "Dynamics_SIM.slx";
-sim_select = "Simple_Joystick_SIM.slx"
+sim_select = "Simple_Joystick_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
 %joystick input if constant
-const_joy = [-1 0 0 0 0 0]'; %[X,Y,Rise,Sink,Yaw,Pitch]
+const_joy = [1 0 1 0 0 0]'; %[X,Y,Rise,Sink,Yaw,Pitch]
 %% Simulation Parameters
-
 %simulation duration
 tspan = 5;
 
@@ -124,6 +123,7 @@ roll_error_tol = 5*pi/180;
 pitch_error_tol = 5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
+
 %% Simulation
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
