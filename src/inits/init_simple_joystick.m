@@ -54,7 +54,7 @@ enable_subscribe_flag = 0;
 
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("Simple_Joystick_Controller");
+simIn = Simulink.SimulationInput("Simple_Joystick_HIL");
 results = sim(simIn);
 
 %% Save Results

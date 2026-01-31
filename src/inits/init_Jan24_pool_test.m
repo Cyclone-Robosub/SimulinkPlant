@@ -28,7 +28,7 @@ run('constants.m')
 %% Simulation Parameters
 
 %simulation duration
-tspan = 60;
+tspan = 300;
 
 %simulation time step
 dt_sim = 0.01; %only needs to run at 100Hz because no dynamics is done
@@ -72,7 +72,7 @@ state_overwrite = zeros(6,1);
 % mission_file_name = "roll_pitch_yaw_FF_demo.txt";
 
 %mask for debugging purposes (maneuver 13)
-user_mask = [0 0 0 0 0 0 0 0];
+debug_mask = [0 0 0 0 0 0 0 0];
 debug = maneuver(FT_wrench, MT_wrench,[0 0 0 0 0 0]);
 debug = debug.setTotalMask(debug_mask);
 debug_mask = debug.total_mask;
@@ -86,13 +86,13 @@ enable_subscribe_flag = 0;
 
 %% Simulation
 %you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput("FF_Jan24_Pool_Test");
+simIn = Simulink.SimulationInput("Simple_Joystick_HIL");
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
 %plots = {'pwm_cmd','cmd','FF_maneuver_data','FT_cmd_list','mode_flags'};
-%plotAllOutputs(results, plots);
+%plotFAllOutputs(results, plots);
 
 %% Save Results
 %Code to save results here
