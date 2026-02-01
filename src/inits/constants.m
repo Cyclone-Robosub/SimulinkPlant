@@ -43,6 +43,7 @@ M = diag([m m m]);
 
 %based on shady equations - needs validation from textbook
 %(last updated 11/11/25 - KJH)
+
 M = M + M_added;
 invM = inv(M);
 

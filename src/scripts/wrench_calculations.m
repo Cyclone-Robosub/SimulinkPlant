@@ -17,4 +17,3 @@ NT_list = [NTb_upper,NTb_lower];
 
 [FT_wrench,MT_wrench,invFT_wrench,invMT_wrench] = calculateWrenchMatrices(RT_list,NT_list);
 
-%modified versions of the wrench matrices used for thruster commands

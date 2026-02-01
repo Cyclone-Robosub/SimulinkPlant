@@ -78,7 +78,8 @@ sim_select = "Simple_Joystick_SIM.slx";
 const_voltage = 14;
 
 %joystick input if constant
-const_joy = [0 1 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+
 %% Simulation Parameters
 %simulation duration
 tspan = 5;
@@ -133,3 +134,4 @@ results = sim(simIn);
 %% Post Processing
 plots = {"FT_list","Ri, dRi, ddRi","pwm_cmd","Eul"};
 plotAllOutputs(results,plots);
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
