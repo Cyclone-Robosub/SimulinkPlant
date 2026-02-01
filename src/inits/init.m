@@ -78,7 +78,7 @@ sim_select = "Simple_Joystick_SIM.slx";
 const_voltage = 14;
 
 %joystick input if constant
-const_joy = [1 0 1 0 0 0]'; %[X,Y,Rise,Sink,Yaw,Pitch]
+const_joy = [0 0 1 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 %% Simulation Parameters
 %simulation duration
 tspan = 5;
