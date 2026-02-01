@@ -13,7 +13,6 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-inversion_mask = [1 -1 -1 1 1 1 -1 -1]';
 %PID
 
 PID = [4.6 0.08 55.4 128;...
@@ -62,6 +61,14 @@ try
     pwm_list = pwm_struct.pwm;
     voltage_struct = coder.load(fullfile(prj_path_list.thruster_lookup_path,"voltage.mat"),"voltage");
     voltage_list = voltage_struct.voltage;
+
+    ccw_neg = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_neg.mat"));
+    ccw_neg = ccw_neg.T200_Public_Performance_Data_10_20V_September_2019S7;
+    cw = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw.mat"));
+    cw = cw.T200_Public_Performance_Data_10_20V_September_2019S7_1;
+    ccw_ref = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_reflected.mat"));
+    ccw_ref = ccw_ref.T200_Public_Performance_Data_10_20V_September_2019S7;
+
 catch
     error("Unable to load thruster data. Fix the path in your constants file.")
 end
