@@ -65,20 +65,19 @@ wb_0 = [wx_0; wy_0; wz_0];
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %% Test Conditions
-%list of thruster forces
+
 %test_ft_list = [0 0 0 0 10 10 10 10];
 %test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
 %assumes mission_file.txt is in the src/inits/ folder
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-%sim_select = "Dynamics_SIM.slx";
-sim_select = "Simple_Joystick_SIM.slx";
+sim_select = "FF_Controller_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
 %joystick input if constant
-const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+%const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 
 %% Simulation Parameters
 %simulation duration
@@ -134,4 +133,4 @@ results = sim(simIn);
 %% Post Processing
 plots = {"FT_list","Ri, dRi, ddRi","pwm_cmd","Eul"};
 plotAllOutputs(results,plots);
-saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");

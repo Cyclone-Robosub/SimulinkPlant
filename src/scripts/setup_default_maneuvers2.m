@@ -67,8 +67,13 @@ maneuver_instances = {manual, forward, backward, up, down, right, left,...
     pitchUp, pitchDown, rollRight, rollLeft, yawRight, yawLeft};
 
 %cell array of maneuver structures to give Simulink
-defined_maneuvers = cell(length(maneuver_instances),1);
+defined_maneuvers = zeros(length(maneuver_instances),10);
 for k = 1:length(maneuver_instances)
-    defined_maneuvers{k} = maneuver_instances{k}.getManeuverStructure;
+    defined_maneuvers(k,:) = maneuver_instances{k}.getManeuverMatrix;
 end
 
+%various index macros
+IDX_MANEUVER_ID = 10;
+IDX_MANEUVER_INT = 9;
+IDX_FT_LIST_START = 1;
+N_THRUSTERS = 10;

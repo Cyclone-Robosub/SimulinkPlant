@@ -174,15 +174,14 @@ versions of this class.
             end
         end
     
-        function out = getManeuverStructure(obj)
+        function out = getManeuverMatrix(obj)
             %{
             This function packs all the data from this maneuver into a
             simulink-friendly structure.
             %}
-            out.FT_list = obj.FT_list;
-            out.intensity = obj.intensity;
-            out.ID = obj.ID;
-            out.name = obj.name;
+            out(1:8) = obj.FT_list';
+            out(9) = obj.intensity;
+            out(10) = obj.ID;
         end
     end
 end
