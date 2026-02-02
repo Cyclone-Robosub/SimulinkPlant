@@ -1,11 +1,22 @@
-function [FT_cmd_list] = FFCmdToForce2(FF_maneuver_data,max_thruster_force,masks, defined_maneuvers) %#codegen
+function [FT_cmd_list] = FFCmdToForce2(FF_maneuver_data,max_thruster_force, defined_maneuvers) %#codegen
 %{
 This function uses the command forward, reverse, up, down, etc... to 
 send commands corresponding to that maneuver to the right thrusters at 
 the specified intensity.
-
 %}
 FT_cmd_list = zeros(8,1);
+
+%if FF maneuver data does not have exactly four fields, overwrite the input
+if(numel(FF_maneuver_data) ~= 4)
+    FF_maneuver_data = [0 0 0 0];
+end
+
+%if defined_maneuvers is not a matrix with 10 columns, overwrite it
+if(isempty(defined_maneuvers))
+    defined_maneuvers = zeros(1,10);
+elseif(numel(defined_maneuvers(1,:)) ~= 10)
+    defined_maneuvers = zeros(1,10);
+end
 
 %unpack the command
 id = FF_maneuver_data(1); %maneuver id
@@ -15,16 +26,22 @@ t = FF_maneuver_data(4); %time in this maneuver so far
 %TODO: Use t and dur to allow time varying maneuver signals
 
 %find the index of this maneuver ID
-idx = find(id == defined_maneuvers(:,10),1);
-if(isempty(idx))
-    idx=1;
+idx = 0;
+idx_matches = find(id == defined_maneuvers(:,10),1);
+if(~isempty(idx_matches))
+    idx = idx_matches;
 end
-%get the intensity that corresponds with this maneuver (multiplicative with
-%the mission file intensity)
-intensity_maneuver = defined_maneuvers(idx,9);
-intensity_total = intensity_maneuver + int;
 
-FT_cmd_list = defined_maneuvers(idx,1:8)*intensity_total;
-FT_cmd_list = FT_cmd_list(:); %enforce column
+if(idx ~= 0) %if a match was found 
+    %get the intensity that corresponds with this maneuver (multiplicative with
+    %the mission file intensity)
+    intensity_maneuver = defined_maneuvers(idx,9);
+    intensity_total = intensity_maneuver*int;
+    
+    %set FT_list from the maneuver, scale by intensity and clip between max and
+    %min
+    FT_cmd_list = clamp(defined_maneuvers(idx,1:8).*intensity_total,-max_thruster_force,max_thruster_force);
+    FT_cmd_list(:) = FT_cmd_list;
+end
 
 end
