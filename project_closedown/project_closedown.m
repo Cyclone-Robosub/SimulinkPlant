@@ -8,6 +8,7 @@ end
 
 %clears src/temp directory
 warningState = warning('off','all');
+stashASVFiles();
 clearTemp();
 warning(warningState);
 

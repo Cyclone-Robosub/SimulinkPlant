@@ -71,9 +71,3 @@ defined_maneuvers = zeros(length(maneuver_instances),10);
 for k = 1:length(maneuver_instances)
     defined_maneuvers(k,:) = maneuver_instances{k}.getManeuverMatrix;
 end
-
-%various index macros
-IDX_MANEUVER_ID = 10;
-IDX_MANEUVER_INT = 9;
-IDX_FT_LIST_START = 1;
-N_THRUSTERS = 10;

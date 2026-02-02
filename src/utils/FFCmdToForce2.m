@@ -5,6 +5,7 @@ send commands corresponding to that maneuver to the right thrusters at
 the specified intensity.
 
 %}
+FT_cmd_list = zeros(8,1);
 
 %unpack the command
 id = FF_maneuver_data(1); %maneuver id
@@ -14,14 +15,16 @@ t = FF_maneuver_data(4); %time in this maneuver so far
 %TODO: Use t and dur to allow time varying maneuver signals
 
 %find the index of this maneuver ID
-idx = find(id,defined_maneuvers(:,IDX_MANEUVER_ID));
-
+idx = find(id == defined_maneuvers(:,10),1);
+if(isempty(idx))
+    idx=1;
+end
 %get the intensity that corresponds with this maneuver (multiplicative with
 %the mission file intensity)
-intensity_maneuver = defined_maneuvers(idx,IDX_MANEUVER_INT);
+intensity_maneuver = defined_maneuvers(idx,9);
 intensity_total = intensity_maneuver + int;
 
-FT_cmd_list = defined_maneuvers(idx,IDX_FT_LIST_START:IDX_FT_LIST_START+7)*intensity_total;
+FT_cmd_list = defined_maneuvers(idx,1:8)*intensity_total;
 FT_cmd_list = FT_cmd_list(:); %enforce column
 
 end
