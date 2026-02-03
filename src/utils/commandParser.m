@@ -1,4 +1,4 @@
-function [do_FF_flag,do_PID_flag,FF_maneuver_data,state_target] = commandParser(command)
+function [off_flag, do_FF_flag,do_PID_flag,FF_maneuver_data,state_target] = commandParser(command)
 %This function uses the command vector to determine the robot control mode
 %and output the proper settings.
 %command = [this_control_mode,this_maneuver_id,...
@@ -14,22 +14,27 @@ switch mode
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = false;
+        off_flag = true;
     case 1 %FF
         do_FF_flag = true;
         do_PID_flag = false;
         do_JOY_flag = false;
+        off_flag = false;
     case 2 %PID
         do_FF_flag = false;
         do_PID_flag = true;
         do_JOY_flag = false;
+        off_flag = false;
     case 3 %JOY
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = true;
+        off_flag = false;
     otherwise
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = false;
+        off_flag = true;
 end
 
 maneuver_id = command(2); %which maneuver to do
