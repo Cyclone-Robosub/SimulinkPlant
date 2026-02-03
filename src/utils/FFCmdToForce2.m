@@ -28,9 +28,9 @@ if(idx ~= 0) %if a match was found
     
     %set FT_list from the maneuver, scale by intensity and clip between max and
     %min
-
-    FT_cmd_list = clamp(defined_maneuvers(idx,1:8).*intensity_total,-max_thruster_force,max_thruster_force);
-    FT_cmd_list(:) = FT_cmd_list;
+    
+    temp = clamp(defined_maneuvers(idx,1:8).*intensity_total,-max_thruster_force,max_thruster_force);
+    FT_cmd_list(:) = temp;
 end
 
 end

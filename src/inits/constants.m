@@ -29,7 +29,7 @@ rotational_saturation = 5;
 run('physical_data_calculations');
 
 %max thrust force
-max_thruster_force = 2; %[N]
+max_thruster_force = 40; %[N]
 ff_force_max = 2*sqrt(2)*max_thruster_force;
 %thruster voltage
 battery_voltage = 14; %[V]

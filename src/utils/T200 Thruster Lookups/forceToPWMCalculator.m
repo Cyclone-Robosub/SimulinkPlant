@@ -1,16 +1,18 @@
-function pwms_int32 = forceToPWMCalculator(force_list,voltage,force_table,voltage_list,pwm_list)
+function pwms_int32 = forceToPWMCalculator(force_list,voltage,cw_ref,ccw_ref,voltage_list,pwm_list)
 %{
 This function figures out what pwm to send in order to get the appropriate
 force at the current voltage.
 
 
 %}
+
 N_thrusters = 8;
 pwms_int32 = int32(1500*ones(N_thrusters,1)); 
 pwms = 1500*ones(N_thrusters,1,'double');
 
 for k = 1:N_thrusters
     force = double(force_list(k));
+
 
     if(abs(force)<1e-3)
         %if the force setting is very low, just set thruster to stop
@@ -41,9 +43,19 @@ for k = 1:N_thrusters
         
         %average the force column between the two indices\
         if(upper_voltage_index == lower_voltage_index)
-            force_column = force_table(lower_voltage_index);
+            if(mod(k,2==0))%for the even thrusters
+                force_column = ccw_ref(lower_voltage_index);
+            else
+                force_column = cw_ref(lower_voltage_index);
+            end
         else
-            force_column = force_table(:,lower_voltage_index) + (voltage-voltage_list(lower_voltage_index))*(force_table(:,upper_voltage_index)-force_table(:,lower_voltage_index))/(voltage_list(upper_voltage_index)-voltage_list(lower_voltage_index));
+            if(mod(k,2==0))%for the even thrusters
+                force_column = ccw_ref(:,lower_voltage_index) + (voltage-voltage_list(lower_voltage_index))*(ccw_ref(:,upper_voltage_index)-ccw_ref(:,lower_voltage_index))/(voltage_list(upper_voltage_index)-voltage_list(lower_voltage_index));
+
+            else
+                force_column = cw_ref(:,lower_voltage_index) + (voltage-voltage_list(lower_voltage_index))*(cw_ref(:,upper_voltage_index)-cw_ref(:,lower_voltage_index))/(voltage_list(upper_voltage_index)-voltage_list(lower_voltage_index));
+
+            end
         end
     
         %find the force closest to the input force
