@@ -5,9 +5,11 @@ force at the current voltage.
 
 
 %}
-pwms = zeros(size(force_list));
+N_thrusters = 8;
+pwms_int32 = int32(1500*ones(N_thrusters,1)); 
+pwms = 1500*ones(N_thrusters,1,'double');
 
-for k = 1:length(force_list)
+for k = 1:N_thrusters
     force = double(force_list(k));
 
     if(abs(force)<1e-3)
@@ -77,5 +79,5 @@ for k = 1:length(force_list)
     end
     pwms(k) = pwm_cmd;
 
-    pwms_int32 = int32(pwms);
 end
+pwms_int32(:) = int32(pwms(:));

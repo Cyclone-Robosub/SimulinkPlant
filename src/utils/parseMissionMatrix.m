@@ -57,5 +57,5 @@ if(current_maneuver_index <= nrows)
     
 else
     %if the time in the file has elapsed, do nothing
-    command = zeros(1,11); 
+    command = zeros(11,1);
 end

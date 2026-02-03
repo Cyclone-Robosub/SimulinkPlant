@@ -24,7 +24,6 @@ if(~exist('prj_path_list','var')) %refreshes the file path in case clear all was
     prj_path_list = getProjectPaths();
 end
 
-stashASVFiles(); %move pesky .asv files out of the way
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
@@ -131,6 +130,6 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {"FT_list","Ri, dRi, ddRi","pwm_cmd","Eul"};
+plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul"};
 plotAllOutputs(results,plots);
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
