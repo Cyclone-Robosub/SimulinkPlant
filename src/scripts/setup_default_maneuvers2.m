@@ -7,7 +7,7 @@ forward = maneuver2(0,0,FT_wrench,MT_wrench,"forward");
 forward = forward.setID(1);
 forward = forward.setMaxManeuverForce(40); %max force of one thruster
 forward = forward.setFTList(10*[0 0 0 0 1 -1 1 -1]); %target force for this maneuver
-forward = forward.addForce([0 0 0 0 -2.2 .6]);
+%forward = forward.addForce([0 0 -1 0 -2.4 .03]);
 
 
 backward = maneuver2(0,0,FT_wrench,MT_wrench,"backward");

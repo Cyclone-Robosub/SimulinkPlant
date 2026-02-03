@@ -56,20 +56,19 @@ R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 %load forceToPWM fit data
 %to do, have the script search for these folders
 try
-    force_struct = coder.load(fullfile(prj_path_list.thruster_lookup_path,"force.mat"));
-    force_table = force_struct.forces;
-    pwm_struct = coder.load(fullfile(prj_path_list.thruster_lookup_path,"pwm.mat"));
-    pwm_list = pwm_struct.pwm;
-    voltage_struct = coder.load(fullfile(prj_path_list.thruster_lookup_path,"voltage.mat"),"voltage");
-    voltage_list = voltage_struct.voltage;
+    voltage = coder.load(fullfile(prj_path_list.thruster_lookup_path,"voltage.mat"));
+    voltage = table2array(voltage.t200_updatedS2);
 
-    ccw_neg = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_neg.mat"));
-    ccw_neg = ccw_neg.T200_Public_Performance_Data_10_20V_September_2019S7;
-    cw = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw.mat"));
-    cw = cw.T200_Public_Performance_Data_10_20V_September_2019S7_1;
-    ccw_ref = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_reflected.mat"));
-    ccw_ref = ccw_ref.T200_Public_Performance_Data_10_20V_September_2019S7;
+    cw_pwm = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw_pwm.mat"));
+    cw_pwm = table2array(cw_pwm.t200_updatedS2);
 
+    ccw_pwm = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_pwm.mat"));
+    ccw_pwm = table2array(ccw_pwm.t200_updatedS3);
+
+    ccw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_force.mat"));
+    ccw_force = table2array(ccw_force.t200_updatedS3);
+    cw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw_force.mat"));
+    cw_force = table2array(cw_force.t200_updatedS2);
 catch
     error("Unable to load thruster data. Fix the path in your constants file.")
 end
