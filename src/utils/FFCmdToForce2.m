@@ -6,17 +6,6 @@ the specified intensity.
 %}
 FT_cmd_list = zeros(8,1);
 
-%if FF maneuver data does not have exactly four fields, overwrite the input
-if(numel(FF_maneuver_data) ~= 4)
-    FF_maneuver_data = [0 0 0 0];
-end
-
-%if defined_maneuvers is not a matrix with 10 columns, overwrite it
-if(isempty(defined_maneuvers))
-    defined_maneuvers = zeros(1,10);
-elseif(numel(defined_maneuvers(1,:)) ~= 10)
-    defined_maneuvers = zeros(1,10);
-end
 
 %unpack the command
 id = FF_maneuver_data(1); %maneuver id
