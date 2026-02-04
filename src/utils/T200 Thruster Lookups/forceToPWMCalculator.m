@@ -15,6 +15,7 @@ pwms = 1500*ones(N_thrusters,1,'double');
 
 %loop through all the cw thrusters
 for k = 1:2:N_thrusters
+    
     force = double(FT_cmd_list(k)); %force we need the pwm for
 
 
@@ -52,6 +53,7 @@ for k = 1:2:N_thrusters
             force_column = cw_force(lower_voltage_index);
 
         else
+            
             force_column = cw_force(:, lower_voltage_index) + (target_voltage-voltage(lower_voltage_index))*(cw_force(:,upper_voltage_index)-cw_force(:,lower_voltage_index))/(voltage(upper_voltage_index)-voltage(lower_voltage_index));
         end
     

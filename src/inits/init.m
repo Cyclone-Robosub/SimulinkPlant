@@ -28,6 +28,8 @@ if(~exist("plots_defined_flag","var"))
     run("setup_plots.m");
 end
 
+prj_path_list.sim_data_path = prepareOutputFolder(prj_path_list);
+
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
@@ -80,7 +82,7 @@ sim_select = "FF_Controller_SIM.slx";
 const_voltage = 14;
 
 %joystick input if constant
-%const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 
 %% Simulation Parameters
 %simulation duration

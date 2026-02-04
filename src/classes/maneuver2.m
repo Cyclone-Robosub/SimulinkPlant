@@ -35,6 +35,7 @@ versions of this class.
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
+        save_figure_flag = false;
     end
 
     methods
@@ -183,5 +184,6 @@ versions of this class.
             out(9) = obj.intensity;
             out(10) = obj.ID;
         end
+
     end
 end

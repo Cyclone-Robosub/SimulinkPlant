@@ -1,5 +1,6 @@
 %Plot details defined here.
 plots_defined_flag = true;
+clear plots
 
 plots(1) = ClassPlot("cmd","cmd",[4,1],{[5,6,7],[8,9,10],[1,2,4],[3,11]},["Position (m)", "Angle (rad)", "Value", "Time (s)"],"Time (s)",["Position Target", "Attitude Target", "Maneuver Metadata", "Maneuver Timing"],"Command vs Time",{["x","y","z"],["roll","pitch","yaw"],["Mode","Maneuver ID", "Maneuver Intensity"],["Maneuver Duration", "Maneuver Time"]});
 
@@ -18,5 +19,6 @@ plots(end+1) = ClassPlot("Fi, Mi",["Fi","Mi"],[2,1],{[1,2,3],[4,5,6]},["Force (N
 plots(end+1) = ClassPlot("FTb, MTb",["FTb","MTb"],[2,1],{[1,2,3],[4,5,6]},["Force (N)", "Moment (Nm)"], "Time (s)", ["Body Thruster Force","Body Thruster Moment"],"",{["FTbx","FTby","FTbz"],["MTbx","MTby","MTbz"]});
 
 plots(end+1) = ClassPlot("FT_list","FT_list",[4,2],{1,2,3,4,5,6,7,8},["F (N)","F (N)", "F (N)", "F (N)", "F (N)", "F (N)", "F (N)", "F (N)"],"T (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Thruster Forces",{"","","","","","","",""});
+plots(end).saveFig();
 
 plots(end+1) = ClassPlot("Eul","Eul",[1,1],{[1,2,3]},"Angle (rad)","Time (s)","","Euler Angles",{["roll","pitch","yaw"]});
