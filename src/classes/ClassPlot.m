@@ -107,6 +107,8 @@ classdef ClassPlot
                 end
                 
             catch
+                %close the open figure if the plotting failed
+                close(gcf)
                 warning("Plot named %s failed to plot fully. Some signals may be missing.\nDo they all have to-workspace blocks?",obj.name)
             end
         end %plot
