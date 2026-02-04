@@ -80,7 +80,7 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 5;
+tspan = 10;
 
 %simulation time step
 dt_sim = 0.001;

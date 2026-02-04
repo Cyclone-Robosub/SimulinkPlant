@@ -51,10 +51,12 @@ yawRight = yawRight.setID(9);
 yawRight = yawRight.setMaxManeuverForce(10); %max force of one thruster
 yawRight = yawRight.setForce([0 0 0 0 0 1]); %target force for this maneuver
 
+
 yawLeft = maneuver2(0,0,FT_wrench,MT_wrench,"yawLeft");
 yawLeft = yawLeft.setID(10);
 yawLeft = yawLeft.setMaxManeuverForce(10); %max force of one thruster
-yawLeft = yawLeft.setForce(5*[0 0 0 0 0 -1]); %target force for this maneuver
+yawLeft = yawLeft.setForce(8*[0 0 0 0 0 -1]); %target force for this maneuver
+yawLeft = yawLeft.addForce([1 0 -1.2 0 0 0]);
 
 rollRight = maneuver2(0,0,FT_wrench,MT_wrench,"rollRight");
 rollRight = rollRight.setID(11);
