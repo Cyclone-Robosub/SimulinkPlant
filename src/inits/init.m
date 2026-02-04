@@ -131,5 +131,6 @@ results = sim(simIn);
 
 %% Post Processing
 plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
+% plots = {"FTb, MTb", "Eul", "FT_cmd_list", "Ri, dRi, ddRi"};
 plotAllOutputs(results,plots);
-%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");

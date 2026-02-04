@@ -50,7 +50,8 @@ for k = 1:2:N_thrusters
         %average the force column between the two indices
         if(upper_voltage_index == lower_voltage_index)
             force_column = cw_force(lower_voltage_index);
-
+        elseif(cw_force(upper_voltage_index)-cw_force(lower_voltage_index) < 1.00e-7) %check for interpolation viability
+            force_column = cw_force(lower_voltage_index);
         else
             force_column = cw_force(:, lower_voltage_index) + (target_voltage-voltage(lower_voltage_index))*(cw_force(:,upper_voltage_index)-cw_force(:,lower_voltage_index))/(voltage(upper_voltage_index)-voltage(lower_voltage_index));
         end
@@ -77,6 +78,8 @@ for k = 1:2:N_thrusters
         
         %compute scaling coefficient between neighboring forces
         if(lower_force_index == upper_force_index)
+            alpha = 0;
+        elseif(force_column(upper_force_index)-force_column(lower_force_index)< 1.00e-7) %Interpolation viability check
             alpha = 0;
         else
             alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
