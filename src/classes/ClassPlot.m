@@ -18,7 +18,6 @@ classdef ClassPlot
         v_labels %1xK string of vertical axis labels for each subplot
         legends %a cell array of the same dimension as the signal_map containing a 1x(up to)M string of legend labels for each subplot
         is_plottable = true %boolean, true if the plot can be generated, false otherwise
-        save_fig_flag = false;
     end
 
     methods
@@ -33,7 +32,6 @@ classdef ClassPlot
             obj.subtitles = subtitles;
             obj.supertitle = supertitle;
             obj.legends = legends;
-            obj.save_fig_flag = false;
             %todo: Input validation
         end
 
@@ -61,10 +59,7 @@ classdef ClassPlot
                 obj.is_plottable = false;
             end %try
         end %loadData
-        
-        function obj = saveFig(obj)
-            obj.save_fig_flag = true;
-        end
+
 
         function plot(obj, results)
             obj = obj.loadData(results); %start by loading in the data
@@ -110,14 +105,7 @@ classdef ClassPlot
                         sgtitle(obj.supertitle)
                     end
                 end
-                %save image to file
-                obj.save_fig_flag
-                if(obj.save_fig_flag)
-                    if(~isfolder(prj_path_list.sim_data_path))
-                        mkdir(prj_path_list.sim_data_path);
-                    end
-                    saveas(gcf,fullfile(prj_path_list.sim_data_path,obj.name+".png"));
-                end
+                
             catch
                 warning("Plot named %s failed to plot fully. Some signals may be missing.\nDo they all have to-workspace blocks?",obj.name)
             end

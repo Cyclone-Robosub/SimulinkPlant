@@ -1,34 +1,61 @@
-function plotAllOutputs(results,varargin)
+function plotAllOutputs(results,plots, target_plot_names, prj_path_list, save_plots_flag)
+%{
+This function creates and saves plots.
 
-if(~exist("plots_defined_flag","var"))
-    run("setup_plots.m");
-end
+Inputs:
+results: A SimulationOutput containing the timeseries outputs of
+to-workspace blocks in a Simulink model
 
-%unpack optional argument(s)
-if nargin > 1
-    target_plot_names = varargin{1};
-    plot_all_flag = false;
-else
+plots: A vector of ClassPlot instances describing the layout of each plot
+
+target_plot_names: A cell array of plot names that the user wants to plot.
+If empty, all plots are generated.
+
+prj_path_list: The list of file paths associated with the project,
+including prj_path_list.sim_data_path which is used to create a plot. 
+
+save_plots_flag: Controls if images of the plots are saved to the
+sim_data_path.
+
+%}
+
+%check if user wants all the plots or just a subset
+if(isempty(target_plot_names))
     plot_all_flag = true;
+else
+    plot_all_flag = false;
 end
 
-if(~isempty(target_plot_names))
-    names = cell(size(target_plot_names));
-    for k = 1:length(plots)
-        names{k} = plots(k).name;
-    end
-end
-
-if(plot_all_flag)
+if(plot_all_flag) %plot everything
     for k = 1:length(plots)
         plot(plots(k),results);
+        if(save_plots_flag)
+            if(~isfolder(prj_path_list.sim_data_path))
+                mkdir(prj_path_list.sim_data_path)
+            end
+                frame = getframe(gcf);
+                img = frame.cdata;
+                imwrite(img, fullfile(prj_path_list.sim_data_path,plots(k).name + ".png"));
+                        
+        end
     end
 else
-    for k = 1:length(names)
-        if(ismember(names{k},[target_plot_names{:}]))
+    for k = 1:length(plots) %just plot target_plot_names
+        if(any(strcmp(plots(k).name, cellstr(target_plot_names))))
             plot(plots(k),results);
+            if(save_plots_flag)
+                if(~isfolder(prj_path_list.sim_data_path))
+                    mkdir(prj_path_list.sim_data_path)
+                end
+                frame = getframe(gcf);
+                img = frame.cdata;
+                imwrite(img, fullfile(prj_path_list.sim_data_path,plots(k).name + ".png"));
+            
+            end
+        
         end
     end
 end
+
     
 end
