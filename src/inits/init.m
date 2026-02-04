@@ -71,7 +71,7 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FF_Controller_HIL.slx";
+sim_select = "FF_Controller_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
