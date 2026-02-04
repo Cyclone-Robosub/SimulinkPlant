@@ -71,7 +71,7 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FF_Controller_SIM.slx";
+sim_select = "FF_Controller_HIL.slx";
 %battery voltage if constant
 const_voltage = 14;
 
@@ -80,7 +80,7 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 5;
+tspan = 10;
 
 %simulation time step
 dt_sim = 0.001;
@@ -131,5 +131,5 @@ results = sim(simIn);
 
 %% Post Processing
 plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
-plotAllOutputs(results,plots);
+%plotAllOutputs(results,plots);
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
