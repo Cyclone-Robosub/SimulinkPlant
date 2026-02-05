@@ -8,13 +8,12 @@ for k = 1:8
 end
 RT_list = R_cm2tk;
 %thruster pointing directions (should be no need to update this)
-NTb_upper = [zeros(4,1),zeros(4,1),-1*ones(4,1)]';
+NTb_upper = [zeros(4,1),zeros(4,1),[-1 1 -1 1]']';
 NTb_lower = sqrt(2)/2*[1 1 0;...
+                        -1 1 0;...
                         1 -1 0;...
-                        1 -1 0;...
-                        1 1 0]';
+                        -1 -1 0]';
 NT_list = [NTb_upper,NTb_lower];
 
 [FT_wrench,MT_wrench,invFT_wrench,invMT_wrench] = calculateWrenchMatrices(RT_list,NT_list);
 
-%modified versions of the wrench matrices used for thruster commands
