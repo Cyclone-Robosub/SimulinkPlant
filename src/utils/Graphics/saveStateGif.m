@@ -176,5 +176,4 @@ if(OpenFolder)
     catch
         fprintf("Failed to open the media folder.\nThis feature only works on windows right now ):")
     end
-
 end

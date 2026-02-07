@@ -69,6 +69,8 @@ wb_0 = [wx_0; wy_0; wz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
+
+
 %% Test Conditions
 
 %test_ft_list = [0 0 0 0 10 10 10 10];
@@ -134,24 +136,26 @@ save_gif_flag = false;
 save_results_flag = false; %saves after a run
 save_HIL_results_flag = false; %saves directly from simulink during a run
 %% Simulation
-%you can change the simulation input name and mission_file name.
-simIn = Simulink.SimulationInput(sim_select);
-simIn = simIn.setVariable('mission_file',mission_file);
-results = sim(simIn);
-
-%% Post Processing
-
-%{
-If you add more to-workspace blocks, set up the plots in setup_plots, then
-clear the workspace and rerun the init.
->>open setup_plots.m
->>clear all
->>setup_plots
->>init
-%}
-
-target_plots = {};
-plotAllOutputs(results,plots,target_plots, prj_path_list, save_plots_flag);
-
-
-%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+% %you can change the simulation input name and mission_file name.
+% simIn = Simulink.SimulationInput(sim_select);
+% simIn = simIn.setVariable('mission_file',mission_file);
+% results = sim(simIn);
+% 
+% %% Post Processing
+% 
+% %{
+% If you add more to-workspace blocks, set up the plots in setup_plots, then
+% clear the workspace and rerun the init.
+% >>open setup_plots.m
+% >>clear all
+% >>setup_plots
+% >>init
+% %}
+% 
+% target_plots = {};
+% plotAllOutputs(results,plots,target_plots, prj_path_list, save_plots_flag);
+% 
+% 
+% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+% %saveStateGif2(results,prj_path_list)
+% 

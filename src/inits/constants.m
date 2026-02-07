@@ -49,7 +49,7 @@ invM = inv(M);
 
 %density of water
 rho = 998; %[kg/m3] at 20 C
-
+g = 9.81;
 %vector from center of mass to center of volume for buoyancy calcs
 R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 

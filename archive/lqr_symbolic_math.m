@@ -1,19 +1,38 @@
 %% Symbolic Variables
+%{
+First define the dynamics symbolically and linearize them in terms of the
+physical states X = [x y z dx dy dz phi theta psi wx wy wz] to find A and
+B. 
 
+Next, evaluate A and B at the reference values for each state. 
+%}
 %define symbolic variables for state vector
-syms x_error y_error z_error real %inertial position
-syms dx dy dz real %inertial velocity
-syms phi theta psi delta_theta delta_phi delta_psi real %euler angles
-syms w1 w2 w3 real %angular velocity
-syms phi_ref theta_ref psi_ref real %euler targets
+syms x xr y yr z zr real
+x_error = x - xr;
+y_error = y - yr;
+z_error = z - zr;
+syms dx dxr dy dyr dz dzr real %inertial velocity
+dx_error = dx - dxr;
+dy_error = dy - dyr;
+dz_error = dz - dzr;
+syms phi theta psi phir thetar psir real %euler angles
+phi_error = phi - phir;
+theta_error = theta - thetar;
+psi_error = psi - psir;
+syms wx wy wz wxr wyr wzr real %angular velocity
+wx_error = wx - wxr;
+wy_error = wy - wyr;
+wz_error = wz - wzr;
 
-%vectors
-Ri = [x_error y_error z_error]';
-dRi = [dx dy dz]';
-wb = [w1 w2 w3]';
+%physical vectors
+Ri = [x;y;z];
+dRi = [dx;dy;dz];
+dRi_error = [dx_error;dy_error;dz_error];
+w = [wx;wy;wz];
+w_error = [wx_error;wy_error;wz_error];
 
 %state vector
-X = [x_error y_error z_error dx dy dz delta_phi delta_theta delta_psi w1 w2 w3]';
+X = [x y z dx dy dz phi theta psi wx wy wz]';
 
 %symbolic input (8 thruster inputs)
 syms u1 u2 u3 u4 u5 u6 u7 u8 real
@@ -37,14 +56,14 @@ N = [N1 N2 N3 N4 N5 N6 N7 N8]; %[3x8]
 syms rt1x rt1y rt1z rt2x rt2y rt2z rt3x rt3y rt3z rt4x rt4y rt4z...
     rt5x rt5y rt5z rt6x rt6y rt6z rt7x rt7y rt7z rt8x rt8y rt8z real
 
-rt1 = [rt1x rt1y rt1z];
-rt2 = [rt2x rt2y rt2z];
-rt3 = [rt3x rt3y rt3z];
-rt4 = [rt4x rt4y rt4z];
-rt5 = [rt5x rt5y rt5z];
-rt6 = [rt6x rt6y rt6z];
-rt7 = [rt7x rt7y rt7z];
-rt8 = [rt8x rt8y rt8z];
+rt1 = [rt1x rt1y rt1z]';
+rt2 = [rt2x rt2y rt2z]';
+rt3 = [rt3x rt3y rt3z]';
+rt4 = [rt4x rt4y rt4z]';
+rt5 = [rt5x rt5y rt5z]';
+rt6 = [rt6x rt6y rt6z]';
+rt7 = [rt7x rt7y rt7z]';
+rt8 = [rt8x rt8y rt8z]';
 
 %intermediate matrices for calculating the torque from the thrusters
 f = [N1*u1; N2*u2; N3*u3; N4*u4; N5*u5; N6*u6; N7*u7; N8*u8]; %[24x1]
@@ -82,14 +101,10 @@ gb = Cbi*gi;
 %velocity in body coordinates (for drag)
 dRb = Cbi*dRi;
 
-%reference rate for trim state
-syms pref qref rref real
-wref = [pref qref rref]';
-
 %% Forces and Torques
 %drag
 Fd = DF*(sign(dRb).*dRb.^2);
-Td = DT*(sign(wb).*wb.^2);
+Td = DT*(sign(w).*w.^2);
 
 %gravity
 Fg = m*gb;
@@ -105,44 +120,24 @@ TT = S*f; %[3x24]*[24x1]
 
 %% Nonlinear State Transition Matrix
 syms dX [12 1] real
-dX(1:3) = dRi;
+dX(1:3) = dRi_error;
 dX(4:6) = inv(M)*(FT + Fd + Fg + Fb);
-dX(7:9) = wb - wref;
-dX(10:12) = inv(I)*(TT + Td + Tb - vectorCross(wb)*I*wb);
+dX(7:9) = w_error;
+dX(10:12) = inv(I)*(TT + Td + Tb - vectorCross(w)*I*w);
 
 %% Find the Jacobian for Linearization
 A = jacobian(dX,X);
 B = jacobian(dX,U);
 
-%define trim state for easy substitution
-trim.X = sym('X_trim',[12 1]);
-trim.U = sym('U_trim',[8 1]);
+%% Define the reference trajectory
+%xyz will be arbitrary by setting corresponding Q terms to zero
+%dxdydz will be zero for stationkeeping
+%phi,theta will be zero for stationkeeping
+%psi will be arbitrary by setting corresponding Q terms to zero
+%wxwywz will be zero for stationkeeping
 
-% Evaluate at a trim
-A_trim = subs(A, [X;U], [trim.X;trim.U]);
-B_trim = subs(B,[X;U], [trim.X;trim.U]);
+Xr = zeros(12,1);
+Ur = zeros(8,1);
 
-%% Find lqr gain for various trim states
-%stationkeeping
-%{
-To find K, use X_lqr as the full 12x1 state vector, and set the value of Q
-to zero for the terms that do not need to be regulated.
-
-For unregulated states, a reasonable arbitrary trim value can be plugged
-into the A and B matrices
-%}
-
-R_trim = [0;0;0]; %arbitrary, unregulated for stationkeeping. In dynamics use current state
-V_trim = [0;0;0]; %not arbitrary
-Eul_trim = [0;0;0]; %yaw is arbitrary, unregulated for stationkeeping
-w_trim = [0;0;0]; %not arbitrary
-
-stationkeeping_X = [R_trim;V_trim;Eul_trim;w_trim];
-stationkeeping_U = [0 0 0 0 0 0 0 0]'; %replace this with the u necessary to cancel gravity and buoyancy
-Q = diag([1,2,3,4,5,6,7,8,9,10,11,12]); %to do
-R = diag([1,2,3,4,5,6,7,8]);
-A_stationkeeping = subs(A,[X;U],[stationkeeping_X;stationkeeping_U]);
-B_stationkeeping = subs(B,[X;U],[stationkeeping_X;stationkeeping_U]);
-
-%make sure to evaluate A and B numerically before calculating K
-K_stationkeeping = lqr(A_stationkeeping,B_stationkeeping,Q,R);
+A_sk = subs(A,[X;U],[Xr;Ur]);
+B_sk = subs(B,[X;U], [Xr;Ur]);
