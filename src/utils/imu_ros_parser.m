@@ -1,4 +1,4 @@
-function [est_imu_orientation, est_imu_mag_field, est_imu_]= imu_ros_parser(imu_ros_signal)
+function [est_imu_orientation]= imu_ros_parser(imu_ros_signal)
 %{
 The IMU has 4 data fields
 
@@ -18,6 +18,8 @@ ahrs = mu_ros_signal.ahrs_database;
 
 %% IMU Fusion Data
 fusion_orientation_q = [fusion.orientation.x,fusion.orientation.y,fusion.orientation.z,fusion.orientation.w];
+
+est_imu_orientation = fusion_orientation_q;
 
 fusion_orientation_q_cov = [fusion.orientation_covariance(1:3)';fusion.orientation_covariance(4:6)',fusion.orientation_covariance(7:9)'];
 
