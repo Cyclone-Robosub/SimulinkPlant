@@ -29,7 +29,9 @@ B = B_lqr.lqr_B(NT_list(1,1),NT_list(2,1),NT_list(3,1),NT_list(1,2),...
     RT_list(1,6),RT_list(2,6),RT_list(3,6),RT_list(1,7),RT_list(2,7),...
     RT_list(3,7),RT_list(1,8),RT_list(2,8),RT_list(3,8));
 
-Q = diag([0 0 0 1 1 1 1 1 1 1 1 1]);
+Q = diag([0 0 0 0 0 0 0 0 0 1 1 1]);
 R = diag([1 1 1 1 1 1 1 1]);
 
 K = lqr(A,B,Q,R);
+
+FT_list_ref = zeros(8,1);

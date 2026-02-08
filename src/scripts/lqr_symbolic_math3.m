@@ -1,4 +1,4 @@
-clear all; clc;
+
 %% Step 1: State Transition Function dX = f(X,U)
 %states
 syms xb yb zb dxb dyb dzb q0 q1 q2 q3 wbx wby wbz real

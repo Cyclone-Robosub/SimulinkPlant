@@ -80,6 +80,8 @@ for k = 1:2:N_thrusters
         %compute scaling coefficient between neighboring forces
         if(lower_force_index == upper_force_index)
             alpha = 0;
+        elseif(abs(force_column(upper_force_index)-force_column(lower_force_index))<1e-3)
+            alpha = 0;
         else
             alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
         end
@@ -156,6 +158,8 @@ for k = 2:2:N_thrusters
         
         %compute scaling coefficient between neighboring forces
         if(lower_force_index == upper_force_index)
+            alpha = 0;
+        elseif(abs(force_column(upper_force_index)-force_column(lower_force_index))<1e-3)
             alpha = 0;
         else
             alpha = (force - force_column(upper_force_index))/(force_column(upper_force_index)-force_column(lower_force_index));
