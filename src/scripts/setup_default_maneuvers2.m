@@ -7,10 +7,16 @@ manual = manual.setFTList([1 1 1 1 0 0 0 0]);
 forward = maneuver2(0,0,FT_wrench,MT_wrench,"forward");
 forward = forward.setID(1);
 forward = forward.setMaxManeuverForce(40); %max force of one thruster
+<<<<<<< HEAD
 forward = forward.setFTList(20*[0 0 0 0 1 -1 1 -1]); %target force for this maneuver
 %forward = forward.addForce([0 0 -.5 0 .2 -0.5]);
 forward = forward.addFTList([-.4 0.4 0 0 ...
                              -1.8 0 -1.8 0]);
+=======
+forward = forward.setFTList(10*[0 0 0 0 1 -1 1 -1]); %target force for this maneuver
+% forward = forward.setForce([10 0 0 0 0 0])
+forward = forward.addForce([0 0 -1 0 -2.4 .03]);
+>>>>>>> f676f0f94e1693dbec8baed5e428b8c7d22bd692
 
 
 backward = maneuver2(0,0,FT_wrench,MT_wrench,"backward");
@@ -26,8 +32,8 @@ backward = backward.setForce([0 0 0 0 0 2]); %target force for this maneuver
 
 up = maneuver2(0,0,FT_wrench,MT_wrench,"up");
 up = up.setID(3);
-up = up.setMaxManeuverForce(10); %max force of one thruster
-up = up.setForce([0 0 -1 0 0 0]); %target force for this maneuver
+up = up.setMaxManeuverForce(40); %max force of one thruster
+up = up.setForce(5*[0 0 -1 0 0 0]); %target force for this maneuver
 
 down = maneuver2(0,0,FT_wrench,MT_wrench,"down");
 down = down.setID(4);
