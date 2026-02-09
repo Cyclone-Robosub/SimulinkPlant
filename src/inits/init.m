@@ -130,7 +130,7 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-%plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
-%plotAllOutputs(results,plots);
+plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
+plotAllOutputs(results,plots);
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 %saveOutputMat(results,prj_path_list.user_data_path);
