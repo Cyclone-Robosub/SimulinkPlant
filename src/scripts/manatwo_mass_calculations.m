@@ -23,7 +23,7 @@ Ic = diag([1/12*mc*(wc^2+hc^2), 1/12*mc*(lc^2 + hc^2), 1/12*mc*(lc^2+wc^2)]);
 
 %calculate any unaccounted for mass and assume it is part of the plate
 mp = 3.143; % base plate mass from CAD
-m_uncounted = m - (mp + md + 8*mt + mp);
+m_uncounted = m - (mp + 8*mt + mp);
 mp = mp + m_uncounted;
 
 
