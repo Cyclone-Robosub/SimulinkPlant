@@ -1,5 +1,5 @@
 %{
-This script gets a starting guess for Manatee's added rotational inertia
+This script gets a starting guess for Manatwo's added rotational inertia
 and mass by assuming Manny is a rectangular prism.
 %}
 
@@ -9,7 +9,7 @@ Cy = 0.55;
 Cz = 0.55;
 alpha = 0.2; 
 
-%dimensions of a prism of the same volume as Manny
+%dimensions of a prism of the same volume as Manatwo
 % y-axis
 l = 0.5588;
 % x-axis
