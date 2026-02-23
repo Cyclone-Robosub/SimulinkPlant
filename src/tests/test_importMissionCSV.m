@@ -37,7 +37,7 @@ classdef test_importMissionCSV < matlab.unittest.TestCase
         end
 
         function test_too_long_file(testCase)
-            result = importMissionCSV(testCase.path3)
+            result = importMissionCSV(testCase.path3);
             expected = ones(100,10);
             testCase.verifyEqual(result,expected);
         end
