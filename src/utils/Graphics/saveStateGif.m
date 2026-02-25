@@ -174,7 +174,11 @@ if(OpenFolder)
     try
         winopen(filepath);
     catch
-        fprintf("Failed to open the media folder.\nThis feature only works on windows right now ):")
+        try
+            system("qlmanage -p ./src/temp/test.gif");
+        catch
+            fprintf("Failed to open the media folder.\nThis feature doesn't currently work on your device ):")
+        end
     end
 
 end

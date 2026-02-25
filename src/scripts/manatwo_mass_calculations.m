@@ -1,6 +1,6 @@
 %dimensions and local moments
 %define conversion factor from in to m
-m_meas = 0; %total mass measured by hull team (to be added)
+m_meas = 20; %total mass measured by hull team (to be added)
 
 %mass of any added balast needed to balance buoyancy
 m_balast = 0;
@@ -21,10 +21,9 @@ It = zeros(3,3);
 mc = 7.052;
 Ic = diag([1/12*mc*(wc^2+hc^2), 1/12*mc*(lc^2 + hc^2), 1/12*mc*(lc^2+wc^2)]);
 
-%calculate any unaccounted for mass and assume it is part of the plate
-mp = 3.143; % base plate mass from CAD
-m_uncounted = m - (mp + 8*mt + mp);
-mp = mp + m_uncounted;
+%calculate any unaccounted for mass and assume it is part of the chassis
+m_uncounted = m - (mc + 8*mt + mc);
+mc = mc + m_uncounted;
 
 
 %apply the parallel axis theorem to find the mass moment of inertia about

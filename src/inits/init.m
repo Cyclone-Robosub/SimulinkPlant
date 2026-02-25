@@ -65,13 +65,13 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %% Test Conditions
 
-%test_ft_list = [0 0 0 0 10 10 10 10];
+test_ft_list = [0 0 0 0 0 0 0 0];
 %test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
 %assumes mission_file.txt is in the src/inits/ folder
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FF_Controller_SIM.slx";
+sim_select = "Dynamics_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
@@ -80,7 +80,7 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 10;
+tspan = 2;
 
 %simulation time step
 dt_sim = 0.001;
@@ -94,9 +94,9 @@ dt_control_target = 0.01;
 dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
-do_buoyancy_flag = 1;
+do_buoyancy_flag = 0;
 do_gravity_flag = 1;
-do_drag_flag = 1;
+do_drag_flag = 0;
 do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
@@ -130,6 +130,6 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-plots = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
-%plotAllOutputs(results,plots);
-%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+plots = {"FT_list", "Eul", "FTb, MTb"};
+plotAllOutputs(results,plots);
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
