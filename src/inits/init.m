@@ -81,7 +81,7 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 1000;
+tspan = 5;
 
 %simulation time step
 dt_sim = 0.01;
@@ -105,6 +105,8 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 overwrite_mission_file_wp_flag = 0;
 overwrite_mission_file_mode_flag = 0;
+do_state_save_flag = 1;
+do_gif_flag = 0;
 
 %mission file
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -134,4 +136,4 @@ results = sim(simIn);
 %plot_names = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
 %plotAllOutputs(plots,results);
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
-saveOutputMat(results,prj_path_list.user_data_path);
+saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

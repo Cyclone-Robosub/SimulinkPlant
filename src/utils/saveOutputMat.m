@@ -19,7 +19,7 @@ for k = 1:length(fields)
     name_struct = fields(k);
     name = name_struct{1};
     
-    if(name ~= "tout")
+    if(name ~= "tout" )
         this_data_struct = results.(name);
         t = squeeze(this_data_struct.Time);
         data = squeeze(this_data_struct.Data);
