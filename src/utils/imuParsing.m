@@ -21,8 +21,8 @@ child_frame_id: 0
 %}        
 
 %pose
-function [poseOrientation, poseCov, posePosition, twistAngular, twistCov, twistLinear, childFrame, angVel, angVelCov, ...  
-    linAccel,linAccelCov, orientatn, orientatnCov, magfieldCov, magfield, fluidPressureCov, fluidPressure] = imuParsing(IMU) 
+function [poseOrientation, poseCov, posePosition, twistAngular, twistCov, twistLinear, angVel, angVelCov, ...  
+    linAccel,linAccelCov, orientatn, orientatnCov, magfieldCov, magfield] = imuParsing(IMU) 
 
 poseCov = IMU.ahrs_database.pose.covariance;
 
@@ -39,7 +39,7 @@ twistAngular = [IMU.ahrs_database.twist.twist.angular.x; IMU.ahrs_database.twist
 twistLinear = [IMU.ahrs_database.twist.twist.linear.x; IMU.ahrs_database.twist.twist.linear.y; IMU.ahrs_database.twist.twist.linear.z];
 
 %child_frame_id
-childFrame = IMU.ahrs_database.child_frame_id;
+%childFrame = IMU.ahrs_database.child_frame_id;
 
 
 
@@ -96,8 +96,8 @@ variance; 0
 %}
 
 %fluid pressure
-fluidPressureCov = IMU.pressure.variance;
-fluidPressure = IMU.pressure.fluid_pressure;
+%fluidPressureCov = IMU.pressure.variance;
+%fluidPressure = IMU.pressure.fluid_pressure;
 
 
 end
