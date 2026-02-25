@@ -81,7 +81,7 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 100;
+tspan = 20;
 
 %simulation time step
 dt_sim = 0.01;
@@ -134,4 +134,4 @@ results = sim(simIn);
 plot_names = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
 plotAllOutputs(plots,results);
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
-%saveOutputMat(results,prj_path_list.user_data_path);
+saveOutputMat(results,prj_path_list.user_data_path);
