@@ -20,10 +20,10 @@ twist: 2
 child_frame_id: 0 
 %}        
 
-%pose
 function [poseOrientation, poseCov, posePosition, twistAngular, twistCov, twistLinear, angVel, angVelCov, ...  
-    linAccel,linAccelCov, orientatn, orientatnCov, magfieldCov, magfield] = imuParsing(IMU) 
+    linAccel,linAccelCov, orientation, orientationCov, magfield, magfieldCov] = imuParsing(IMU) 
 
+%Pose
 poseCov = IMU.ahrs_database.pose.covariance;
 
 posePosition = [IMU.ahrs_database.pose.pose.position.x; IMU.ahrs_database.pose.pose.position.y; IMU.ahrs_database.pose.pose.position.z];
@@ -32,7 +32,7 @@ poseOrientation = [IMU.ahrs_database.pose.pose.orientation.w; IMU.ahrs_database.
     IMU.ahrs_database.pose.pose.orientation.z];
 
 %twist
-twistCov = IMU.ahrs_database.twist_covariance;
+twistCov = IMU.ahrs_database.twist.covariance;
 
 twistAngular = [IMU.ahrs_database.twist.twist.angular.x; IMU.ahrs_database.twist.twist.angular.y; IMU.ahrs_database.twist.twist.angular.z];
 
@@ -67,9 +67,9 @@ linAccelCov = IMU.imu_fusion.linear_acceleration_covariance;
 linAccel = [IMU.imu_fusion.linear_acceleration.x; IMU.imu_fusion.linear_acceleration.y; IMU.imu_fusion.linear_acceleration.z];
 
 %orientation
-orientatnCov = IMU.imu_fusion.orientatn_covariance;
+orientationCov = IMU.imu_fusion.orientation_covariance;
 
-orientatn = [IMU.imu_fusion.orientatn.w; IMU.imu_fusion.orientatn.x; IMU.imu_fusion.orientatn.y; IMU.imu_fusion.orientatn.z];
+orientation = [IMU.imu_fusion.orientation.w; IMU.imu_fusion.orientation.x; IMU.imu_fusion.orientation.y; IMU.imu_fusion.orientation.z];
 
 
 
@@ -85,8 +85,8 @@ magnetic_field_covariance: 0
 %}
 
 %magnetic field
-magfieldCov = IMU.mag_array.magnetic_field_covariance;
 magfield = [IMU.mag_array.magnetic_field.x; IMU.mag_array.magnetic_field.y; IMU.mag_array.magnetic_field.z];
+magfieldCov = IMU.mag_array.magnetic_field_covariance;
 
 %LEVEL 4: IMU.pressure (fluid_pressure, variance)
 
