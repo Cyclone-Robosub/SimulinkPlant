@@ -72,7 +72,7 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FF_Controller_SIM.slx";
+sim_select = "Simple_Joystick_HIL.slx";
 %battery voltage if constant
 const_voltage = 14;
 
@@ -81,10 +81,10 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 10;
+tspan = 100;
 
 %simulation time step
-dt_sim = 0.001;
+dt_sim = 0.01;
 
 %data saving rate
 dt_data_target = 1/30;
