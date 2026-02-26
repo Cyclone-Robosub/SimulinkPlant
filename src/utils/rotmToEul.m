@@ -13,19 +13,19 @@ De Ruiter - Spacecraft Dynamics and Control, Chapter 1
 
 C = rotm;
 
-%avoid singularity
-if(abs(C(3,3))<1e-3)
-    C(3,3) = sign(C(3,3))*1e-3;
-end
-
-if(abs(C(1,1))<1e-3)
-    C(1,1) = sign(C(1,1))*1e-3;
-end
-
-%calculate eulers
-phi = atan(C(2,3)/C(3,3));
+%Pitch
 theta = -asin(C(1,3));
-psi = atan(C(1,2)/C(1,1));
+
+%Check if near the singularity and force the attitude representation with
+%phi = 0 to avoid gimbal lock
+if (abs(cos(theta)) < 1e-6)
+    phi = 0;
+    psi = atan2(-C(2,1), C(2,2));
+else
+    phi = atan2(C(2,3), C(3,3));
+    psi = atan2(C(1,2), C(1,1));
+end
+
 
 %enforce domain
 phi = wrapToPi(phi);

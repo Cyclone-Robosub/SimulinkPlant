@@ -1,8 +1,9 @@
 manual = maneuver2(0,0,FT_wrench,MT_wrench,"manual");
 manual = manual.setID(13);
-manual = manual.setMaxManeuverForce(2);
-manual = manual.setFTList([1 1 1 1 0 0 0 0]);
-%manual = manual.setForce(3*[0 1 0 0 0 0]);
+manual = manual.setMaxManeuverForce(100);
+manual = manual.setFTList(5*[-0.1 0.1 0 0 1 -1 1 -1]);
+
+
 
 forward = maneuver2(0,0,FT_wrench,MT_wrench,"forward");
 forward = forward.setID(1);
@@ -12,6 +13,7 @@ forward = forward.setFTList(20*[0 0 0 0 1 -1 1 -1]); %target force for this mane
 forward = forward.addFTList([-.4 0.4 0 0 ...
                              -1.8 0 -1.8 0]);
 forward = forward.setFTList(10*[0 0 0 0 1 -1 1 -1]); %target force for this maneuver
+
 % forward = forward.setForce([10 0 0 0 0 0])
 forward = forward.addForce([0 0 -1 0 -2.4 .03]);
 

@@ -72,7 +72,7 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "Simple_Joystick_HIL.slx";
+sim_select = "FF_Controller_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
@@ -81,10 +81,10 @@ const_voltage = 14;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 5;
+tspan = 20;
 
 %simulation time step
-dt_sim = 0.01;
+dt_sim = 0.001;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -133,7 +133,7 @@ simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
 %% Post Processing
-%plot_names = {"FT_list","FT_cmd_list","Ri, dRi, ddRi","pwm_cmd","Eul", "FTb, MTb"};
-%plotAllOutputs(plots,results);
-%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
-saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
+plot_names = {"FT_list","FT_cmd_list","pwm_cmd","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
+plotAllOutputs(plots,results,plot_names);
+% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+% saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

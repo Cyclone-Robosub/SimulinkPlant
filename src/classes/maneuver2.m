@@ -31,7 +31,7 @@ versions of this class.
         FT_wrench = zeros(3,8);
         MT_wrench = zeros(3,8);
         wrench = zeros(6,8);
-        maxManeuverForce = 0;
+        maxManeuverForce = 100;
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
@@ -86,6 +86,7 @@ versions of this class.
             allowable bounds.
             %}
             fm = fm(:);
+           
             FT_list = pinv(obj.wrench)*fm;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
