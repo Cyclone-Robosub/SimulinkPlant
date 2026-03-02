@@ -64,6 +64,8 @@ wb_0 = [wx_0; wy_0; wz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
+%% Monte Carlo Setup
+
 %% Test Conditions
 
 %test_ft_list = [0 0 0 0 10 10 10 10];
@@ -72,16 +74,16 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FF_Controller_SIM.slx";
+sim_select = "FB_Controller_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
 %joystick input if constant
 %const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
-
+FT_list_test = [0 0 0 0 0 0 0 0]';
 %% Simulation Parameters
 %simulation duration
-tspan = 20;
+tspan = 1;
 
 %simulation time step
 dt_sim = 0.001;
@@ -132,8 +134,9 @@ simIn = Simulink.SimulationInput(sim_select);
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
+
 %% Post Processing
-plot_names = {"FT_list","FT_cmd_list","pwm_cmd","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
+plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
 plotAllOutputs(plots,results,plot_names);
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
