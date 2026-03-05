@@ -35,6 +35,7 @@ versions of this class.
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
+        show_warnings = false;
     end
 
     methods
@@ -150,11 +151,13 @@ versions of this class.
         end
         
         function warnOutOfBoundFT_list(obj,FT_list)
-            for k = 1:length(FT_list)
-                if(FT_list(k)>obj.maxManeuverForce)
-                    warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),obj.maxManeuverForce);
-                elseif(FT_list(k)<-obj.maxManeuverForce)
-                    warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),-obj.maxManeuverForce);
+            if(obj.show_warnings)
+                for k = 1:length(FT_list)
+                    if(FT_list(k)>obj.maxManeuverForce)
+                        warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),obj.maxManeuverForce);
+                    elseif(FT_list(k)<-obj.maxManeuverForce)
+                        warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),-obj.maxManeuverForce);
+                    end
                 end
             end
         end

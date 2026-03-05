@@ -22,3 +22,4 @@ plots(end+1) = ClassPlot("FT_list","FT_list",[4,2],{1,2,3,4,5,6,7,8},["F (N)","F
 plots(end+1) = ClassPlot("Eul","Eul",[1,1],{[1,2,3]},"Angle (rad)","Time (s)","","Euler Angles",{["roll","pitch","yaw"]});
 
 plots(end+1) = ClassPlot("q","q",[1,2],{[1,2,3],[4]},["Epsilon","Eta"],"Time (s)",["Vector","Scalar"],"Quaternion",{["q1","q2","q3"],["q4"]});
+
