@@ -61,6 +61,7 @@ versions of this class.
             obj.FT_list = obj.constrain(FT_list);
             %set fm
             obj.fm = obj.wrench*obj.FT_list;
+            obj.fm = obj.fm(:);
         end
 
         function obj = addFTList(obj,FT_list_add)
@@ -77,6 +78,7 @@ versions of this class.
 
             %set fm
             obj.fm = obj.wrench*obj.FT_list;
+            obj.fm = obj.fm(:);
         end
         
         function obj = setForce(obj,fm)
@@ -94,6 +96,7 @@ versions of this class.
             
             %calculate the actual force and moment after constraint
             obj.fm = obj.wrench*obj.FT_list;
+            obj.fm = obj.fm(:);
         end
 
         function obj = addForce(obj,fm_add)
@@ -103,6 +106,7 @@ versions of this class.
             constrained FT_list. 
             %}
             fm_add = fm_add(:);
+            
             FT_list = pinv(obj.wrench)*(obj.fm + fm_add);
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);

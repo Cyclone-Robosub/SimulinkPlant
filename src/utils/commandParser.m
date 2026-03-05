@@ -14,27 +14,27 @@ switch mode
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = false;
-        off_flag = true;
+        off_flag = 1;
     case 1 %FF
         do_FF_flag = true;
         do_PID_flag = false;
         do_JOY_flag = false;
-        off_flag = false;
+        off_flag = 0;
     case 2 %PID
         do_FF_flag = false;
         do_PID_flag = true;
         do_JOY_flag = false;
-        off_flag = false;
+        off_flag = 0;
     case 3 %JOY
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = true;
-        off_flag = false;
+        off_flag = 0;
     otherwise
         do_FF_flag = false;
         do_PID_flag = false;
         do_JOY_flag = false;
-        off_flag = true;
+        off_flag = 1;
 end
 
 maneuver_id = command(2); %which maneuver to do

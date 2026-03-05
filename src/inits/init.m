@@ -74,7 +74,7 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FB_Controller_SIM.slx";
+sim_select = "FF_Controller_SIM.slx";
 %battery voltage if constant
 const_voltage = 14;
 
@@ -83,7 +83,7 @@ const_voltage = 14;
 FT_list_test = [0 0 0 0 0 0 0 0]';
 %% Simulation Parameters
 %simulation duration
-tspan = 1;
+tspan = 3;
 
 %simulation time step
 dt_sim = 0.001;
