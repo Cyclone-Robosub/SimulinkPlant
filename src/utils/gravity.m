@@ -7,12 +7,13 @@ function [Fb_g, Mb_g] = gravity(Cbi, m, do_gravity_flag)
 
 %}
 gb=Cbi*[0;0;9.81];
+
 Fb_g=m*gb;
 Mb_g=[0;0;0];
-
 if(~do_gravity_flag)
     Fb_g=[0;0;0];
 end
+
 
 
 end

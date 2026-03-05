@@ -18,7 +18,6 @@ qib = qib(:);
 
 %calculate the rotation matrix
 rotm = quatToRotm(qib);
-
 %calculate the euler angles
 Eul = rotmToEul(rotm);
 
