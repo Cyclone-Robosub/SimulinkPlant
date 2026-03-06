@@ -16,7 +16,7 @@ classdef test_buoyancy < matlab.unittest.TestCase
         V = 3;
         R_cm2cv = [1;2;3];
 
-        [F_results, M_results] = buoyancy(Cbi, rho, V, R_cm2cv);
+        [F_results, M_results] = buoyancy(Cbi, rho, V, R_cm2cv, 1);
         
         expected_F = [0;0;-rho*V*9.81];
         expected_M = cross(R_cm2cv,expected_F);

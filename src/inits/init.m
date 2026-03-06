@@ -15,6 +15,7 @@ instead and give it an extension such as init_variant and place it in init
 archive.
 %}
 
+
 %% Housekeeping and Path Management
 clc
 close all
@@ -79,8 +80,9 @@ sim_select = "FF_Controller_SIM.slx";
 const_voltage = 14;
 
 %joystick input if constant
-%const_joy = [0 0 0 0 0 1]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = [0 0 0 0 0 0 0 0]';
+test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
 tspan = 3;
