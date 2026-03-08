@@ -43,9 +43,10 @@ for k = 1:length(fields)
             data = data';
         end
        
-        to_save = [t,data];
+        %to_save = [t,data];
+        to_save = [data];
         if(do_state_save_flag)
-            writematrix(to_save,fullfile(filepath,strcat(name,'.txt')));
+            writematrix(to_save,fullfile(filepath,strcat(name,'.txt')),Delimiter=" ");
         end
     end
 end

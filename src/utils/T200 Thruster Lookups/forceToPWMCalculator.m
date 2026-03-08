@@ -195,4 +195,15 @@ for k = 2:2:N_thrusters
 
 end
 
+pwms_upper = 1650;
+pwms_lower = 1250;
+
+for k = 1:8
+    if(pwms(k) > pwms_upper)
+        pwms(k) = pwms_upper;
+    elseif(pwms(k) < pwms_lower)
+        pwms(k) = pwms_lower;
+    end
+end
+
 pwms_int32(:) = int32(pwms(:));
