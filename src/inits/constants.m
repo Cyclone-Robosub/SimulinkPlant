@@ -22,6 +22,8 @@ Kpz = 5;
 Kiq = 1;
 Kpq = 10;
 Kdq = 0;
+pwm_lower_limit = 1100;
+pwm_upper_limit = 1800;
 
 %load physical data
 run('physical_data_calculations');

@@ -32,8 +32,8 @@ run('setup_plots.m')
 
 %% Initial Conditions
 %initial intertial position
-xi_0 = 10;
-yi_0 = 10;
+xi_0 = 5;
+yi_0 = 5;
 zi_0 = 5;
 Ri_0 = [xi_0; yi_0; zi_0];
 
@@ -78,7 +78,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 30;
+tspan = 15;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -101,10 +101,10 @@ do_time_flag = 1;
 do_torque_flag = 1; 
 do_force_flag = 1; 
 
-%target state (only used if overwrite_mission_file_wp_flag = 1)
-R_target = [0; 0; 0;];
-Eul_target = [0; 0; 0];
-state_overwrite = [R_target;Eul_target];
+% %target state (only used if overwrite_mission_file_wp_flag = 1)
+% R_target = [0; 0; 0;];
+% Eul_target = [0; 0; 0];
+% state_overwrite = [R_target;Eul_target];
 
 %tolerances
 roll_error_tol = 5*pi/180;
@@ -129,7 +129,7 @@ results = sim(simIn);
 
 
 %% Post Processing
-plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists"};
+plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
 plotAllOutputs(plots,results,plot_names);
 saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
