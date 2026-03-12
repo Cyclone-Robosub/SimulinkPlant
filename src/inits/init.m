@@ -57,48 +57,42 @@ q_0 = rotm2quat(Cib_0);
 q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
 
 %initial angular velocity
-wx_0 = 0;
-wy_0 = 0;
-wz_0 = 0;
-wb_0 = [wx_0; wy_0; wz_0];
+wbx_0 = 0;
+wby_0 = 0;
+wbz_0 = 0;
+wb_0 = [wbx_0; wby_0; wbz_0];
 
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
 %% Monte Carlo Setup
+%TBA
 
 %% Test Conditions
+%battery voltage
+const_voltage = 15;
 
-%test_ft_list = [0 0 0 0 10 10 10 10];
-%test_pwm_list = [1500 1500 1500 1500 1800 1800 1200 1200];
-%assumes mission_file.txt is in the src/inits/ folder
-mission_file_name = "mission_file.txt"; 
-
-%name of the model to be ran
-sim_select = "FF_Controller_SIM.slx";
-%battery voltage if constant
-const_voltage = 14;
-
-%joystick input if constant
+%Simple_Joystick_SIM
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = [0 0 0 0 0 0 0 0]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 3;
+tspan = 100;
 
 %simulation time step
-dt_sim = 0.001;
+dt_sim = 1/1000;
 
 %data saving rate
 dt_data_target = 1/30;
 dt_data = round((dt_data_target/dt_sim))*dt_sim; %make sure dt_data is a multiple of dt_sim
 
 %controller update rate
-dt_control_target = 0.01;
+dt_control_target = 1/100;
 dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
+% Plant
 do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
@@ -106,18 +100,6 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-do_Fb_correction = 0; 
-overwrite_mission_file_wp_flag = 0;
-overwrite_mission_file_mode_flag = 0;
-do_state_save_flag = 1;
-do_gif_flag = 0;
-
-%mission file
-mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
-mission_file = importMissionCSV(mission_file_path);
-
-%control mode (valid options MODE_NONE - no control, 1 MODE FF - feedforward, 2, MODE_PID - feedback PID control)
-mode_overwrite = 2;
 
 %target state (only used if overwrite_mission_file_wp_flag = 1)
 R_target = [0; 0; 0;];
@@ -130,6 +112,15 @@ pitch_error_tol = 5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
 
+%assumes mission_file.txt is in the src/inits/ folder
+mission_file_name = "mission_file.txt"; 
+
+%name of the model to be ran
+sim_select = "FB_Controller_SIM.slx";
+
+%mission file
+mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
+mission_file = importMissionCSV(mission_file_path);
 %% Simulation
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
