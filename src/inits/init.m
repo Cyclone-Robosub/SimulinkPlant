@@ -116,21 +116,21 @@ w_tol = 0.1;
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "FB_Controller_SIM.slx";
+sim_select = "Simple_Joystick_SIM.slx";
 
 %mission file
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission_file = importMissionCSV(mission_file_path);
 %% Simulation
-data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
-sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
-if(~isfolder(sim_file_path))
-    mkdir(sim_file_path);
-end
-sim_mat_path = fullfile(sim_file_path,"results.mat");
+% data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
+% sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
+% if(~isfolder(sim_file_path))
+%     mkdir(sim_file_path);
+% end
+% sim_mat_path = fullfile(sim_file_path,"results.mat");
+% %set the name of the file path
+% set_param('FB_Controller_SIM/To File','Filename',sim_mat_path);
 
-%set the name of the file path
-set_param('FB_Controller_SIM/To File','Filename',sim_mat_path);
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
 simIn = simIn.setVariable('mission_file',mission_file);
