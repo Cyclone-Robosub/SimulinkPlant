@@ -1,4 +1,4 @@
-function [qib_int_u, dRbx_u, dRby_u, dRbz_u, action_id] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, Kpx, Kpy, Kpz);
+function [qib_int_u, dRb_u, action_id] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, Kpx, Kpy, Kpz, dRb_u_limit)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -78,10 +78,11 @@ else
     action_id = 3;
 end
 
-% max_forward_velocity = 3;
-% 
-% dRbx_u = max([-max_forward_velocity, dRbx_u]);
-% dRbx_u = min([max_forward_velocity, dRbx_u]);
+%apply limits on dRb_u
+dRbx_u = max(-dRb_u_limit(1),min(dRb_u_limit(1),dRbx_u));
+dRby_u = max(-dRb_u_limit(2),min(dRb_u_limit(2),dRby_u));
+dRbz_u = max(-dRb_u_limit(3),min(dRb_u_limit(3),dRbz_u));
+dRb_u = [dRbx_u; dRby_u; dRbz_u];
 
 
 

@@ -13,15 +13,26 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%Controller
+%% Controller
+%tolerance for mode switching in the guidance law
 Ri_e_tol = 1;
 Eul_e_tol = 10*pi/180;
+
+%Controller gains for position --> velocity
 Kpx = 10;
 Kpy = 2;
 Kpz = 5;
+dRbx_limit = 2; %speed limits in m/s
+dRby_limit = 2;
+dRbz_limit = 1; 
+dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
+%Controller gains for quaternion --> angular velocity
 Kiq = 1;
 Kpq = 10;
 Kdq = 0;
+
+
+%pwm cmd clamping
 pwm_lower_limit = 1100;
 pwm_upper_limit = 1800;
 

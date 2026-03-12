@@ -34,7 +34,7 @@ run('setup_plots.m')
 %initial intertial position
 xi_0 = 5;
 yi_0 = 5;
-zi_0 = 5;
+zi_0 = 0;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
