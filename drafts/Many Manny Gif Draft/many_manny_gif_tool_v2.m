@@ -94,7 +94,7 @@ frameArray = cell(1,nFrames);  % store frames
 
 %Start printout percentage
 percent_text = fprintf("Media is 0.00%% Complete");
-
+tic
 for k = 1:frameskip:length(t) %for each frame
     for j = 1:N_Mannys %for each Manny
         %get this Manny's rotation and position

@@ -130,6 +130,6 @@ results = sim(simIn);
 
 %% Post Processing
 plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
-% plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+plotAllOutputs(plots,results,plot_names);
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
