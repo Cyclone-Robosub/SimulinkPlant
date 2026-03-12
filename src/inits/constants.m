@@ -29,7 +29,7 @@ dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
 %Controller gains for quaternion --> angular velocity
 Kiq = 2;
 Kpq = 15;
-Kdq = 0;
+Kdq = .5;
 quat_pid_integrator_limit = inf;
 %Controller gains for velocity --> force
 Kp_dRx = 10;
