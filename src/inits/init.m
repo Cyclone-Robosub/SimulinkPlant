@@ -44,9 +44,9 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = 0;
-theta_0 = 0;
-psi_0 = 0;
+phi_0 = pi/2;
+theta_0 = pi/2;
+psi_0 = pi;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
@@ -74,11 +74,11 @@ const_voltage = 15;
 
 %Simple_Joystick_SIM
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
-FT_list_test = [0 0 0 0 0 0 0 0]';
+FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 100;
+tspan = 5;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -129,7 +129,7 @@ results = sim(simIn);
 
 
 %% Post Processing
-plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
+plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists"};
 plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

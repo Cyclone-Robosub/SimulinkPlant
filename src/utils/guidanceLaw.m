@@ -1,4 +1,4 @@
-function [qib_int_u, dRbx_u, dRbz_u] = guidanceLaw(X,Xu,Ri_e_tol,Eul_e_tol,Kpx,Kpz)
+function [qib_int_u, dRbx_u, dRbz_u, action_id] = guidanceLaw(X,Xu,Ri_e_tol,Eul_e_tol,Kpx,Kpz)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -16,6 +16,8 @@ target if Ri - Ri_u is large. If the position error is small, qib_int_u
 returns qib_u.
 dRbx_u - a velocity command in the forward forward/backward of the vehicle
 dRbz_u - a velocity command in the up/down direction of the vehicle
+action_id - what the controller is currently trying to do (1 = point to wp, 2 =
+drive to wp)
 %}
 
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
@@ -53,13 +55,21 @@ Eul_e = quatToEul(qib_e);
 if(max(abs(Eul_e)) > Eul_e_tol)
     dRbx_u = 0; %command no forward velocity
     dRbz_u = 0; %command no vertical velocity
+    action_id = 1;
+    
 else
     %command velocities with a proportional controller
     dRbx_u = Kpx*(norm(Ri_xy_e));
     dRbz_u = Kpz*(Ri_u(3) - Ri(3)); 
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
+    action_id = 2;
 end
+
+max_forward_velocity = 3;
+
+dRbx_u = max([-max_forward_velocity, dRbx_u]);
+dRbx_u = min([max_forward_velocity, dRbx_u]);
 
 
 
