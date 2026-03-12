@@ -32,9 +32,9 @@ run('setup_plots.m')
 
 %% Initial Conditions
 %initial intertial position
-xi_0 = 0;
-yi_0 = 0;
-zi_0 = 0;
+xi_0 = 10;
+yi_0 = 10;
+zi_0 = 5;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
@@ -78,7 +78,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 5;
+tspan = 30;
 
 %simulation time step
 dt_sim = 1/1000;

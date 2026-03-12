@@ -14,12 +14,13 @@ if(~exist('prj_path_list','var'))
 end
 
 %Controller
-Ri_e_tol = .1;
-Eul_e_tol = 1*pi/180;
+Ri_e_tol = 1;
+Eul_e_tol = 10*pi/180;
 Kpx = 10;
+Kpy = 2;
 Kpz = 5;
-Kiq = .1;
-Kpq = 5;
+Kiq = 1;
+Kpq = 10;
 Kdq = 0;
 
 %load physical data
