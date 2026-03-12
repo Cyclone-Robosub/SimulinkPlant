@@ -4,7 +4,7 @@ Does the same thing as Manny gif tool but plots 10 robots at once.
 
 %% Setup
 tic
-data_folders_path = prj_paths_list.user_data_path;
+data_folders_path = "C:\Github\Cyclone Robosub\SimulinkPlant\drafts\Many Manny Gif Draft"
 
 %toggles
 draw_manny_body = 1;

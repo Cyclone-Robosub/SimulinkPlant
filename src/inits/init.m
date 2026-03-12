@@ -32,21 +32,21 @@ run('setup_plots.m')
 
 %% Initial Conditions
 %initial intertial position
-xi_0 = 0;
-yi_0 = 1;
-zi_0 = 0;
+xi_0 = 20*rand - 10;
+yi_0 = 20*rand - 10;
+zi_0 = 20*rand - 10;
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
-ui_0 = 0;
-vi_0 = 0;
-wi_0 = 0;
+ui_0 = 2*rand - 1;
+vi_0 = 2*rand - 1;
+wi_0 = 2*rand - 1;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = 0;
-theta_0 = 0;
-psi_0 = 0;
+phi_0 = pi*rand - pi/2;
+theta_0 = pi*rand - pi/2;
+psi_0 = pi*rand - pi/2;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations
@@ -57,9 +57,9 @@ q_0 = rotm2quat(Cib_0);
 q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
 
 %initial angular velocity
-wbx_0 = 0;
-wby_0 = 0;
-wbz_0 = 0;
+wbx_0 = 1*rand - .5;
+wby_0 = 1*rand - .5;
+wbz_0 = 1*rand - .5;
 wb_0 = [wbx_0; wby_0; wbz_0];
 
 %pack initial state
@@ -78,7 +78,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 15;
+tspan = 30;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -130,6 +130,6 @@ results = sim(simIn);
 
 %% Post Processing
 plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
-plotAllOutputs(plots,results,plot_names);
-saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+% plotAllOutputs(plots,results,plot_names);
+% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

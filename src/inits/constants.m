@@ -15,26 +15,26 @@ end
 
 %% Controller
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 2;
-Eul_e_tol = 10*pi/180;
+Ri_e_tol = 1;
+Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Kpx = 10;
+Kpx = 20;
 Kpy = 2;
 Kpz = 5;
-dRbx_limit = 2; %speed limits in m/s
-dRby_limit = 2;
-dRbz_limit = 1; 
+dRbx_limit = 10; %speed limits in m/s
+dRby_limit = 10;
+dRbz_limit = 10; 
 dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
 %Controller gains for quaternion --> angular velocity
-Kiq = 1;
-Kpq = 10;
+Kiq = 2;
+Kpq = 15;
 Kdq = 0;
 quat_pid_integrator_limit = inf;
 %Controller gains for velocity --> force
 Kp_dRx = 10;
 Kp_dRy = 2;
-Kp_dRz = 3;
+Kp_dRz = 6;
 linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
 
 
