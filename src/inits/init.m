@@ -32,8 +32,8 @@ run('setup_plots.m')
 
 %% Initial Conditions
 %initial intertial position
-xi_0 = 5;
-yi_0 = 5;
+xi_0 = 0;
+yi_0 = 1;
 zi_0 = 0;
 Ri_0 = [xi_0; yi_0; zi_0];
 
@@ -44,9 +44,9 @@ wi_0 = 0;
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = pi/2;
-theta_0 = pi/2;
-psi_0 = pi;
+phi_0 = 0;
+theta_0 = 0;
+psi_0 = 0;
 Eul_0 = [phi_0; theta_0; psi_0];
 
 %other attitude representations

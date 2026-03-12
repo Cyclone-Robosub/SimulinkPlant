@@ -15,7 +15,7 @@ end
 
 %% Controller
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 1;
+Ri_e_tol = 2;
 Eul_e_tol = 10*pi/180;
 
 %Controller gains for position --> velocity
@@ -30,6 +30,14 @@ dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
 Kiq = 1;
 Kpq = 10;
 Kdq = 0;
+quat_pid_integrator_limit = inf;
+%Controller gains for velocity --> force
+Kp_dRx = 10;
+Kp_dRy = 2;
+Kp_dRz = 3;
+linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
+
+
 
 
 %pwm cmd clamping
