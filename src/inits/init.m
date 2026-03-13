@@ -78,7 +78,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 10;
+tspan = 100;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -116,7 +116,7 @@ w_tol = 0.1;
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-sim_select = "Simple_Joystick_SIM.slx";
+sim_select = "FB_Controller_SIM.slx";
 
 %mission file
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
