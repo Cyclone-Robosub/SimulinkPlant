@@ -13,17 +13,36 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%PID
+%% Controller
+%tolerance for mode switching in the guidance law
+Ri_e_tol = 1;
+Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
-PID = [4.6 0.08 55.4 128;...
-    4.8 0.066 43.8 101.9;...
-    2.29 0.025 45.9 104.2;...
-    7.9 11.9 1.29 165;...
-    8 7 2 25;...
-    3 0.36 6.3 25.3];
+%Controller gains for position --> velocity
+Kpx = 20;
+Kpy = 2;
+Kpz = 5;
+dRbx_limit = 10; %speed limits in m/s
+dRby_limit = 10;
+dRbz_limit = 10; 
+dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
+%Controller gains for quaternion --> angular velocity
+Kiq = 2;
+Kpq = 15;
+Kdq = .5;
+quat_pid_integrator_limit = inf;
+%Controller gains for velocity --> force
+Kp_dRx = 10;
+Kp_dRy = 2;
+Kp_dRz = 6;
+linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
 
-linear_saturation = 4;
-rotational_saturation = 5;
+
+
+
+%pwm cmd clamping
+pwm_lower_limit = 1100;
+pwm_upper_limit = 1800;
 
 %load physical data
 run('physical_data_calculations');
