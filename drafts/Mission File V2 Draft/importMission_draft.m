@@ -1,6 +1,6 @@
 mission_file = "mission_file_v2.txt";
 
-mission = importMission(mission_file)
+mission = importMission(mission_file);
 
 function command_list = importMission(file_name)
     f = fopen(file_name,"r");
@@ -34,7 +34,7 @@ function command_list = importMission(file_name)
             trick_identifier{k} = split_line{8};
             timeout{k} = str2num(split_line{9});
 
-            command_list{k} = commandClass(identifiers{k}, waypoint{k}, waypoint_mask{k}, hold_time{k}, object_identifier{k}, confidence{k}, trick_identifier{k}, timeout{k});
+            command_list{k} = commandClass(identifiers{k}, waypoint{k}, waypoint_mask{k}, waypoint_tolerance{k}, hold_time{k}, object_identifier{k}, confidence{k}, trick_identifier{k}, timeout{k});
 
             k = k+1;
         else

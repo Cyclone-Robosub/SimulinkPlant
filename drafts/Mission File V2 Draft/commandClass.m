@@ -5,25 +5,27 @@ classdef commandClass
     properties
         identifier
         waypoint
+        waypoint_mask
         waypoint_tolerance
         hold_time
         object_identifier
         confidence
         trick_identifier
         timeout
-        status = 'PEND'
+        status = uint8('PEND') %cast to uint8 to be used with Simulink
         %{
         Valid status options are PEND, RUNN, SUCC, FAIL
         %}
     end
 
     methods
-        function obj = commandClass(identifier, waypoint, waypoint_tolerance, hold_time, object_identifier, confidence, trick_identifier, timeout)
+        function obj = commandClass(identifier, waypoint, waypoint_mask, waypoint_tolerance, hold_time, object_identifier, confidence, trick_identifier, timeout)
             % Construct an instance of this class
             %   Detailed explanation goes here
             obj.identifier = identifier;
-            obj.waypoint = waypoint;
-            obj.waypoint_tolerance = waypoint_tolerance;
+            obj.waypoint = waypoint(:);
+            obj.waypoint_mask = waypoint_mask(:);
+            obj.waypoint_tolerance = waypoint_tolerance(:);
             obj.hold_time = hold_time;
             obj.object_identifier = object_identifier;
             obj.confidence = confidence;
