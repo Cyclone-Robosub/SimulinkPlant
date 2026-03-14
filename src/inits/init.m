@@ -113,14 +113,17 @@ yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
 
 %assumes mission_file.txt is in the src/inits/ folder
-mission_file_name = "mission_file.txt"; 
+mission_file_name = "mission_file_v2.txt"; 
 
 %name of the model to be ran
 sim_select = "FB_Controller_SIM.slx";
 
 %mission file
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
-mission_file = importMissionCSV(mission_file_path);
+mission = importMission(mission_file_path);
+
+%set up the bus object for commands (necessary for structures)
+run('setup_command_bus.m');
 %% Simulation
 % data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
 % sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
@@ -133,7 +136,7 @@ mission_file = importMissionCSV(mission_file_path);
 
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
-simIn = simIn.setVariable('mission_file',mission_file);
+%simIn = simIn.setVariable('mission_file',command_list);
 results = sim(simIn);
 
 

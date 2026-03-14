@@ -1,11 +1,6 @@
-mission_file = "mission_file_v2.txt";
-
-mission = importMission(mission_file);
-
 function command_list = importMission(file_name)
     f = fopen(file_name,"r");
 
-    command_list = {};
     
     %define the field names for the command structure
     f1 = 'command_identifier';
@@ -39,7 +34,7 @@ function command_list = importMission(file_name)
             f5, hold_time, f6, object_identifier, f7, visual_confidence,...
             f8, trick_identifier, f9, executive_timeout);
         
-        command_list{k} = command_k; %#ok<AGROW>
+        command_list(k) = command_k; %#ok<AGROW>
         
         k = k+1;
         
