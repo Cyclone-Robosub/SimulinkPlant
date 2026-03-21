@@ -22,7 +22,7 @@ src_path = fullfile(root_path,'src');
 temp_path = fullfile(src_path,'temp');
 inits_path = fullfile(src_path,'inits');
 thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
-user_data_path = temp_path;
+user_data_path = fullfile(root_path,'data');
 startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
 cache_path = fullfile(root_path,'codegen','slprj_and_caches');
@@ -81,6 +81,9 @@ if(~isfolder(startup_path))
 end
 if(~isfolder(closedown_path))
     error("Missing closedown folder. Not sure how you managed that. You may need to reclone the repo.")
+end
+if(~isfolder(user_data_path))
+    error("Folder for data outputs is missing. Creating it now.\n")
 end
 
 %create a variable storing all these file paths for other methods to access
