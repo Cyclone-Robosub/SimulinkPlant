@@ -123,7 +123,7 @@ mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission = importMission(mission_file_path);
 
 %set up the bus object for commands (necessary for structures)
-run('setup_command_bus.m');
+run('setup_cmd_bus.m');
 %% Simulation
 % data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
 % sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
@@ -141,7 +141,7 @@ results = sim(simIn);
 
 
 %% Post Processing
-plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
-plotAllOutputs(plots,results,plot_names);
+% plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
+% plotAllOutputs(plots,results,plot_names);
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
