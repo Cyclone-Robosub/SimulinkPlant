@@ -28,7 +28,7 @@ end
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
-run('setup_plots.m')
+
 
 %% Initial Conditions
 %initial intertial position
@@ -124,6 +124,7 @@ mission = importMission(mission_file_path);
 
 %set up the bus object for commands (necessary for structures)
 run('setup_cmd_bus.m');
+
 %% Simulation
 % data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
 % sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
@@ -137,10 +138,12 @@ run('setup_cmd_bus.m');
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
 %simIn = simIn.setVariable('mission_file',command_list);
-results = sim(simIn);
+% results = sim(simIn);
 
 
 %% Post Processing
+run('setup_plots.m')
+
 % plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
 % plotAllOutputs(plots,results,plot_names);
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
