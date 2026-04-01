@@ -1,0 +1,5 @@
+identifier, waypoint, waypoint_mask, waypoint_tolerance, hold_time, object_identifier, confidence, trick identifier, timeout
+drive_to_world_waypoint, [0 10 0 0 0 0], [1 1 1 0 0 0], [0.25 0.25 0.25 0.175 0.175 0.175], 3, n/a, n/a, n/a, 30
+drive_to_world_waypoint, [10 10 0 0 0 0], [1 1 1 0 0 0], [0.25 0.25 0.25 0.175 0.175 0.175], 3, n/a, n/a, n/a, 30
+drive_to_world_waypoint, [10 0 0 0 0 0], [1 1 1 0 0 0], [0.25 0.25 0.25 0.175 0.175 0.175], 3, n/a, n/a, n/a, 30
+drive_to_world_waypoint, [0 0 0 0 0 0], [1 1 1 0 0 0], [0.25 0.25 0.25 0.175 0.175 0.175], 3, n/a, n/a, n/a, 30

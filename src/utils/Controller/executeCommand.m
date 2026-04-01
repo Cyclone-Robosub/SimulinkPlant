@@ -46,7 +46,7 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
 
     %initialize the persistent variables
     persistent hold_timer_start_time
-    persistent idle_wp 
+    persistent idle_wp %might get ride of idle_wp in discountExecutive
     
     %initial states for persistent variables
     if isempty(hold_timer_start_time)
@@ -69,7 +69,7 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
             qib_u = eulToQuat(Eul_u);
 
             %target position
-            Ri_u = idle_wp(1:3).*cmd.wp_mask(1:3) + cmd.wp(1:3).*(~cmd.wp_mask(1:3));
+            Ri_u = cmd.wp(1:3).*cmd.wp_mask(1:3) + idle_wp.wp(1:3).*(~cmd.wp_mask(1:3));
             
             X_u = [Ri_u, qib_u, zeros(3,1), zeros(3,1)];
 
