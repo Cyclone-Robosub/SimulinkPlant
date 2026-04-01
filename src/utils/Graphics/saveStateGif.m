@@ -17,7 +17,7 @@ Code by Kory Haydon
 11/23/25
 %}
 
-%parse optional kwargs
+% parse optional kwargs
 p = inputParser;
 
 %optional inputs
