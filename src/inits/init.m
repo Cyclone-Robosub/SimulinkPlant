@@ -78,7 +78,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 100;
+tspan = 10;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -138,7 +138,7 @@ run('setup_cmd_bus.m');
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
 %simIn = simIn.setVariable('mission_file',command_list);
-% results = sim(simIn);
+results = sim(simIn);
 
 
 %% Post Processing
@@ -146,5 +146,5 @@ run('setup_plots.m')
 
 % plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
 % plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
