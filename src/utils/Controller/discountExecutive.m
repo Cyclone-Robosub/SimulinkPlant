@@ -41,12 +41,13 @@ function cmd = discountExecutive(t, cmd_status, mission)
     if isempty(mission_idx)
         mission_idx = 1;
     end
+    
     if isempty(idle_cmd)
         %make sure this always matches the structure of cmd_bus
         idle_cmd = struct("cmd_id",int8('idle_cmd________'),"wp",...
         zeros(6,1),"wp_mask",zeros(6,1),"wp_tol",zeros(6,1),"hold_time"...
-        ,999999,"obj_id",int8('n/a_____________'),"obj_conf",0,...
-        "trick_id",int8('n/a_____________'),"timeout",999999);
+        ,999999,"obj_id",int8('n/a_____________'),"conf",0,...
+        "trick_id",int8('n/a_____________'),"exec_timeout",999999);
 
         %{
         Setting the waypoint mask to all zeros means the low level
@@ -56,6 +57,7 @@ function cmd = discountExecutive(t, cmd_status, mission)
     end
 
     %check the status
+    cmd_status = cmd_status(:)';
     if(isequal(cmd_status, int8('SUCC')))
         advanced = true;
         [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
@@ -69,12 +71,13 @@ function cmd = discountExecutive(t, cmd_status, mission)
         %do nothing
     end
     
+    
     %if the status has not already caused us to advance, check the timer
-    if(~advanced)
+    if(~advanced && ~isequal(mission_idx,0))
         %update the timer
         timer = t - cmd_start_time;
     
-        if((timer >= mission(mission_idx).timeout) && (mission_idx > 0))
+        if((timer >= mission(mission_idx).exec_timeout) && (mission_idx > 0))
             [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
                 mission, t);
         else
@@ -83,7 +86,7 @@ function cmd = discountExecutive(t, cmd_status, mission)
     
     end
 
-    if(mission_idx > 0)
+    if(mission_idx > 0 && mission_idx <= 64)
         cmd = mission(mission_idx);
     else
         cmd = idle_cmd;

@@ -36,7 +36,9 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
     set velocity downstream to drive to waypoints.
     
     %}
-    
+    %initialize X_u to X
+    X_u = X;
+
     %unpack current states
     Eul = quatToEul(X(4:7));
     yaw = Eul(3);
@@ -60,21 +62,21 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
         %running.
     end
 
-    switch cmd.id
-        case int8('drv_world_wp____')
+    switch char(cmd.cmd_id)
+        case 'drv_to_world_wp_'
             %find target states, setting uncontrolled states to the idle wp
 
             %target quat
-            Eul_u = idle_wp(4:6).*cmd.wp_mask(4:6) + cmd.wp(4:6).*(~cmd.wp_mask(4:6));
+            Eul_u = idle_wp(4:6).*(~cmd.wp_mask(4:6)) + cmd.wp(4:6).*(cmd.wp_mask(4:6));
             qib_u = eulToQuat(Eul_u);
 
             %target position
-            Ri_u = cmd.wp(1:3).*cmd.wp_mask(1:3) + idle_wp.wp(1:3).*(~cmd.wp_mask(1:3));
+            Ri_u = idle_wp(1:3).*(~cmd.wp_mask(1:3)) + cmd.wp(1:3).*(cmd.wp_mask(1:3));
             
-            X_u = [Ri_u, qib_u, zeros(3,1), zeros(3,1)];
+            X_u = [Ri_u; qib_u; zeros(3,1); zeros(3,1)];
 
             %update the hold timer if we are at our waypoint
-            if(withinWPTol())
+            if(withinWPTol(X,X_u))
                 hold_timer = t - hold_timer_start_time;
             else
                 hold_timer_start_time = t;
@@ -83,6 +85,8 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
 
             if(hold_timer >= cmd.hold_time)
                 cmd_status = int8('SUCC');
+                hold_timer_start_time = t;
+                idle_wp = [X(1:3);0;0;yaw];
             else
                 cmd_status = int8('RUNN');
             end
@@ -94,9 +98,23 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
     end
 
     %helper functions
-    function tf = withinWPTol()
+    function tf = withinWPTol(X, X_u)
         %Returns true if all controlled states are within their tolerance,
         %false otherwise
+
+        %TODO - modify this code so it uses the cmd waypoint rotated to the
+        %inertial frame for commands that specify the waypoint in the body.
+        %Also add handling for commands that do not specify a waypoint. It
+        %should also use the
+
+        R_error = abs(X(1:3) - X_u(1:3));
+        quat_error = quatError(X(4:7), X_u(4:7));
+        eul_error = abs(quatToEul(quat_error));
+
+        tf = all([R_error;eul_error] < cmd.wp_tol);
+        
+
+
 
     end
 
