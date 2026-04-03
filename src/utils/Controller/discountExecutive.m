@@ -1,4 +1,4 @@
-function cmd = discountExecutive(t, cmd_status, mission)
+function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
     %#codegen
     
     %{
@@ -92,6 +92,8 @@ function cmd = discountExecutive(t, cmd_status, mission)
         cmd = idle_cmd;
     end
 
+    mission_idx_out = mission_idx; %output for debugging
+
     %helper function advance_to_next
     function [mission_idx, cmd_start_time] =...
             advance_to_next(mission_idx, mission, t)
@@ -104,7 +106,6 @@ function cmd = discountExecutive(t, cmd_status, mission)
 
         cmd_start_time = t;
     end
-
 
 
 

@@ -8,7 +8,8 @@ that includes the _SIM extension in the project. Depending on how the host
 machine has been configured, this init may fail for _HIL and _CGN models.
 For these it is recommended to create a custom init for each case. Whether
 this init will work with Unreal Engine cosimulation is to be determined - 
-that may need a custom init as well.
+that may need a custom init as well. This init has not yet been tested with
+_UCS models that take advantage of Unreal Engine cosimulation.
 
 If you need to make significant modifications to this file, create a copy
 instead and give it an extension such as init_variant and place it in init
@@ -24,7 +25,6 @@ clear all %slows down startup so don't uncomment this unless you have a good rea
 if(~exist('prj_path_list','var')) %refreshes the file path in case clear all was called
     prj_path_list = getProjectPaths();
 end
-
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
@@ -47,14 +47,11 @@ dRi_0 = [ui_0; vi_0; wi_0];
 phi_0 = 0;
 theta_0 = 0;
 psi_0 = 0;
-Eul_0 = [phi_0; theta_0; psi_0];
+Eul_0 = [phi_0; theta_0; psi_0]; %[roll, pitch, yaw]
 
 %other attitude representations
-Cib_0 = eul2rotm([psi_0,theta_0,phi_0],'ZYX');
-q_0 = rotm2quat(Cib_0); 
-
-%reorder because the scalar should be at the end for calcs in the sim
-q_0 = [q_0(2); q_0(3); q_0(4); q_0(1)];
+Cib_0 = eulToRotm(Eul_0);
+q_0 = eulToQuat(Eul_0); %[vector; scalar]
 
 %initial angular velocity
 wbx_0 = 0;
@@ -78,7 +75,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 8;
+tspan = 30;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -92,7 +89,6 @@ dt_control_target = 1/100;
 dt_control = round((dt_control_target/dt_sim))*dt_sim; %make sure dt_control is a multiple of dt_sim
 
 %flags are used to turn parts of the simulation on and off
-% Plant
 do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
@@ -101,30 +97,18 @@ do_time_flag = 1;
 do_torque_flag = 1; 
 do_force_flag = 1; 
 
-% %target state (only used if overwrite_mission_file_wp_flag = 1)
-% R_target = [0; 0; 0;];
-% Eul_target = [0; 0; 0];
-% state_overwrite = [R_target;Eul_target];
-
-%tolerances
-roll_error_tol = 5*pi/180;
-pitch_error_tol = 5*pi/180;
-yaw_error_tol = 5*pi/180;
-w_tol = 0.1;
-
-%assumes mission_file.txt is in the src/inits/ folder
+%the mission file used for this sim
 mission_file_name = "mission_file_v2.txt"; 
 
-%name of the model to be ran
+%name of the model to be simulated
 sim_select = "FB_Controller_SIM.slx";
 
-%set up the bus object for commands (necessary for structures)
+%setup for bus objects (necessary to use structures in Simulink)
 run('setup_cmd_bus.m');
 
-%mission file
+%import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission = importMission(mission_file_path);
-
 
 %% Simulation
 % data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
@@ -136,18 +120,24 @@ mission = importMission(mission_file_path);
 % %set the name of the file path
 % set_param('FB_Controller_SIM/To File','Filename',sim_mat_path);
 
-%you can change the simulation input name and mission_file name.
+%setup the sim
 simIn = Simulink.SimulationInput(sim_select);
+
+%set the parameter `mission` containing all the cmd structures
 mission = Simulink.Parameter(mission);
 mission_param.DataType = 'Bus: cmd_bus';
 simIn = simIn.setVariable('mission', mission);
+
+%run the sim
 results = sim(simIn);
 
 
 %% Post Processing
 run('setup_plots.m')
 
-plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "FB_force_moment_cmd", "Eul", "FB_FT_cmd_lists","pwm_cmd"};
+% Enter the names of all the plots as a comma separated cell array
+% Refer to setup_plots.m to see the valid plot names
+plot_names = {"X", "cmd_status", "mission_idx"};
 plotAllOutputs(plots,results,plot_names);
 saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
