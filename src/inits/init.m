@@ -76,12 +76,12 @@ mission_file_name = "mission_file.txt";
 
 %name of the model to be ran
 %sim_select = "Simple_Joystick_HIL.slx";
-sim_select = "Simple_Joystick_HIL.slx";
+sim_select = "Simple_Joystick_SIM.slx";
 %battery voltage if constant
 const_voltage = 16;
 
 %joystick input if constant
-const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+const_joy = [0 0 1 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = [0 0 0 0 0 0 0 0]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
@@ -127,7 +127,7 @@ state_overwrite = [R_target;Eul_target];
 
 %tolerances
 roll_error_tol = 5*pi/180;
-pitch_error_tol = 5*pi/180;
+pitch_error_tol = .5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
 
@@ -141,6 +141,6 @@ results = sim(simIn);
 %% Post Processing
 %plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
 %plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
-prj_path_list.user_data_path = "/home/cyclone/SimulinkPlant/src/26_03_07 Pool Test";
-saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
+%saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+%prj_path_list.user_data_path = "/home/cyclone/SimulinkPlant/src/26_03_07 Pool Test";
+%saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
