@@ -46,8 +46,8 @@ function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
         %make sure this always matches the structure of cmd_bus
         idle_cmd = struct("cmd_id",int8('idle____________'),"wp",...
         zeros(6,1),"wp_mask",zeros(6,1),"wp_tol",zeros(6,1),"hold_time"...
-        ,999999,"obj_id",int8('n/a_____________'),"conf",0,...
-        "trick_id",int8('n/a_____________'),"exec_timeout",999999);
+        ,999,"obj_id",int8('n/a_____________'),"conf",0,...
+        "trick_id",int8('n/a_____________'),"exec_timeout",999);
 
         %{
         Setting the waypoint mask to all zeros means the low level
@@ -60,11 +60,11 @@ function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
     cmd_status = cmd_status(:)';
     if(isequal(cmd_status, int8('SUCC')))
         advanced = true;
-        [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
+        [mission_idx, cmd_start_time] = advance_to_next(cmd_start_time,mission_idx,...
             mission, t);
     elseif(isequal(cmd_status, int8('FAIL')))
         advanced = true;
-        [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
+        [mission_idx, cmd_start_time] = advance_to_next(cmd_start_time,mission_idx,...
             mission, t);
     else
         advanced = false;
@@ -78,7 +78,7 @@ function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
         timer = t - cmd_start_time;
     
         if((timer >= mission(mission_idx).exec_timeout) && (mission_idx > 0))
-            [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
+            [mission_idx, cmd_start_time] = advance_to_next(cmd_start_time, mission_idx,...
                 mission, t);
         else
             %do nothing
@@ -96,15 +96,18 @@ function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
 
     %helper function advance_to_next
     function [mission_idx, cmd_start_time] =...
-            advance_to_next(mission_idx, mission, t)
-        %incriment the index if commands remain in the mission
-        if(mission_idx < numel(mission))
-            mission_idx = mission_idx + 1;
-        else
-            mission_idx = 0; %flags use of idle cmd
-        end
+            advance_to_next(cmd_start_time, mission_idx, mission, t)
 
-        cmd_start_time = t;
+        
+            %incriment the index if commands remain in the mission
+            if(mission_idx < numel(mission))
+                mission_idx = mission_idx + 1;
+            else
+                mission_idx = 0; %flags use of idle cmd
+            end
+    
+            cmd_start_time = t;
+       
     end
 
 
