@@ -19,12 +19,12 @@ Ri_e_tol = 1;
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Kpx = 20;
-Kpy = 2;
-Kpz = 5;
-dRbx_limit = 10; %speed limits in m/s
-dRby_limit = 10;
-dRbz_limit = 10; 
+Kpx = 1;
+Kpy = .5;
+Kpz = 1;
+dRbx_limit = 5; %speed limits in m/s
+dRby_limit = 5;
+dRbz_limit = 5; 
 dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
 %Controller gains for quaternion --> angular velocity
 Kiq = 2;

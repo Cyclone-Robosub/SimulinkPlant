@@ -75,7 +75,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 100;
+tspan = 60;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -139,5 +139,5 @@ run('setup_plots.m')
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "cmd_status", "mission_idx","hold_timer", "cmd_hold_time"};
 plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
