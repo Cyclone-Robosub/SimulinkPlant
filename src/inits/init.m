@@ -15,7 +15,6 @@ instead and give it an extension such as init_variant and place it in init
 archive.
 %}
 
-
 %% Housekeeping and Path Management
 clc
 close all
@@ -25,10 +24,15 @@ if(~exist('prj_path_list','var')) %refreshes the file path in case clear all was
     prj_path_list = getProjectPaths();
 end
 
+if(~exist("plots_defined_flag","var"))
+    run("setup_plots.m");
+end
+
+prj_path_list.sim_data_path = prepareOutputFolder(prj_path_list);
+
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
-run('setup_plots.m')
 
 %% Initial Conditions
 %initial intertial position
@@ -65,8 +69,6 @@ wb_0 = [wx_0; wy_0; wz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
-%% Monte Carlo Setup
-
 %% Test Conditions
 
 %test_ft_list = [0 0 0 0 10 10 10 10];
@@ -75,18 +77,16 @@ X0 = [Ri_0;q_0;dRi_0;wb_0];
 mission_file_name = "mission_file.txt"; 
 
 %name of the model to be ran
-%sim_select = "Simple_Joystick_HIL.slx";
-sim_select = "Simple_Joystick_SIM.slx";
+sim_select = "FF_Controller_SIM.slx";
 %battery voltage if constant
-const_voltage = 16;
+const_voltage = 14;
 
 %joystick input if constant
-const_joy = [0 0 1 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
-FT_list_test = [0 0 0 0 0 0 0 0]';
-test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
+const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
+
 %% Simulation Parameters
 %simulation duration
-tspan = 600;
+tspan = 5;
 
 %simulation time step
 dt_sim = 0.001;
@@ -110,8 +110,6 @@ do_force_flag = 1;
 do_Fb_correction = 0; 
 overwrite_mission_file_wp_flag = 0;
 overwrite_mission_file_mode_flag = 0;
-do_state_save_flag = 1;
-do_gif_flag = 0;
 
 %mission file
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -127,20 +125,33 @@ state_overwrite = [R_target;Eul_target];
 
 %tolerances
 roll_error_tol = 5*pi/180;
-pitch_error_tol = .5*pi/180;
+pitch_error_tol = 5*pi/180;
 yaw_error_tol = 5*pi/180;
 w_tol = 0.1;
-
+%% Data Saving
+save_plots_flag = false;
+save_gif_flag = false;
+save_results_flag = false; %saves after a run
+save_HIL_results_flag = false; %saves directly from simulink during a run
 %% Simulation
 %you can change the simulation input name and mission_file name.
 simIn = Simulink.SimulationInput(sim_select);
 simIn = simIn.setVariable('mission_file',mission_file);
 results = sim(simIn);
 
-
 %% Post Processing
-%plot_names = {"Ri, dRi, ddRi","FT_list","Fb, Mb","FTb, MTb", "Ri dRi ddRi", "Eul", "q"};
-%plotAllOutputs(plots,results,plot_names);
+
+%{
+If you add more to-workspace blocks, set up the plots in setup_plots, then
+clear the workspace and rerun the init.
+>>open setup_plots.m
+>>clear all
+>>setup_plots
+>>init
+%}
+
+target_plots = {};
+plotAllOutputs(results,plots,target_plots, prj_path_list, save_plots_flag);
+
+
 %saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
-%prj_path_list.user_data_path = "/home/cyclone/SimulinkPlant/src/26_03_07 Pool Test";
-%saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
