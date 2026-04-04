@@ -1,4 +1,4 @@
-function [X_u, cmd_status] = executeCommand(t, cmd, X)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd, X)
     %{
     This function handles a single command at a time from discountExecutive. 
     
@@ -50,6 +50,7 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
     persistent hold_timer_start_time
     persistent idle_wp %might get ride of idle_wp in discountExecutive
     
+    
     %initial states for persistent variables
     if isempty(hold_timer_start_time)
         hold_timer_start_time = t;
@@ -61,6 +62,7 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
         %reset every time a command succeeds or fails but persists while
         %running.
     end
+    
 
     switch char(cmd.cmd_id)
         case 'drv_to_world_wp_'
@@ -88,14 +90,21 @@ function [X_u, cmd_status] = executeCommand(t, cmd, X)
                 hold_timer_start_time = t;
                 idle_wp = [X(1:3);0;0;yaw];
             else
+                
                 cmd_status = int8('RUNN');
             end
+
+           
 
         otherwise
             X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1); zeros(3,1)];
             hold_timer_start_time = t;
+            hold_timer = 0;
             cmd_status = int8('RUNN');
     end
+    
+    hold_timer_out = hold_timer;
+    cmd_hold_time = cmd.hold_time;
 
     %helper functions
     function tf = withinWPTol(X, X_u)

@@ -32,3 +32,7 @@ plots(end+1) = ClassPlot("X",["Ri", "dRb", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[
 plots(end+1) = ClassPlot("cmd_status","cmd_status",[1,1],{1},"Status ID","Time (s)","","Command Status (1 = SUCC, 2 = FAIL, 3 = RUNN)",{""});
 
 plots(end+1) = ClassPlot("mission_idx","mission_idx",[1,1],{1},"Index","Time (s)","","Mission Command Index",{""});
+
+plots(end+1) = ClassPlot("hold_timer","hold_timer",[1,1],{1},"Timer (s)","Time (s)","","Command Hold Timer",{""});
+
+plots(end+1) = ClassPlot("cmd_hold_time","cmd_hold_time",[1,1],{1},"Timer (s)","Time (s)","","Command Hold Time Limit",{""});
