@@ -34,6 +34,10 @@ qe_matlab = qe_matlab(:);
 % Re-express into the notation used elsewhere in Robosub code
 qe = [qe_matlab(2); qe_matlab(3); qe_matlab(4); qe_matlab(1)]; %[vector; scalar]
 
+%ensure the error quaternion takes the shortest path
+if(qe(4) < 0)
+    qe = -qe;
+end
 
 
 

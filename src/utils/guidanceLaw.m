@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
+function [qib_int_u, Rb_error, action_id_out] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -20,6 +20,12 @@ action_id - what the controller is currently trying to do (1 = point to wp, 2 =
 drive to wp)
 %}
 
+persistent persistant_yaw_target
+persistent action_id
+
+if(isempty(action_id))
+    action_id = 1;
+end
 
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
 Ri = X(1:3);
@@ -39,13 +45,20 @@ pitch_u = 0; %to keep vehicle level
 roll_u = 0;
 yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
 
+if(isempty(persistant_yaw_target))
+    persistant_yaw_target = yaw_u;
+end
+if(action_id==2)
+    persistant_yaw_target = yaw_u;
+end
 
 
 
 
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
-    qib_int_u = eulToQuat([roll_u, pitch_u, yaw_u]);
+    
+    qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
 else
     qib_int_u = qib_u;
 end
@@ -64,7 +77,7 @@ if(max(abs(Eul_e)) > Eul_e_tol)
 elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are far away the target
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
-
+    %once we reach driving mode, clear the persistant yaw target
     Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
     action_id = 2;
 
@@ -79,6 +92,6 @@ else
     action_id = 3;
 end
 
-
+action_id_out = action_id;
 
 end

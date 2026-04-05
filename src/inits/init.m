@@ -75,7 +75,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 20;
+tspan = 60;
 
 %simulation time step
 dt_sim = 1/1000;
