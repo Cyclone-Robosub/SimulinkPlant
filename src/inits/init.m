@@ -89,7 +89,7 @@ dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
-mission_file_name = "mission_file_v2.txt"; 
+mission_file_name = "drive_in_square_validation_mission.txt"; 
 model_select = "FB_Controller_SIM.slx";
 
 %setup for bus objects (necessary to use structures in Simulink)
