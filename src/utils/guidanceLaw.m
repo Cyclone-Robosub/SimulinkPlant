@@ -27,6 +27,7 @@ if(isempty(action_id))
     action_id = 1;
 end
 
+
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
 Ri = X(1:3);
 Ri_u = Xu(1:3);
@@ -48,6 +49,7 @@ yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
 if(isempty(persistant_yaw_target))
     persistant_yaw_target = yaw_u;
 end
+
 if(action_id==2)
     persistant_yaw_target = yaw_u;
 end
@@ -73,6 +75,7 @@ Eul_e = quatToEul(qib_e);
 if(max(abs(Eul_e)) > Eul_e_tol)
     Rb_error = [0;0;0];
     action_id = 1;
+    
 
 elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are far away the target
     %this will only be reached if the vehicle is level and pointing toward
@@ -80,6 +83,7 @@ elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are fa
     %once we reach driving mode, clear the persistant yaw target
     Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
     action_id = 2;
+    
 
 else
     %allow for x, y, and z body commands
@@ -90,6 +94,7 @@ else
     Rb_error = Rb_u - Rb;
 
     action_id = 3;
+    
 end
 
 action_id_out = action_id;

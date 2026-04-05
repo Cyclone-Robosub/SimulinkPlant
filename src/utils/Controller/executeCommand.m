@@ -62,7 +62,7 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
         %reset every time a command succeeds or fails but persists while
         %running.
     end
-    
+
 
     switch char(cmd.cmd_id)
         case 'drv_to_world_wp_'
@@ -104,6 +104,7 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
             cmd_status = int8('RUNN');
     end
     
+    cmd_status = cmd_status(:);
     hold_timer_out = hold_timer;
     cmd_hold_time = cmd.hold_time;
 
@@ -121,8 +122,11 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
         R_error = abs(X(1:3) - X_u(1:3));
         quat_error = quatError(X(4:7), X_u(4:7));
         eul_error = abs(quatToEul(quat_error));
-
-        tf = all([R_error;eul_error] < cmd.wp_tol);
+        
+        %ignore all the tolerances that are not not considered in the
+        %waypoint mask
+        
+        tf = all([R_error;eul_error].*cmd.wp_mask' < cmd.wp_tol);
         
 
 
