@@ -32,7 +32,6 @@ end
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
 
-
 %% Initial Conditions
 %initial intertial position
 xi_0 = 0; yi_0 = 0; zi_0 = 0;
@@ -79,6 +78,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
+
 %% Simulation Parameters
 %simulation duration
 tspan = 60;

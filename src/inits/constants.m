@@ -88,6 +88,7 @@ try
 
     ccw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_force.mat"));
     ccw_force = table2array(ccw_force.t200_updatedS3);
+    
     cw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw_force.mat"));
     cw_force = table2array(cw_force.t200_updatedS2);
 catch
