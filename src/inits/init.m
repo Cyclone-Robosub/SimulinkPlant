@@ -20,7 +20,7 @@ archive.
 %% Housekeeping and Path Management
 clc
 close all
-clear all %slows down startup so don't uncomment this unless you have a good reason to
+%clear all %slows down startup so don't uncomment this unless you have a good reason to
 
 if(~exist('prj_path_list','var')) %refreshes the file path in case clear all was called
     prj_path_list = getProjectPaths();
@@ -75,7 +75,7 @@ FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 %% Simulation Parameters
 %simulation duration
-tspan = 10;
+tspan = 45;
 
 %simulation time step
 dt_sim = 1/1000;
@@ -133,7 +133,7 @@ results = sim(simIn);
 
 
 %% Post Processing
-run('setup_plots.m')
+%run('setup_plots.m')
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names

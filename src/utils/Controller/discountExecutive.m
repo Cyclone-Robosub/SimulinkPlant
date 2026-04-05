@@ -58,7 +58,8 @@ function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
 
     %check the status
     cmd_status = cmd_status(:)';
-    if(isequal(cmd_status, int8('SUCC')))
+    
+    if(isequal(char(cmd_status), 'SUCC'))
         advanced = true;
         [mission_idx, cmd_start_time] = advance_to_next(cmd_start_time,mission_idx,...
             mission, t);

@@ -20,7 +20,7 @@ Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on
 
 %Controller gains for position --> velocity
 Kp_Rb = 3; 
-Ki_Rb = .01;
+Ki_Rb = .01; 
 Kd_Rb = 2;
 dRb_limit = 999;
 
@@ -32,7 +32,7 @@ linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
 
 %Controller gains for quaternion --> angular velocity
 Kpq = 30;
-Kiq = 2;
+Kiq = 2; %2
 Kdq = 0.5;
 quat_pid_integrator_limit = inf;
 
@@ -40,8 +40,6 @@ quat_pid_integrator_limit = inf;
 Kp_w = 10;
 Ki_w = 0;
 Kd_w = 0;
-
-
 
 
 %pwm cmd clamping

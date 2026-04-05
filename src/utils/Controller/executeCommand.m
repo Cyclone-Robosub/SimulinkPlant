@@ -90,7 +90,6 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
                 hold_timer_start_time = t;
                 idle_wp = [X(1:3);0;0;yaw];
             else
-                
                 cmd_status = int8('RUNN');
             end
 
@@ -106,6 +105,7 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
     hold_timer_out = hold_timer;
     cmd_hold_time = cmd.hold_time;
 
+    
     %helper functions
     function tf = withinWPTol(X, X_u)
         %Returns true if all controlled states are within their tolerance,
