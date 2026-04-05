@@ -34,6 +34,10 @@ for k = 1:8
     moment_wrench(:,k) = cross(RT_list(:,k),NT_list(:,k));
 end
 
-%precompute pseudoinverses for efficiency
-inv_force_wrench = pinv(force_wrench);
-inv_moment_wrench = pinv(moment_wrench);
+%full wrench
+wrench = [force_wrench;moment_wrench];
+inv_wrench = pinv(wrench);
+
+%pseudoinverse
+inv_force_wrench = inv_wrench(:,1:3);
+inv_moment_wrench = inv_wrench(:,4:6);

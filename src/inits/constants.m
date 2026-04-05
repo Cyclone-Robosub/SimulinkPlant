@@ -15,27 +15,31 @@ end
 
 %% Controller
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 1;
+Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Kpx = 1;
-Kpy = .5;
-Kpz = 1;
-dRbx_limit = 5; %speed limits in m/s
-dRby_limit = 5;
-dRbz_limit = 5; 
-dRb_u_limit = [dRbx_limit; dRby_limit; dRbz_limit];
-%Controller gains for quaternion --> angular velocity
-Kiq = 2;
-Kpq = 15;
-Kdq = .5;
-quat_pid_integrator_limit = inf;
+Kp_Rb = 3; 
+Ki_Rb = .01;
+Kd_Rb = 2;
+dRb_limit = 999;
+
 %Controller gains for velocity --> force
 Kp_dRx = 10;
 Kp_dRy = 2;
 Kp_dRz = 6;
 linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
+
+%Controller gains for quaternion --> angular velocity
+Kpq = 30;
+Kiq = 2;
+Kdq = 0.5;
+quat_pid_integrator_limit = inf;
+
+%Controller gains for angular velocity --> torque
+Kp_w = 10;
+Ki_w = 0;
+Kd_w = 0;
 
 
 
@@ -45,7 +49,7 @@ pwm_lower_limit = 1100;
 pwm_upper_limit = 1800;
 
 %load physical data
-run('physical_data_calculations');
+run('physical_data_calculations.m');
 
 %max thrust force
 max_thruster_force = 40; %[N]

@@ -83,7 +83,8 @@ if(~isfolder(closedown_path))
     error("Missing closedown folder. Not sure how you managed that. You may need to reclone the repo.")
 end
 if(~isfolder(user_data_path))
-    error("Folder for data outputs is missing. Creating it now.\n")
+    fprintf("Folder for data outputs is missing. Creating it now.\n")
+    mkdir(user_data_path);
 end
 
 %create a variable storing all these file paths for other methods to access

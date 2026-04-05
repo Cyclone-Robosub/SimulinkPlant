@@ -1,4 +1,4 @@
-function [qib_int_u, dRb_u, action_id] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, Kpx, Kpy, Kpz, dRb_u_limit)
+function [qib_int_u, Rb_error, action_id] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -53,17 +53,24 @@ Eul_e = quatToEul(qib_e);
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol)
-    dRbx_u = 0; %command no forward velocity
-    dRbz_u = 0; %command no vertical velocity
-    dRby_u = 0; %no translation
+    Rb_error = [0;0;0];
+
+    % dRbx_u = 0; %command no forward velocity
+    % dRbz_u = 0; %command no vertical velocity
+    % dRby_u = 0; %no translation
+    
     action_id = 1;
 elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are far away the target
-    %command velocities with a proportional controller
-    dRbx_u = Kpx*(norm(Ri_xy_e));
-    dRbz_u = Kpz*(Ri_u(3) - Ri(3)); 
-    dRby_u = 0; %no translation
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
+
+    Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
+
+    %command velocities with a proportional controller
+    % dRbx_u = Kpx*(norm(Ri_xy_e));
+    % dRbz_u = Kpz*(); 
+    % dRby_u = 0; %no translation
+
     action_id = 2;
 else
     %allow for x, y, and z body commands
@@ -71,18 +78,19 @@ else
     Cbi = Cib';
     Rb_u = Cbi*Ri_u;
     Rb = Cbi*Ri;
-    Rb_e = Rb_u - Rb;
-    dRbx_u = Kpx*Rb_e(1);
-    dRby_u = Kpy*Rb_e(2);
-    dRbz_u = Kpz*Rb_e(3);
+    Rb_error = Rb_u - Rb;
+
+    % dRbx_u = Kpx*Rb_e(1);
+    % dRby_u = Kpy*Rb_e(2);
+    % dRbz_u = Kpz*Rb_e(3);
     action_id = 3;
 end
 
-%apply limits on dRb_u
-dRbx_u = max(-dRb_u_limit(1),min(dRb_u_limit(1),dRbx_u));
-dRby_u = max(-dRb_u_limit(2),min(dRb_u_limit(2),dRby_u));
-dRbz_u = max(-dRb_u_limit(3),min(dRb_u_limit(3),dRbz_u));
-dRb_u = [dRbx_u; dRby_u; dRbz_u];
+% %apply limits on dRb_u
+% dRbx_u = max(-dRb_u_limit(1),min(dRb_u_limit(1),dRbx_u));
+% dRby_u = max(-dRb_u_limit(2),min(dRb_u_limit(2),dRby_u));
+% dRbz_u = max(-dRb_u_limit(3),min(dRb_u_limit(3),dRbz_u));
+% dRb_u = [dRbx_u; dRby_u; dRbz_u];
 
 
 
