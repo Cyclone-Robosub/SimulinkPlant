@@ -15,7 +15,7 @@ end
 
 %% Controller
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
+Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
@@ -31,7 +31,7 @@ Kp_dRz = 6;
 linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
 
 %Controller gains for quaternion --> angular velocity
-Kpq = 30;
+Kpq = 10;
 Kiq = 2; %2
 Kdq = 0.5;
 quat_pid_integrator_limit = inf;

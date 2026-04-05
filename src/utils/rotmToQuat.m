@@ -44,6 +44,7 @@ else %eta = 0 case
 end
 
 qib = [eps;eta];
+qib = quatNormalization(qib);
 
 
 end

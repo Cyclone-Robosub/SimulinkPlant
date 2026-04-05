@@ -14,7 +14,7 @@ De Ruiter - Spacecraft Dynamics and Control, Chapter 1
 C = rotm;
 
 %Pitch
-theta = -asin(C(1,3));
+theta = -asin(max(-1,min(1,C(1,3))));
 
 %Check if near the singularity and force the attitude representation with
 %phi = 0 to avoid gimbal lock

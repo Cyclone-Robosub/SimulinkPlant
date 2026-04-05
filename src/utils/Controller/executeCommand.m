@@ -70,6 +70,8 @@ function [X_u, cmd_status,hold_timer_out,cmd_hold_time] = executeCommand(t, cmd,
 
             %target quat
             Eul_u = idle_wp(4:6).*(~cmd.wp_mask(4:6)) + cmd.wp(4:6).*(cmd.wp_mask(4:6));
+
+            %clip the yaw to break up large turn commands
             qib_u = eulToQuat(Eul_u);
 
             %target position

@@ -20,6 +20,7 @@ action_id - what the controller is currently trying to do (1 = point to wp, 2 =
 drive to wp)
 %}
 
+
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
 Ri = X(1:3);
 Ri_u = Xu(1:3);
@@ -27,16 +28,20 @@ qib = X(4:7); %[vector, scalar]
 qib_u = Xu(4:7);
 
 %project the position target and position onto the xy inertial plane
-Ri_xy_u = [Ri_u(1); Ri_u(2)];
-Ri_xy = [Ri(1); Ri(2)];
+Ri_xy_u = [Ri_u(1); Ri_u(2)]; %[-5,0]
+Ri_xy = [Ri(1); Ri(2)]; %[0 0]
 
 %find the error vector from the vehicle to the target
-Ri_xy_e = Ri_xy_u - Ri_xy;
+Ri_xy_e = Ri_xy_u - Ri_xy; %[-5 0]
 
 %find the yaw to point at the target
 pitch_u = 0; %to keep vehicle level 
 roll_u = 0;
-yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1));
+yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
+
+
+
+
 
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
@@ -54,24 +59,15 @@ Eul_e = quatToEul(qib_e);
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol)
     Rb_error = [0;0;0];
-
-    % dRbx_u = 0; %command no forward velocity
-    % dRbz_u = 0; %command no vertical velocity
-    % dRby_u = 0; %no translation
-    
     action_id = 1;
+
 elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are far away the target
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
 
     Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
-
-    %command velocities with a proportional controller
-    % dRbx_u = Kpx*(norm(Ri_xy_e));
-    % dRbz_u = Kpz*(); 
-    % dRby_u = 0; %no translation
-
     action_id = 2;
+
 else
     %allow for x, y, and z body commands
     Cib = quatToRotm(qib);
@@ -80,17 +76,8 @@ else
     Rb = Cbi*Ri;
     Rb_error = Rb_u - Rb;
 
-    % dRbx_u = Kpx*Rb_e(1);
-    % dRby_u = Kpy*Rb_e(2);
-    % dRbz_u = Kpz*Rb_e(3);
     action_id = 3;
 end
-
-% %apply limits on dRb_u
-% dRbx_u = max(-dRb_u_limit(1),min(dRb_u_limit(1),dRbx_u));
-% dRby_u = max(-dRb_u_limit(2),min(dRb_u_limit(2),dRby_u));
-% dRbz_u = max(-dRb_u_limit(3),min(dRb_u_limit(3),dRbz_u));
-% dRb_u = [dRbx_u; dRby_u; dRbz_u];
 
 
 

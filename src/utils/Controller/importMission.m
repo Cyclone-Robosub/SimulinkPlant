@@ -20,6 +20,7 @@ while ischar(line)
         split_line = strsplit(line, {','});
         cmd_id = strtrim(split_line{1});
         wp = str2num(split_line{2})'; %#ok<ST2NM>
+        wp(4:6) = wrapToPi(wp(4:6)); %wrap the angular waypoints to the right domain
         wp_mask = str2num(split_line{3})'; %#ok<ST2NM>
         wp_tol = str2num(split_line{4})'; %#ok<ST2NM>
         hold_time = str2num(split_line{5}); %#ok<ST2NM>
