@@ -127,7 +127,7 @@ run('setup_plots.m')
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u"};
+plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
 plotAllOutputs(plots,results,plot_names);
 saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

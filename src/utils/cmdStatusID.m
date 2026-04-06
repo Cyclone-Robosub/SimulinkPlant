@@ -6,7 +6,7 @@ the numbers 1, 2, 3 for debugging plots.
 %}
 
 
-switch char(cmd_status)
+switch char(cmd_status')
     case 'SUCC'
         id = 1;
     case 'FAIL'

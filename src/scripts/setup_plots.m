@@ -31,3 +31,4 @@ plots(end+1) = TimePlot("cmd_status",["mission_idx", "cmd_status", "hold_timer",
 
 plots(end+1) = TimePlot("Eul_u",["Eul","Eul_u"],[3,1],{[1,4],[2,5],[3,6]},["Angle (rad)", "Angle (rad)", "Angle (rad)"],"Time (s)",["Roll", "Pitch", "Yaw"],"Euler Angle Value and Target",{["Roll", "Roll_u"], ["Pitch", "Pitch_u"], ["Yaw", "Yaw_u"]});
 
+plots(end+1) = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (m)", "Angle (rad)"],"Time (s)",["Position Target", "Angle Target"],"Intermediate Waypoint",{["xi", "yi", "zi"],["roll", "pitch", "yaw"]});

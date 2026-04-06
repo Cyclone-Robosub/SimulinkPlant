@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -22,9 +22,13 @@ drive to wp)
 
 persistent persistant_yaw_target
 persistent action_id
+persistent prior_action_id
 
 if(isempty(action_id))
     action_id = 1;
+end
+if(isempty(prior_action_id))
+    prior_action_id = action_id;
 end
 
 
@@ -50,7 +54,8 @@ if(isempty(persistant_yaw_target))
     persistant_yaw_target = yaw_u;
 end
 
-if(action_id==2)
+%update the yaw target every time the action id changes
+if(action_id ~= prior_action_id)
     persistant_yaw_target = yaw_u;
 end
 
@@ -72,12 +77,13 @@ qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 Eul_e = quatToEul(qib_e);
 
 %if any of the angle errors are large, don't command forward or up
-if(max(abs(Eul_e)) > Eul_e_tol)
+if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
     Rb_error = [0;0;0];
     action_id = 1;
     
 
-elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are far away the target
+elseif(norm(Ri_xy_e) >= Ri_e_tol) %DRIVING
+    %use only forward and up commands if we are far away the target
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
     %once we reach driving mode, clear the persistant yaw target
@@ -85,7 +91,7 @@ elseif(norm(Ri_xy_e) >= Ri_e_tol) %use only forward and up commands if we are fa
     action_id = 2;
     
 
-else
+else %SETTLING
     %allow for x, y, and z body commands
     Cib = quatToRotm(qib);
     Cbi = Cib';
@@ -98,5 +104,5 @@ else
 end
 
 action_id_out = action_id;
-
+driving_yaw_target = persistant_yaw_target;
 end

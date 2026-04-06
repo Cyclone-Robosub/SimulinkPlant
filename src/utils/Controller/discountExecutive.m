@@ -20,7 +20,7 @@ are "SUCC", "FAIL", and "RUNN" for success, failure, and running.
 mission (Nx1 struct) - the vector of commands output by importMission.m.
 Each command in the mission follows the template defined by setup_cmd_bus.m
 
---- Commands are structures with the following fields: cmd.cmd_id cmd.wp
+Commands are structures with the following fields: cmd.cmd_id cmd.wp
 cmd.wp_mask cmd.hold_time cmd.obj_id cmd.conf cmd.trick_id cmd.exec_timeout
 
 %}
