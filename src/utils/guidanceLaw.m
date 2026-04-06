@@ -78,7 +78,16 @@ Eul_e = quatToEul(qib_e);
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
-    Rb_error = [0;0;0];
+    % Rb_error = [0;0;0];
+
+    %allow for x, y, and z body commands (these should be small due to the
+    %idle waypoint)
+    Cib = quatToRotm(qib);
+    Cbi = Cib';
+    Rb_u = Cbi*Ri_u;
+    Rb = Cbi*Ri;
+    Rb_error = Rb_u - Rb;
+
     action_id = 1;
     
 

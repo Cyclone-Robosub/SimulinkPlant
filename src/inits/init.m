@@ -81,7 +81,7 @@ do_force_flag = 1;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 60;
+tspan = 30;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep

@@ -178,8 +178,9 @@ function tf = withinWPTol(X, X_u)
     the wp_tol is still used for states that are driven towards the
     idle_wp.
     %}
-    tf = all([R_error;eul_error] < cmd.wp_tol);
-    
+    tf_mask = [R_error;eul_error] < cmd.wp_tol;
+    tf = all(tf_mask + (~cmd.wp_mask)); %turns the values that are not controlled true
+
 
 end %withinWPTol
 
