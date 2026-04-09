@@ -22,7 +22,7 @@ the Project tab is visible at the top of the screen).
 %% Housekeeping and Path Management
 clc
 close all
-clear all %slow, comment this out if you don't need it
+%clear all %slow, comment this out if you don't need it
 
 %refreshes the file path in case clear all was called
 if(~exist('prj_path_list','var')) 
