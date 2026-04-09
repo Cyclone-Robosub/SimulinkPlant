@@ -90,7 +90,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_SIM.slx";
+model_select = "FB_Controller_SIM";
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
@@ -101,14 +101,11 @@ mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission = importMission(mission_file_path, max_commands_in_mission);
 
 %% Simulation
-% data_file_prefix = string(datetime('now','Format','uu-MM-dd HH-mm-ss'));
-% sim_file_path = fullfile(prj_path_list.user_data_path,data_file_prefix);
-% if(~isfolder(sim_file_path))
-%     mkdir(sim_file_path);
-% end
-% sim_mat_path = fullfile(sim_file_path,"results.mat");
-% %set the name of the file path
-% set_param('FB_Controller_SIM/To File','Filename',sim_mat_path);
+%this function uses a ToFile block to save data if the simulation ends
+%prematurely do to crash or user interrupt
+% sim_mat_path = crashProofDataSaving(model_select, prj_path_list.user_data_path); 
+% path_of_to_file_block = [char(model_select),'/Low-Level Controller','/To File']; %this must be correct
+% set_param(path_of_to_file_block,'Filename',sim_mat_path);
 
 %setup the sim
 simIn = Simulink.SimulationInput(model_select);
