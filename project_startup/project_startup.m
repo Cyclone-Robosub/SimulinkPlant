@@ -109,6 +109,8 @@ fprintf("Filepaths configured successfully. Moving you to project root folder.\n
 Simulink.fileGenControl('set',...
     'CacheFolder',cache_path,...
     'CodeGenFolder',cache_path);
+prj.SimulinkCacheFolder = cache_path;
+prj.SimulinkCodeGenFolder = cache_path;
 
 fprintf("Cache and CodeGen file paths are setup.\n");
 
