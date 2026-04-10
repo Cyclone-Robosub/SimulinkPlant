@@ -63,7 +63,7 @@ free based on cmd.wp_mask.
 %}
 
 
-
+%% Manage Idle Waypoint
 %initial states for persistent variables
 if isempty(hold_timer_start_time)
     hold_timer_start_time = t;
@@ -97,7 +97,7 @@ end
 prior_action_id = action_id;
 
 %in any other case, the idle_waypoint is not reset
-
+%% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
     case 'drv_to_world_wp_' 
         %find target states, setting uncontrolled states to the idle wp
@@ -129,15 +129,51 @@ switch char(cmd.cmd_id) %case must match exactly with importMission.m
         if(hold_timer >= cmd.hold_time)
             cmd_status = int8('SUCC');
             hold_timer_start_time = t;
-            
-
         else
             %otherwise report that we are still running
             cmd_status = int8('RUNN');
         end
 
+    case 'duration_trick__'
+        switch cmd.trick_id
+            case 'FF_Forward_Trick'
+
+                %{
+                FF tricks are handled using FFFTListModifier(). Whatever
+                execute command outputs will be ignored. 
+                %}
+
+                %because this is a duration trick we will always incriment
+                %the hold timer until the hold_timer has elapsed
+                hold_timer = t - hold_timer_start_time;
+                
+                %we also need to output a value of X_u, but it will be
+                %ignored in the downstream controller where FF maneuvers
+                %are applied
+                X_u = zeros(13,1);
+
+                if(hold_timer >= cmd.hold_timer)
+                    cmd_status = int8('SUCC');
+                else
+                    cmd_status = int8('RUNN');
+                end
+                
+                %
+                
+                
+            otherwise
+                %if we are not in a known command or are idle, just use idle_wp
+                X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
+                    zeros(3,1)];
+        
+                hold_timer_start_time = t;
+                hold_timer = 0;
+        
+                cmd_status = int8('RUNN');
+        end
        
 
+    
     otherwise
         %if we are not in a known command or are idle, just use idle_wp
         X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
