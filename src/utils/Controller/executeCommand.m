@@ -63,12 +63,11 @@ free based on cmd.wp_mask.
 %}
 
 
-
+%% Manage Idle Waypoint
 %initial states for persistent variables
 if isempty(hold_timer_start_time)
     hold_timer_start_time = t;
 end
-
 if isempty(idle_wp)
     idle_wp = [X(1:3);0;0;yaw];
 end
@@ -77,67 +76,25 @@ if isempty(prior_action_id)
     prior_action_id = 0;
 end
 
-%stuff to set idle_wp based on action_id goes here
-TURNING = 1;
-DRIVING = 2;
-SETTLING = 3;
-
-if(action_id == TURNING && prior_action_id ~= TURNING)
-    %if we transitioned from anything to turning
-    %this is used to hold a constant position while turning
-    idle_wp(1:3) = X(1:3);
-
-elseif(action_id == DRIVING && prior_action_id ~= DRIVING)
-    %if we transitioned from anything to turning
-    %this is used to hold a constant position while turning
-    idle_wp(1:3) = X(1:3);
-    idle_wp(4:6) = [0;0;driving_yaw_target];
-end
+%update the idle waypoint based on action_id
+idle_wp = updateIdleWaypoint(action_id, prior_action_id, idle_wp,...
+    driving_yaw_target, X);
 
 prior_action_id = action_id;
 
 %in any other case, the idle_waypoint is not reset
-
+%% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
     case 'drv_to_world_wp_' 
-        %find target states, setting uncontrolled states to the idle wp
-        %target quat
-        Eul_u = idle_wp(4:6).*(~cmd.wp_mask(4:6)) +...
-            cmd.wp(4:6).*(cmd.wp_mask(4:6));
-    
-        %convert to the quaternion
-        qib_u = eulToQuat(Eul_u);
-
-        %target position
-        Ri_u = idle_wp(1:3).*(~cmd.wp_mask(1:3)) +...
-            cmd.wp(1:3).*(cmd.wp_mask(1:3));
-        
-        %pack up state
-        X_u = [Ri_u; qib_u; zeros(3,1); zeros(3,1)];
-
-        %update the hold timer if we are at our waypoint
-        if(withinWPTol(X,X_u))
-            hold_timer = t - hold_timer_start_time;
-        else
-            %otherwise keep pushing the start time so the hold timer starts
-            %small on the next timestep
-            hold_timer_start_time = t;
-            hold_timer = 0;
-        end
-        
-        %see if the hold_time has been met so we can return a success
-        if(hold_timer >= cmd.hold_time)
-            cmd_status = int8('SUCC');
-            hold_timer_start_time = t;
-            
-
-        else
-            %otherwise report that we are still running
-            cmd_status = int8('RUNN');
-        end
-
-       
-
+        %drive between waypoints defined in the inertial frame
+        [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+            executeDriveToWorldWaypoint(cmd, idle_wp, X,...
+            hold_timer_start_time, t);
+    case 'duration_trick__'
+        %do a trick that lasts for a specific duration
+        [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+            executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
+            t);
     otherwise
         %if we are not in a known command or are idle, just use idle_wp
         X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
@@ -157,32 +114,6 @@ idle_wp_out = idle_wp;
 %maintain shape of cmd_status
 cmd_status = cmd_status(:);
 
-
-
-%helper functions
-function tf = withinWPTol(X, X_u)
-    %Returns true if all controlled states are within their tolerance,
-    %false otherwise
-
-    %TODO - modify this code so it uses the cmd waypoint rotated to the
-    %inertial frame for commands that specify the waypoint in the body.
-    %Also add handling for commands that do not specify a waypoint. It
-    %should also use the
-
-    R_error = abs(X(1:3) - X_u(1:3));
-    quat_error = quatError(X(4:7), X_u(4:7));
-    eul_error = abs(quatToEul(quat_error));
-    
-    %{
-    return true if ALL the states are within tolerance simultaenously note,
-    the wp_tol is still used for states that are driven towards the
-    idle_wp.
-    %}
-    tf_mask = [R_error;eul_error] < cmd.wp_tol;
-    tf = all(tf_mask + (~cmd.wp_mask)); %turns the values that are not controlled true
-
-
-end %withinWPTol
 
 
 end %executeCommand
