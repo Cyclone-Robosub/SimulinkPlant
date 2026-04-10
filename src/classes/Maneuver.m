@@ -31,7 +31,7 @@ versions of this class.
         FT_wrench = zeros(3,8);
         MT_wrench = zeros(3,8);
         wrench = zeros(6,8);
-        maxManeuverForce = 100;
+        maxManeuverForce = 200;
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"

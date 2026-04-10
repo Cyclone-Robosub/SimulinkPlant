@@ -86,50 +86,15 @@ prior_action_id = action_id;
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
     case 'drv_to_world_wp_' 
+        %drive between waypoints defined in the inertial frame
         [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
             executeDriveToWorldWaypoint(cmd, idle_wp, X,...
             hold_timer_start_time, t);
-
-    % case 'duration_trick__'
-    %     switch cmd.trick_id
-    %         case 'FF_Forward_Trick'
-    % 
-    %             %{
-    %             FF tricks are handled using FFFTListModifier(). Whatever
-    %             execute command outputs will be ignored. 
-    %             %}
-    % 
-    %             %because this is a duration trick we will always incriment
-    %             %the hold timer until the hold_timer has elapsed
-    %             hold_timer = t - hold_timer_start_time;
-    % 
-    %             %we also need to output a value of X_u, but it will be
-    %             %ignored in the downstream controller where FF maneuvers
-    %             %are applied
-    %             X_u = zeros(13,1);
-    % 
-    %             if(hold_timer >= cmd.hold_timer)
-    %                 cmd_status = int8('SUCC');
-    %             else
-    %                 cmd_status = int8('RUNN');
-    %             end
-    % 
-    %             %
-    % 
-    % 
-    %         otherwise
-    %             %if we are not in a known command or are idle, just use idle_wp
-    %             X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
-    %                 zeros(3,1)];
-    % 
-    %             hold_timer_start_time = t;
-    %             hold_timer = 0;
-    % 
-    %             cmd_status = int8('RUNN');
-    %     end
-       
-
-    
+    case 'duration_trick__'
+        %do a trick that lasts for a specific duration
+        [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+            executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
+            t);
     otherwise
         %if we are not in a known command or are idle, just use idle_wp
         X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
