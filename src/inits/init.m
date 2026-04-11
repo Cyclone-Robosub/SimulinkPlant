@@ -90,7 +90,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
 mission_file_name = "FF_prequal_mission.txt"; 
-model_select = "FB_Controller_SIM";
+model_select = "Integrated_Joystick_HIL";
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
