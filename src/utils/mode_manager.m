@@ -6,31 +6,31 @@ If we so wish to we can also add more functionality with the limit being
 the total number of mode inputs we have.
 %}
 
-function [do_joystick, do_mission_file] = mode_manager(mode_inputs)
+function [do_joystick_flag_out] = mode_manager(mode_inputs)
     %x_button = mode_inputs(1);
-    circ_button = mode_inputs(4);
+    circ_button = mode_inputs(1);
     
-    persistent joystick;
-    persistent mission_file; 
     
-    do_joystick = joystick;
+    persistent do_joystick_flag;
+    %persistent mission_file; 
 
-    if(circ_button == true && do_joystick == 0)
-        
-        do_joystick = 1;
-        joystick = 1;
+    if isempty(do_joystick_flag) 
+        do_joystick_flag = 0; 
+    end
+
+    if(circ_button == true && do_joystick_flag == 0)
+        do_joystick_flag = 1;
 
     end
 
-    if(circ_button == true && do_joystick == 1)
-        do_joystick = 0;
-        joystick = 0;
+    if(circ_button == true && do_joystick_flag == 1)
+        do_joystick_flag = 0;
     end
 
     %do nothing
     if(circ_button == false)
-        do_joystick = do_joystick; 
-        joystick = joystick;
     end
+
+    do_joystick_flag_out = do_joystick_flag;
 
 end
