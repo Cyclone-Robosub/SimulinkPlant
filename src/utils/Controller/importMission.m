@@ -76,6 +76,32 @@ while ischar(line)
 
     %TBA - perform a similar substitution for tricks
     switch trick_id
+        case 'ff_forward'
+            trick_id = 'FF_Forward_Trick';
+        case 'ff_backward'
+            trick_id = 'FF_Backward_Tric';
+        case 'ff_up'
+            trick_id = 'FF_Up_Trick_____';
+        case 'ff_down'
+            trick_id = 'FF_Down_Trick___';
+        case 'ff_right'
+            trick_id = 'FF_Left_Trick___';
+        case 'ff_left'
+            trick_id = 'FF_Right_Trick__';
+        case 'ff_pitchUp'
+            trick_id = 'FF_PitchUp_Trick';
+        case 'ff_pitchDown'
+            trick_id = 'FF_PitchDown_Tri';
+        case 'ff_yawRight'
+            trick_id = 'FF_YawRight_Tric';
+        case 'ff_yawLeft'
+            trick_id = 'FF_YawLeft_Trick';
+        case 'ff_rollRight'
+            trick_id = 'FF_RollRight_Tri';
+        case 'ff_rollLeft'
+            trick_id = 'FF_RollLeft_Tric';
+        case 'stop'
+            trick_id = 'FF_Stop_________';
         otherwise
             trick_id = '________________';
     end

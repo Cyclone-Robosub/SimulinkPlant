@@ -1,4 +1,4 @@
-classdef maneuver2
+classdef Maneuver
 %{
 The feedforward (FF) controller works by specifying the ID and intensity of 
 a maneuver in the mission file. When init is ran, each instance of the
@@ -31,7 +31,7 @@ versions of this class.
         FT_wrench = zeros(3,8);
         MT_wrench = zeros(3,8);
         wrench = zeros(6,8);
-        maxManeuverForce = 100;
+        maxManeuverForce = 200;
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
@@ -39,7 +39,7 @@ versions of this class.
     end
 
     methods
-        function obj =  maneuver2(ID, maxManeuverForce, FT_wrench, MT_wrench, varargin)
+        function obj =  Maneuver(ID, maxManeuverForce, FT_wrench, MT_wrench, varargin)
             %Constructor
             obj.ID = ID;
             obj.maxManeuverForce = maxManeuverForce;
