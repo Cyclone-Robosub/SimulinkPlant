@@ -25,7 +25,7 @@ plots(end+1) = TimePlot("FB_force_moment_cmd",["Fb_FB_cmd", "Mb_FB_cmd"],[2,1],{
 
 plots(end+1) = TimePlot("FB_FT_cmd_lists",["FT_cmd_list_FB","FT_cmd_list_pos","FT_cmd_list_att"],[4,2],{[1,9,17],[2,10,18],[3,11,19],[4,12,20],[5,13,21],[6,14,22],[7,15,23],[8,16,24]},["Force (N)","Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster Force by FB Controller",{["Total","Pos","Att"],"","","","","","",""});
 
-plots(end+1) = TimePlot("X",["Ri", "dRb", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Inertial Position", "Euler Angles","Body Velocity","Angular Velocity"],"Simulated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
+plots(end+1) = TimePlot("X",["Ri", "dRi", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Inertial Position", "Euler Angles","Body Velocity","Angular Velocity"],"Simulated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
 
 plots(end+1) = TimePlot("cmd_status",["mission_idx", "cmd_status", "hold_timer", "cmd_hold_time", "action_id"],[4 1],{[1],[2],[3,4],[5]},["Index", "Status", "Time (s)","ID"],"Time (s)",["Index in Mission File","Status (1 = Success, 2 = Fail, 3 = Running)","Hold Timer","Action ID (1 = Turn, 2 = Drive, 3 = Settle)"],"Active Command Info",{"","",["Timer","Target Hold Time"],""});
 

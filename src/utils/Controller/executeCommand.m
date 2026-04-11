@@ -30,16 +30,13 @@ set velocity downstream to drive to waypoints.
 
 %}
 
-% initialize X_u to X so if none of the branches in this are triggered
-% there is still a valid output that causes the robot to stop
-X_u = X;
-
 %unpack current states
-Eul = quatToEul(X(4:7));
+Eul = X.Eul;
 yaw = Eul(3);
-Ri = X(1:3);
-dRi = X(8:10);
-wb = X(11:13);
+Ri = X.Ri;
+dRi = X.dRi;
+wb = X.dRb;
+
 
 %initialize the persistent variables
 persistent hold_timer_start_time
@@ -69,7 +66,7 @@ if isempty(hold_timer_start_time)
     hold_timer_start_time = t;
 end
 if isempty(idle_wp)
-    idle_wp = [X(1:3);0;0;yaw];
+    idle_wp = [Ri;0;0;yaw];
 end
 
 if isempty(prior_action_id)

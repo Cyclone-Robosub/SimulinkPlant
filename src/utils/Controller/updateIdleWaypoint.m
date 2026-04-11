@@ -7,12 +7,12 @@ DRIVING = 2;
 if(action_id == TURNING && prior_action_id ~= TURNING)
     %if we transitioned from anything to turning
     %this is used to hold a constant position while turning
-    idle_wp(1:3) = X(1:3);
+    idle_wp(1:3) = X.Ri;
 
 elseif(action_id == DRIVING && prior_action_id ~= DRIVING)
     %if we transitioned from anything to turning
     %this is used to hold a constant position while turning
-    idle_wp(1:3) = X(1:3);
+    idle_wp(1:3) = X.Ri;
     idle_wp(4:6) = [0;0;driving_yaw_target];
 end
 end

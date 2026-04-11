@@ -6,9 +6,11 @@ function tf = withinWPTol(X, X_u, cmd)
     %inertial frame for commands that specify the waypoint in the body.
     %Also add handling for commands that do not specify a waypoint. It
     %should also use the
-
-    R_error = abs(X(1:3) - X_u(1:3));
-    quat_error = quatError(X(4:7), X_u(4:7));
+    Ri = X.Ri;
+    qib = X.qib;
+    
+    R_error = abs(Ri - X_u(1:3));
+    quat_error = quatError(qib, X_u(4:7));
     eul_error = abs(quatToEul(quat_error));
     
     %{
