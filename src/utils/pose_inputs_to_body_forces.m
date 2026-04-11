@@ -19,7 +19,7 @@ PWM(8)=pwm_rrb
 
 %}
 
-function pwms = pose_inputs_to_body_forces(pose_inputs)
+function [pwms_v,pwms_h] = pose_inputs_to_body_forces(pose_inputs)
     x_joy = pose_inputs(1);
     y_joy = pose_inputs(2);
     rise = pose_inputs(3);
@@ -104,6 +104,7 @@ function pwms = pose_inputs_to_body_forces(pose_inputs)
         end
     end
 
-    pwms = [pwms_vert,pwms_horiz];
+    pwms_v = pwms_vert;
+    pwms_h = pwms_horiz;
 
 end
