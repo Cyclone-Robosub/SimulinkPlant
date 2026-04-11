@@ -33,9 +33,9 @@ end
 
 
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
-Ri = X(1:3);
+Ri = X.Ri;
 Ri_u = Xu(1:3);
-qib = X(4:7); %[vector, scalar]
+qib = X.qib; %[vector, scalar]
 qib_u = Xu(4:7);
 
 %project the position target and position onto the xy inertial plane

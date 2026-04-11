@@ -99,6 +99,9 @@ run('setup_cmd_bus.m');
 %setup bus for FF maneuvers
 run('setup_FF_maneuvers_bus.m');
 
+%setup bus for state vector
+run('setup_state_bus.m');
+
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
 mission = importMission(mission_file_path, max_commands_in_mission);
@@ -129,5 +132,5 @@ run('setup_plots.m')
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
 plotAllOutputs(plots,results,plot_names);
-saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
