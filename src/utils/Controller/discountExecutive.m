@@ -1,4 +1,4 @@
-function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission)
+function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission, reset)
 %{
 This function uses the mission information, the clock time, and the status
 reported by the low-level controller to determine which command to send to
@@ -36,6 +36,11 @@ end
 if isempty(mission_idx)
     mission_idx = 1;
 end 
+
+if(reset)
+    cmd_start_time = t;
+    mission_idx=1;
+end
 
 
 %check the status
