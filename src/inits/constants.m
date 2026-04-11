@@ -13,20 +13,41 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%PID
+%% Controller
+%tolerance for mode switching in the guidance law
+Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
+Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
-PID = [4.6 0.08 55.4 128;...
-    4.8 0.066 43.8 101.9;...
-    2.29 0.025 45.9 104.2;...
-    7.9 11.9 1.29 165;...
-    8 7 2 25;...
-    3 0.36 6.3 25.3];
+%Controller gains for position --> velocity
+Kp_Rb = 3; 
+Ki_Rb = .01; 
+Kd_Rb = 2;
+dRb_limit = 999;
 
-linear_saturation = 4;
-rotational_saturation = 5;
+%Controller gains for velocity --> force
+Kp_dRx = 10;
+Kp_dRy = 2;
+Kp_dRz = 6;
+linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
+
+%Controller gains for quaternion --> angular velocity
+Kpq = 10;
+Kiq = 2; %2
+Kdq = 0.5;
+quat_pid_integrator_limit = inf;
+
+%Controller gains for angular velocity --> torque
+Kp_w = 10;
+Ki_w = 0;
+Kd_w = 0;
+
+
+%pwm cmd clamping
+pwm_lower_limit = 1100;
+pwm_upper_limit = 1800;
 
 %load physical data
-run('physical_data_calculations');
+run('physical_data_calculations.m');
 
 %max thrust force
 max_thruster_force = 40; %[N]
@@ -67,6 +88,7 @@ try
 
     ccw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"ccw_force.mat"));
     ccw_force = table2array(ccw_force.t200_updatedS3);
+    
     cw_force = coder.load(fullfile(prj_path_list.thruster_lookup_path,"cw_force.mat"));
     cw_force = table2array(cw_force.t200_updatedS2);
 catch
