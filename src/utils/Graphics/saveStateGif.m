@@ -21,7 +21,7 @@ Code by Kory Haydon
 p = inputParser;
 
 %optional inputs
-addParameter(p,'Margin',1) %sets spacing around the center of Manny
+addParameter(p,'Margin',2) %sets spacing around the center of Manny
 addParameter(p,'View',3) %controls the direction of the observer
 addParameter(p,'DynamicCameraMotion',1) %controls whether the camera tracks Manny
 addParameter(p,'MakeGif',1)

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 function pwms_int32 = forceToPWMCalculator(FT_cmd_list, target_voltage, cw_pwm, ccw_pwm, cw_force, ccw_force, voltage)
+=======
+function pwms = forceToPWMCalculator(FT_cmd_list, target_voltage, cw_pwm, ccw_pwm, cw_force, ccw_force, voltage, pwm_upper_limit, pwm_lower_limit)
+>>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090
 %{
 This function figures out what pwm to send in order to get the appropriate
 force at the current target_voltage.
@@ -10,7 +14,6 @@ lookups.
 %}
 
 N_thrusters = 8;
-pwms_int32 = int32(1500*ones(N_thrusters,1)); 
 pwms = 1500*ones(N_thrusters,1,'double');
 
 %loop through all the cw thrusters
@@ -208,4 +211,4 @@ for k = 1:8
     end
 end
 
-pwms_int32(:) = int32(pwms(:));
+

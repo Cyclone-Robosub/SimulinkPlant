@@ -22,7 +22,7 @@ src_path = fullfile(root_path,'src');
 temp_path = fullfile(src_path,'temp');
 inits_path = fullfile(src_path,'inits');
 thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
-user_data_path = temp_path;
+user_data_path = fullfile(root_path,'data');
 startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
 cache_path = fullfile(root_path,'codegen','slprj_and_caches');
@@ -82,6 +82,10 @@ end
 if(~isfolder(closedown_path))
     error("Missing closedown folder. Not sure how you managed that. You may need to reclone the repo.")
 end
+if(~isfolder(user_data_path))
+    fprintf("Folder for data outputs is missing. Creating it now.\n")
+    mkdir(user_data_path);
+end
 
 %create a variable storing all these file paths for other methods to access
 prj_path_list.root_path = root_path;
@@ -102,6 +106,7 @@ cd(prj_path_list.root_path)
 fprintf("Filepaths configured successfully. Moving you to project root folder.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
+<<<<<<< HEAD
 try
     Simulink.fileGenControl('set',...
         'CacheFolder',cache_path,...
@@ -111,6 +116,15 @@ try
 catch
     fprintf("Unable to configure cache files and codegen paths.\nIs your Matlab directory in a OneDrive foldder?\n");
 end
+=======
+Simulink.fileGenControl('set',...
+    'CacheFolder',cache_path,...
+    'CodeGenFolder',cache_path);
+prj.SimulinkCacheFolder = cache_path;
+prj.SimulinkCodeGenFolder = cache_path;
+
+fprintf("Cache and CodeGen file paths are setup.\n");
+>>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090
 
 %% 4 - Clear the temporary folder for a clean workspace if there is anything in it.
 
