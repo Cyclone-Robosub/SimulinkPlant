@@ -1,3 +1,4 @@
+
 %{
 This is the master initialization file for the Cyclone Robosub Simulink.
 This is intended to be the one-stop-shop for setting up and running
@@ -81,7 +82,7 @@ do_force_flag = 1;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 30;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -91,7 +92,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
 model_select = "FB_Controller_SIM";
-open_system(model_select);
+% open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
@@ -106,8 +107,8 @@ setToFileBlockNames(model_select, prj_path_list.user_data_path);
 disableToFileBlocks(model_select);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-enableToWorkspaceBlocks(model_select);
-% disableToWorkspaceBlocks(model_select);
+% enableToWorkspaceBlocks(model_select);
+disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
