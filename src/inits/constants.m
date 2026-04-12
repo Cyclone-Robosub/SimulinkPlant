@@ -46,6 +46,7 @@ Kd_w = 0;
 pwm_lower_limit = 1100;
 pwm_upper_limit = 1800;
 
+%% Physical Data
 %load physical data
 run('physical_data_calculations.m');
 
@@ -71,6 +72,9 @@ invM = inv(M);
 %density of water
 rho = 998; %[kg/m3] at 20 C
 
+%gravity
+gi = [0;0;-9.81];
+
 %vector from center of mass to center of volume for buoyancy calcs
 R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
 
@@ -94,3 +98,8 @@ try
 catch
     error("Unable to load thruster data. Fix the path in your constants file.")
 end
+
+%% IMU
+Eul_bimu = [0 0 0];
+Cbimu = eulToRotm(Eul_bimu); %Rotation matrix from the sensor frame to body frame
+Cimub = Cbimu';

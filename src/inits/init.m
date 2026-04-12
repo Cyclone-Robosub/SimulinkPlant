@@ -1,3 +1,4 @@
+
 %{
 This is the master initialization file for the Cyclone Robosub Simulink.
 This is intended to be the one-stop-shop for setting up and running
@@ -81,7 +82,7 @@ do_force_flag = 1;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 30;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -90,17 +91,23 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
 mission_file_name = "FF_prequal_mission.txt"; 
-model_select = "Integrated_Joystick_HIL.slx";
+model_select = "FB_Controller_SIM.slx";
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
 run('setup_cmd_bus.m');
-
-%setup bus for FF maneuvers
 run('setup_FF_maneuvers_bus.m');
-
-%setup bus for state vector
 run('setup_state_bus.m');
+run('setup_sensor_bus.m');
+
+%set To-File block names
+setToFileBlockNames(model_select, prj_path_list.user_data_path);
+%enableToFileBlocks(model_select);
+disableToFileBlocks(model_select);
+
+%comment or uncomment the to-workspace blocks (for performance reasons)
+enableToWorkspaceBlocks(model_select);
+%disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
