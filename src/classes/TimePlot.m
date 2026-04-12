@@ -59,7 +59,8 @@ classdef TimePlot
                 obj.is_plottable = false;
             end %try
         end %loadData
-    
+
+
         function plot(obj, results)
             obj = obj.loadData(results); %start by loading in the data
             %{
@@ -104,7 +105,9 @@ classdef TimePlot
                         sgtitle(obj.supertitle)
                     end
                 end
+                
             catch
+                %close the open figure if the plotting failed
                 close(gcf)
                 warning("Plot named %s failed to plot fully. Some signals may be missing.\nDo they all have to-workspace blocks?",obj.name)
             end

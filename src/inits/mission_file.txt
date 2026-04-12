@@ -1,6 +1,13 @@
+Name, FF Control
+Date, 3/7/26
+Created by, Kory
+Control Mode, Maneuver ID, Maneuver Duration, Maneuver Intensity,WPx,PWy,WPz,WProll,WPpitch,WPyaw
+1,1,999,0,0,0,0,0,0,0
+
+
+
 identifier, waypoint or tracking_position (6), waypoint_mask (6), waypoint_tolerance (6), hold_time, object_identifier, confidence, trick_identifier, timeout
 drive_to_world_waypoint,[0 0 0 0 0 1.57], [0 0 0 1 1 1], [0.1 0.1 0.1 0.1 0.1 0.1], .01, n/a, n/a, n/a, 999
 drive_to_world_waypoint,[0 0 0 0 0 3.14], [0 0 0 1 1 1], [0.05 0.05 0.05 0.5 0.5 0.5], .01, n/a, n/a, n/a, 999
 drive_to_world_waypoint,[0 0 0 0 0 -1.57], [0 0 0 1 1 1], [0.05 0.05 0.05 0.5 0.5 0.5], .01, n/a, n/a, n/a, 999
 drive_to_world_waypoint,[0 0 0 0 0 0], [1 1 1 1 1 1], [0.05 0.05 0.05 0.5 0.5 0.5], 99, n/a, n/a, n/a, 999
-

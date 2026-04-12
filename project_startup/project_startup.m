@@ -106,6 +106,17 @@ cd(prj_path_list.root_path)
 fprintf("Filepaths configured successfully. Moving you to project root folder.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
+<<<<<<< HEAD
+try
+    Simulink.fileGenControl('set',...
+        'CacheFolder',cache_path,...
+        'CodeGenFolder',cache_path);
+    
+    fprintf("Cache and CodeGen file paths are setup.\n");
+catch
+    fprintf("Unable to configure cache files and codegen paths.\nIs your Matlab directory in a OneDrive foldder?\n");
+end
+=======
 Simulink.fileGenControl('set',...
     'CacheFolder',cache_path,...
     'CodeGenFolder',cache_path);
@@ -113,6 +124,7 @@ prj.SimulinkCacheFolder = cache_path;
 prj.SimulinkCodeGenFolder = cache_path;
 
 fprintf("Cache and CodeGen file paths are setup.\n");
+>>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090
 
 %% 4 - Clear the temporary folder for a clean workspace if there is anything in it.
 
@@ -125,5 +137,4 @@ fprintf("Temporary files have been cleared out.\n");
 
 %% 5 - Add tests to the Test Browser
 %TODO
-
 fprintf("Setup complete.\n\n")

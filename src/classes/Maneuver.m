@@ -31,11 +31,15 @@ versions of this class.
         FT_wrench = zeros(3,8);
         MT_wrench = zeros(3,8);
         wrench = zeros(6,8);
+<<<<<<< HEAD:src/classes/maneuver2.m
+        maxManeuverForce = 0;
+=======
         maxManeuverForce = 200;
+>>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090:src/classes/Maneuver.m
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
-        show_warnings = false;
+        save_figure_flag = false;
     end
 
     methods
@@ -61,7 +65,6 @@ versions of this class.
             obj.FT_list = obj.constrain(FT_list);
             %set fm
             obj.fm = obj.wrench*obj.FT_list;
-            obj.fm = obj.fm(:);
         end
 
         function obj = addFTList(obj,FT_list_add)
@@ -78,7 +81,6 @@ versions of this class.
 
             %set fm
             obj.fm = obj.wrench*obj.FT_list;
-            obj.fm = obj.fm(:);
         end
         
         function obj = setForce(obj,fm)
@@ -89,14 +91,12 @@ versions of this class.
             allowable bounds.
             %}
             fm = fm(:);
-           
             FT_list = pinv(obj.wrench)*fm;
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
             
             %calculate the actual force and moment after constraint
             obj.fm = obj.wrench*obj.FT_list;
-            obj.fm = obj.fm(:);
         end
 
         function obj = addForce(obj,fm_add)
@@ -106,7 +106,6 @@ versions of this class.
             constrained FT_list. 
             %}
             fm_add = fm_add(:);
-            
             FT_list = pinv(obj.wrench)*(obj.fm + fm_add);
             obj.warnOutOfBoundFT_list(FT_list);
             obj.FT_list = obj.constrain(FT_list);
@@ -155,13 +154,11 @@ versions of this class.
         end
         
         function warnOutOfBoundFT_list(obj,FT_list)
-            if(obj.show_warnings)
-                for k = 1:length(FT_list)
-                    if(FT_list(k)>obj.maxManeuverForce)
-                        warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),obj.maxManeuverForce);
-                    elseif(FT_list(k)<-obj.maxManeuverForce)
-                        warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),-obj.maxManeuverForce);
-                    end
+            for k = 1:length(FT_list)
+                if(FT_list(k)>obj.maxManeuverForce)
+                    warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),obj.maxManeuverForce);
+                elseif(FT_list(k)<-obj.maxManeuverForce)
+                    warning("FT_list index %i of maneuver (%i, %s) has a force of %f. \nThis exceeds the maneuver limit of %s and will be constrained.",k,obj.ID,obj.name,FT_list(k),-obj.maxManeuverForce);
                 end
             end
         end
@@ -191,5 +188,6 @@ versions of this class.
             out(9) = obj.intensity;
             out(10) = obj.ID;
         end
+
     end
 end
