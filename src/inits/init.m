@@ -91,7 +91,8 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
 mission_file_name = "FF_prequal_mission.txt"; 
-model_select = "FB_Controller_SIM.slx";
+model_select = "Integrated_Joystick_HIL";
+open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
@@ -102,12 +103,12 @@ run('setup_sensor_bus.m');
 
 %set To-File block names
 setToFileBlockNames(model_select, prj_path_list.user_data_path);
-%enableToFileBlocks(model_select);
-disableToFileBlocks(model_select);
+enableToFileBlocks(model_select);
+%disableToFileBlocks(model_select);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-enableToWorkspaceBlocks(model_select);
-%disableToWorkspaceBlocks(model_select);
+%enableToWorkspaceBlocks(model_select);
+disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
