@@ -108,7 +108,7 @@ const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 tspan = 5;
 
 %simulation time step
-dt_sim = 0.001;
+dt_sim = 0.01;
 
 %data saving rate
 dt_data_target = 1/30;
@@ -161,7 +161,7 @@ simIn = simIn.setVariable('mission_file',mission_file);
 
 %% Simulation Parameters
 %simulation duration
-tspan = 30;
+tspan = 120;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
