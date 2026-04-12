@@ -29,6 +29,7 @@ cache_path = fullfile(root_path,'codegen','slprj_and_caches');
 asv_path = fullfile(root_path,'codegen','autosaves');
 manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
 test_path = fullfile(root_path,"src/tests/");
+drafts_path = fullfile(root_path,"drafts");
 
 
 %add all necessary paths to the project path so it can see them
