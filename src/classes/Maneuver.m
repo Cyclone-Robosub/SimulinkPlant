@@ -31,11 +31,7 @@ versions of this class.
         FT_wrench = zeros(3,8);
         MT_wrench = zeros(3,8);
         wrench = zeros(6,8);
-<<<<<<< HEAD:src/classes/maneuver2.m
-        maxManeuverForce = 0;
-=======
         maxManeuverForce = 200;
->>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090:src/classes/Maneuver.m
         intensity = 1;
         ID = 0; 
         name = "Unnamed Maneuver"
