@@ -95,12 +95,9 @@ model_select = "Integrated_Joystick_HIL";
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
 run('setup_cmd_bus.m');
-
-%setup bus for FF maneuvers
 run('setup_FF_maneuvers_bus.m');
-
-%setup bus for state vector
 run('setup_state_bus.m');
+run('setup_sensor_bus.m');
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
