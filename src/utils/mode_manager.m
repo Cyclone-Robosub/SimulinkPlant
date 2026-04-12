@@ -16,11 +16,11 @@ function [do_joystick_flag_out, do_mission_file_flag_out]  = mode_manager(mode_i
     
     %Initialize cosntants
     if isempty(joystick_flag)
-        joystick_flag = 0;
+        joystick_flag = 1;
     end
 
     if isempty(prior_joystick_flag)
-        prior_joystick_flag = 0;
+        prior_joystick_flag = 1;
     end
 
     if isempty(do_mission_file_flag)
