@@ -7,6 +7,7 @@ on how to use this codebase.
 %}
 clc
 close all
+clear
 
 %% 1 - Add files to the search path.
 

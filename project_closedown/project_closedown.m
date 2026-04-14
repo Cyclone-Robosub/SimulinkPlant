@@ -2,6 +2,13 @@
 This script is run whenever the project closes to clean up unneeded files.
 %}
 %load the file paths if the variable doesn't already exist
+
+clc
+close all
+clear
+
+fprintf("Closing.\n")
+
 try
     if(~exist("prj_path_list","var"))
         prj_path_list = getProjectPaths();
