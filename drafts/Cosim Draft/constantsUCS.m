@@ -16,14 +16,15 @@ end
 %Camera Calibration variable loading.
 
 cam_Cal_Distance = 130;
-
+gate1_Pose = [250 -580 -100 0 0 0];
+gate1_Keypoints = getGateKeypoints3d(gate1_Pose);
 try
     %{
     Assigns distortion coefficients to array of size 5 [k1 k2 p1 p2 k3] from
     stereoParams. 
     Assigns intrinsic matrices (K_L and K_R)
     %}
-    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_11.mat"));
+    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_14.mat"));
     distort_coefL = zeros(1, 5);
     if stereoCam.stereoParams.CameraParameters1.NumRadialDistortionCoefficients >= 1
         distort_coefL(1) = stereoCam.stereoParams.CameraParameters1.RadialDistortion(1);
