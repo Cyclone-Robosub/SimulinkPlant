@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = executeCommand(t, cmd, X, action_id, driving_yaw_target)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = executeCommand(t, cmd, X, action_id, driving_yaw_target, rst)
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -79,6 +79,10 @@ idle_wp = updateIdleWaypoint(action_id, prior_action_id, idle_wp,...
 
 prior_action_id = action_id;
 
+if(rst)
+    hold_timer_start_time = t;
+    prior_action_id = 0;
+end
 %in any other case, the idle_waypoint is not reset
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
