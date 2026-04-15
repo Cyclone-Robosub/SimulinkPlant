@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -9,6 +9,7 @@ Inputs:
 X - state vector in the form [Ri; qib, dRi, wb] where qib is expressed in
 the [vector; scalar] convention. 
 Xu - the target state vector
+cmd - the command currently being run
 
 Outputs:
 qib_int_u - an intermediate target quaternion to point the vehicle at the

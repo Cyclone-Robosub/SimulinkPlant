@@ -102,6 +102,8 @@ while ischar(line)
             trick_id = 'FF_RollLeft_Tric';
         case 'stop'
             trick_id = 'FF_Stop_________';
+        case 'barrel_roll'
+            trick_id = 'Barrel_Roll_Tric';
         otherwise
             trick_id = '________________';
     end

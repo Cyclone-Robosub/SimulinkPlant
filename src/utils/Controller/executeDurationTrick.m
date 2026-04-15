@@ -19,6 +19,9 @@ switch char(cmd.trick_id)
         X_u = zeros(13,1); %dummy value
         [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
 
+    case 'Barrel_Roll_Tric'
+        
+
     otherwise
         %output failure if the trick_id is unknown
         cmd_status = int8('FAIL');
