@@ -25,6 +25,7 @@ M_WorldToUCS = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (180 / pi) 0 0; 0 
 M_UCSToWorld = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (pi / 180) 0 0; 0 0 0 0 (pi / 180) 0; 0 0 0 0 0 (pi / 180)];
 rel_CamPose_L_UCS = rel_CamPose_L*M_WorldToUCS;
 rel_CamPose_R_UCS = rel_CamPose_R*M_WorldToUCS;
+
 try
     %{
     Assigns distortion coefficients to array of size 5 [k1 k2 p1 p2 k3] from
@@ -32,7 +33,6 @@ try
     Assigns intrinsic matrices (K_L and K_R)
     %}
     stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_14.mat"));
-
     k_L = stereoCam.stereoParams.CameraParameters1.K;
     k_R = stereoCam.stereoParams.CameraParameters2.K;
 

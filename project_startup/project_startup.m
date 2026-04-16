@@ -130,4 +130,9 @@ fprintf("Temporary files have been cleared out.\n");
 %% 5 - Add tests to the Test Browser
 %TODO
 
+%% 6 - Init Condititions for UCS models (UCS Data Collection Only)
+
+%Facilitates Running Models from matlab terminal without opeing editor
+run('terminalStruct_UCS.m')
+
 fprintf("Setup complete.\n\n")

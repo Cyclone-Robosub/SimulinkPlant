@@ -31,7 +31,7 @@ end
 
 %% Parameters
 run('constants.m') %load all necessary constants into the workspace
-run('constantsUCS.m')
+run('constants_UCS.m')
 
 %% Initial Conditions
 %initial intertial position

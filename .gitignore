@@ -38,5 +38,5 @@ SimulinkPlant old/
 /src/models/+bus_conv_fcns/
 
 /+bus_conv_fcns/
-/CalibrationImages/RightCamera
-/CalibrationImages/LeftCamera
+/CalibrationImages/RightCamera/
+/CalibrationImages/LeftCamera/
