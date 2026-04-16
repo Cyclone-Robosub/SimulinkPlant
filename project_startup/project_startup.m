@@ -30,6 +30,8 @@ asv_path = fullfile(root_path,'codegen','autosaves');
 manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
 test_path = fullfile(root_path,"src/tests/");
 UCS_lookup_path = fullfile(src_path,'utils','UCS Lookups');
+vision_path = fullfile(src_path,'utils','Vision');
+UCS_path = fullfile(src_path,'utils','UCS');
 
 
 %add all necessary paths to the project path so it can see them
