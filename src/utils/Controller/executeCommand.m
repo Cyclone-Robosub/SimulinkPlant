@@ -90,7 +90,7 @@ prior_action_id = action_id;
 
 %reset if the command is new
 if(~isequal(cmd, prior_cmd))
-    fprintf("Reset triggered at timestep %.2f due to cmd ~= prior_cmd.\n",t);
+    fprintf("%.2f, Current Command: %s with Trick ID: %s\n",t, char(cmd.cmd_id), char(cmd.trick_id));
     rst = 1;
 end
 if(rst)
