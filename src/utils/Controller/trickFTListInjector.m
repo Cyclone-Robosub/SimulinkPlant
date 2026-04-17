@@ -1,32 +1,32 @@
-function modified_FT_List = trickFTListModifier(cmd, FT_cmd_list, FF_maneuvers)
+function modified_FT_List = trickFTListInjector(cmd, FT_cmd_list, FF_maneuvers)
 
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
     switch char(cmd.trick_id)
-        case 'FF_Forward_Trick'
+        case 'ff_forward______'
             modified_FT_List = FF_maneuvers.forward;
-        case 'FF_Backward_Tric'
+        case 'ff_backward_____'
             modified_FT_List = FF_maneuvers.backward;
-        case 'FF_Up_Trick_____'
+        case 'ff_up___________'
             modified_FT_List = FF_maneuvers.up;
-        case 'FF_Down_Trick___'
+        case 'ff_down_________'
             modified_FT_List = FF_maneuvers.down;
-        case 'FF_Left_Trick___'
+        case 'ff_right________'
             modified_FT_List = FF_maneuvers.left;
-        case 'FF_Right_Trick__'
+        case 'ff_left_________'
             modified_FT_List = FF_maneuvers.right;
-        case 'FF_PitchUp_Trick'
+        case 'ff_pitchUp______'
             modified_FT_List = FF_maneuvers.pitchUp;
-        case 'FF_PitchDown_Tri'
+        case 'ff_pitchDown____'
             modified_FT_List = FF_maneuvers.pitchDown;
-        case 'FF_YawRight_Tric'
+        case 'ff_yawRight_____'
             modified_FT_List = FF_maneuvers.yawRight;
-        case 'FF_YawLeft_Trick'
+        case 'ff_yawLeft______'
             modified_FT_List = FF_maneuvers.yawLeft;
-        case 'FF_RollRight_Tri'
+        case 'ff_rollRight____'
             modified_FT_List = FF_maneuvers.rollRight;
-        case 'FF_RollLeft_Tric'
+        case 'ff_rollLeft_____'
             modified_FT_List = FF_maneuvers.rollLeft;
-        case 'FF_Stop_________'
+        case 'ff_stop_________'
             modified_FT_List = zeros(8,1);
         otherwise
             modified_FT_List = zeros(8,1);

@@ -39,7 +39,7 @@ end
 
 if(reset)
     cmd_start_time = t;
-    mission_idx=1;
+    mission_idx = 1;
 end
 
 

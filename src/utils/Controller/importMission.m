@@ -77,31 +77,55 @@ while ischar(line)
     %TBA - perform a similar substitution for tricks
     switch trick_id
         case 'ff_forward'
-            trick_id = 'FF_Forward_Trick';
+            trick_id = 'ff_forward______';
         case 'ff_backward'
-            trick_id = 'FF_Backward_Tric';
+            trick_id = 'ff_backward_____';
         case 'ff_up'
-            trick_id = 'FF_Up_Trick_____';
+            trick_id = 'ff_up___________';
         case 'ff_down'
-            trick_id = 'FF_Down_Trick___';
+            trick_id = 'ff_down_________';
         case 'ff_right'
-            trick_id = 'FF_Left_Trick___';
+            trick_id = 'ff_right________';
         case 'ff_left'
-            trick_id = 'FF_Right_Trick__';
+            trick_id = 'ff_left_________';
         case 'ff_pitchUp'
-            trick_id = 'FF_PitchUp_Trick';
+            trick_id = 'ff_pitchUp______';
         case 'ff_pitchDown'
-            trick_id = 'FF_PitchDown_Tri';
+            trick_id = 'ff_pitchDown____';
         case 'ff_yawRight'
-            trick_id = 'FF_YawRight_Tric';
+            trick_id = 'ff_yawRight_____';
         case 'ff_yawLeft'
-            trick_id = 'FF_YawLeft_Trick';
+            trick_id = 'ff_yawLeft______';
         case 'ff_rollRight'
-            trick_id = 'FF_RollRight_Tri';
+            trick_id = 'ff_rollRight____';
         case 'ff_rollLeft'
-            trick_id = 'FF_RollLeft_Tric';
+            trick_id = 'ff_rollLeft_____';
         case 'stop'
-            trick_id = 'FF_Stop_________';
+            trick_id = 'ff_stop_________';
+        case 'rsff_forward'
+            trick_id = 'rsff_forward______';
+        case 'rsff_backward'
+            trick_id = 'rsff_backward_____';
+        case 'rsff_up'
+            trick_id = 'rsff_up___________';
+        case 'rsff_down'
+            trick_id = 'rsff_down_________';
+        case 'rsff_right'
+            trick_id = 'rsff_right________';
+        case 'rsff_left'
+            trick_id = 'rsff_left_________';
+        case 'rsff_pitchUp'
+            trick_id = 'rsff_pitchUp______';
+        case 'rsff_pitchDown'
+            trick_id = 'rsff_pitchDown____';
+        case 'rsff_yawRight'
+            trick_id = 'rsff_yawRight_____';
+        case 'rsff_yawLeft'
+            trick_id = 'rsff_yawLeft______';
+        case 'rsff_rollRight'
+            trick_id = 'rsff_rollRight____';
+        case 'rsff_rollLeft'
+            trick_id = 'rsff_rollLeft_____';
         otherwise
             trick_id = '________________';
     end

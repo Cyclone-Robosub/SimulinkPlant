@@ -7,7 +7,6 @@ on how to use this codebase.
 %}
 clc
 close all
-clear
 
 %% 1 - Add files to the search path.
 
@@ -108,21 +107,9 @@ cd(prj_path_list.root_path)
 fprintf("Filepaths configured successfully. Moving you to project root folder.\n");
 
 %% 3 - Configures file path for automatically generated temporary files.
-try
-    Simulink.fileGenControl('set',...
-        'CacheFolder',cache_path,...
-        'CodeGenFolder',cache_path);
-    
-    fprintf("Cache and CodeGen file paths are setup.\n");
-catch
-    fprintf("Unable to configure cache files and codegen paths.\nIs your Matlab directory in a OneDrive foldder?\n");
-end
-
 Simulink.fileGenControl('set',...
     'CacheFolder',cache_path,...
-    'CodeGenFolder',cache_path);
-prj.SimulinkCacheFolder = cache_path;
-prj.SimulinkCodeGenFolder = cache_path;
+    'CodeGenFolder',fullfile(root_path,'codegen/'));
 
 fprintf("Cache and CodeGen file paths are setup.\n");
 

@@ -103,3 +103,52 @@ end
 Eul_bimu = [0 0 0];
 Cbimu = eulToRotm(Eul_bimu); %Rotation matrix from the sensor frame to body frame
 Cimub = Cbimu';
+
+imu.T = 25;
+imu.Bi = [ 27.5550,-2.4169,-16.0849];
+
+imu.acc.meas_range = Inf;
+imu.acc.res = 0;
+imu.acc.const_bias = [0, 0, 0];
+imu.acc.axes_skew = 100*eye(3);
+imu.acc.vel_rand_walk = [0, 0, 0]; %aka noise density (m/s^2)/sqrt(Hz)
+imu.acc.bias_inst = [0, 0, 0]; %(m/s^2)
+imu.acc.bias_inst_num_coeffs = 1;
+imu.acc.bias_inst_den_coeffs = [1, -0.5];
+imu.acc.acc_rand_walk = [0, 0, 0]; %(m/s^2)*sqrt(Hz)
+imu.acc.temp_bias = [0, 0, 0]; %(m/s^2)/C
+imu.acc.temp_scale_factor = [0, 0, 0]; % %/C
+
+imu.gyro.max_read = Inf;
+imu.gyro.res = 0;
+imu.gyro.const_bias = [0, 0, 0];
+imu.gyro.axes_skew = 100*eye(3); 
+imu.gyro.bias_from_acc = [0, 0, 0]; %(rad/s)/(m/s^2)
+imu.gyro.angle_rand_walk = [0, 0, 0]; %aka noise density ((rad/s)/sqrt(Hz))
+imu.gyro.bias_inst = [0, 0, 0]; %rad/s
+imu.gyro.bias_inst_filter_num_coeffs = 1;
+imu.gyro.bias_inst_filter_den_coeffs = [1, -0.5];
+imu.gyro.rate_rand_walk = [0, 0, 0]; %((rad/s)*sqrt(Hz))
+imu.gyro.temp_bias = [0, 0, 0]; %(rad/s)/C
+imu.gyro.temp_scale_factor = [0, 0, 0]; % %/C
+
+imu.mag.max_read = Inf;
+imu.mag.res = 0; %(uT)/LSB
+imu.mag.const_bias = [0, 0, 0]; %uT
+imu.mag.axes_skew = 100*eye(3);
+imu.mag.white_noise_psd = [0, 0, 0]; %aka noise density, (uT)/sqrt(Hz)
+imu.mag.bias_inst = [0, 0, 0]; %uT
+imu.mag.bias_inst_filter_num_coeffs = 1;
+imu.mag.bias_isnt_filter_den_coeffs = [1, -0.5];
+imu.mag.rand_walk = [0, 0, 0]; %(uT)*sqrt(Hz)
+imu.mag.temp_bias = [0, 0, 0]; %uT/C
+imu.mag.temp_scale_factor = [0, 0, 0]; % %/C
+
+%% DVL
+dvl.pool_depth = 2.25; %[m]
+dvl.start_depth = 0.05; %[m] 
+
+dvl.noise_sigma = [0.01, 0.01, 0.015]'; %noise standard deviation 
+dvl.bias_tau = 300; %bias drift time constant
+dvl.bias_sigma_ss = 0.01; %steady-state standard deviation of bias
+dvl.bias_dt = 0.01; %update rate for bias update (dt_control)

@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = executeCommand(t, cmd, X, action_id, driving_yaw_target)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = executeCommand(t, cmd, X, action_id, driving_yaw_target, rst)
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -42,6 +42,7 @@ wb = X.dRb;
 persistent hold_timer_start_time
 persistent idle_wp
 persistent prior_action_id
+persistent prior_cmd 
 
 %{
 idle_wp is the value the controller will go to in the following
@@ -73,12 +74,31 @@ if isempty(prior_action_id)
     prior_action_id = 0;
 end
 
+if isempty(prior_cmd)
+    prior_cmd = struct('cmd_id',int8('________________'),'wp',zeros(6,1),...
+        'wp_mask',zeros(6,1),'wp_tol',zeros(6,1),'hold_time',999,...
+        'obj_id',int8('________________'),'conf',0,'trick_id',int8('________________'),...
+        'exec_timeout',999999);
+end
+
+
 %update the idle waypoint based on action_id
 idle_wp = updateIdleWaypoint(action_id, prior_action_id, idle_wp,...
     driving_yaw_target, X);
 
 prior_action_id = action_id;
 
+%reset if the command is new
+if(~isequal(cmd, prior_cmd))
+    fprintf("%.2f, Current Command: %s with Trick ID: %s\n",t, char(cmd.cmd_id), char(cmd.trick_id));
+    rst = 1;
+end
+if(rst)
+    hold_timer_start_time = t;
+    prior_action_id = 0;
+end
+
+prior_cmd = cmd;
 %in any other case, the idle_waypoint is not reset
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
