@@ -1,4 +1,4 @@
-function plotAllOutputs(results,plots, target_plot_names, prj_path_list, save_plots_flag)
+function plotAllOutputs(plots, results, target_plot_names, prj_path_list)
 %{
 This function creates and saves plots.
 
@@ -18,6 +18,7 @@ save_plots_flag: Controls if images of the plots are saved to the
 sim_data_path.
 
 %}
+save_plots_flag = 0; %TODO automate this
 
 %check if user wants all the plots or just a subset
 if(isempty(target_plot_names))

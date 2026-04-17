@@ -1,12 +1,9 @@
 %Plot details defined here.
-<<<<<<< HEAD
 plots_defined_flag = true;
 clear plots
 
-plots(1) = ClassPlot("cmd","cmd",[4,1],{[5,6,7],[8,9,10],[1,2,4],[3,11]},["Position (m)", "Angle (rad)", "Value", "Time (s)"],"Time (s)",["Position Target", "Attitude Target", "Maneuver Metadata", "Maneuver Timing"],"Command vs Time",{["x","y","z"],["roll","pitch","yaw"],["Mode","Maneuver ID", "Maneuver Intensity"],["Maneuver Duration", "Maneuver Time"]});
-=======
+
 plots(1) = TimePlot("pwm_cmd","pwm_cmd",[4,2],{1,2,3,4,5,6,7,8},["pwm (us)","pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster PWM",{"","","","","","","",""});
->>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090
 
 plots(end+1) = TimePlot("FT_cmd_list","FT_cmd_list",[4,2],{1,2,3,4,5,6,7,8},["Force (N)","Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster Force",{"","","","","","","",""});
 
@@ -24,9 +21,6 @@ plots(end+1) = TimePlot("FT_list","FT_list",[4,2],{1,2,3,4,5,6,7,8},["F (N)","F 
 
 plots(end+1) = TimePlot("Eul","Eul",[1,1],{[1,2,3]},"Angle (rad)","Time (s)","","Euler Angles",{["roll","pitch","yaw"]});
 
-<<<<<<< HEAD
-plots(end+1) = ClassPlot("Eul","Eul",[1,1],{[1,2,3]},"Angle (rad)","Time (s)","","Euler Angles",{["roll","pitch","yaw"]});
-=======
 plots(end+1) = TimePlot("q","q",[1,2],{[1,2,3],[4]},["Epsilon","Eta"],"Time (s)",["Vector","Scalar"],"Quaternion",{["q1","q2","q3"],["q4"]});
 
 plots(end+1) = TimePlot("FB_force_moment_cmd",["Fb_FB_cmd", "Mb_FB_cmd"],[2,1],{[1,2,3],[4,5,6]},["Force (N)","Moment (Nm)"], "Time (s)", ["Force Command", "Moment Command"],"FB Controller Commanded Force and Moment",{["Fbx", "Fby", "Fbz"], ["Mbx", "Mby", "Mbz"]});
@@ -40,4 +34,3 @@ plots(end+1) = TimePlot("cmd_status",["mission_idx", "cmd_status", "hold_timer",
 plots(end+1) = TimePlot("Eul_u",["Eul","Eul_u"],[3,1],{[1,4],[2,5],[3,6]},["Angle (rad)", "Angle (rad)", "Angle (rad)"],"Time (s)",["Roll", "Pitch", "Yaw"],"Euler Angle Value and Target",{["Roll", "Roll_u"], ["Pitch", "Pitch_u"], ["Yaw", "Yaw_u"]});
 
 plots(end+1) = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (m)", "Angle (rad)"],"Time (s)",["Position Target", "Angle Target"],"Intermediate Waypoint",{["xi", "yi", "zi"],["roll", "pitch", "yaw"]});
->>>>>>> fdbeab81971ce749fa28e167eaac6aa7cea5f090
