@@ -75,9 +75,9 @@ if isempty(prior_action_id)
 end
 
 if isempty(prior_cmd)
-    prior_cmd.id = struct('cmd_id','________________','wp',zeros(6,1),...
-        'wp_mask',zeros(6,1),'wp_tol',zeros(6,1)','hold_time',999,...
-        'obj_id','________________','conf',0,'trick_id','________________',...
+    prior_cmd = struct('cmd_id',int8('________________'),'wp',zeros(6,1),...
+        'wp_mask',zeros(6,1),'wp_tol',zeros(6,1),'hold_time',999,...
+        'obj_id',int8('________________'),'conf',0,'trick_id',int8('________________'),...
         'exec_timeout',999999);
 end
 
@@ -90,12 +90,15 @@ prior_action_id = action_id;
 
 %reset if the command is new
 if(~isequal(cmd, prior_cmd))
+    fprintf("Reset triggered at timestep %.2f due to cmd ~= prior_cmd.\n",t);
     rst = 1;
 end
 if(rst)
     hold_timer_start_time = t;
     prior_action_id = 0;
 end
+
+prior_cmd = cmd;
 %in any other case, the idle_waypoint is not reset
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
