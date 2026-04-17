@@ -109,7 +109,7 @@ fprintf("Filepaths configured successfully. Moving you to project root folder.\n
 %% 3 - Configures file path for automatically generated temporary files.
 Simulink.fileGenControl('set',...
     'CacheFolder',cache_path,...
-    'CodeGenFolder',cache_path);
+    'CodeGenFolder',fullfile(root_path,'codegen/'));
 
 fprintf("Cache and CodeGen file paths are setup.\n");
 
