@@ -1,4 +1,4 @@
-function saveStateGif(t,Ri,Cib,filepath,name,varargin)
+function saveStateGif(t,Ri,q,filepath,name,varargin)
 %{
 This function creates an animated gif of Manny and saves it to a file.
 Using default settings, the gif will need about 1 second of render time per
@@ -97,10 +97,11 @@ frameArray = cell(1,nFrames);  % store frames
 
 %Start printout percentage
 percent_text = fprintf("Media is 0.00%% Complete");
-
+q = squeeze(q);
 for k = 1:frameskip:length(t)
     %get rotation and position at timestep k
-    Cibk = Cib(:,:,k);
+    qibk = q(:,k);
+    Cibk = quatToRotm(qibk);
     Rik = Ri(:,k);
 
     %build transform matrix

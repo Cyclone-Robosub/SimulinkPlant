@@ -96,7 +96,7 @@ do_force_flag = 1;
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -104,7 +104,7 @@ dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -117,6 +117,7 @@ if(setup_buses_flag)
     run('setup_FF_maneuvers_bus.m');
     run('setup_state_bus.m');
     run('setup_sensor_bus.m');
+    run('setup_RSFF_maneuvers_bus.m')
 end
 
 %set To-File block names
@@ -155,6 +156,6 @@ run('setup_plots.m')
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
 plotAllOutputs(plots,results,plot_names);
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.Cib.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 fprintf("Done.\n\n")

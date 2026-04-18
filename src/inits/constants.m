@@ -25,9 +25,9 @@ Kd_Rb = 2;
 dRb_limit = 999;
 
 %Controller gains for velocity --> force
-Kp_dRx = 10;
-Kp_dRy = 2;
-Kp_dRz = 6;
+Kp_dRx = 20; Ki_dRx = 5;
+Kp_dRy = 2; Ki_dRy = 1;
+Kp_dRz = 6; Ki_dRz = 1;
 linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
 
 %Controller gains for quaternion --> angular velocity
@@ -37,8 +37,8 @@ Kdq = 0.5;
 quat_pid_integrator_limit = inf;
 
 %Controller gains for angular velocity --> torque
-Kp_w = 10;
-Ki_w = 0;
+Kp_w = 20;
+Ki_w = 5;
 Kd_w = 0;
 
 
@@ -148,7 +148,9 @@ imu.mag.temp_scale_factor = [0, 0, 0]; % %/C
 dvl.pool_depth = 2.25; %[m]
 dvl.start_depth = 0.05; %[m] 
 
-dvl.noise_sigma = [0.01, 0.01, 0.015]'; %noise standard deviation 
-dvl.bias_tau = 300; %bias drift time constant
-dvl.bias_sigma_ss = 0.01; %steady-state standard deviation of bias
+% dvl.noise_sigma = [0.01, 0.01, 0.015]'; %noise standard deviation 
+% dvl.bias_sigma_ss = 0.01; %steady-state standard deviation of bias
 dvl.bias_dt = 0.01; %update rate for bias update (dt_control)
+dvl.noise_sigma = [0 0 0]';
+dvl.bias_tau = 300;
+dvl.bias_sigma_ss = 0;
