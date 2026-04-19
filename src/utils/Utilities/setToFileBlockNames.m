@@ -1,4 +1,4 @@
-function setToFileBlockNames(sim_select, data_path)
+function base_path = setToFileBlockNames(sim_select, data_path)
 %{
 Sets all the To-File block names in the provided model. The function will
 create a base file name based on the data and time the sim was ran and then
