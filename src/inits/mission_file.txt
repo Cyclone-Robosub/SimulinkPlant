@@ -1,6 +1,5 @@
 identifier, waypoint or tracking_position (6), waypoint_mask (6), waypoint_tolerance (6), hold_time, object_identifier, confidence, trick_identifier, timeout
-duration_trick,[0 0 0 0 0 0], [0 0 0 0 0 0], [0 0 0 0 0 0], 3, n/a, 0, rsff_yawRight, 999
-duration_trick,[0 0 0 0 0 0], [0 0 0 0 0 0], [0 0 0 0 0 0], .5, n/a, 0, rsff_yawLeft, 999
-duration_trick,[0 0 0 0 0 0], [0 0 0 0 0 0], [0 0 0 0 0 0], 999, n/a, 0, ff_stop, 999
+duration_trick,[0 0 0 0 0 0], [0 0 0 0 0 0], [0 0 0 0 0 0], 5, n/a, 0, ff_forward, 999
+
 
 

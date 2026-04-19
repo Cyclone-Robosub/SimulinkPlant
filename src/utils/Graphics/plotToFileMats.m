@@ -43,10 +43,9 @@ for k = 1:length(varNames)
         sub_struct_k = data.(varNames(k));
         field = fieldnames(sub_struct_k);
         field = field{1};
-        sbu_struct_k
-        if(isequal(field,'sensor'))
+        
+        if(isequal(field,'sensors'))
             %code for sensors
-            
             plotSensorBus(sub_struct_k);
         end    
     end

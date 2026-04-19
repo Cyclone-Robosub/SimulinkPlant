@@ -96,7 +96,7 @@ do_force_flag = 1;
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 10;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -106,7 +106,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 %mission file and model
 mission_file_name = "mission_file.txt"; 
 model_select = "Integrated_Joystick_HIL";
-open_system(model_select);
+% open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
@@ -158,7 +158,7 @@ fprintf("Running Post-Processing.\n")
 % plotAllOutputs(plots,results,plot_names);
 % % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 % % % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
-
-plotToFileMats(to_file_block_path)
+% 
+% plotToFileMats(to_file_block_path)
 fprintf("Done.\n\n")
 
