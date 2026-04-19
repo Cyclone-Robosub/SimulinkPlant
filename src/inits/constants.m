@@ -24,7 +24,7 @@ Ki_Rb = .01;
 Kd_Rb = 2;
 dRb_limit = 999;
 
-%Controller gains for velocity --> force
+%Controller gains for velocity --> force %DRB
 Kp_dRx = 20; Ki_dRx = 5;
 Kp_dRy = 2; Ki_dRy = 1;
 Kp_dRz = 6; Ki_dRz = 1;
@@ -36,7 +36,7 @@ Kiq = 2; %2
 Kdq = 0.5;
 quat_pid_integrator_limit = inf;
 
-%Controller gains for angular velocity --> torque
+%Controller gains for angular velocity --> torque %WB
 Kp_w = 20;
 Ki_w = 5;
 Kd_w = 0;
