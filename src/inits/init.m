@@ -1,4 +1,3 @@
-
 %{
 This is the master initialization file for the Cyclone Robosub Simulink.
 This is intended to be the one-stop-shop for setting up and running
@@ -31,10 +30,14 @@ if(~exist('prj_path_list','var'))
 end
 
 %% Parameters
-recalculate_parameters_flag = true;
+recalculate_parameters_flag = true; 
 if(recalculate_parameters_flag)
     fprintf("Re-calculating vehicle parameters.\n")
-    %TODO - put code to calculate physical parameters here
+    run('buoyancy_calculations.m')
+    run('mass_calculations.m')
+    run('wrench_calculations.m')
+    run("added_mass_calculations.m")
+    run("drag_calculations.m")
 end
 
 rerun_constants_flag = true;

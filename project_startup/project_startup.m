@@ -70,7 +70,7 @@ if(~isfolder(cache_path))
 end
 if(~isfolder(codegen_path))
     fprintf("Folder for automatically generated files is missing. Creating it now.\n")
-    mkdir(cache_path);
+    mkdir(codegen_path);
 end
 if(~isfolder(asv_path))
     fprintf("Creating a folder for autosaves.\n")

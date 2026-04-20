@@ -13,48 +13,9 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%% Controller
-%tolerance for mode switching in the guidance law
-Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
-Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
-
-%Controller gains for position --> velocity
-Kp_Rb = 3; 
-Ki_Rb = .01; 
-Kd_Rb = 2;
-dRb_limit = 999;
-
-%Controller gains for velocity --> force %DRB
-Kp_dRx = 20; Ki_dRx = 5;
-Kp_dRy = 2; Ki_dRy = 1;
-Kp_dRz = 6; Ki_dRz = 1;
-linear_force_limits = [30*sqrt(2/2)*4, 30*sqrt(2/2)*4, 30*4];
-
-%Controller gains for quaternion --> angular velocity
-Kpq = 10;
-Kiq = 2; %2
-Kdq = 0.5;
-quat_pid_integrator_limit = inf;
-
-%Controller gains for angular velocity --> torque %WB
-Kp_w = 20;
-Ki_w = 5;
-Kd_w = 0;
-
-
-%pwm cmd clamping
-pwm_lower_limit = 1100;
-pwm_upper_limit = 1800;
-
 %% Physical Data
-%load physical data
-run('physical_data_calculations.m');
-
 %max thrust force
 max_thruster_force = 40; %[N]
-ff_force_max = 2*sqrt(2)*max_thruster_force;
-%thruster voltage
-battery_voltage = 14; %[V]
 
 %Inertia Matrix (last updated 11/11/25 - KJH)
 I = I + I_added;
@@ -63,9 +24,7 @@ invI = inv(I);
 %mass (last updated 11/11/25 - KJH)
 M = diag([m m m]);
 
-%based on shady equations - needs validation from textbook
 %(last updated 11/11/25 - KJH)
-
 M = M + M_added;
 invM = inv(M);
 
@@ -98,6 +57,55 @@ try
 catch
     error("Unable to load thruster data. Fix the path in your constants file.")
 end
+
+%% Controller
+ff_force_max = 2*sqrt(2)*max_thruster_force;
+
+%tolerance for mode switching in the guidance law
+Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
+Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
+
+%Controller gains for position --> velocity
+Rb_PID.Kp = 3; Rb_PID.Ki = 0.01; Rb_PID.Kd = 2;
+Rb_PID.N = 100; %filter coefficient for the derivative term
+Rb_PID.output_sat = 3; %PID saturation point for velocity output
+Rb_PID.int_sat = 1; %integral term saturation limit
+
+
+%Controller gains for velocity --> force %DRB
+dRbx_PID.Kp = 20; dRbx_PID.Ki = 5; dRbx_PID.Kd = 0;
+dRbx_PID.N = 100; %filter coefficient for the derivative term
+dRbx_PID.output_sat = 120; %PID saturation point for velocity output
+dRbx_PID.int_sat = 10; %integral term saturation limit
+
+dRby_PID.Kp = 2; dRby_PID.Ki = 1; dRby_PID.Kd = 0;
+dRby_PID.N = 100; %filter coefficient for the derivative term
+dRby_PID.output_sat = 120; %PID saturation point for velocity output
+dRby_PID.int_sat = 10; %integral term saturation limit
+
+dRbz_PID.Kp = 6; dRbz_PID.Ki = 1; dRbz_PID.Kd = 0;
+dRbz_PID.N = 100; %filter coefficient for the derivative term
+dRbz_PID.output_sat = 120; %PID saturation point for velocity output
+dRbz_PID.int_sat = 10; %integral term saturation limit
+
+%Controller gains for quaternion --> angular velocity
+qib_PID.Kp = 10; qib_PID.Ki = 2; qib_PID.Kd = 0.5;
+qib_PID.N = 100; %filter coefficient for the derivative term (unused)
+qib_PID.output_sat = 2*pi; %PID saturation point for velocity output
+qib_PID.int_sat = pi/6; %integral term saturation limit
+
+%Controller gains for angular velocity --> torque %WB
+wb_PID.Kp = 20; wb_PID.Ki = 5; wb_PID.Kd = 0;
+wb_PID.N = 100; %filter coefficient for the derivative term
+wb_PID.output_sat = 40; %PID saturation point for velocity output
+wb_PID.int_sat = 5; %integral term saturation limit
+
+
+
+%pwm cmd clamping
+pwm_lower_limit = 1100;
+pwm_upper_limit = 1800;
+
 
 %% IMU
 Eul_bimu = [0 0 0];
