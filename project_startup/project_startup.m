@@ -7,9 +7,9 @@ on how to use this codebase.
 %}
 clc
 close all
+clear all
 
-%% 1 - Add files to the search path.
-
+%% 1 - Add files to the search path
 %get the current project
 try
     prj = currentProject;
@@ -21,21 +21,24 @@ root_path = prj.RootFolder;
 src_path = fullfile(root_path,'src');
 temp_path = fullfile(src_path,'temp');
 inits_path = fullfile(src_path,'inits');
-thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
 user_data_path = fullfile(root_path,'data');
 startup_path = fullfile(root_path,'project_startup');
 closedown_path = fullfile(root_path,'project_closedown');
-cache_path = fullfile(root_path,'codegen','slprj_and_caches');
+cache_path = fullfile(root_path,'codegen','simulink_cache_files');
+codegen_path = fullfile(root_path,'codegen','cpp_codegen_files');
 asv_path = fullfile(root_path,'codegen','autosaves');
-manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
 test_path = fullfile(root_path,"src/tests/");
 drafts_path = fullfile(root_path,"drafts");
 
+%data lookup paths
+thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
+manny_patch_path = fullfile(root_path,"src/utils/Graphics/");
 
 %add all necessary paths to the project path so it can see them
 addpath(root_path);
 addpath(startup_path);
 addpath(closedown_path);
+addpath(user_data_path)
 
 %add src and all subfolders recursively
 src_sub_folders = string(genpath(src_path));
@@ -44,14 +47,12 @@ src_sub_folders = split(src_sub_folders,pathsep);
 src_sub_folders(src_sub_folders=="") = [];
 %convert to cell array for addpath
 src_sub_folders = cellstr(src_sub_folders);
-
 warningState = warning('off','all');
 %add them all to the path
 addpath(src_sub_folders{:});
 warning(warningState);
 
-%% 2 - Check for and/or create missing folders.
-
+%% 2 - Check for and/or create missing folders
 %make sure each path exists and is a directory
 if(~isfolder(root_path))
     error("I have no idea how you managed to trigger this error. Did you change the name of the SimulinkPlant folder?");
@@ -64,6 +65,10 @@ if(~isfolder(temp_path))
     mkdir(temp_path);
 end
 if(~isfolder(cache_path))
+    fprintf("Folder for automatically generated files is missing. Creating it now.\n")
+    mkdir(cache_path);
+end
+if(~isfolder(codegen_path))
     fprintf("Folder for automatically generated files is missing. Creating it now.\n")
     mkdir(cache_path);
 end
@@ -88,33 +93,33 @@ if(~isfolder(user_data_path))
     mkdir(user_data_path);
 end
 
-%create a variable storing all these file paths for other methods to access
 prj_path_list.root_path = root_path;
 prj_path_list.src_path = src_path;
 prj_path_list.temp_path = temp_path;
 prj_path_list.inits_path = inits_path;
-prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.user_data_path = user_data_path;
-prj_path_list.cache_path = cache_path;
-prj_path_list.asv_path = asv_path;
 prj_path_list.startup_path = startup_path;
 prj_path_list.closedown_path = closedown_path;
-prj_path_list.manny_patch_path = manny_patch_path;
+prj_path_list.cache_path = cache_path;
+prj_path_list.codegen_path = codegen_path;
+prj_path_list.asv_path = asv_path;
 prj_path_list.test_path = test_path;
+prj_path_list.drafts_path = drafts_path;
+prj_path_list.thruster_lookup_path = thruster_lookup_path;
+prj_path_list.manny_patch_path = manny_patch_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)
 fprintf("Filepaths configured successfully. Moving you to project root folder.\n");
 
-%% 3 - Configures file path for automatically generated temporary files.
+%% 3 - Configures file path for automatically generated temporary files
 Simulink.fileGenControl('set',...
     'CacheFolder',cache_path,...
-    'CodeGenFolder',fullfile(root_path,'codegen/'));
+    'CodeGenFolder',codegen_path);
 
 fprintf("Cache and CodeGen file paths are setup.\n");
 
-%% 4 - Clear the temporary folder for a clean workspace if there is anything in it.
-
+%% 4 - Clear the temporary folder for a clean workspace if there is anything in it
 %suppress warnings for removed temp files
 warningState = warning('off','all');
 clearTemp();
