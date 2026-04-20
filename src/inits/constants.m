@@ -100,8 +100,6 @@ wb_PID.N = 100; %filter coefficient for the derivative term
 wb_PID.output_sat = 40; %PID saturation point for velocity output
 wb_PID.int_sat = 5; %integral term saturation limit
 
-
-
 %pwm cmd clamping
 pwm_lower_limit = 1100;
 pwm_upper_limit = 1800;
