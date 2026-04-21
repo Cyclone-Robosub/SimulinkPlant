@@ -155,13 +155,17 @@ toc
 fprintf("Running Post-Processing.\n")
 run('setup_plots.m')
 
+% Add any the outputs of ToFile blocks to the results structure
+results = fileToResults(results, to_file_block_path);
+
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
 plotAllOutputs(plots,results,plot_names);
+
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
+
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
-% 
-% plotToFileMats(to_file_block_path)
+
 fprintf("Done.\n\n")
 
