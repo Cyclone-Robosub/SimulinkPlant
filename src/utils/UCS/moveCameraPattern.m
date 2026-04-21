@@ -9,8 +9,8 @@ function patternLocation = moveCameraPattern(cameraImageLeft, cameraImageRight, 
     time = simTime - 50;
     if time <= timeIncrement * 45 && time > 0
         if mod(time, timeIncrement) == 0
-            imageNameLeft = fullfile(root_path, "SavedImages/CalibrationImages/LeftCamera/CalibrationImage" + floor(time / timeIncrement) + ".png");
-            imageNameRight = fullfile(root_path, "SavedImages/CalibrationImages/RightCamera/CalibrationImage" + floor(time / timeIncrement) + ".png");
+            imageNameLeft = fullfile(saved_images_path, "CalibrationImages/LeftCamera/CalibrationImage" + floor(time / timeIncrement) + ".png");
+            imageNameRight = fullfile(saved_images_path, "CalibrationImages/RightCamera/CalibrationImage" + floor(time / timeIncrement) + ".png");
             imwrite(cameraImageLeft, imageNameLeft);
             imwrite(cameraImageRight, imageNameRight);
             if mod(time, largeTimeIncrement) == 0
