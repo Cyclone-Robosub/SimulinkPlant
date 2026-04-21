@@ -99,7 +99,7 @@ do_force_flag = 1;
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 60;
+tspan = 30;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -107,8 +107,8 @@ dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
-mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+mission_file_name = "drive_in_square_validation_mission.txt"; 
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -125,12 +125,12 @@ end
 
 %set To-File block names
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
-enableToFileBlocks(model_select);
-%disableToFileBlocks(model_select);
+% enableToFileBlocks(model_select);
+disableToFileBlocks(model_select);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-% enableToWorkspaceBlocks(model_select);
-disableToWorkspaceBlocks(model_select);
+enableToWorkspaceBlocks(model_select);
+% disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -138,7 +138,7 @@ mission = importMission(mission_file_path, max_commands_in_mission);
 
 %% Simulation
 fprintf("Running the sim.\n");
-
+tic
 %setup the sim
 simIn = Simulink.SimulationInput(model_select);
 
@@ -150,17 +150,17 @@ simIn = simIn.setVariable('mission', mission);
 %run the sim
 results = sim(simIn);
 
-
+toc
 %% Post Processing
 fprintf("Running Post-Processing.\n")
-% run('setup_plots.m')
-% 
-% % Enter the names of all the plots as a comma separated cell array
-% % Refer to setup_plots.m to see the valid plot names
-% plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
-% plotAllOutputs(plots,results,plot_names);
-% % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
-% % % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
+run('setup_plots.m')
+
+% Enter the names of all the plots as a comma separated cell array
+% Refer to setup_plots.m to see the valid plot names
+plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
+plotAllOutputs(plots,results,plot_names);
+% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
+% saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 % 
 % plotToFileMats(to_file_block_path)
 fprintf("Done.\n\n")

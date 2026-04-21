@@ -11,17 +11,21 @@ data_folder - the name of the folder where the data files will be saved
 
 %}
 
+
 to_file_blocks = find_system(sim_select, ...
     'LookUnderMasks', 'all', ...
     'FollowLinks',    'on',  ...
+    'MatchFilter', @Simulink.match.allVariants,...
     'BlockType',      'ToFile');
+
+base_name = string(datetime('now','Format','uuuu_MM_dd_HH_mm_ss'));
+base_path = fullfile(data_path, base_name);
 
 if isempty(to_file_blocks)
     return;
 end
 
-base_name = string(datetime('now','Format','uuuu_MM_dd_HH_mm_ss'));
-base_path = fullfile(data_path, base_name);
+
 if(~isfolder(base_path))
     mkdir(base_path);
 end
