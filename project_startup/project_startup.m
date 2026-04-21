@@ -32,7 +32,7 @@ test_path = fullfile(root_path,"src/tests/");
 UCS_lookup_path = fullfile(src_path,'utils','UCS Lookups');
 vision_path = fullfile(src_path,'utils','Vision');
 UCS_path = fullfile(src_path,'utils','UCS');
-
+saved_images_path = fullfile(root_path, "SavedImages");
 
 %add all necessary paths to the project path so it can see them
 addpath(root_path);
@@ -89,7 +89,14 @@ if(~isfolder(user_data_path))
     fprintf("Folder for data outputs is missing. Creating it now.\n")
     mkdir(user_data_path);
 end
-
+if(~isfolder(saved_images_path))
+    fprintf("Folder for image outputs is missing. Creating it now.\n")
+    mkdir(saved_images_path);
+    mkdir(fullfile(saved_images_path, "CalibrationImages"));
+    mkdir(fullfile(saved_images_path, "CalibrationImages/LeftCamera"));
+    mkdir(fullfile(saved_images_path, "CalibrationImages/RightCamera"));
+    mkdir(fullfile(saved_images_path, "KeyPointData"));
+end
 %create a variable storing all these file paths for other methods to access
 prj_path_list.root_path = root_path;
 prj_path_list.src_path = src_path;
@@ -106,6 +113,7 @@ prj_path_list.test_path = test_path;
 prj_path_list.UCS_lookup_path = UCS_lookup_path;
 prj_path_list.vision_path = vision_path;
 prj_path_list.UCS_path = UCS_path;
+prj_path_list.saved_images_path = saved_images_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)
