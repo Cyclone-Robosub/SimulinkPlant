@@ -63,10 +63,10 @@ if doExactPerspective == false
         end
     end
     perspectives = single(perspectives);
-    tspan = dt_sample * (q + startDelay_KP + 1);
+    tspan = dt_sample * (q + startDelay_KP + 2);
 end
 
 numPerspectives = q;
 disp("Number of Perspectives:")
 disp(numPerspectives)
-clear i q k c x y z theta phi m_Pitch m_Yaw yawLine_KP pose yawDif yawDifReflect;
+clear i q k c x y z theta phi m_Pitch m_Yaw yawLine_KP pose yawDif yawDifReflect distance_KP;

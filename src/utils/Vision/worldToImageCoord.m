@@ -32,7 +32,7 @@ function r_Image = worldToImageCoord(r_World, manateePos, cameraPos, K, d_Coef)
         r_Image2d = distortR(r_Un, d_Coef, K(1,3), K(2,3), K(1,1),K(2,2));
         r_Image(1) = r_Image2d(1);
         r_Image(2) = r_Image2d(2);
-        if r_Image(1) <= 1920 && r_Image(2) < 1080
+        if r_Image(1) < 1920 && r_Image(2) < 1080 && r_Image(1) >= 0 && r_Image(2) >= 0
             r_Image(3) = 1;
         end
     else
