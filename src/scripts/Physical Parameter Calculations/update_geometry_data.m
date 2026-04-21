@@ -37,21 +37,27 @@ circular cylinder. This means that the indicated position for each object
 is both the object's center of mass and the geometric center used for
 buoyancy and drag calculations. 
 %}
+%Rotation matrix between the onshape frame and body frame
+geo.Cbo = eulToRotm([pi, 0, pi]);
+
+%Total Mass
+geo.m_total = 15.1;
+
 %% Thrusters
 % Position of the center of the thruster in the Onshape reference frame
-RTo0 =  
-RTo1 = 
-RTo2 = 
-RTo3 = 
-RTo4 = 
-RTo5 = 
-RTo6 = 
-RTo7 = 
-RTo = [RTo0, RTo1, RTo2, RTo3, RTo4, RTo5, RTo6, RTo7];
+geo.RTo0 = [-0.254, -0.203, 0.027]'; %[m]
+geo.RTo1 = [-0.254, 0.203, 0.027]';
+geo.RTo2 = [0.254, -0.203, 0.027]';
+geo.RTo3 = [0.254, 0.203, 0.027]';
+geo.RTo4 = [-0.177, -0.128, -0.049]';
+geo.RTo5 = [-0.177, 0.128, -0.049]';
+geo.RTo6 = [0.179, -0.126, -0.049]';
+geo.RTo7 = [0.179, 0.126, -0.049]';
+geo.RTo = [geo.RTo0, geo.RTo1, geo.RTo2, geo.RTo3, geo.RTo4, geo.RTo5, geo.RTo6, geo.RTo7];
 
 % Translation between the onshape frame and the Thruster0 frame expressed
 % in the onshape frame.
-Ro2t0o = RTo0;
+geo.Ro2t0o = geo.RTo0;
 
 % Direction of each thruster in the Onshape reference frame
 %{
@@ -61,49 +67,51 @@ additional mask is applied in the wrench_calculations.m script to account
 for the different rotation direction of the thrusters that leads to this
 difference. 
 %}
-NTo0 = 
-NTo1 = 
-NTo2 = 
-NTo3 = 
-NTo4 = 
-NTo5 = 
-NTo6 = 
-NTo7 = 
-NTo = [NTo0, NTo1, NTo2, NTo3, NTo4, NTo5, NTo6, NTo7]
+geo.NTo0 = [0, 0, 1]';
+geo.NTo1 = [0, 0, 1]';
+geo.NTo2 = [0, 0, 1]';
+geo.NTo3 = [0, 0, 1]';
+geo.NTo4 = (sqrt(2)/2)*[1, -1, 0]';
+geo.NTo5 = (sqrt(2)/2)*[1, 1, 0]';
+geo.NTo6 = (sqrt(2)/2)*[1, 1, 0]';
+geo.NTo7 = (sqrt(2)/2)*[1, -1, 0]';
+
+geo.NTo = [geo.NTo0, geo.NTo1, geo.NTo2, geo.NTo3, geo.NTo4, geo.NTo5, geo.NTo6, geo.NTo7];
+
+%mask with a + for all the thrusters where a positive force is reversed
+%relative to their nominal pointing direction.
+geo.NT_mask = [1, -1, 1, -1,-1,1,-1,1]';
 
 %mass of each thruster in kg (does not account for distributed cord mass)
-mass_T = 
+geo.mass_T = 0.383;
 
-%for inertia calculations, thrusters are considered point masses. For
-%buoynacy, their size is approximated as a cylinder of volume equal to the
-%displaced volume of the thruster.
-length_disp_T = 
-radius_disp_T = 
 
 %% Cylinder
 %Position of the geometric center of the cylinder in the onshape frame
-Rco = 
-length_c = %cylinder length
-radius_c = %cylinder radius
-mass_c = %cylinder mass
-
-%% Downward Facing Camera (DFC) Box
-Rdfco = 
-length_dfc = %length (in forward direction)
-width_dfc = %width (spanwise direction)
-height_dfc = 
-mass_dfc = 
+geo.RCo = [0, 0, 0.111]'; %center
+geo.length_C = 0.468;
+geo.radius_C = 0.08;
+geo.mass_C = 5.5;
 
 %% DVL
-Rdvlo = 
-height_dvl = 
-radius_dvl = 
-mass_dvl = 
-Codvl = %rotation matrix from dvl frame to onshape frame
+geo.RDVLo = [0.114, 0, -0.055]';
+geo.height_DVL = 0.017;
+geo.radius_DVL = 0.033;
+geo.mass_DVL = 0.105;
+geo.Cbdvl = eye(3); %rotation matrix from dvl frame to body frame
 
 %% Plate
-Rpo = 
-length_p = 
-width_p = 
-height_p = 
-mass_p = 
+geo.RPo = [0, 0, 0.00318]';
+geo.length_P = 0.65;
+geo.width_P = 0.549;
+geo.height_P = 0.00635;
+%add unaccounted for mass to plate
+geo.mass_P = geo.m_total - 8*geo.mass_T - geo.mass_C - geo.mass_DVL;
+
+%% Save
+%refreshes the file path in case clear all was called
+if(~exist('prj_path_list','var')) 
+    prj_path_list = getProjectPaths();
+end
+
+save(fullfile(prj_path_list.src_path,"scripts","Physical Parameter Calculations","physical_data.mat"),"geo",'-mat');
