@@ -1,6 +1,6 @@
 function kpList3d = getGateKeypoints3d(gate_Pose)
-    p1 = [0 0 -116 1];
-    p0 = [0 0 0 1];
+    p0 = [0 0 -116 1];
+    p1 = [0 0 0 1];
     p2 = [0 307 -116 1];
     p3 = [0 307 0 1];
     m_R = getRotationMatrix(gate_Pose(4:6));

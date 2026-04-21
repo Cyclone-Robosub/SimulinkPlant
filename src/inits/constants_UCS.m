@@ -16,9 +16,6 @@ end
 %Camera Calibration variable loading.
 
 cam_Cal_Distance = 130;
-gate1_Pose = [250 -580 100 0 0 0];
-keyPointsWorld = getGateKeypoints3d(gate1_Pose);
-numKeypoints = 4;
 rel_CamPose_L = [40 -12.5 15 0 0 0];
 rel_CamPose_R = [40 12.5 15 0 0 0];
 M_WorldToUCS = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (180 / pi) 0 0; 0 0 0 0 (180 / pi) 0; 0 0 0 0 0 (180 / pi)];

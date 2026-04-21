@@ -104,6 +104,8 @@ prj_path_list.closedown_path = closedown_path;
 prj_path_list.manny_patch_path = manny_patch_path;
 prj_path_list.test_path = test_path;
 prj_path_list.UCS_lookup_path = UCS_lookup_path;
+prj_path_list.vision_path = vision_path;
+prj_path_list.UCS_path = UCS_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)

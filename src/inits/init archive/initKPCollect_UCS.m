@@ -18,7 +18,6 @@ added to the project settings and ran and that the project is open (i.e.
 the Project tab is visible at the top of the screen).
 %}
 
-
 %% Housekeeping and Path Management
 clc
 close all
@@ -46,6 +45,7 @@ simIn = Simulink.SimulationInput(model_select);
 %run the sim
 results = sim(simIn);
 
+run('saveKeyPointFiles.m')
 
 %% Post Processing
 %run('setup_plots.m')
