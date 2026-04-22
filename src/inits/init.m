@@ -71,8 +71,18 @@ wb_0 = [wbx_0; wby_0; wbz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
+%initial conditions for the state estimator
+q0_ekf = [0 0 0 1]';
+P0_ekf = 0.1*eye(6); 
+B0_ekf = zeros(3,1);
+
+%covariance matrices (eventually move these to constants)
+R = 1*eye(3);
+Q = 0.001*eye(6);
+
 %% Monte Carlo Setup
 %TBA
+
 
 %% Test Conditions
 % Not all test conditions are needed for every model
@@ -159,9 +169,9 @@ run('setup_plots.m')
 results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
-% Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
-plotAllOutputs(plots,results,plot_names);
+% % Refer to setup_plots.m to see the valid plot names
+% plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
+% plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 
