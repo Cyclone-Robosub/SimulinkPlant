@@ -77,8 +77,8 @@ P0_ekf = 0.1*eye(6);
 B0_ekf = zeros(3,1);
 
 %covariance matrices (eventually move these to constants)
-R = 1*eye(3);
-Q = 0.001*eye(6);
+R = .001*eye(3);
+% Q = diag([.1, .1, .1, 0.001, 0.001, 0.001]);
 
 %% Monte Carlo Setup
 %TBA
@@ -109,7 +109,7 @@ do_force_flag = 1;
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 5;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -117,7 +117,7 @@ dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
