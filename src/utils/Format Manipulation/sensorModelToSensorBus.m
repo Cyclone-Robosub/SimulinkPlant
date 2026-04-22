@@ -1,8 +1,7 @@
-function sensor_meas = sensorModelToSensorBus(linAccel,Gyro,Mag,dRb,alt_meas_dvl,dRb_cov_dvl, qib_dvl)
+function sensor_meas = sensorModelToSensorBus(linAccel,Gyro,Mag,dRb,alt_meas_dvl,dRb_cov_dvl, eul_dvl)
 
     sensor_meas.dvl_std = 0;
-    dvl_eul = quatToEul(qib_dvl);
-    sensor_meas.dvl_eul = dvl_eul;
+    sensor_meas.dvl_eul = eul_dvl;
     sensor_meas.dvl_pos = zeros(3,1);
 
     sensor_meas.dvl_vel = dRb;

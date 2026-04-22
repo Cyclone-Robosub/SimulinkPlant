@@ -40,3 +40,5 @@ SimulinkPlant old/
 /+bus_conv_fcns/
 
 /src/inits/RSFF_prequal_mission.txt
+
+/codegen/simulink_cache_files/
