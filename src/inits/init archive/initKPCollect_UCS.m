@@ -1,21 +1,10 @@
 %{
-This is the master initialization file for the Cyclone Robosub Simulink.
-This is intended to be the one-stop-shop for setting up and running
-simulations that are run purely in Matlab and Simulink.
-
-This file can setup, run, plot, and save data from any simulation variant
-that includes the _SIM extension in the project. Depending on how the host
-machine has been configured, this init may fail for _HIL, _CGN, _EST, and
-_UCS models. For these it is recommended to create a custom init for each
-case.
-
-If you need to make significant modifications to this file, create a copy
-instead and give it an extension such as init_variant and place it in init
-archive.
-
-To use this codebase successfully, make sure project_startup.m has been
-added to the project settings and ran and that the project is open (i.e.
-the Project tab is visible at the top of the screen).
+Init File for generating Keypoints. Run this file to generate keypoints
+around a prop. Currently only prop supported is a default gate. 
+Todo: 
+    - more documentation
+    - roll adjustments (random?)
+    - 
 %}
 
 %% Housekeeping and Path Management
@@ -27,6 +16,15 @@ close all
 if(~exist('prj_path_list','var')) 
     prj_path_list = getProjectPaths();
 end
+
+%if executable doesn't exist exits program
+unreal_executable_path = fullfile(unreal_build_path, "EllingtonPoolSim.exe");
+if(~isfile(unreal_executable_path))
+    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take the files out of the folder that says your OS (ie. Windows, Linux)\n")
+    return;
+end
+
+%set_param('KP_Collect_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
 
 %% Parameters
 %run('constants.m') %load all necessary constants into the workspace
@@ -45,7 +43,5 @@ simIn = Simulink.SimulationInput(model_select);
 %run the sim
 results = sim(simIn);
 
-run('saveKeyPointFiles.m')
-
 %% Post Processing
-%run('setup_plots.m')
+run('saveKeyPointFiles.m')

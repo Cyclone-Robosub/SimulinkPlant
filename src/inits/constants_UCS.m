@@ -13,11 +13,14 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
-%Camera Calibration variable loading.
+%World Values
+ground_Z = 100;
+waterLevel_Z = -180;
 
+%Camera Calibration variable loading.
 cam_Cal_Distance = 130;
-rel_CamPose_L = [40 -12.5 15 0 0 0];
-rel_CamPose_R = [40 12.5 15 0 0 0];
+rel_CamPose_L = [40 -12.5 -15 0 0 0];
+rel_CamPose_R = [40 12.5 -15 0 0 0];
 M_WorldToUCS = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (180 / pi) 0 0; 0 0 0 0 (180 / pi) 0; 0 0 0 0 0 (180 / pi)];
 M_UCSToWorld = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (pi / 180) 0 0; 0 0 0 0 (pi / 180) 0; 0 0 0 0 0 (pi / 180)];
 rel_CamPose_L_UCS = rel_CamPose_L*M_WorldToUCS;

@@ -18,6 +18,7 @@ N_KP = KP_Params.N;
 
 %% Prop Locations
 gate1_Pose = [250 -580 100 0 0 0];
+gate_center = [250 -426 42 0 0 0];
 keyPointsWorld = getGateKeypoints3d(gate1_Pose);
 numKeypoints = 4;
 
@@ -48,16 +49,16 @@ if doExactPerspective == false
         m_Pitch = (pi / 2 - theta);
         m_Yaw = (phi - pi);
         
-        x = sin(theta) * cos(phi) * distance_KP;
-        y = sin(theta) * sin(phi) * distance_KP;
-        z = cos(theta) * distance_KP;
+        x = sin(theta) * cos(phi) * distance_KP + gate_center(1);
+        y = sin(theta) * sin(phi) * distance_KP + gate_center(2);
+        z = cos(theta) * distance_KP + gate_center(3);
         
         pose = [x y z 0 m_Pitch m_Yaw];
         
         yawDif = acos( ( yawLine_KP(1) * pose(1) + yawLine_KP(2) * pose(2) ) / (yawLine_KP(1)^2 + yawLine_KP(2)^2)^0.5 / (pose(1)^2 + pose(2)^2)^0.5 );
         yawDifReflect = acos( ( - yawLine_KP(1) * pose(1) - yawLine_KP(2) * pose(2) ) / (yawLine_KP(1)^2 + yawLine_KP(2)^2)^0.5 / (pose(1)^2 + pose(2)^2)^0.5 ); 
         
-        if (m_Pitch >= pitchMin_KP && m_Pitch <= pitchMax_KP && (yawDif <= KP_Params.yawRadius || (yawDifReflect <= KP_Params.yawRadius && KP_Params.doReflect) ))
+        if (z <= 100 && z >= -180 && m_Pitch >= pitchMin_KP && m_Pitch <= pitchMax_KP && (yawDif <= KP_Params.yawRadius || (yawDifReflect <= KP_Params.yawRadius && KP_Params.doReflect) ))
             q = q + 1;
             perspectives(q, :) = pose(:);
         end
