@@ -18,7 +18,14 @@ switch char(cmd.trick_id)
 
         X_u = zeros(13,1); %dummy value
         [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
+    case {'rsff_forward____', 'rsff_backward___', 'rsff_up_________',...
+            'rsff_down_______', 'rsff_right______', 'rsff_left_______',...
+            'rsff_pitchUp____', 'rsff_pitchDown__', 'rsff_yawRight___',...
+            'rsff_yawLeft____', 'rsff_rollRight__', 'rsff_rollLeft___',...
+            'rsff_stop_______'}
 
+        X_u = zeros(13,1); %dummy value
+        [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
     otherwise
         %output failure if the trick_id is unknown
         cmd_status = int8('FAIL');

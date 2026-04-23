@@ -100,32 +100,34 @@ while ischar(line)
             trick_id = 'ff_rollRight____';
         case 'ff_rollLeft'
             trick_id = 'ff_rollLeft_____';
-        case 'stop'
+        case 'ff_stop'
             trick_id = 'ff_stop_________';
+        case 'rsff_stop'
+            trick_id = 'rsff_stop_______';
         case 'rsff_forward'
-            trick_id = 'rsff_forward______';
+            trick_id = 'rsff_forward____';
         case 'rsff_backward'
-            trick_id = 'rsff_backward_____';
+            trick_id = 'rsff_backward___';
         case 'rsff_up'
-            trick_id = 'rsff_up___________';
+            trick_id = 'rsff_up_________';
         case 'rsff_down'
-            trick_id = 'rsff_down_________';
+            trick_id = 'rsff_down_______';
         case 'rsff_right'
-            trick_id = 'rsff_right________';
+            trick_id = 'rsff_right______';
         case 'rsff_left'
-            trick_id = 'rsff_left_________';
+            trick_id = 'rsff_left_______';
         case 'rsff_pitchUp'
-            trick_id = 'rsff_pitchUp______';
+            trick_id = 'rsff_pitchUp____';
         case 'rsff_pitchDown'
-            trick_id = 'rsff_pitchDown____';
+            trick_id = 'rsff_pitchDown__';
         case 'rsff_yawRight'
-            trick_id = 'rsff_yawRight_____';
+            trick_id = 'rsff_yawRight___';
         case 'rsff_yawLeft'
-            trick_id = 'rsff_yawLeft______';
+            trick_id = 'rsff_yawLeft____';
         case 'rsff_rollRight'
-            trick_id = 'rsff_rollRight____';
+            trick_id = 'rsff_rollRight__';
         case 'rsff_rollLeft'
-            trick_id = 'rsff_rollLeft_____';
+            trick_id = 'rsff_rollLeft___';
         otherwise
             trick_id = '________________';
     end

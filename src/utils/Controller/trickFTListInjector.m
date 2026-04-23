@@ -29,7 +29,7 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
         case 'ff_stop_________'
             modified_FT_List = zeros(8,1);
         otherwise
-            modified_FT_List = zeros(8,1);
+            modified_FT_List = FT_cmd_list;
     end
 else
     modified_FT_List = FT_cmd_list;

@@ -7,11 +7,12 @@ manual = manual.setForce([0 0 0 0 0 0]);
 
 forward = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"forward");
 forward = forward.setID(1);
-forward = forward.setForce(20.*[1 0 0 0 0 0]); 
+forward = forward.setForce(50.*[1 0 0 0 0 0]); 
+forward = forward.addForce(5.*[0 0 0 0 1 0]);
 
 backward = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"backward");
 backward = backward.setID(2);
-backward = backward.setForce(20.*[-1 0 0 0 0 0]);
+backward = backward.setForce(50.*[-1 0 0 0 0 0]);
 
 up = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"up");
 up = up.setID(3);

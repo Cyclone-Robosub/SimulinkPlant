@@ -1,4 +1,4 @@
-function sensors = sensorRosMsgToBus(IMU, DRR, VR)
+function sensors = sensorRosMsgToBus(IMU, VR, DRR)
 %{
 This sensor takes the ROS2 messages for the IMU, DDR, and VR and packs the
 data into the sensor_bus for more convenient manipulation in Simulink.
@@ -23,19 +23,20 @@ child_frame_id: 0
 %}        
 
 %Pose
-imu_pose_cov = IMU.ahrs_database.pose.covariance;
+% imu_pose_cov = double(IMU.ahrs_database.pose.covariance);
+imu_pose_cov = eye(3);
 
-imu_pose_pos = [IMU.ahrs_database.pose.pose.position.x; IMU.ahrs_database.pose.pose.position.y; IMU.ahrs_database.pose.pose.position.z];
+imu_pose_pos = double([IMU.ahrs_database.pose.pose.position.x; IMU.ahrs_database.pose.pose.position.y; IMU.ahrs_database.pose.pose.position.z]);
 
-imu_pos_quat = [IMU.ahrs_database.pose.pose.orientation.w; IMU.ahrs_database.pose.pose.orientation.x; IMU.ahrs_database.pose.pose.orientation.y; 
-    IMU.ahrs_database.pose.pose.orientation.z];
+imu_pos_quat = double([IMU.ahrs_database.pose.pose.orientation.w; IMU.ahrs_database.pose.pose.orientation.x; IMU.ahrs_database.pose.pose.orientation.y; 
+    IMU.ahrs_database.pose.pose.orientation.z]);
 
 %twist
-imu_twist_cov = IMU.ahrs_database.twist.covariance;
+% imu_twist_cov = double(IMU.ahrs_database.twist.covariance);
+imu_twist_cov = ones(3,1);
+imu_twist_ang = double([IMU.ahrs_database.twist.twist.angular.x; IMU.ahrs_database.twist.twist.angular.y; IMU.ahrs_database.twist.twist.angular.z]);
 
-imu_twist_ang = [IMU.ahrs_database.twist.twist.angular.x; IMU.ahrs_database.twist.twist.angular.y; IMU.ahrs_database.twist.twist.angular.z];
-
-imu_twist_lin = [IMU.ahrs_database.twist.twist.linear.x; IMU.ahrs_database.twist.twist.linear.y; IMU.ahrs_database.twist.twist.linear.z];
+imu_twist_lin = double([IMU.ahrs_database.twist.twist.linear.x; IMU.ahrs_database.twist.twist.linear.y; IMU.ahrs_database.twist.twist.linear.z]);
 
 %child_frame_id
 %childFrame = IMU.ahrs_database.child_frame_id;
@@ -52,19 +53,21 @@ orientation: 4
 
 
 %Angular velocity
-imu_ang_vel_cov = IMU.imu_fusion.angular_velocity_covariance;
+%imu_ang_vel_cov = double(IMU.imu_fusion.angular_velocity_covariance);
+imu_ang_vel_cov = eye(3);
 
-imu_ang_vel = [IMU.imu_fusion.angular_velocity.x; IMU.imu_fusion.angular_velocity.y; IMU.imu_fusion.angular_velocity.z];
+imu_ang_vel = double([IMU.imu_fusion.angular_velocity.x; IMU.imu_fusion.angular_velocity.y; IMU.imu_fusion.angular_velocity.z]);
 
 %Linear acceleration
-imu_lin_acc_cov = IMU.imu_fusion.linear_acceleration_covariance;
+%imu_lin_acc_cov = double(IMU.imu_fusion.linear_acceleration_covariance);
 
-imu_lin_acc = [IMU.imu_fusion.linear_acceleration.x; IMU.imu_fusion.linear_acceleration.y; IMU.imu_fusion.linear_acceleration.z];
+imu_lin_acc_cov = eye(3);
+imu_lin_acc = double([IMU.imu_fusion.linear_acceleration.x; IMU.imu_fusion.linear_acceleration.y; IMU.imu_fusion.linear_acceleration.z]);
 
 %orientation
-imu_quat_cov = IMU.imu_fusion.orientation_covariance;
-
-imu_quat = [IMU.imu_fusion.orientation.w; IMU.imu_fusion.orientation.x; IMU.imu_fusion.orientation.y; IMU.imu_fusion.orientation.z];
+% imu_quat_cov = double(IMU.imu_fusion.orientation_covariance);
+imu_quat_cov = eye(4);
+imu_quat = double([IMU.imu_fusion.orientation.w; IMU.imu_fusion.orientation.x; IMU.imu_fusion.orientation.y; IMU.imu_fusion.orientation.z]);
 
 
 %LEVEL 3: IMU.mag_array
@@ -75,9 +78,9 @@ magnetic_field_covariance: 0
 %}
 
 %magnetic field
-imu_mag = [IMU.mag_array.magnetic_field.x; IMU.mag_array.magnetic_field.y; IMU.mag_array.magnetic_field.z];
-imu_mag_cov = IMU.mag_array.magnetic_field_covariance;
-
+imu_mag = double([IMU.mag_array.magnetic_field.x; IMU.mag_array.magnetic_field.y; IMU.mag_array.magnetic_field.z]);
+% imu_mag_cov = double(IMU.mag_array.magnetic_field_covariance);
+imu_mag_cov = eye(3);
 %LEVEL 4: IMU.pressure (fluid_pressure, variance)
 %{
 fluid_pressure: 0
@@ -88,20 +91,21 @@ variance; 0
 %fluidPressure = IMU.pressure.fluid_pressure;
 
 %% VR
-dvl_vel = [VR.velocity_data.x,VR.velocity_data.y,VR.velocity_data.z]';
+dvl_vel = double([VR.velocity_data.x,VR.velocity_data.y,VR.velocity_data.z]');
 
-dvl_alt = VR.altitude;
+dvl_alt = double(VR.altitude);
 
-dvl_cov = VR.covariance.data;
+%dvl_cov = double(VR.covariance.data);
+dvl_cov = eye(3);
 
-dvl_fom = VR.fom;
+dvl_fom = double(VR.fom);
 
 %% DRR
-dvl_std = DRR.pos_std;
+dvl_std = double(DRR.pos_std);
 
-dvl_eul = [DRR.angle.x; DRR.angle.y; DRR.angle.z];
+dvl_eul = double([DRR.angle.x; DRR.angle.y; DRR.angle.z]);
 
-dvl_pos = [DRR.position.x; DRR.position.y; DRR.position.z];
+dvl_pos = double([DRR.position.x; DRR.position.y; DRR.position.z]);
 
 %% Pack Into Structure
 % The order here must match the order of bus elements in setup_sensor_bus.m
