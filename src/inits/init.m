@@ -77,9 +77,7 @@ q0_est = [0 0 0 1]';
 P0_ekf = 0.1*eye(6); 
 B0_ekf = zeros(3,1);
 
-%covariance matrices (eventually move these to constants)
-R = .001*eye(3);
-% Q = diag([.1, .1, .1, 0.001, 0.001, 0.001]);
+
 
 %% Monte Carlo Setup
 %TBA
@@ -110,7 +108,7 @@ do_force_flag = 1;
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 15;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -118,9 +116,9 @@ dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
-
+dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -151,7 +149,7 @@ mission = importMission(mission_file_path, max_commands_in_mission);
 
 %% Simulation
 fprintf("Running the sim.\n");
-tic
+
 %setup the sim
 simIn = Simulink.SimulationInput(model_select);
 
@@ -163,7 +161,6 @@ simIn = simIn.setVariable('mission', mission);
 %run the sim
 results = sim(simIn);
 
-toc
 %% Post Processing
 fprintf("Running Post-Processing.\n")
 run('setup_plots.m')
@@ -173,7 +170,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "cmd_status","Fb, Mb", "Eul_u", "idle_wp"};
+plot_names = {"X", "X_est", "pwm_cmd"};
 plotAllOutputs(plots,results,plot_names);
 
 saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
