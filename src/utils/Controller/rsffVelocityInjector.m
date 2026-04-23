@@ -1,4 +1,4 @@
-function [wb_e, dRb_e] = rsffVelocityInjector(cmd, wb_e, dRb_e, sensors, RSFF_maneuvers)
+function [wb_e, dRb_e] = rsffVelocityInjector(cmd, wb_e, dRb_e, X_est, RSFF_maneuvers)
 %{
 This function acts by modifying the velocity and angular velocity error
 before they are fed into the corresponding PID controllers. The objective
@@ -9,7 +9,9 @@ If the cmd_id is duration_trick, this function throws out the errors sent
 from upstream in the cascade controller and just ouputs the error based on
 the reference rates stored in the maneuver.
 %}
-dX_meas = [sensors.dvl_vel; sensors.imu_ang_vel];
+
+%rotate the imu measurement
+dX_meas = [X_est.dRb; X_est.wb];
 
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
     switch char(cmd.trick_id)

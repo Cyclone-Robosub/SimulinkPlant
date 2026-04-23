@@ -106,7 +106,7 @@ pwm_upper_limit = 1800;
 
 
 %% IMU
-Eul_bimu = [0 0 0];
+Eul_bimu = [pi/2 0 0]; %misaligned by 30 degrees for testing
 Cbimu = eulToRotm(Eul_bimu); %Rotation matrix from the sensor frame to body frame
 Cimub = Cbimu';
 

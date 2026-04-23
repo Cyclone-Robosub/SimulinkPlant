@@ -103,12 +103,18 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
+use_true_state_flag = 0;
+
+%measured imu misalignment
+Cbimu_meas = [1 0 0;...
+    0 0 1;...
+    0 -1 0];
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 15;
+tspan = 5;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -170,7 +176,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est", "pwm_cmd"};
+plot_names = {"X", "X_est"};
 plotAllOutputs(plots,results,plot_names);
 
 saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
