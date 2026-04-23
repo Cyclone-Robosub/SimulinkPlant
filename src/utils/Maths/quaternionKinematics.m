@@ -3,22 +3,30 @@ function dq = quaternionKinematics(q,w)
 This function computes the derivative of the quaternion dq from the unit
 quaternion q and the angular velocity vector w for numerical integration.
 
-Reference: de Ruiter Spacecraft Dynamics and Control
+Reference: Crassidis Optimal Estimation of Dynamic Systems 2e
+
+Inputs:
+w - angular velocity of the body frame relative to the inertial frame
+expressed in the body frame.
 
 Changelog:
 Created Nov 4, 2025 - KJH
-Switched from Curtis to De Ruiter formulation for notational consistency
 %}
 
 %verify q is a column vector
 q = q(:);
-q_vector = q(1:3);
-q_scalar = q(4);
 
-dq_vector = 0.5*(q_scalar*eye(3) + vectorCross(q_vector))*w;
+%The equations from Crassidis use the quaternion as [vector; scalar]
 
-dq_scalar = -0.5*q_vector'*w;
+% Equantion A.183 and A.184
+Omega11 = -vectorCross(w);
+Omega12 = w;
+Omega21 = -w';
+Omega22 = 0;
 
-dq = [dq_vector;dq_scalar];
+Omega = [Omega11, Omega12;...
+    Omega21, Omega22];
+
+dq = 0.5*Omega*q;
 
 end

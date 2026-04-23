@@ -11,7 +11,11 @@ Reference:
 De Ruiter - Spacecraft Dynamics and Control, Chapter 1
 %}
 
-C = rotm;
+Cib = rotm;
+
+%math from de Ruiter is for inertial to body, so flip the input
+Cbi = Cib';
+C = Cbi;
 
 %Pitch
 theta = -asin(max(-1,min(1,C(1,3))));

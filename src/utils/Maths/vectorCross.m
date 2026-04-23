@@ -1,7 +1,7 @@
 function VX = vectorCross(V)
 %{
 This function returns the cross product operator matrix VX such that
-cross(V,U) = VX*U. Reference: De Ruiter - Spacecraft Dynamics and Control
+cross(V,U) = VX*U. Reference: Crassidis Optimal Estimation 2e Eqn A.168
 
 Changelog:
 Created on Nov 4, 2025 -KJH
