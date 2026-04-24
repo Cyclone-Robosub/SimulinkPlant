@@ -114,7 +114,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 5;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -125,8 +125,8 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "FB_Controller_SIM";
-% open_system(model_select);
+model_select = "Integrated_Joystick_HIL";
+open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
