@@ -17,10 +17,15 @@ switch char(cmd.trick_id)
             'FF_Stop_________'}
 
         X_u = zeros(13,1); %dummy value
-        [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
+        [cmd_status, hold_timer, hold_timer_start_time] = FFTimer(cmd, hold_timer_start_time, t);
 
-    case 'Barrel_Roll_Trick'
-        
+    case 'Barrel_Roll_Tric'
+        %create waypoint in front of you
+        Ri_u = [X(1)+0.5; X(2:3)];
+        X_u = [Ri_u; X(4:end)];
+
+        %start a timer
+        [cmd_status, hold_timer, hold_timer_start_time] = FFTimer(cmd, hold_timer_start_time, t);
 
     otherwise
         %output failure if the trick_id is unknown

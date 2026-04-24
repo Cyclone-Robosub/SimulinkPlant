@@ -76,6 +76,12 @@ qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 
 %calculate the roll, pitch, and yaw error from this quaternion
 Eul_e = quatToEul(qib_e);
+switch char(cmd.trick_id)
+    case 'Barrel_Roll_Tric'
+        Eul_e = zeros(3, 1);
+    otherwise
+
+end
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING

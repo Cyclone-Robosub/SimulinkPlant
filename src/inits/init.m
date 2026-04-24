@@ -81,15 +81,14 @@ do_force_flag = 1;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 30;
-
+tspan = 15;
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 
 %mission file and model
-mission_file_name = "FF_prequal_mission.txt"; 
+mission_file_name = "barrel_roll_trick_mission.txt"; 
 model_select = "FB_Controller_SIM";
 
 %setup for bus objects (necessary to use structures in Simulink)
