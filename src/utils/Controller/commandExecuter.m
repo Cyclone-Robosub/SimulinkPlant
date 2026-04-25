@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = executeCommand(t, cmd, X, action_id, driving_yaw_target, rst)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, rst)
 %{
 This function handles a single command at a time from discountExecutive.
 
