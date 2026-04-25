@@ -103,7 +103,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-use_true_state_flag = 0;
+use_true_state_flag = 1;
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
@@ -114,7 +114,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 5;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -124,7 +124,7 @@ dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
-mission_file_name = "FB_prequal_mission.txt"; 
+mission_file_name = "SSFF_prequal_mission.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -176,7 +176,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X_est", "cmd_status", "X", "idle_wp", "Eul_u"};
+plot_names = {"X_est", "cmd_status", "X", "idle_wp", "CE_X_u"};
 plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");

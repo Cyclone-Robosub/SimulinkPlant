@@ -33,5 +33,6 @@ plots{end+1} = TimePlot("Eul_u",["Eul","Eul_u"],[3,1],{[1,4],[2,5],[3,6]},["Angl
 
 plots{end+1} = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (m)", "Angle (rad)"],"Time (s)",["Position Target", "Angle Target"],"Intermediate Waypoint",{["xi", "yi", "zi"],["roll", "pitch", "yaw"]});
 
-%plots X_est
 plots{end+1} = StatePlot("X_est", ["X_est"],["Rb", "dRb", "Eul", "wb"], [2,2], {[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Body Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Estimated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
+
+plots{end+1} = TimePlot("CE_X_u", ["CE_X_u","CE_Eul_u"],[2,2],{[1,2,3],[14,15,16],[8,9,10],[11,12,13]},["Position (m)", "Angle (rad)", "Velocity (m/s)", "Angular Velocity (rad/s)"],"Time (s)",["Inertial Position", "Euler Angles", "Inertial Velocity", "Angular Velocity"],"State Target from Command Executer",{["Rix_u", "Riy_u", "Riz_u"],["Roll_u", "Pitch_u", "Yaw_u"],["dRix_u", "dRiy_u", "dRiz_u"],["wbx_u", "wby_u", "wbz_u"]});
