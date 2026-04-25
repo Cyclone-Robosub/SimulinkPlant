@@ -103,7 +103,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-use_true_state_flag = 1;
+use_true_state_flag = 0;
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
@@ -114,7 +114,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 5;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -123,6 +123,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
+
 %mission file and model
 mission_file_name = "SSFF_prequal_mission.txt"; 
 model_select = "FB_Controller_SIM";

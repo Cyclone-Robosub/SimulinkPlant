@@ -1,4 +1,4 @@
-function [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+function [cmd_status, hold_timer, X_u, hold_timer_start_time, debug] = ...
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t)
 
@@ -37,8 +37,15 @@ switch char(cmd.trick_id)
         based on X and which type of maneuver is selected. Guidance law
         should handle the rest, no need for injection.
         %}
+        if(abs(hold_timer_start_time - t)<1e-3)
+            %send an indicator to reset
+            reset = true;
+        else
+            reset = false;
+        end
+
         [cmd_status, hold_timer, hold_timer_start_time, X_u] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,...
-            t);
+            t, reset);
     otherwise
         %output failure if the trick_id is unknown
         cmd_status = int8('FAIL');
@@ -47,6 +54,8 @@ switch char(cmd.trick_id)
         X_u = zeros(13,1);
 
 end
+
+debug = X_u;
 
 %% Helper Functions
 function [cmd_status, hold_timer, hold_timer_start_time] = FFTimer(cmd, hold_timer_start_time, t)
@@ -61,7 +70,7 @@ end
 
 end
 
-function [cmd_status, hold_timer, hold_timer_start_time, X_u] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,t)
+function [cmd_status, hold_timer, hold_timer_start_time, X_u] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,t, reset)
 hold_timer = t - hold_timer_start_time;
 
 persistent ssff_X_u %waypoint for this trick
@@ -71,6 +80,15 @@ if(isempty(ssff_X_u))
     %with a speed of zero at a roll and pitch of zero.
     Eul = X.Eul;
     yaw = Eul(3);
+    Ri = X.Ri;
+    ssff_X_u = [Ri;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
+end
+
+if(reset)
+    %Create the starting waypoint wherever the robot currently is located
+    %with a speed of zero at a roll and pitch of zero.
+    Eul = X.Eul;
+    yaw = Eul(3)
     Ri = X.Ri;
     ssff_X_u = [Ri;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
 end
@@ -125,7 +143,6 @@ switch char(cmd.trick_id)
         ssff_X_u(4:7) = eulToQuat(ssff_eul_u);
 end
 
-X_u = ssff_X_u;
 
 %update the timer and return success when it elapses
 if(hold_timer >= cmd.hold_time)
@@ -138,6 +155,8 @@ if(hold_timer >= cmd.hold_time)
 else
     cmd_status = int8('RUNN');
 end
+
+X_u = ssff_X_u;
 
 
 end

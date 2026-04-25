@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, rst)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out, debug] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, rst)
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -60,6 +60,7 @@ In the case of settling, the idle waypoint is used for any states that are
 free based on cmd.wp_mask.
 %}
 
+debug = zeros(13,1);
 
 %% Manage Idle Waypoint
 %initial states for persistent variables
@@ -109,7 +110,7 @@ switch char(cmd.cmd_id) %case must match exactly with importMission.m
             hold_timer_start_time, t);
     case 'duration_trick__'
         %do a trick that lasts for a specific duration
-        [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+        [cmd_status, hold_timer, X_u, hold_timer_start_time, debug] = ...
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t);
     otherwise
