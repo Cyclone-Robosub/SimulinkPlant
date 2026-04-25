@@ -125,7 +125,7 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -141,13 +141,13 @@ if(setup_buses_flag)
 end
 
 %set To-File block names
-enableToFileBlocks(model_select);
-% disableToFileBlocks(model_select);
+% enableToFileBlocks(model_select);
+disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-% enableToWorkspaceBlocks(model_select);
-disableToWorkspaceBlocks(model_select);
+enableToWorkspaceBlocks(model_select);
+% disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -176,10 +176,10 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est"};
+plot_names = {"X_est", "cmd_status", "X"};
 plotAllOutputs(plots,results,plot_names);
 
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
+saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 

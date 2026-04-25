@@ -76,7 +76,7 @@ while ischar(line)
 
     %TBA - perform a similar substitution for tricks
     switch trick_id
-        case 'ff_forward'
+        case 'ff_forward' %FT List Injection
             trick_id = 'ff_forward______';
         case 'ff_backward'
             trick_id = 'ff_backward_____';
@@ -102,7 +102,7 @@ while ischar(line)
             trick_id = 'ff_rollLeft_____';
         case 'ff_stop'
             trick_id = 'ff_stop_________';
-        case 'rsff_stop'
+        case 'rsff_stop' %dRb_e and wb_e injection, no state feedback
             trick_id = 'rsff_stop_______';
         case 'rsff_forward'
             trick_id = 'rsff_forward____';
@@ -128,6 +128,32 @@ while ischar(line)
             trick_id = 'rsff_rollRight__';
         case 'rsff_rollLeft'
             trick_id = 'rsff_rollLeft___';
+        case 'ssff_stop' %dRb_e and wb_e injection w/ state feedback
+            trick_id = 'ssff_stop_______';
+        case 'ssff_forward'
+            trick_id = 'ssff_forward____';
+        case 'ssff_backward'
+            trick_id = 'ssff_backward___';
+        case 'ssff_up'
+            trick_id = 'ssff_up_________';
+        case 'ssff_down'
+            trick_id = 'ssff_down_______';
+        case 'ssff_right'
+            trick_id = 'ssff_right______';
+        case 'ssff_left'
+            trick_id = 'ssff_left_______';
+        case 'ssff_pitchUp'
+            trick_id = 'ssff_pitchUp____';
+        case 'ssff_pitchDown'
+            trick_id = 'ssff_pitchDown__';
+        case 'ssff_yawRight'
+            trick_id = 'ssff_yawRight___';
+        case 'ssff_yawLeft'
+            trick_id = 'ssff_yawLeft____';
+        case 'ssff_rollRight'
+            trick_id = 'ssff_rollRight__';
+        case 'ssff_rollLeft'
+            trick_id = 'ssff_rollLeft___';
         otherwise
             trick_id = '________________';
     end

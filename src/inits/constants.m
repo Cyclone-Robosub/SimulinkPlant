@@ -62,7 +62,7 @@ end
 ff_force_max = 2*sqrt(2)*max_thruster_force;
 
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
+Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity

@@ -91,7 +91,7 @@ prior_action_id = action_id;
 %reset if the command is new
 if(~isequal(cmd, prior_cmd))
     fprintf("%.2f, Current Command: %s with Trick ID: %s\n",t, char(cmd.cmd_id), char(cmd.trick_id));
-    rst = true;
+    rst = 1;
 end
 if(rst)
     hold_timer_start_time = t;
