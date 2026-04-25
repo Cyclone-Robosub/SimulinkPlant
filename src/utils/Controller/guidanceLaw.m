@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -67,6 +67,12 @@ if(norm(Ri_xy_e) >= Ri_e_tol)
     
     qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
 else
+    qib_int_u = qib_u;
+end
+
+%If the trick ID is duration trick, no need to make any intermediate yaw
+%waypoints so just use the qib_u
+if(isequal(char(cmd.cmd_id),'duration_trick__'))
     qib_int_u = qib_u;
 end
 

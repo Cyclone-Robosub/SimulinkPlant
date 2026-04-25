@@ -131,7 +131,10 @@ X_u = ssff_X_u;
 if(hold_timer >= cmd.hold_time)
     cmd_status = int8('SUCC');
     hold_timer_start_time = t;
-    clear ssff_X_u;
+    Eul = X.Eul;
+    yaw = Eul(3);
+    Ri = X.Ri;
+    ssff_X_u = [Ri;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
 else
     cmd_status = int8('RUNN');
 end

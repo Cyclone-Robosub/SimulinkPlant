@@ -36,3 +36,7 @@ D_rot = 0.5*rho*diag([Cr*Ayz*Lyz^2 Cr*Axz*Lxz^2 Cr*Axy*Lxy^2]);
 %fudge factor to better match experimental data
 D_rot = D_rot + diag([10,20,20]);
 drag_wrench = [[D_lin, zeros(3)];[zeros(3), D_rot]];
+
+%testing linear and quadratic drag wrenches
+drag_wrench_lin = zeros(6);
+drag_wrench_quad = drag_wrench;
