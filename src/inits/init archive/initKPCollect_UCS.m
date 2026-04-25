@@ -20,11 +20,12 @@ end
 %if executable doesn't exist exits program
 unreal_executable_path = fullfile(unreal_build_path, "EllingtonPoolSim.exe");
 if(~isfile(unreal_executable_path))
-    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take the files out of the folder that says your OS (ie. Windows, Linux)\n")
+    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take the files out of the folder that says your OS (ie. Windows, Linux)\nOnce files are  added run link_EXE_UCS.m script")
     return;
 end
 
 %set_param('KP_Collect_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
+
 
 %% Parameters
 %run('constants.m') %load all necessary constants into the workspace

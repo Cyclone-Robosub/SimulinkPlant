@@ -32,7 +32,7 @@ try
     stereoParams. 
     Assigns intrinsic matrices (K_L and K_R)
     %}
-    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_14.mat"));
+    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_25.mat"));
     k_L = stereoCam.stereoParams.CameraParameters1.K;
     k_R = stereoCam.stereoParams.CameraParameters2.K;
 
