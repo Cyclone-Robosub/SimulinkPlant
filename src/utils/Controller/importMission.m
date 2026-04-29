@@ -154,6 +154,8 @@ while ischar(line)
             trick_id = 'ssff_rollRight__';
         case 'ssff_rollLeft'
             trick_id = 'ssff_rollLeft___';
+        case 'barrel_roll'
+            trick_id = 'barrel_roll_____';
         otherwise
             trick_id = '________________';
     end
