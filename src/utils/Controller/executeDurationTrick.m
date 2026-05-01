@@ -47,14 +47,14 @@ switch char(cmd.trick_id)
         [cmd_status, hold_timer, hold_timer_start_time, X_u] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,...
             t, reset);
 
-    % case 'barrel_roll_____'
-    %     %Create a waypoint in front of robot
-    %     Eul = X.Eul;
-    %     yaw = Eul(3);
-    %     Ri_u = X.Ri + (X.Cib)*[1;0;0];
-    %     X_u = [Ri_u;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
-    % 
-    %     [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
+    case 'barrel_roll_____'
+        %Create a waypoint in front of robot
+        Eul = X.Eul;
+        yaw = Eul(3);
+        Ri_u = X.Ri + (X.Cib)*[1;0;0];
+        X_u = [Ri_u;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
+
+        [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
 
     otherwise
         %output failure if the trick_id is unknown

@@ -114,7 +114,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 5;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -125,7 +125,7 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "FB_prequal_mission.txt"; 
+mission_file_name = "barrel_roll_mission.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
