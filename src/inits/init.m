@@ -115,7 +115,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 20;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -126,7 +126,7 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -183,6 +183,14 @@ results = fileToResults(results, to_file_block_path);
 plot_names = {"imu", "dvl", "X", "X_est","cmd_status", "Eul_u"};
 plotAllOutputs(plots,results,plot_names);
 
+try
+    figure()
+    Ri = squeeze(results.Ri.Data)';
+    plot(Ri(:,1), Ri(:,2))
+    xlabel("Xi")
+    ylabel("Yi")
+catch
+end
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);

@@ -105,8 +105,11 @@ prior_action_id = action_id;
 if(new_cmd_reset)
     hold_timer_start_time = t;
     prior_action_id = 0;
+
+    fprintf("%.2f: Working on command %s with trick %s.",t,char(cmd.cmd_id), char(cmd.trick_id))
 end
 %in any other case, the idle_waypoint is not reset
+
 
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
