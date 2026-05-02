@@ -18,34 +18,19 @@ Exp = setEstimatedValues(Exp,v);
 
 %running simulator to comapare with experimental data.
 Error = [];
-sim1=Simulator;
+%sim1=Simulator;
 for ct=1:numel(Exp)
     
     Simulator = createSimulator(Exp(ct),Simulator);
     Simulator = sim(Simulator);
 
-    %SimLog  = find(Simulator.LoggedData,get_param(Simulator.Name,'SignalLoggingName'));
-    try
-        SimLog = find(Simulator.LoggedData, 'logsout');
-    catch
-        warning("the first find statment breaks it")
-    end
-    disp(SimLog{3})
-    Outputs = cell(size(sim1.LoggingInfo.Signals));
-    for i = 1:length(sim1.LoggingInfo.Signals)
-        try
-            Outputs{i} = find(Simulator.LoggedData,...
-                sim1.LoggingInfo.Signals(i).LoggingInfo.LoggingName);
-        catch
-            warning("the second find statment breaks it")
-        end
-        disp(Outputs{i}.Values)
-        disp(evalRequirement(r,Outputs{i}.Values,Exp(ct).OutputData(i).Values)');
-        try
-            Error(:,i) = evalRequirement(r,Outputs{i}.Values,Exp(ct).OutputData(i).Values)';
-        catch
-            disp("the evalRequirement is where it breaks");
-        end
+    Outputs = cell(size(Simulator.LoggingInfo.Signals));
+
+    for i = 1:length(Simulator.LoggingInfo.Signals)
+        Outputs{i}= find(Simulator.LoggedData.logsout{1}.Values,Simulator.LoggingInfo.Signals(i).LoggingInfo.LoggingName);
+
+        Error(:,i) = evalRequirement(r,Outputs{i}.Data,Exp(ct).OutputData(i).Values)';
+
     end
 end
 try
