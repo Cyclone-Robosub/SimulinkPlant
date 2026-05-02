@@ -115,7 +115,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 20;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -180,7 +180,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"imu", "dvl", "X", "X_est","cmd_status", "Eul_u"};
+plot_names = {"X", "X_est","cmd_status", "FT_cmd_list"};
 plotAllOutputs(plots,results,plot_names);
 
 try

@@ -69,7 +69,13 @@ debug = norm(Ri_xy_e);
 %waypoints so just use the qib_u
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
     qib_int_u = qib_u;
+    if(isequal(char(cmd.trick_id), 'barrel_roll_____'))
+        Eul_u = quatToEul(qib_u);
+        Eul_u_modified = [0; Eul_u(2); Eul_u(3)];
+        qib_int_u = eulToQuat(Eul_u_modified);
+    end
 end
+
 
 %calculate the quaternion error between the current and target attitudes
 qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]

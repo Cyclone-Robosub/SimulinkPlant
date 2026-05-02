@@ -43,6 +43,16 @@ switch char(cmd.trick_id)
         [cmd_status, hold_timer, hold_timer_start_time, X_u, cmd_specific_wp] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,...
             t, new_cmd_reset, cmd_specific_wp);
        
+    case {'barrel_roll_____'}
+        %set the position on the waypoint 1m in the body x-direction
+        if(new_cmd_reset)
+            %only creates a far away position waypoint ONCE
+            cmd_specific_wp(1:3) = X.Ri + (X.Cib)*[1000;0;0];
+        end
+
+        X_u = [cmd_specific_wp(1:3); eulToQuat(cmd_specific_wp(4:6)); zeros(3,1); zeros(3,1)]; 
+        [cmd_status, hold_timer, hold_timer_start_time] =FFTimer(cmd, hold_timer_start_time, t); 
+
 
     otherwise
         %output failure if the trick_id is unknown
