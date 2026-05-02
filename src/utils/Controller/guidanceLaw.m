@@ -71,9 +71,9 @@ else
 end
 
 %If the trick ID is duration trick, no need to make any intermediate yaw
-%waypoints so just use the qib_u
+%waypoints so just use the qib
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
-    qib_int_u = qib_u;
+    qib_int_u = qib;
 end
 
 %calculate the quaternion error between the current and target attitudes
