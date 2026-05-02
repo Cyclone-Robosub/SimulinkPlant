@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -39,36 +39,31 @@ qib = X.qib; %[vector, scalar]
 qib_u = Xu(4:7);
 
 %project the position target and position onto the xy inertial plane
-Ri_xy_u = [Ri_u(1); Ri_u(2)]; %[-5,0]
-Ri_xy = [Ri(1); Ri(2)]; %[0 0]
+Ri_xy_u = [Ri_u(1); Ri_u(2)];
+Ri_xy = [Ri(1); Ri(2)]; 
 
 %find the error vector from the vehicle to the target
-Ri_xy_e = Ri_xy_u - Ri_xy; %[-5 0]
+Ri_xy_e = Ri_xy_u - Ri_xy; 
 
 %find the yaw to point at the target
 pitch_u = 0; %to keep vehicle level 
 roll_u = 0;
 yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
 
+
 if(isempty(persistant_yaw_target))
+    yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
     persistant_yaw_target = yaw_u;
 end
-
-%update the yaw target every time the action id changes
-if(action_id ~= prior_action_id)
-    persistant_yaw_target = yaw_u;
-end
-
-
 
 
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
-    
     qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
 else
     qib_int_u = qib_u;
 end
+debug = norm(Ri_xy_e);
 
 %If the trick ID is duration trick, no need to make any intermediate yaw
 %waypoints so just use the qib_u
@@ -93,7 +88,6 @@ if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
     Rb_u = Cbi*Ri_u;
     Rb = Cbi*Ri;
     Rb_error = Rb_u - Rb;
-
     action_id = 1;
     
 
@@ -118,6 +112,13 @@ else %SETTLING
     
 end
 
+%update the yaw target every time the action id changes from turning to
+%driving
+if(action_id ~= prior_action_id)
+    persistant_yaw_target = yaw_u;
+end
+
 action_id_out = action_id;
 driving_yaw_target = persistant_yaw_target;
+prior_action_id = action_id;
 end

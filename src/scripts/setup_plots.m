@@ -29,7 +29,7 @@ plots{end+1} = TimePlot("X",["Rb", "dRb", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[4
 
 plots{end+1} = TimePlot("cmd_status",["mission_idx", "cmd_status", "hold_timer", "cmd_hold_time", "action_id"],[4 1],{[1],[2],[3,4],[5]},["Index", "Status", "Time (s)","ID"],"Time (s)",["Index in Mission File","Status (1 = Success, 2 = Fail, 3 = Running)","Hold Timer","Action ID (1 = Turn, 2 = Drive, 3 = Settle)"],"Active Command Info",{"","",["Timer","Target Hold Time"],""});
 
-plots{end+1} = TimePlot("Eul_u",["Eul","Eul_u"],[3,1],{[1,4],[2,5],[3,6]},["Angle (rad)", "Angle (rad)", "Angle (rad)"],"Time (s)",["Roll", "Pitch", "Yaw"],"Euler Angle Value and Target",{["Roll", "Roll_u"], ["Pitch", "Pitch_u"], ["Yaw", "Yaw_u"]});
+plots{end+1} = TimePlot("Eul_u",["Eul","GL_Eul_u","CE_Eul_u"],[3,1],{[1,4,7],[2,5,8],[3,6,9]},["Angle (rad)", "Angle (rad)", "Angle (rad)"],"Time (s)",["Roll", "Pitch", "Yaw"],"Euler Angle Value and Target",{["Roll", "GL_Roll_u", "CE_Roll_u"], ["Pitch", "GL_Pitch_u", "CE_Pitch_u"], ["Yaw", "GL_Yaw_u", "CE_Yaw_u"]});
 
 plots{end+1} = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (m)", "Angle (rad)"],"Time (s)",["Position Target", "Angle Target"],"Intermediate Waypoint",{["xi", "yi", "zi"],["roll", "pitch", "yaw"]});
 

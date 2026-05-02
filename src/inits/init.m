@@ -114,19 +114,19 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 1;
+tspan = 30;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
+dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "SSFF_Stationkeeping.txt"; 
-model_select = "Integrated_Joystick_HIL";
+mission_file_name = "SSFF_prequal_mission.txt"; 
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -147,8 +147,8 @@ enableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-% enableToWorkspaceBlocks(model_select);
-disableToWorkspaceBlocks(model_select);
+enableToWorkspaceBlocks(model_select);
+%disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -179,7 +179,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"imu", "dvl"};
+plot_names = {"imu", "dvl", "X", "X_est","cmd_status", "Eul_u"};
 plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");

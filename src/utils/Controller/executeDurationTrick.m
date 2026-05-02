@@ -1,4 +1,4 @@
-function [cmd_status, hold_timer, X_u, hold_timer_start_time, debug] = ...
+function [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t)
 
@@ -8,6 +8,7 @@ value they output for X_u does not matter. It will be overwritten by the
 trickFTListModifier function in the Low-Level controller while the
 duration trick command with a FF trick is active.
 %}
+
 %% Trick Switch
 switch char(cmd.trick_id)
     case {'ff_forward______', 'ff_backward_____', 'ff_up___________',...
@@ -37,7 +38,8 @@ switch char(cmd.trick_id)
         based on X and which type of maneuver is selected. Guidance law
         should handle the rest, no need for injection.
         %}
-        if(abs(hold_timer_start_time - t)<1e-3)
+        
+        if(abs(hold_timer_start_time - t) < 1e-3)
             %send an indicator to reset
             reset = true;
         else
@@ -55,7 +57,6 @@ switch char(cmd.trick_id)
 
 end
 
-debug = X_u;
 
 %% Helper Functions
 function [cmd_status, hold_timer, hold_timer_start_time] = FFTimer(cmd, hold_timer_start_time, t)
@@ -67,14 +68,14 @@ if(hold_timer >= cmd.hold_time)
 else
     cmd_status = int8('RUNN');
 end
-
 end
 
 function [cmd_status, hold_timer, hold_timer_start_time, X_u] = executeSSFFDurationTrick(cmd, X, hold_timer_start_time,t, reset)
 hold_timer = t - hold_timer_start_time;
 
 persistent ssff_X_u %waypoint for this trick
-
+persistent far_field_position_waypoint
+persistent far_field_position_set_flag
 if(isempty(ssff_X_u))
     %Create the starting waypoint wherever the robot currently is located
     %with a speed of zero at a roll and pitch of zero.
@@ -84,11 +85,19 @@ if(isempty(ssff_X_u))
     ssff_X_u = [Ri;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
 end
 
+if(isempty(far_field_position_set_flag))
+    far_field_position_set_flag = false;
+end
+
+if(isempty(far_field_position_waypoint))
+    far_field_position_waypoint = ssff_X_u(1:3);
+end
+
 if(reset)
     %Create the starting waypoint wherever the robot currently is located
     %with a speed of zero at a roll and pitch of zero.
     Eul = X.Eul;
-    yaw = Eul(3)
+    yaw = Eul(3);
     Ri = X.Ri;
     ssff_X_u = [Ri;eulToQuat([0;0;yaw]);zeros(3,1);zeros(3,1)];
 end
@@ -96,7 +105,11 @@ end
 switch char(cmd.trick_id)
     case 'ssff_forward____'
         %set the position on the waypoint 1m in the body x-direction
-        ssff_X_u(1:3) = X.Ri + (X.Cib)*[1;0;0];
+        if(~far_field_position_set_flag)
+            far_field_position_waypoint = X.Ri + (X.Cib)*[1000;0;0];
+        end
+        ssff_X_u(1:3) = far_field_position_waypoint;
+
     case 'ssff_backward___'
         ssff_X_u(1:3) = X.Ri + (X.Cib)*[-1;0;0];
     case 'ssff_right______'
@@ -146,6 +159,7 @@ end
 
 %update the timer and return success when it elapses
 if(hold_timer >= cmd.hold_time)
+    far_field_position_set_flag = false;
     cmd_status = int8('SUCC');
     hold_timer_start_time = t;
     Eul = X.Eul;
