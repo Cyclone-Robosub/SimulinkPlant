@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, rst)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, new_cmd_reset)
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -30,7 +30,7 @@ set velocity downstream to drive to waypoints.
 
 %}
 
-%unpack current states
+%unpack current states from X (class X_bus)
 Eul = X.Eul;
 yaw = Eul(3);
 Ri = X.Ri;
@@ -41,23 +41,35 @@ wb = X.dRb;
 %initialize the persistent variables
 persistent hold_timer_start_time
 persistent idle_wp
+persistent cmd_specific_wp
 persistent prior_action_id
-persistent prior_cmd 
 
 %{
 idle_wp is the value the controller will go to in the following
-circumstances: 1. The user indicates using the cmd.wp_mask that certain
-states are free 2. The robot needs a position command to hold while
-performing a turn
+circumstances: 
+1. The user indicates using the cmd.wp_mask that certain
+states are free.
+2. An unknown command is received.
+3. A command to idle is received.
 
-idle_wp is saved whenever the guidanceLaw in the low-level controller
-transitions between "actions", which are turning, driving, and settling.
+idle_wp is set whenever the command resets to the robot's current position
+and current yaw, with a roll and pitch of zero. It also gets reset whenever
+the robot enters "driving" mode in the GuidanceLaw, which prevents the
+robot from rotating unnecessarily after entering settling mode where the wp
+mask does not control position.
 
-In the case of turning, the idle waypoint is used to hold position while
-turning.
+cmd_specific_wp is used for commands that need to generate a waypoint
+different than what is stored in cmd.wp. This includes 
+1. Far field position targets for SSFF maneuvers.
+2. Body-relative waypoints rotated to the inertial frame for distance tricks.
+3. Body-relative waypoints rotated to the inertial frame for positioning
+relative to objects.
 
-In the case of settling, the idle waypoint is used for any states that are
-free based on cmd.wp_mask.
+cmd_specific_wp is typically set by the commandExecuter when new_cmd_reset
+occurs, but some command/trick types may set it more frequently. In general
+we want to minimize the number of times we set this to improve stability
+and clarity. 
+
 %}
 
 
@@ -69,57 +81,60 @@ end
 if isempty(idle_wp)
     idle_wp = [Ri;0;0;yaw];
 end
-
+if isempty(cmd_specific_wp)
+    cmd_specific_wp = idle_wp;
+end
 if isempty(prior_action_id)
     prior_action_id = 0;
 end
 
-if isempty(prior_cmd)
-    prior_cmd = struct('cmd_id',int8('________________'),'wp',zeros(6,1),...
-        'wp_mask',zeros(6,1),'wp_tol',zeros(6,1),'hold_time',999,...
-        'obj_id',int8('________________'),'conf',0,'trick_id',int8('________________'),...
-        'exec_timeout',999999);
+%update the idle waypoint based on action_id & new_cmd_reset
+DRIVING_ACTION_ID = 2;
+if((action_id == DRIVING_ACTION_ID) && (prior_action_id ~= DRIVING_ACTION_ID))
+    %update the yaw to match what the guidance law wants
+    idle_wp(6) = driving_yaw_target;
+end
+if(new_cmd_reset)
+    idle_wp = [Ri;0;0;yaw];
 end
 
-
-%update the idle waypoint based on action_id
-idle_wp = updateIdleWaypoint(action_id, prior_action_id, idle_wp,...
-    driving_yaw_target, X);
-
+%pass to next timestep
 prior_action_id = action_id;
 
-%reset if the command is new
-if(~isequal(cmd, prior_cmd))
-    fprintf("%.2f, Current Command: %s with Trick ID: %s\n",t, char(cmd.cmd_id), char(cmd.trick_id));
-    rst = true;
-end
-if(rst)
+%Reset the persistant variables used to execute commands if new_cmd_reset
+if(new_cmd_reset)
     hold_timer_start_time = t;
     prior_action_id = 0;
 end
-
-prior_cmd = cmd;
 %in any other case, the idle_waypoint is not reset
+
 %% Switch Command Types
 switch char(cmd.cmd_id) %case must match exactly with importMission.m
+
     case 'drv_to_world_wp_' 
         %drive between waypoints defined in the inertial frame
         [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
             executeDriveToWorldWaypoint(cmd, idle_wp, X,...
             hold_timer_start_time, t);
+
+        %cmd_specific_wp is unused for this maneuver, so just make it idle
+        cmd_specific_wp = idle_wp;
+
     case 'duration_trick__'
         %do a trick that lasts for a specific duration
-        [cmd_status, hold_timer, X_u, hold_timer_start_time] = ...
+        [cmd_status, hold_timer, X_u, hold_timer_start_time, cmd_specific_wp] = ...
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
-            t);
+            t, new_cmd_reset, cmd_specific_wp);
+        
+
     otherwise
         %if we are not in a known command or are idle, just use idle_wp
         X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
             zeros(3,1)];
-        hold_timer_start_time = t;
+        hold_timer_start_time = t; 
         hold_timer = 0;
-
         cmd_status = int8('RUNN');
+
 end %switch
 
 %configure outputs for debugging
