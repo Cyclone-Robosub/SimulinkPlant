@@ -35,4 +35,8 @@ plots{end+1} = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (
 
 plots{end+1} = StatePlot("X_est", ["X_est"],["Rb", "dRb", "Eul", "wb"], [2,2], {[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Body Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Estimated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
 
+plots{end+1} = TimePlot("dvl",["dvl_pos", "dvl_eul", "dvl_vel"],[3,1],{[1,2,3],[4,5,6],[7,8,9]},["Position (m)", "Angles (rad)", "Velocity (m/s)"], "Time (s)", ["DVL Rb", "DVL Eul", "DVL dRb"],"DVL Data",{["Rbx", "Rby", "Rbz"], ["Roll", "Pitch", "Yaw"], ["dRbx", "dRby", "dRbz"]});
+
+plots{end+1} = TimePlot("imu",["imu_ang_vel", "imu_lin_acc"], [2,1], {[1,2,3], [4,5,6]}, ["Angular Velocity (rad/s)", "Acceleration (m/s^2)"], "Time (s)", ["Gyro", "IMU ddRb"], "IMU Measurements", {["wbx", "wby", "wbz"], ["ddRbx", "ddRby", "ddRbz"]});
+
 plots{end+1} = TimePlot("CE_X_u", ["CE_X_u","CE_Eul_u"],[2,2],{[1,2,3],[14,15,16],[8,9,10],[11,12,13]},["Position (m)", "Angle (rad)", "Velocity (m/s)", "Angular Velocity (rad/s)"],"Time (s)",["Inertial Position", "Euler Angles", "Inertial Velocity", "Angular Velocity"],"State Target from Command Executer",{["Rix_u", "Riy_u", "Riz_u"],["Roll_u", "Pitch_u", "Yaw_u"],["dRix_u", "dRiy_u", "dRiz_u"],["wbx_u", "wby_u", "wbz_u"]});

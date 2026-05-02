@@ -5,10 +5,10 @@ Collect the data using Matlab HIL while the robot is stationary.
 %}
 
 %path to the ddRb_meas.mat file
-path = '/home/kjhaydon/Github/SimulinkPlant/src/scripts/data.mat';
+path = '/home/kjhaydon/Github/SimulinkPlant/src/scripts/data1.mat';
 
-data = load(path,"acc_data");
-acc_meas = squeeze(data.acc_data.Data);
+file = load(path,"data");
+acc_meas = squeeze(file.data.Data);
 
 avg_meas = mean(acc_meas')';
 

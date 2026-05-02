@@ -114,7 +114,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 60;
+tspan = 1;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -125,8 +125,8 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "SSFF_prequal_mission.txt"; 
-model_select = "FB_Controller_SIM";
+mission_file_name = "SSFF_Stationkeeping.txt"; 
+model_select = "Integrated_Joystick_HIL";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -138,17 +138,17 @@ if(setup_buses_flag)
     run('setup_FF_maneuvers_bus.m');
     run('setup_state_bus.m');
     run('setup_sensor_bus.m');
-    run('setup_RSFF_maneuvers_bus.m')
+    run('setup_RSFF_maneuvers_bus.m');
 end
 
 %set To-File block names
-% enableToFileBlocks(model_select);
-disableToFileBlocks(model_select);
+enableToFileBlocks(model_select);
+% disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-enableToWorkspaceBlocks(model_select);
-% disableToWorkspaceBlocks(model_select);
+% enableToWorkspaceBlocks(model_select);
+disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -169,7 +169,9 @@ simIn = simIn.setVariable('mission', mission);
 results = sim(simIn);
 
 %% Post Processing
+close all
 fprintf("Running Post-Processing.\n")
+
 run('setup_plots.m')
 
 % Add any the outputs of ToFile blocks to the results structure
@@ -177,7 +179,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X_est", "cmd_status", "X", "idle_wp", "CE_X_u"};
+plot_names = {"imu", "dvl"};
 plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
