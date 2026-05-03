@@ -3,6 +3,8 @@ clear plots %need to clear here to prevent end+1 from causing problems
 %Plot details defined here.
 plots{1} = TimePlot("pwm_cmd","pwm_cmd",[4,2],{1,2,3,4,5,6,7,8},["pwm (us)","pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster PWM",{"","","","","","","",""});
 
+plots{1} = TimePlot("pwms","pwms",[4,2],{1,2,3,4,5,6,7,8},["pwm (us)","pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)", "pwm (us)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster PWM",{"","","","","","","",""});
+
 plots{end+1} = TimePlot("FT_cmd_list","FT_cmd_list",[4,2],{1,2,3,4,5,6,7,8},["Force (N)","Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster Force",{"","","","","","","",""});
 
 plots{end+1} = TimePlot("Ri, dRi, ddRi",["Ri","dRi","ddRi"],[3,1],{[1,2,3],[4,5,6],[7,8,9]},["Position (m)", "Velocity (m/s)", "Acceleration (m/s2)"],"Time (s)",["Inertial Position","Inertial Velocity","Inertial Acceleration"],"",{["Rix", "Riy", "Riz"],["dRix", "dRiy", "dRiz"],["ddRix","ddRiy","ddRiz"]});
@@ -33,7 +35,7 @@ plots{end+1} = TimePlot("Eul_u",["Eul","GL_Eul_u","CE_Eul_u"],[3,1],{[1,4,7],[2,
 
 plots{end+1} = TimePlot("idle_wp","idle_wp",[2,1],{[1,2,3],[4,5,6]},["Position (m)", "Angle (rad)"],"Time (s)",["Position Target", "Angle Target"],"Intermediate Waypoint",{["xi", "yi", "zi"],["roll", "pitch", "yaw"]});
 
-plots{end+1} = StatePlot("X_est", ["X_est"],["Rb", "dRb", "Eul", "wb"], [2,2], {[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Body Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Estimated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
+% plots{end+1} = StatePlot("X_est", ["X_est"],["Rb", "dRb", "Eul", "wb"], [2,2], {[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Body Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Estimated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
 
 plots{end+1} = TimePlot("dvl",["dvl_pos", "dvl_eul", "dvl_vel"],[3,1],{[1,2,3],[4,5,6],[7,8,9]},["Position (m)", "Angles (rad)", "Velocity (m/s)"], "Time (s)", ["DVL Rb", "DVL Eul", "DVL dRb"],"DVL Data",{["Rbx", "Rby", "Rbz"], ["Roll", "Pitch", "Yaw"], ["dRbx", "dRby", "dRbz"]});
 
@@ -41,3 +43,8 @@ plots{end+1} = TimePlot("imu",["imu_ang_vel", "imu_lin_acc"], [2,1], {[1,2,3], [
 
 plots{end+1} = TimePlot("CE_X_u", ["CE_X_u","CE_Eul_u"],[2,2],{[1,2,3],[14,15,16],[8,9,10],[11,12,13]},["Position (m)", "Angle (rad)", "Velocity (m/s)", "Angular Velocity (rad/s)"],"Time (s)",["Inertial Position", "Euler Angles", "Inertial Velocity", "Angular Velocity"],"State Target from Command Executer",{["Rix_u", "Riy_u", "Riz_u"],["Roll_u", "Pitch_u", "Yaw_u"],["dRix_u", "dRiy_u", "dRiz_u"],["wbx_u", "wby_u", "wbz_u"]});
 
+plots{end+1} = TimePlot("X_est",["Ri", "dRb", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Wolrd Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Estimated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});
+
+plots{end+1} = TimePlot("X_est_misc",["qib", "Rb", "ddRb", "ddRi"],[2,2],{[1,2,3,4],[5,6,7],[8,9,10],[11,12,13]},["Quaternion","Position (m)","Acceleration (m/s^2)","Acceleration (m/s^2)"],"Time (s)",["Quaternion", "Body Frame Position","Body Frame Acceleration","World Frame Acceleration"],"More Estimated States",{["qib_v1", "qib_v2", "qib_v3", "qib_s"],["Rbx", "Rby", "Rbz"],["ddRbx", "ddRby", "ddRbz"],["ddRix","ddRiy","ddRiz"]});
+
+plots{end+1} = TimePlot("errors",["wb_e", "qib_e", "Rb_e", "dRb_e"],[2,2],{[1,2,3],[4, 5, 6, 7],[8, 9, 10],[11, 12, 13]},["Angular Velocity (rad/s)","Quaternion","Position (m)","Velocity (m/s)"],"Time (s)",["Angular Velocity Error", "Quaternion Error","Body Position Error","Body Velocity Error"],"PID Errors",{["wbx_e","wby_e", "wbz_e"],["qib1_e", "qib2_e", "qib3_e", "qib4_e"],["Rbx_e", "Rby_e", "Rbz_e"],["dRbx_e", "dRby_e", "dRyz_e"]});
