@@ -4,11 +4,11 @@
 % bro, I have no idea what matricies are like for parameter estimation...
 % bro, we probably are only able to stimate from the experimental data
 % experimental data includes dw,ddw,ddRi,dRi
-
+%model_select = "plant.slx";
 open(model_select);
 
-sim_signals = ["linAccel", "Gyro", "Mag", "dRb", "alt_meas_dvl", "dRb_conv_dvl", "eul_dvl","Rb_dvl"];
-sim_result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_cov","dvl_eul","dvl_pos"];
+sim_signals = ["linAccel", "Gyro", "Mag", "dRb", "alt_meas_dvl", "eul_dvl","Rb_dvl"];
+sim_result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
 sensorbus_blockpath = "FB_Controller_SIM/Sensor Model/sensorModelToSensorBus";
 %% inertia estimation
 if sum(contains(params_to_estimate, "inertia")) >= 1
@@ -62,9 +62,9 @@ end
 
 %% mass estimation
 if sum(contains(params_to_estimate, "mass"))>=1
-    subsystem_blockpath = "FB_Controller_SIM/Physics Model/Gravity";
+    subsystem_blockpath = "Physics Model";
     %mass_EST_info = param_sim_location(results, {'m'}, model_select, subsystem_blockpath, sim_signals, sim_result_signal_names, sensorbus_blockpath, [0,0,0,0,0,0,0,0], [1,2,3,4,5,6,7,8]);
-        mass_EST_info = param_sim_location(results, {'m'}, model_select, subsystem_blockpath, sim_signals(1:2), sim_result_signal_names(1:2), sensorbus_blockpath, [0,2], [1,2]);
+        mass_EST_info = param_sim_location(results, {'m'}, model_select, subsystem_blockpath, sim_signals, sim_result_signal_names, sensorbus_blockpath, [0,0,0,0,0,0,0,0], [1,2,3,4,5,6,7,8]);
 
     [Exp_mass,Sim_mass] = mass_EST_info.createExperimentAndSimulator();
     Sim_mass = sim(Sim_mass);
@@ -78,11 +78,8 @@ if sum(contains(params_to_estimate, "mass"))>=1
     opt.Method = 'lsqnonlin'; %least sqaures non linear method
 
     %estimate the mass
-    %try
-        %vOpt = sdo.optimize(estFcn,v,opt)
-    %catch
-        %warning("estimation of mass has failed")
-    %end
+    
+    vOpt = sdo.optimize(estFcn,v,opt)
 end
 
 

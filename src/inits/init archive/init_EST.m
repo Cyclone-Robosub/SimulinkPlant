@@ -193,6 +193,8 @@ results = fileToResults(results, to_file_block_path);
 fprintf("Done.\n\n")
 
 %% Parameter Estimation
+%{
 fprintf("Running Parameter Estimation.")
 params_to_estimate = ["mass"];
 run("param_estimator.m")
+%}
