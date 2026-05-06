@@ -102,6 +102,18 @@ if(~isfolder(unreal_build_path))
     fprintf("Folder for Unreal Packaged Build is missing. Creating it now.\n")
     mkdir(unreal_build_path);
 end
+
+unreal_executable_path = fullfile(unreal_build_path, "EllingtonPoolSim.exe");
+
+if(~isfile(unreal_executable_path))
+    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take all files out of the folder that says your OS (ie. Windows, Linux) and drop them in the folder.\n")
+    unreal_EXE_found = false;
+else
+    fprintf("Unreal Executable found, linking exe to UCS simulink models. Feel free to comment out the run('link_EXE_UCS.m') line in project_startup.m if this task has been done before.\n")
+    unreal_EXE_found = true;
+    run('link_EXE_UCS.m')
+end
+
 %create a variable storing all these file paths for other methods to access
 prj_path_list.root_path = root_path;
 prj_path_list.src_path = src_path;

@@ -26,6 +26,20 @@ M_UCSToWorld = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (pi / 180) 0 0; 0 
 rel_CamPose_L_UCS = rel_CamPose_L*M_WorldToUCS;
 rel_CamPose_R_UCS = rel_CamPose_R*M_WorldToUCS;
 
+%% Simulation Parameters
+%simulation duration
+tspan = 10;
+
+%Delay (in units of dt_sample) of how long to wait for lighting to calibrate
+startDelay_KP = 34; %Needs to be multiples of 2.
+
+%timesteps for various simulation components
+dt_sim = 1/1000; %sim timestep
+dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
+dt_sample = 0.03;
+
+
+%% Camera Parameters
 try
     %{
     Assigns distortion coefficients to array of size 5 [k1 k2 p1 p2 k3] from

@@ -1,15 +1,11 @@
 %{
-Init File for generating Keypoints. Run this file to generate keypoints
-around a prop. Currently only prop supported is a default gate. 
-Todo: 
-    - more documentation
-    - roll adjustments (random?)
-    - 
+Init file for simple camera view.
 %}
 
 %% Housekeeping and Path Management
 clc
 close all
+clear results
 %clear all %slow, comment this out if you don't need it
 
 %refreshes the file path in case clear all was called
@@ -30,29 +26,20 @@ else
     end
 end
 
-%set_param('KP_Collect_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
 
 %% Parameters
 %run('constants.m') %load all necessary constants into the workspace
 run('constants_UCS.m')
-run('constants_KP.m')
+run('constants_SimpleCam_UCS.m')
 
 %% Test Conditions
 % Not all test conditions are needed for every model
 
 %model selection
-model_select = "KP_Collect_UCS";
+model_select = "simpleCam_UCS";
 
 %setup the sim
 simIn = Simulink.SimulationInput(model_select);
 
 %run the sim
 results = sim(simIn);
-
-%% Post Processing
-run('saveKeyPointFiles.m')
-
-if(KP_Params.backgroundCycle == true && KP_Params.backgroundValue < 10)
-    KP_Params.backgroundValue = KP_Params.backgroundValue + 1;
-    run('initKPCollect_UCS.m')
-end

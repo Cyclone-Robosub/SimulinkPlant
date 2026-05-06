@@ -38,18 +38,6 @@ if(KP_Params.backgroundValue > 0)
 end
 
 
-%% Simulation Parameters
-%simulation duration
-tspan = 10;
-
-%Delay (in units of dt_sample) of how long to wait for lighting to calibrate
-startDelay_KP = 4; %Needs to be multiples of 2.
-
-%timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
-dt_sample = 0.03;
-
 %% Generate Spherical Array of Points for Manatee Perspectives
 k = (1 + sqrt(5)) / 2;
 c = rand(1, "double") / 2;
@@ -65,9 +53,9 @@ if doExactPerspective == false
         m_Pitch = (pi / 2 - theta);
         m_Yaw = (phi - pi);
         distanceAdjusted = distance_KP + (rand(1, "double") - 0.5) * 2 * KP_Params.distanceNoise;
-        x = sin(theta) * cos(phi) * distanceAdjusted + gate_center(1);
-        y = sin(theta) * sin(phi) * distanceAdjusted + gate_center(2);
-        z = cos(theta) * distanceAdjusted + gate_center(3);
+        x = sin(theta) * cos(phi) * distanceAdjusted + gate_center(1) + (rand(1, "double") - 0.5) * 2 * KP_Params.xNoise;
+        y = sin(theta) * sin(phi) * distanceAdjusted + gate_center(2) + (rand(1, "double") - 0.5) * 2 * KP_Params.yNoise;
+        z = cos(theta) * distanceAdjusted + gate_center(3) + (rand(1, "double") - 0.5) * 2 * KP_Params.zNoise;
         clear distanceAdjusted;
         pose = [x y z (rand(1, "double") - 0.5) * 2*KP_Params.rollNoise (m_Pitch + (rand(1, "double") - 0.5) * 2 * KP_Params.pitchNoise) (m_Yaw + (rand(1, "double") - 0.5) * 2*KP_Params.yawNoise)];
         
@@ -77,7 +65,7 @@ if doExactPerspective == false
         yawDif_Bool = dot(m_YawLine, yawLine_KP) / norm(m_YawLine) / norm(yawLine_KP) >= cos(KP_Params.yawRadius);
         yawDifReflect_Bool = dot(m_YawLine, yawLine_KP) / norm(m_YawLine) / norm(yawLine_KP) <= - cos(KP_Params.yawRadius); 
         
-        if (z <= 100 - 20 && z >= -180 + 20 && m_Pitch >= pitchMin_KP && m_Pitch <= pitchMax_KP && (yawDif_Bool || (yawDifReflect_Bool && KP_Params.doReflect) ))
+        if (z <= ground_Z - 20 && z >= waterLevel_Z + 20 && m_Pitch >= pitchMin_KP && m_Pitch <= pitchMax_KP && (yawDif_Bool || (yawDifReflect_Bool && KP_Params.doReflect) ))
             q = q + 1;
             perspectives(q, :) = pose(:);
         end

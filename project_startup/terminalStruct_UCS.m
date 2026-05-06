@@ -22,6 +22,13 @@ KP_Params.rollNoise = pi;
 KP_Params.pitchNoise = pi / 90;
 KP_Params.yawNoise = pi / 60;
 KP_Params.distanceNoise = 20;
+KP_Params.xNoise = 0;
+KP_Params.yNoise = 0;
+KP_Params.zNoise = 0;
+
+%Prop Choice
+KP_Params.propChoice = "Gate";
 
 %Background Parameters
-KP_Params.backgroundValue = 1;
+KP_Params.backgroundValue = 0;
+KP_Params.backgroundCycle = false;
