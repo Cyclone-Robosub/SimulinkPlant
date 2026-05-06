@@ -156,7 +156,7 @@ while ischar(line)
             trick_id = 'ssff_rollLeft___';
         case 'barrel_roll'
             trick_id = 'barrel_roll_____';
-        case 'drv_to_body_wp'
+        case 'drive_to_body_waypoint'
             trick_id = 'drv_to_body_wp__';
         otherwise
             trick_id = '________________';
