@@ -104,6 +104,8 @@ dvl_fom = double(VR.fom);
 dvl_std = double(DRR.pos_std);
 
 dvl_eul = double([DRR.angle.x; DRR.angle.y; DRR.angle.z]);
+deg2rad = pi/180;
+dvl_eul = dvl_eul.*deg2rad;
 
 dvl_pos = double([DRR.position.x; DRR.position.y; DRR.position.z]);
 

@@ -16,19 +16,19 @@ function [do_joystick_flag_out,do_mission_file_flag_out] = mode_manager(mode_inp
     
     %Initialize cosntants
     if isempty(joystick_flag)
-        joystick_flag = 1;
+        joystick_flag = true;
     end
 
     if isempty(prior_joystick_flag)
-        prior_joystick_flag = 1;
+        prior_joystick_flag = true;
     end
 
     if isempty(do_mission_file_flag)
-        do_mission_file_flag = 0;
+        do_mission_file_flag = false;
     end
 
     if isempty(prior_do_mission_file_flag)
-        prior_do_mission_file_flag = 0;
+        prior_do_mission_file_flag = false;
     end
 
     %User Inputs
@@ -36,12 +36,12 @@ function [do_joystick_flag_out,do_mission_file_flag_out] = mode_manager(mode_inp
     circ_button = mode_inputs(4);
 
     %% Toggle Logic (Joystick, )
-    if(circ_button == true && prior_joystick_flag == 0)
-        joystick_flag = 1;
+    if(circ_button == true && prior_joystick_flag == false)
+        joystick_flag = true;
     end
 
-    if(circ_button == true && prior_joystick_flag == 1)
-        joystick_flag = 0;
+    if(circ_button == true && prior_joystick_flag == true)
+        joystick_flag = false;
     end
 
     %do nothing, keep prior
@@ -49,12 +49,12 @@ function [do_joystick_flag_out,do_mission_file_flag_out] = mode_manager(mode_inp
         prior_joystick_flag = joystick_flag;
     end
 
-    if(cross_button == true && prior_do_mission_file_flag == 0)
-        do_mission_file_flag = 1;
+    if(cross_button == true && prior_do_mission_file_flag == false)
+        do_mission_file_flag = true;
     end
 
-    if(circ_button == true && prior_do_mission_file_flag == 1)
-        do_mission_file_flag = 0;
+    if(circ_button == true && prior_do_mission_file_flag == true)
+        do_mission_file_flag = false;
     end
 
     if(circ_button == false)
