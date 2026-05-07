@@ -15,4 +15,5 @@ for i = 1:numPerspectives
     %drawnImage = insertShape(drawnImage, 'Line', [lkp(11) lkp(12) lkp(8) lkp(9)], 'Color', 'y');
     %imwrite(drawnImage, fullfile(save_file_path,"Pictures/drawn_frame_" + i + ".png"));
 end
+writestruct(KP_Params, fullfile(save_file_path, "KP_Params.xml"));
 clear i todayDate save_file_path camImage lkp;

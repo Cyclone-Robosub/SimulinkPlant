@@ -10,6 +10,7 @@ Todo:
 %% Housekeeping and Path Management
 clc
 close all
+clear results
 %clear all %slow, comment this out if you don't need it
 
 %refreshes the file path in case clear all was called
@@ -52,7 +53,9 @@ results = sim(simIn);
 %% Post Processing
 run('saveKeyPointFiles.m')
 
-if(KP_Params.backgroundCycle == true && KP_Params.backgroundValue < 10)
+if(KP_Params.backgroundCycle == true && KP_Params.backgroundValue < 9)
     KP_Params.backgroundValue = KP_Params.backgroundValue + 1;
     run('initKPCollect_UCS.m')
+else
+    KP_Params.backgroundValue = 0;
 end

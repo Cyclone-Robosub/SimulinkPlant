@@ -36,7 +36,7 @@ run('constants_SimpleCam_UCS.m')
 % Not all test conditions are needed for every model
 
 %model selection
-model_select = "simpleCam_UCS";
+model_select = "SimpleCam_UCS";
 
 %setup the sim
 simIn = Simulink.SimulationInput(model_select);
