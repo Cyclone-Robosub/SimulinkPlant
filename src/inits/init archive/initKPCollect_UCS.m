@@ -34,7 +34,8 @@ end
 %set_param('KP_Collect_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
 
 %% Parameters
-%run('constants.m') %load all necessary constants into the workspace
+%Always run constants_UCS first as values in it may be overridden by model
+%specific constants.
 run('constants_UCS.m')
 run('constants_KP.m')
 

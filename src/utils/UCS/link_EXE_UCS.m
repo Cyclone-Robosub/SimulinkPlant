@@ -4,3 +4,5 @@ load_system('CameraCalibration_UCS');
 set_param('CameraCalibration_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
 load_system('SimpleCam_UCS');
 set_param('SimpleCam_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);
+load_system('Sample_Course_Controller_UCS');
+set_param('Sample_Course_Controller_UCS/Simulation 3D Scene Configuration', 'ProjectName', unreal_executable_path);

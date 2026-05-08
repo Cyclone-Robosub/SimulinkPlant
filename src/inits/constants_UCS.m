@@ -1,11 +1,5 @@
 %{
-This file contains all simulation parameters that refer to the state of the
-vehicle that does not change during a simulation or do not refer to initial
-conditions. 
-
-constants.m without any modifiers is meant to be kept up to date. 
-Constant files named constants_[modifier].m are used for specific test
-cases that don't reflect the values used for the vehicle normally.
+    Default constants for _UCS models.
 %}
 
 % call getProjectPaths if it doesn't exist
