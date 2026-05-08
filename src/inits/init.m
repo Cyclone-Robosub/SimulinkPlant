@@ -143,12 +143,12 @@ end
 
 %set To-File block names
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
-% enableToFileBlocks(model_select);
-disableToFileBlocks(model_select);
+enableToFileBlocks(model_select);
+%disableToFileBlocks(model_select);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-enableToWorkspaceBlocks(model_select);
-% disableToWorkspaceBlocks(model_select);
+%enableToWorkspaceBlocks(model_select);
+disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -177,8 +177,8 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est"};
-plotAllOutputs(plots,results,plot_names);
+%plot_names = {"X", "X_est"};
+%plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 

@@ -84,12 +84,6 @@ q0_est = [0 0 0 1]';
 P0_ekf = 0.1*eye(6); 
 B0_ekf = zeros(3,1);
 
-
-
-%% Monte Carlo Setup
-%TBA
-
-
 %% Test Conditions
 % Not all test conditions are needed for every model
 fprintf("Defining test case.\n")
@@ -135,6 +129,7 @@ mission_file_name = "drive_in_square_validation_mission.txt";
 model_select = "FB_Controller_SIM";
 open_system(model_select);
 
+%{
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
 setup_buses_flag = true;
@@ -146,33 +141,42 @@ if(setup_buses_flag)
     run('setup_sensor_bus.m');
     run('setup_RSFF_maneuvers_bus.m')
 end
+%}
 
 %set To-File block names
-to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
-enableToFileBlocks(model_select);
+%to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
+%enableToFileBlocks(model_select);
 %disableToFileBlocks(model_select);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select);
 
-%import the mission text file as an array of cmd objects
-mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
-mission = importMission(mission_file_path, max_commands_in_mission);
+%% Set up for Parameter Estimation
+%load in data
+%save_file = "data/2026_05_02_..."
+save_file = "data/2026_05_02_18_22_11";
+results = struct();
+results = fileToResults(results,save_file);
 
-%% Simulation
-fprintf("Running the sim.\n");
 
-%setup the sim
-simIn = Simulink.SimulationInput(model_select);
+%sim_signals = ["linAccel", "Gyro", "Mag", "dRb", "alt_meas_dvl", "eul_dvl","Rb_dvl"];
+sim_signals = ["Ri", "qib", "dRi", "wb", "ddRi"];
+%sim_result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
+result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
+%sensorbus_blockpath = "FB_Controller_SIM/Sensor Model/sensorModelToSensorBus";
+sensorbus_blockpath = "Dynamics_SIM/Subsystem_Reference (plant)/Dynamics & Kinematics/MATLAB Function";
 
-%set the parameter `mission` containing all the cmd structures
-mission = Simulink.Parameter(mission);
-mission_param.DataType = 'Bus: cmd_bus';
-simIn = simIn.setVariable('mission', mission);
+%% Parameter Estimation
 
-%run the sim
-results = sim(simIn);
+fprintf("Running Parameter Estimation.")
+params_to_estimate = ["mass"];
+run("param_estimator.m")
+
+%i might move these things into init ngl
+model_select = "plant.slx";
+open(model_select);
+
 
 %% Post Processing
 fprintf("Running Post-Processing.\n")
@@ -184,17 +188,11 @@ results = fileToResults(results, to_file_block_path);
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
 %plot_names = {"X", "X_est"};
-%plotAllOutputs(plots,results,plot_names);
+plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
 
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 
 fprintf("Done.\n\n")
-
-%% Parameter Estimation
-%{
-fprintf("Running Parameter Estimation.")
-params_to_estimate = ["mass"];
-run("param_estimator.m")
 %}

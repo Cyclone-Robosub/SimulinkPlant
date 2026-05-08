@@ -4,12 +4,12 @@
 % bro, I have no idea what matricies are like for parameter estimation...
 % bro, we probably are only able to stimate from the experimental data
 % experimental data includes dw,ddw,ddRi,dRi
-%model_select = "plant.slx";
-open(model_select);
 
-sim_signals = ["linAccel", "Gyro", "Mag", "dRb", "alt_meas_dvl", "eul_dvl","Rb_dvl"];
-sim_result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
-sensorbus_blockpath = "FB_Controller_SIM/Sensor Model/sensorModelToSensorBus";
+%need to update for using plant instead of FB_Controller_SIM
+    %update output signal information
+    %add FT information as inputt signals.
+
+
 %% inertia estimation
 if sum(contains(params_to_estimate, "inertia")) >= 1
     %set up
