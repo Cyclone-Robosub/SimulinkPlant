@@ -96,8 +96,8 @@ test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
-do_buoyancy_flag = 1;
-do_gravity_flag = 1;
+do_buoyancy_flag = 0;
+do_gravity_flag = 0;
 do_drag_flag = 1;
 do_thrusters_flag = 1;
 do_time_flag = 1; 
@@ -105,15 +105,28 @@ do_torque_flag = 1;
 do_force_flag = 1; 
 use_true_state_flag = 1;
 
+
 %controller tuning
 do_force_cmd_flag = false;
 do_moment_cmd_flag = true;
-overwrite_state_error_flag = true; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
-eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
-wb_error_inject = [1;0;0]; %[wbx; wby; wbz] rad/s
-Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
+
+%overwrites for ang vel and vel
+overwrite_rate_error_flag = false;
+wb_error_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
 dRb_error_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
 
+overwrite_rate_setpoint_flag = true;
+wb_sp_inject = [0;0;0.5]; %[wbx; wby; wbz] rad/s
+dRb_sp_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
+
+%overwrites for eul and pos
+overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
+eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
+Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
+
+overwrite_state_setpoint_flag = false;
+eul_sp_inject = [0;0;0];
+Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
@@ -156,6 +169,7 @@ fprintf("Configuring toWorkspace and toFile Blocks.\n")
 enableToFileBlocks(model_select);
 %disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
+prj_path_list.prior_run_data_path = to_file_block_path;
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
@@ -190,9 +204,12 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "pwm_cmd", "force_moment_cmd"};
-plotAllOutputs(plots,results,plot_names);
+% plot_names = {"X", "pwm_cmd", "force_moment_cmd"};
+% plotAllOutputs(plots,results,plot_names);
+
+%Publish Controller Report
+publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
 
-fprintf("Done.\n\n")
+fprintf("\nDone.\n\n")
 

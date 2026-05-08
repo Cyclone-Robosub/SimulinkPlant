@@ -66,36 +66,26 @@ Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Rb_PID.Kp = 4; Rb_PID.Ki = 0; Rb_PID.Kd = 0;
+Rb_PID.Kp = [4;4;4]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [0;0;0];
 Rb_PID.N = 100; %filter coefficient for the derivative term
 Rb_PID.output_sat = 3; %PID saturation point for velocity output
 Rb_PID.int_sat = 1; %integral term saturation limit
 
-
 %Controller gains for velocity --> force %DRB
-dRbx_PID.Kp = 40; dRbx_PID.Ki = 0; dRbx_PID.Kd = 0;
-dRbx_PID.N = 100; %filter coefficient for the derivative term
-dRbx_PID.output_sat = 120; %PID saturation point for velocity output
-dRbx_PID.int_sat = 10; %integral term saturation limit
+dRb_PID.Kp = [40; 40; 40]; dRb_PID.Ki = [0; 0; 0]; dRb_PID.Kd = [0; 0; 0];
+dRb_PID.N = 100; %filter coefficient for the derivative term
+dRb_PID.output_sat = 120; %PID saturation point for velocity output
+dRb_PID.int_sat = 10; %integral term saturation limit
 
-dRby_PID.Kp = 1; dRby_PID.Ki = 0; dRby_PID.Kd = 0;
-dRby_PID.N = 100; %filter coefficient for the derivative term
-dRby_PID.output_sat = 120; %PID saturation point for velocity output
-dRby_PID.int_sat = 10; %integral term saturation limit
-
-dRbz_PID.Kp = 1; dRbz_PID.Ki = 0; dRbz_PID.Kd = 0;
-dRbz_PID.N = 100; %filter coefficient for the derivative term
-dRbz_PID.output_sat = 120; %PID saturation point for velocity output
-dRbz_PID.int_sat = 10; %integral term saturation limit
-
-%Controller gains for quaternion --> angular velocity
-qib_PID.Kp = 5; qib_PID.Ki = 0; qib_PID.Kd = 0.5;
+%Controller gains for quaternion --> angular velocity [roll, pitch, yaw,
+%scalar]
+qib_PID.Kp = [5;5;5;5]; qib_PID.Ki = [0;0;0;0]; qib_PID.Kd = [0;0;0;0];
 qib_PID.N = 10; %filter coefficient for the derivative term (unused)
 qib_PID.output_sat = 2*pi; %PID saturation point for velocity output
 qib_PID.int_sat = pi/3; %integral term saturation limit
 
-%Controller gains for angular velocity --> torque %WB
-wb_PID.Kp = 20; wb_PID.Ki = 0; wb_PID.Kd = 0;
+%Controller gains for angular velocity --> torque 
+wb_PID.Kp = [20;20;50]; wb_PID.Ki = [0;0;0]; wb_PID.Kd = [0;0;0];
 wb_PID.N = 100; %filter coefficient for the derivative term
 wb_PID.output_sat = 40; %PID saturation point for velocity output
 wb_PID.int_sat = 10; %integral term saturation limit

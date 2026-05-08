@@ -19,6 +19,8 @@ for k = 1:length(files)
         results = sensorsToResults(data_k, results);
     elseif(isequal(varName, 'X'))
         results = XtoResults(data_k, results);
+    elseif(isequal(varName, 'X_est'))
+        results = XestToResults(data_k, results);
     end
 
 end

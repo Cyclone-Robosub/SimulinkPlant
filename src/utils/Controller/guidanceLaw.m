@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, Rb_u] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -102,6 +102,10 @@ elseif(norm(Ri_xy_e) >= Ri_e_tol) %DRIVING
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
     %once we reach driving mode, clear the persistant yaw target
+    Cib = quatToRotm(qib);
+    Cbi = Cib';
+    Rb_u = Cbi*Ri_u;
+    
     Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
     action_id = 2;
     
@@ -127,6 +131,9 @@ end
 if(action_id ~= prior_action_id)
     persistant_yaw_target = yaw_u;
 end
+
+
+
 
 action_id_out = action_id;
 driving_yaw_target = persistant_yaw_target;

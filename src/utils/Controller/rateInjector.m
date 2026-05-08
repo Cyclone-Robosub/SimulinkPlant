@@ -1,11 +1,11 @@
-function [wb_e, dRb_e] = rateInjector(cmd, wb_e, dRb_e, X_est, RSFF_maneuvers, overwrite_state_error_flag, wb_error_inject, dRb_error_inject)
+function [wb_e, dRb_e] = rateInjector(cmd, wb_e, dRb_e, X_est, RSFF_maneuvers, overwrite_rate_error_flag, wb_error_inject, dRb_error_inject)
 %{
 This function acts by modifying the velocity and angular velocity error
 before they are fed into the corresponding PID controllers. The objective
 of this function is to provide limited feedback control capability based on
 the sensor measurements from the IMU and the DVL without sensor fusion. 
 
-If the cmd_id is duration_trick, this function throws out the errors sent
+If the cmd_id is duration_trick, this function throws out the errors sentoverwrite_rate_error_flag
 from upstream in the cascade controller and just ouputs the error based on
 the reference rates stored in the maneuver.
 %}
@@ -74,7 +74,7 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
     end
 end
 
-if(overwrite_state_error_flag)
+if(overwrite_rate_error_flag)
     wb_e = wb_error_inject;
     dRb_e = dRb_error_inject;
 end
