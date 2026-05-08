@@ -1,4 +1,4 @@
-function qib_u_out = trickQuatInjector(cmd, qib_u, action_id, X)
+function qib_u_out = quatInjector(cmd, qib_u, action_id, X)
 
 Eul = X.Eul;
 
@@ -13,3 +13,4 @@ if(action_id == 2 || action_id == 1)
 else
     qib_u_out = qib_u;
 end
+

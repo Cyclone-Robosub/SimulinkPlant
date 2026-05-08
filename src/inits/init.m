@@ -82,7 +82,6 @@ B0_ekf = zeros(3,1);
 %% Monte Carlo Setup
 %TBA
 
-
 %% Test Conditions
 % Not all test conditions are needed for every model
 fprintf("Defining test case.\n")
@@ -104,18 +103,28 @@ do_thrusters_flag = 1;
 do_time_flag = 1; 
 do_torque_flag = 1; 
 do_force_flag = 1; 
-use_true_state_flag = 0;
+use_true_state_flag = 1;
+
+%controller tuning
+do_force_cmd_flag = false;
+do_moment_cmd_flag = true;
+overwrite_state_error_flag = true; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
+eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
+wb_error_inject = [1;0;0]; %[wbx; wby; wbz] rad/s
+Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
+dRb_error_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
+
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
-    0 -.9983 0.0587;...
-    0 -0.0587 -0.9983];
+    0 1 0;...
+    0 0 1];
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 60;
+tspan = 3;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -126,8 +135,8 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+mission_file_name = "drive_in_square_validation_mission.txt"; 
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -142,13 +151,14 @@ if(setup_buses_flag)
     run('setup_RSFF_maneuvers_bus.m');
 end
 
+fprintf("Configuring toWorkspace and toFile Blocks.\n")
 %set To-File block names
 enableToFileBlocks(model_select);
-% disableToFileBlocks(model_select);
+%disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
-% enableToWorkspaceBlocks(model_select);
+%enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select);
 
 %import the mission text file as an array of cmd objects
@@ -180,20 +190,9 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est","cmd_status", "FT_cmd_list", "Eul_u", "X_est_misc", "pwms", "errors"};
+plot_names = {"X", "pwm_cmd", "force_moment_cmd"};
 plotAllOutputs(plots,results,plot_names);
 
-% try
-%     figure()
-%     Ri = squeeze(results.Ri.Data)';
-%     plot(Ri(:,1), Ri(:,2))
-%     xlabel("Xi")
-%     ylabel("Yi")
-% catch
-% end
-% saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
-
-% saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 
 fprintf("Done.\n\n")
 

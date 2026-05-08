@@ -8,6 +8,10 @@ Input:
   modelName - Name of the top-level Simulink model (must be loaded)
 
 %}
+if ~bdIsLoaded(model_select)
+    open_system(model_select);
+end
+
 blocks = find_system(model_select, ...
     'LookUnderMasks',      'all', ...
     'FollowLinks',         'on',  ...

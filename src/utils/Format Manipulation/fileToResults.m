@@ -17,6 +17,8 @@ for k = 1:length(files)
         results.(varName) = data_k;
     elseif(isequal(varName,'sensors'))
         results = sensorsToResults(data_k, results);
+    elseif(isequal(varName, 'X'))
+        results = XtoResults(data_k, results);
     end
 
 end

@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -116,6 +116,10 @@ else %SETTLING
 
     action_id = 3;
     
+end
+
+if(overwrite_state_error_flag)
+    Rb_error = Rb_error_inject;
 end
 
 %update the yaw target every time the action id changes from turning to

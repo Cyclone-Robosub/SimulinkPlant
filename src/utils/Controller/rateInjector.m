@@ -1,4 +1,4 @@
-function [wb_e, dRb_e] = rsffVelocityInjector(cmd, wb_e, dRb_e, X_est, RSFF_maneuvers)
+function [wb_e, dRb_e] = rateInjector(cmd, wb_e, dRb_e, X_est, RSFF_maneuvers, overwrite_state_error_flag, wb_error_inject, dRb_error_inject)
 %{
 This function acts by modifying the velocity and angular velocity error
 before they are fed into the corresponding PID controllers. The objective
@@ -73,4 +73,8 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
              wb_e = wb_e;
     end
 end
+
+if(overwrite_state_error_flag)
+    wb_e = wb_error_inject;
+    dRb_e = dRb_error_inject;
 end
