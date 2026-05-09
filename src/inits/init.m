@@ -211,6 +211,7 @@ plotAllOutputs(plots,results,plot_names);
 %Publish Controller Report
 publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
+saveCalibrationData(results, prj_path_list.prior_run_data_path);
 %Gif
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
