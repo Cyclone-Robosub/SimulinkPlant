@@ -103,7 +103,7 @@ wb_PID.int_sat = 10; %integral term saturation limit
 %pwm cmd clamping
 pwm_lower_limit = 1100;
 pwm_upper_limit = 1900;
-pwm_zero_set = int32(1500.*zeros(8,1));
+pwm_zero_set = int32(1500.*ones(8,1));
 
 
 %% IMU

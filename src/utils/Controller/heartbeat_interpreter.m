@@ -5,7 +5,7 @@ function is_disconnect_flag = heartbeat_interpreter(isNew_heartbeat,dt_control)
     persistent time_since_last_beat;
     
     if isempty(time_since_last_beat)
-        time_since_last_beat = 0;
+        time_since_last_beat = 2;
     end
 
     %If you get a heartbeat value, time_since_last_beat = 0
