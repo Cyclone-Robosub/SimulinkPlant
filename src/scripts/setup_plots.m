@@ -23,6 +23,8 @@ plots{end+1} = TimePlot("q","q",[1,2],{[1,2,3],[4]},["Epsilon","Eta"],"Time (s)"
 
 plots{end+1} = TimePlot("FB_force_moment_cmd",["Fb_FB_cmd", "Mb_FB_cmd"],[2,1],{[1,2,3],[4,5,6]},["Force (N)","Moment (Nm)"], "Time (s)", ["Force Command", "Moment Command"],"FB Controller Commanded Force and Moment",{["Fbx", "Fby", "Fbz"], ["Mbx", "Mby", "Mbz"]});
 
+plots{end} = plots{end}.setColors({{'r','b','g'}, {'y', 'c', 'm'}});
+
 plots{end+1} = TimePlot("FB_FT_cmd_lists",["FT_cmd_list_FB","FT_cmd_list_pos","FT_cmd_list_att"],[4,2],{[1,9,17],[2,10,18],[3,11,19],[4,12,20],[5,13,21],[6,14,22],[7,15,23],[8,16,24]},["Force (N)","Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)", "Force (N)"],"Time (s)", ["Thruster 0","Thruster 1", "Thruster 2", "Thruster 3", "Thruster 4", "Thruster 5", "Thruster 6", "Thruster 7"],"Commanded Thruster Force by FB Controller",{["Total","Pos","Att"],"","","","","","",""});
 
 plots{end+1} = TimePlot("X",["Rb", "dRb", "Eul", "wb"],[2,2],{[1,2,3],[7,8,9],[4,5,6],[10,11,12]},["Position (m)","Angle (rad)","Velocity (m/s)","Angular Velocity (rad/s)"],"Time (s)",["Body Frame Position", "Euler Angles","Body Frame Velocity","Angular Velocity"],"Simulated States",{["Rix", "Riy", "Riz"],["Roll", "Pitch", "Yaw"],["dRbx", "dRby", "dRbz"],["wbx","wby","wbz"]});

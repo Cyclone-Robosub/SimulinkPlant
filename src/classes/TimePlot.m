@@ -18,10 +18,12 @@ classdef TimePlot
         v_labels %1xK string of vertical axis labels for each subplot
         legends %a cell array of the same dimension as the signal_map containing a 1x(up to)M string of legend labels for each subplot
         is_plottable = true %boolean, true if the plot can be generated, false otherwise
+        colors
+
     end
 
     methods
-        function obj = TimePlot(name, fields, layout, signal_map, v_labels, h_labels, subtitles, supertitle, legends)
+        function obj = TimePlot(name, fields, layout, signal_map, v_labels, h_labels, subtitles, supertitle, legends, colors)
             %constructor assigns class members and validates input
             obj.name = name;
             obj.fields = fields;
@@ -32,8 +34,35 @@ classdef TimePlot
             obj.subtitles = subtitles;
             obj.supertitle = supertitle;
             obj.legends = legends;
-            %todo: Input validation
+            if nargin < 10 | isempty(colors)
+                obj.colors = {}; % if its empty, it'll use default colors
+            else
+                obj.colors = colors;
+            end
         end
+
+    
+        function obj = setColors(obj, customColors)
+            colorSize = numel(obj.signal_map);
+            if numel(customColors) ~= colorSize
+                warning("Color size is wrong, using default colors");
+            end
+            for i = 1:colorSize
+                if nargin > 1 && ~isempty(customColors)
+                    obj.colors{i} = customColors{i};
+                end
+            end
+        end
+
+
+        % 
+        %         % takes an input argument using the same format as the signal_map
+        %         %to programmatically set the color of each subplot
+        %     end
+        % else
+        %     %timePlot should assign colors the way it usually does
+    % 
+    % end
 
         function obj = loadData(obj,results)
             try
