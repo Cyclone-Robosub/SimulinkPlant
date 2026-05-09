@@ -152,7 +152,7 @@ dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_SIM";
+model_select = "Integrated_Joystick_HIL";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
