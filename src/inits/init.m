@@ -107,7 +107,7 @@ use_true_state_flag = 1;
 
 
 %controller tuning
-do_force_cmd_flag = false;
+do_force_cmd_flag = true;
 do_moment_cmd_flag = true;
 
 %overwrites for ang vel and vel
@@ -115,7 +115,7 @@ overwrite_rate_error_flag = false;
 wb_error_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
 dRb_error_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
 
-overwrite_rate_setpoint_flag = true;
+overwrite_rate_setpoint_flag = false;
 wb_sp_inject = [0;0;0.5]; %[wbx; wby; wbz] rad/s
 dRb_sp_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
 
@@ -137,7 +137,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 3;
+tspan = 30;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -148,7 +148,7 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -204,11 +204,11 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-% plot_names = {"X", "pwm_cmd", "force_moment_cmd"};
-% plotAllOutputs(plots,results,plot_names);
+plot_names = {"X", "X_est"};
+plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
-publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
+% publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
 
 fprintf("\nDone.\n\n")
