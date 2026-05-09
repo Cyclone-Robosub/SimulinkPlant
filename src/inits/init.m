@@ -128,7 +128,7 @@ dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+model_select = "Simple_Joystick_HIL";
 open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
