@@ -1,6 +1,6 @@
 
 
-function manual_control_flag = heartbeat_interpreter(isNew_heartbeat,dt_control)
+function is_disconnect_flag = heartbeat_interpreter(isNew_heartbeat,dt_control)
     
     persistent time_since_last_beat;
     
@@ -17,8 +17,8 @@ function manual_control_flag = heartbeat_interpreter(isNew_heartbeat,dt_control)
 
     %Set manual control flag if time since last heartbeat is greater than 1
     if (time_since_last_beat > 1)
-        manual_control_flag = true;
+        is_disconnect_flag = true;
     else
-        manual_control_flag = false;
+        is_disconnect_flag = false;
     end 
 end
