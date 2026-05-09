@@ -96,30 +96,31 @@ test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
 initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
-do_buoyancy_flag = 0;
-do_gravity_flag = 0;
+do_buoyancy_flag = 1;
+do_gravity_flag = 1;
 do_drag_flag = 1;
 do_thrusters_flag = 1;
-do_time_flag = 1; 
-do_torque_flag = 1; 
-do_force_flag = 1; 
+do_time_flag = 1;
+do_torque_flag = 1;
+do_force_flag = 1;
 use_true_state_flag = 1;
-
+allow_PID_resets_flag = 0;
 
 %controller tuning
 do_force_cmd_flag = true;
 do_moment_cmd_flag = true;
 
-%overwrites for ang vel and vel
+overwrite_FT_list_flag = false;
+FT_list_inject = [0;0;0;0;0;0;0;0];
+
 overwrite_rate_error_flag = false;
 wb_error_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
 dRb_error_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
 
-overwrite_rate_setpoint_flag = false;
-wb_sp_inject = [0;0;0.5]; %[wbx; wby; wbz] rad/s
-dRb_sp_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
+overwrite_rate_setpoint_flag = true;
+wb_sp_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
+dRb_sp_inject = [1;0;0]; %[dRbx; dRby; dRbz] m/s
 
-%overwrites for eul and pos
 overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
 eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
@@ -137,7 +138,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 3;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -204,11 +205,11 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est"};
+plot_names = {"X", "X_est", "Fb, Mb", "FT_list", "drag"};
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
-% publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
+publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
 
 fprintf("\nDone.\n\n")

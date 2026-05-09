@@ -83,8 +83,6 @@ fprintf("\t D = [%.2f, %.2f, %.2f]\n", dRb_PID.Kd(1), dRb_PID.Kd(2), dRb_PID.Kd(
 fprintf("\t Int Sat = %.2f\n", dRb_PID.int_sat);
 fprintf("\t Out Sat = %.2f\n", dRb_PID.output_sat);
 
-
-
 eul = enforceTallSkinny(squeeze(results.Eul_est.Data));
 eul_u = enforceTallSkinny(squeeze(results.Eul_u.Data));
 wb = enforceTallSkinny(squeeze(results.wb_est.Data));
@@ -97,8 +95,20 @@ pwm_cmd = enforceTallSkinny(squeeze(results.pwm_cmd.Data));
 force_cmd = enforceTallSkinny(squeeze(results.force_cmd.Data));
 moment_cmd = enforceTallSkinny(squeeze(results.moment_cmd.Data));
 FT_cmd_list = enforceTallSkinny(squeeze(results.FT_cmd_list.Data));
+wb_pid_int = enforceTallSkinny(squeeze(results.wb_pid_int.Data));
 
 t = results.Eul_est.Time;
+
+%integrators
+figure('Name','Integrators','NumberTitle','off')
+plot(t(mask), wb_pid_int(mask,1),'Color','#005073')
+hold on
+plot(t(mask), wb_pid_int(mask,2),'Color','#107dac')
+plot(t(mask), wb_pid_int(mask,3),'Color','#189ad3')
+xlabel("Time (s)")
+ylabel("Moment (Nm)")
+title("wb Integrator")
+legend(["Mbx", "Mby", "Mbz"])
 
 %roll, roll rate
 figure('Name','Roll','NumberTitle','off')
@@ -172,9 +182,9 @@ xlabel("Time (s)")
 ylabel("Position (m)")
 legend(["X", "X SP"])
 subplot(2,1,2)
-plot(t(mask), wb(mask,1),'Color','#189ad3')
+plot(t(mask), dRb(mask,1),'Color','#189ad3')
 hold on
-plot(t(mask), wb_u(mask,1),'Color','#71c7ec', 'LineStyle','--')
+plot(t(mask), dRb_u(mask,1),'Color','#71c7ec', 'LineStyle','--')
 title("dX Controller")
 xlabel("Time (s)")
 ylabel("Velocity (m/s)")
@@ -193,9 +203,9 @@ xlabel("Time (s)")
 ylabel("Position (m)")
 legend(["Y", "Y SP"])
 subplot(2,1,2)
-plot(t(mask), wb(mask,2),'Color','#189ad3')
+plot(t(mask), dRb(mask,2),'Color','#189ad3')
 hold on
-plot(t(mask), wb_u(mask,2),'Color','#71c7ec', 'LineStyle','--')
+plot(t(mask), dRb_u(mask,2),'Color','#71c7ec', 'LineStyle','--')
 title("dY Controller")
 xlabel("Time (s)")
 ylabel("Velocity (m/s)")
@@ -215,9 +225,9 @@ xlabel("Time (s)")
 ylabel("Position (m)")
 legend(["Z", "Z SP"])
 subplot(2,1,2)
-plot(t(mask), wb(mask,3),'Color','#189ad3')
+plot(t(mask), dRb(mask,3),'Color','#189ad3')
 hold on
-plot(t(mask), wb_u(mask,3),'Color','#71c7ec', 'LineStyle','--')
+plot(t(mask), dRb_u(mask,3),'Color','#71c7ec', 'LineStyle','--')
 title("dZ Controller")
 xlabel("Time (s)")
 ylabel("Velocity (m/s)")
@@ -247,7 +257,7 @@ legend(["Mbx", "Mby", "Mbz"])
 sgtitle("Z")
 
 %PWMS
-figure('Name','PWM', 'NumberTitle','off')
+figure('Name','pwm_cmd_list', 'NumberTitle','off')
 subplot(4,2,1)
 plot(t(mask), pwm_cmd(mask,1))
 xlabel("Time (s)")
@@ -291,7 +301,7 @@ title("Thruster 7")
 sgtitle("PWM")
 
 %FT_List
-figure('Name','FT_List', 'NumberTitle','off')
+figure('Name','FT_cmd_list', 'NumberTitle','off')
 subplot(4,2,1)
 plot(t(mask), FT_cmd_list(mask,1))
 xlabel("Time (s)")

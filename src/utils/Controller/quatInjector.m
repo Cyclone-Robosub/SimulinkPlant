@@ -1,4 +1,4 @@
-function qib_u_out = quatInjector(cmd, qib_u, action_id, X)
+function qib_u_out = quatInjector(cmd, qib_u, action_id, X, eul_sp_inject, overwrite_state_setpoint_flag)
 
 Eul = X.Eul;
 
@@ -12,5 +12,9 @@ if(action_id == 2 || action_id == 1)
     end
 else
     qib_u_out = qib_u;
+end
+
+if(overwrite_state_setpoint_flag)
+    qib_u_out = eulToQuat(eul_sp_inject);
 end
 
