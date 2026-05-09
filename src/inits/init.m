@@ -82,6 +82,7 @@ B0_ekf = zeros(3,1);
 %% Monte Carlo Setup
 %TBA
 
+
 %% Test Conditions
 % Not all test conditions are needed for every model
 fprintf("Defining test case.\n")
@@ -100,9 +101,9 @@ do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
 do_thrusters_flag = 1;
-do_time_flag = 1;
-do_torque_flag = 1;
-do_force_flag = 1;
+do_time_flag = 1; 
+do_torque_flag = 1; 
+do_force_flag = 1; 
 use_true_state_flag = 0;
 allow_PID_resets_flag = 0;
 
@@ -141,6 +142,7 @@ fprintf("Setting simulation config.\n")
 tspan = 60;
 
 %timesteps for various simulation components
+dt_heartbeat = 1/2;
 dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
