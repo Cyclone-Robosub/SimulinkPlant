@@ -127,7 +127,7 @@ Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
 overwrite_state_setpoint_flag = false;
 eul_sp_inject = [0;0;0];
-Rb_sp_inject = [10;0;0];
+Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
@@ -138,7 +138,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep

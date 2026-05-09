@@ -19,6 +19,7 @@ dRbz_u - a velocity command in the up/down direction of the vehicle
 action_id - what the controller is currently trying to do (1 = point to wp, 2 =
 drive to wp)
 %}
+debug = 0;
 
 persistent persistant_yaw_target
 persistent action_id
@@ -49,21 +50,25 @@ Ri_xy_e = Ri_xy_u - Ri_xy;
 pitch_u = 0; %to keep vehicle level 
 roll_u = 0;
 yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
-
+debug = yaw_u;
 
 if(isempty(persistant_yaw_target))
-    yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
     persistant_yaw_target = yaw_u;
 end
 
-
+%TODO - add some filtering to prevent jitter from yaw_u recalc
+%TODO - remove unused persistent_yaw_target code
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
-    qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
+    qib_int_u = eulToQuat([roll_u, pitch_u, yaw_u]);
+    persistant_yaw_target = yaw_u;
 else
+    Eul_u = quatToEul(qib_u);
+    persistant_yaw_target = yaw_u;
     qib_int_u = qib_u;
+    
 end
-
+Eul_u = quatToEul(qib_int_u);
 %{
 Eul_u is not switching backward for some reason when the vehicle passes
 waypoint.
@@ -87,7 +92,6 @@ qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 
 %calculate the roll, pitch, and yaw error from this quaternion
 Eul_e = quatToEul(qib_e);
-debug = Eul_e;
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
@@ -139,8 +143,7 @@ if(overwrite_state_error_flag)
     Rb_error = Rb_error_inject;
 end
 
-%update the yaw target every time the action id changes from turning to
-%driving
+%update the yaw target every time the action id changes
 if(action_id ~= prior_action_id)
     persistant_yaw_target = yaw_u;
 end
