@@ -104,7 +104,7 @@ do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
 use_true_state_flag = 0;
-allow_PID_resets_flag = 1;
+allow_PID_resets_flag = 0;
 
 %controller tuning
 do_force_cmd_flag = true;
@@ -126,8 +126,8 @@ eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
 overwrite_state_setpoint_flag = false;
-eul_sp_inject = [0;0;0];
-Rb_sp_inject = [0;0;0];
+eul_sp_inject = [0;0;-pi/4];
+Rb_sp_inject = [10;10;0];
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
