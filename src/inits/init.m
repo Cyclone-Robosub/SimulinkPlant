@@ -93,7 +93,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = false;
+initial_joystick_mode_enabled_flag = true;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -126,7 +126,7 @@ eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
 overwrite_state_setpoint_flag = false;
-eul_sp_inject = [0;0;-pi/4];
+eul_sp_inject = [0;0;0];
 Rb_sp_inject = [10;10;0];
 
 %measured imu misalignment
@@ -138,19 +138,19 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 60;
+tspan = 30;
 
 %timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
+dt_sim = 1/100; %sim timestep
+dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_SIM";
+mission_file_name = "mission_file.txt"; 
+model_select = "Integrated_Joystick_HIL";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)

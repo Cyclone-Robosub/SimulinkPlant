@@ -8,11 +8,11 @@ acc_meas = load(fullfile(prj_path_list.prior_run_data_path,"imu_acc.mat"),"imu_a
 acc_meas = acc_meas.imu_acc;
 
 avg_meas = mean(acc_meas)';
-
-expected = [0;0;-9.81];
+g = norm(avg_meas);
+expected = [0;0;-g];
 
 %angle between the vectors [0 to 180]
-theta1 = acos(dot(avg_meas, expected)/9.81^2);
+theta1 = acos(dot(avg_meas, expected)/g^2);
 
 %rotation matrix candiates
 Cb_imu_1 = [1 0 0;...
