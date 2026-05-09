@@ -118,6 +118,7 @@ fprintf("Setting simulation config.\n")
 tspan = 60;
 
 %timesteps for various simulation components
+dt_heartbeat = 1/2;
 dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
@@ -128,7 +129,7 @@ dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
 mission_file_name = "mission_file.txt"; 
 model_select = "Integrated_Joystick_HIL";
-% open_system(model_select);
+open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
