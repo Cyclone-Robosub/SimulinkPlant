@@ -62,20 +62,20 @@ end
 ff_force_max = 2*sqrt(2)*max_thruster_force;
 
 %tolerance for mode switching in the guidance law
-Ri_e_tol = 2; %only leave this large for testing sliding maneuvers
+Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Rb_PID.Kp = [0;0;0]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [0;0;0];
+Rb_PID.Kp = [5;5;5]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [1;1;1];
 Rb_PID.N = 100; %filter coefficient for the derivative term
 Rb_PID.output_sat = 3; %PID saturation point for velocity output
 Rb_PID.int_sat = 1; %integral term saturation limit
 
 %Controller gains for velocity --> force %DRB
-dRb_PID.Kp = [100; 0; 0]; dRb_PID.Ki = [0; 0; 0]; dRb_PID.Kd = [0; 0; 0];
+dRb_PID.Kp = [200; 200; 200]; dRb_PID.Ki = [200; 200; 200]; dRb_PID.Kd = [0; 0; 0];
 dRb_PID.N = 100; %filter coefficient for the derivative term
 dRb_PID.output_sat = 120; %PID saturation point for velocity output
-dRb_PID.int_sat = 10; %integral term saturation limit
+dRb_PID.int_sat = 40; %integral term saturation limit
 
 %Controller gains for quaternion --> angular velocity [roll, pitch, yaw,
 %scalar]

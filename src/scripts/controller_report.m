@@ -96,11 +96,13 @@ force_cmd = enforceTallSkinny(squeeze(results.force_cmd.Data));
 moment_cmd = enforceTallSkinny(squeeze(results.moment_cmd.Data));
 FT_cmd_list = enforceTallSkinny(squeeze(results.FT_cmd_list.Data));
 wb_pid_int = enforceTallSkinny(squeeze(results.wb_pid_int.Data));
+dRb_pid_int = enforceTallSkinny(squeeze(results.dRb_pid_int.Data));
 
 t = results.Eul_est.Time;
 
 %integrators
 figure('Name','Integrators','NumberTitle','off')
+subplot(2,1,1)
 plot(t(mask), wb_pid_int(mask,1),'Color','#005073')
 hold on
 plot(t(mask), wb_pid_int(mask,2),'Color','#107dac')
@@ -109,6 +111,15 @@ xlabel("Time (s)")
 ylabel("Moment (Nm)")
 title("wb Integrator")
 legend(["Mbx", "Mby", "Mbz"])
+subplot(2,1,2)
+plot(t(mask), dRb_pid_int(mask,1),'Color','#005073')
+hold on
+plot(t(mask), dRb_pid_int(mask,2),'Color','#107dac')
+plot(t(mask), dRb_pid_int(mask,3),'Color','#189ad3')
+xlabel("Time (s)")
+ylabel("Force (Nm)")
+title("dRb Integrator")
+legend(["Fbx", "Fby", "Fbz"])
 
 %roll, roll rate
 figure('Name','Roll','NumberTitle','off')

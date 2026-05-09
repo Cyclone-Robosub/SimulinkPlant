@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, Rb_u] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, Rb_u,debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject, overwrite_state_setpoint_flag, Rb_sp_inject)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -8,7 +8,7 @@ the target, and 3) aligns at the commanded attitude once at the target.
 Inputs:
 X - state vector in the form [Ri; qib, dRi, wb] where qib is expressed in
 the [vector; scalar] convention. 
-Xu - the target state vector
+Xu - the target state vector, overwrite_state_sp_flag, Rb_sp_inject
 
 Outputs:
 qib_int_u - an intermediate target quaternion to point the vehicle at the
@@ -63,7 +63,11 @@ if(norm(Ri_xy_e) >= Ri_e_tol)
 else
     qib_int_u = qib_u;
 end
-debug = norm(Ri_xy_e);
+
+%{
+Eul_u is not switching backward for some reason when the vehicle passes
+waypoint.
+%}
 
 %If the trick ID is duration trick, no need to make any intermediate yaw
 %waypoints so just use the qib_u
@@ -77,11 +81,13 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
 end
 
 
+
 %calculate the quaternion error between the current and target attitudes
 qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 
 %calculate the roll, pitch, and yaw error from this quaternion
 Eul_e = quatToEul(qib_e);
+debug = Eul_e;
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
@@ -94,6 +100,7 @@ if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
     Rb_u = Cbi*Ri_u;
     Rb = Cbi*Ri;
     Rb_error = Rb_u - Rb;
+
     action_id = 1;
     
 
@@ -120,6 +127,12 @@ else %SETTLING
 
     action_id = 3;
     
+end
+
+if(overwrite_state_setpoint_flag)
+    Rb_u = Rb_sp_inject;
+    Rb = Cbi*Ri;
+    Rb_error = Rb_u - Rb;
 end
 
 if(overwrite_state_error_flag)

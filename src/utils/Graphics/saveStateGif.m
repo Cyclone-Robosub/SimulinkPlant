@@ -1,4 +1,4 @@
-function saveStateGif(t,Ri,q,filepath,name,varargin)
+function saveStateGif(results,filepath,name,varargin)
 %{
 This function creates an animated gif of Manny and saves it to a file.
 Using default settings, the gif will need about 1 second of render time per
@@ -18,6 +18,10 @@ Code by Kory Haydon
 %}
 
 %parse optional kwargs
+Ri = enforceTallSkinny(squeeze(results.Ri.Data))';
+q = enforceTallSkinny(squeeze(results.qib.Data))';
+t = results.Ri.Time;
+
 p = inputParser;
 
 %optional inputs
@@ -41,9 +45,6 @@ OpenFolder = p.Results.OpenFolder;
 
 %start a timer
 tic
-
-%enforce Ri [3xN] for later manipulation
-Ri = enforceTallSkinny(Ri)';
 
 fprintf("Creating media.\n");
 
