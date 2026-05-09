@@ -4,7 +4,7 @@ This branch is for integrating Unreal executables and vision with controls archi
 ---
 
 ## Unreal Executable upload instructions
-The Unreal executable is located in the vision google drive for Cyclone robosubs. If you do not have access to the google drive, send a message in the vision channel and someone will add you. The folder Unreal Executable will have .zip files that will say either Windows or Linux. Pick the one corresponding to your OS and extract all files from it. When running SimulinkPlant, look at the messages in startup for more instructions.
+The Unreal executable is located in the vision google drive for Cyclone robosubs. If you do not have access to the google drive, send a message in the vision channel and someone will add you. The folder Unreal Executable will have .zip files that will say either Windows or Linux. Pick the one corresponding to your OS and extract all files from it. When running SimulinkPlant, look at the messages in startup for more instructions. Version 1.0 is the most recent version of the executable.
 
 Note: When uploading the exe to SimulinkPlant drag and drop ALL of the files from the windows or linux folder to the drop folder. DONT just drag the exe.
 
@@ -53,7 +53,7 @@ KP_Params.zNoise = 0;
 
 Prop Choice
 
-KP_Params.propChoice = "Gate";
+KP_Params.propChoice = "Gate"; %Options: TBD
 
 Background Parameters
 
@@ -63,4 +63,4 @@ KP_Params.backgroundCycle = false;
 For the backgroundValue, I would suggest either leaving it as 0, or setting backgroundCycle to true, so that it cycles through a preset list of textured backgrounds. I will be adding more backgrounds in the future.
 
 TODO: 
-1. Currently I only have the "Gate" prop added to this executable. This will change soon.
+1. Props have been added to the Test_Prop_Level but KPCollect isn't able to talk to them yet. Fixing that soon.
