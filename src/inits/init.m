@@ -125,20 +125,25 @@ overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecu
 eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
-overwrite_state_setpoint_flag = false;
+overwrite_state_setpoint_flag = true;
 eul_sp_inject = [0;0;0];
-Rb_sp_inject = [10;10;0];
+Rb_sp_inject = [0;0;0.2];
 
 %measured imu misalignment
-Cbimu_meas = [1 0 0;...
-    0 1 0;...
+
+C_yaw_180 = [cos(pi) -sin(pi) 0;...
+    sin(pi) cos(pi) 0;...
     0 0 1];
+Cbimu_meas = C_yaw_180*[1 0 0;...
+    0 -0.9999 0.0148;...
+    0 -0.0148 -0.9999];
+
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 120;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
@@ -147,6 +152,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
+dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
@@ -205,7 +211,7 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est", "pwm_cmd", "cmd_status"};
+plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl"};
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
@@ -216,4 +222,5 @@ saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
+
 

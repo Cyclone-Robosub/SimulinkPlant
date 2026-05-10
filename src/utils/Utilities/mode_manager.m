@@ -6,14 +6,14 @@ If we so wish to we can also add more functionality with the limit being
 the total number of mode inputs we have.
 %}
 
-function [do_joystick_flag_out,do_mission_file_flag_out] = mode_manager(mode_inputs, initial_joystick_mode_enabled_flag)
+function [do_joystick_flag_out,do_mission_file_flag_out] = mode_manager(mode_inputs)
     %flag variables
     persistent joystick_flag;
     persistent prior_joystick_flag;
 
     persistent do_mission_file_flag;
     persistent prior_do_mission_file_flag;
-    
+    initial_joystick_mode_enabled_flag = true;
     %Initialize cosntants
     if isempty(joystick_flag)
         joystick_flag = initial_joystick_mode_enabled_flag;

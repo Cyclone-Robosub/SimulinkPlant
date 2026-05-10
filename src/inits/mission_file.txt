@@ -1,2 +1,2 @@
 identifier, waypoint or tracking_position (6), waypoint_mask (6), waypoint_tolerance (6), hold_time, object_identifier, confidence, trick_identifier, timeout
-duration_trick,[2.5 0 0 0 0 0], [1 1 1 0 0 0], [0.1 0.1 0.1 0.1 0.1 0.1], 999, n/a, 0, ff_stop, 999
+drive_to_world_waypoint,[-5 0 0.33 0 0 0], [1 1 1 1 1 1], [0.1 0.1 0.1 0.1 0.1 0.1], 999, n/a, 0, n/a, 9999
