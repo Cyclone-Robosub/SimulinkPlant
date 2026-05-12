@@ -1,18 +1,13 @@
-function patternLocation = moveCameraPattern(cameraImageLeft, cameraImageRight, simTime, oldPatternLocation)
-    %Pattern Boxes are each 2cm across. 20 boxes by 15 boxes. So 40cm x 30cm...
+function patternLocation = moveCameraPattern(simTime, oldPatternLocation)
+    %Pattern Boxes are each 5cm across. 10 boxes by 7 boxes. So 40cm x 30cm...
     %sized grid.
     
-    coder.extrinsic('imwrite');
     patternLocation = oldPatternLocation;
     timeIncrement = 120;
     largeTimeIncrement = 5*timeIncrement;
     time = simTime - timeIncrement*5;
     if time <= timeIncrement * 45 && time > 0
         if mod(time, timeIncrement) == 0
-            imageNameLeft = "SavedImages/CalibrationImages/LeftCamera/CalibrationImage" + floor(time / timeIncrement) + ".png";
-            imageNameRight = "SavedImages/CalibrationImages/RightCamera/CalibrationImage" + floor(time / timeIncrement) + ".png";
-            imwrite(cameraImageLeft, imageNameLeft);
-            imwrite(cameraImageRight, imageNameRight);
             if mod(time, largeTimeIncrement) == 0
                 patternLocation(6) = 0;
                 patternLocation(5) = 90;

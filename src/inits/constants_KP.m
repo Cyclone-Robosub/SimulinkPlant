@@ -3,6 +3,10 @@
 %to toggle an exact perspective vs. a range of random 
 doExactPerspective = KP_Params.doExactPerspective;
 
+%Camera Changes
+rel_CamPose_L = [40 0 0 0 0 0];
+rel_CamPose_L_UCS = rel_CamPose_L*M_WorldToUCS;
+
 %% Exact Perspective Parameters (Relative to gate)
 exactDistance_KP = KP_Params.exactDistance;
 exactTheta_KP = KP_Params.exactTheta;
@@ -14,11 +18,34 @@ pitchMax_KP = KP_Params.pitchMax;
 
 distance_KP = KP_Params.distance;
 N_KP = KP_Params.N;
+gate1_Pose = [0 0 -1000 0 0 0];
+searchRescueEmoji_Pose = [100 0 -1000 0 0 0];
+surveyRepairEmoji_Pose = [0 0 -1000 0 0 0];
+path_Pose = [-100 0 -1000 0 0 0];
+prop_Center = [0 0 0 0 0 0];
+keyPointsWorld = zeros(4,6);
 
 %% Prop Locations
-gate1_Pose = [250 -580 60 0 0 0];
-gate_center = gate1_Pose + [0 154 -58 0 0 0];
-keyPointsWorld = getGateKeypoints3d(gate1_Pose);
+if(KP_Params.propChoice == "Gate")
+    gate1_Pose = [250 -580 18 0 0 0];
+    prop_Center = gate1_Pose + [0 154 -58 0 0 0];
+    keyPointsWorld = getGateKeypoints3d(gate1_Pose);
+elseif(KP_Params.propChoice == "SearchRescueEmoji")
+    searchRescueEmoji_Pose = [250 -426 -40 pi/2 0 pi/2];
+    prop_Center = searchRescueEmoji_Pose;
+    keyPointsWorld = getSearchRescueEmojiKeypoints(searchRescueEmoji_Pose);
+elseif(KP_Params.propChoice == "SurveyRepairEmoji")
+    surveyRepairEmoji_Pose = [250 -426 -40 pi/2 0 pi/2];
+    prop_Center = surveyRepairEmoji_Pose;
+    keyPointsWorld = getSurveyRepairEmojiKeypoints(surveyRepairEmoji_Pose);
+elseif(KP_Params.propChoice == "Path")
+    path_Pose = [250 -426 -40 0 pi/2 0];
+    prop_Center = path_Pose;
+    keyPointsWorld = getPathKeypoints3d(path_Pose);
+else
+    fprintf("Unknown propChoice. Valid options:\nPath\nSurveyRepairEmoji\nSearchRescueEmoji\nGate");
+    return;
+end
 numKeypoints = 4;
 background_pose = [...
     [-10000 -10000 10000 0 0 0];...
@@ -34,9 +61,8 @@ background_pose = [...
 
 if(KP_Params.backgroundValue > 0)
     KP_Params.doReflect = false;
-    background_pose(KP_Params.backgroundValue,:) = gate_center + [30 0 0 0 0 0];
+    background_pose(KP_Params.backgroundValue,:) = prop_Center + [30 0 0 0 0 0];
 end
-
 
 %% Generate Spherical Array of Points for Manatee Perspectives
 k = (1 + sqrt(5)) / 2;
@@ -53,9 +79,9 @@ if doExactPerspective == false
         m_Pitch = (pi / 2 - theta);
         m_Yaw = (phi - pi);
         distanceAdjusted = distance_KP + (rand(1, "double") - 0.5) * 2 * KP_Params.distanceNoise;
-        x = sin(theta) * cos(phi) * distanceAdjusted + gate_center(1) + (rand(1, "double") - 0.5) * 2 * KP_Params.xNoise;
-        y = sin(theta) * sin(phi) * distanceAdjusted + gate_center(2) + (rand(1, "double") - 0.5) * 2 * KP_Params.yNoise;
-        z = cos(theta) * distanceAdjusted + gate_center(3) + (rand(1, "double") - 0.5) * 2 * KP_Params.zNoise;
+        x = sin(theta) * cos(phi) * distanceAdjusted + prop_Center(1) + (rand(1, "double") - 0.5) * 2 * KP_Params.xNoise;
+        y = sin(theta) * sin(phi) * distanceAdjusted + prop_Center(2) + (rand(1, "double") - 0.5) * 2 * KP_Params.yNoise;
+        z = cos(theta) * distanceAdjusted + prop_Center(3) + (rand(1, "double") - 0.5) * 2 * KP_Params.zNoise;
         clear distanceAdjusted;
         pose = [x y z (rand(1, "double") - 0.5) * 2*KP_Params.rollNoise (m_Pitch + (rand(1, "double") - 0.5) * 2 * KP_Params.pitchNoise) (m_Yaw + (rand(1, "double") - 0.5) * 2*KP_Params.yawNoise)];
         
@@ -70,7 +96,6 @@ if doExactPerspective == false
             perspectives(q, :) = pose(:);
         end
     end
-    perspectives = single(perspectives);
     tspan = dt_sample * (q + startDelay_KP + 2)*2;
 end
 

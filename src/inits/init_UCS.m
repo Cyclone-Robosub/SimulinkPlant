@@ -15,7 +15,7 @@ end
 
 %if executable doesn't exist exits program
 if(~isfile(unreal_executable_path))
-    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take all files out of the folder that says your OS (ie. Windows, Linux) and drop them in the folder.\n")
+    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take all files out of the folder that says your OS (ie. Windows, Linux)\n and drop them in the folder.\n")
     unreal_EXE_found = false;
     return;
 else

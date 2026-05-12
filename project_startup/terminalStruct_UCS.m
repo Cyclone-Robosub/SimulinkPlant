@@ -4,7 +4,7 @@
 KP_Params.doExactPerspective = false;
 
 %Exact Perspective Parameters (Relative to gate)
-KP_Params.exactDistance = 400;
+KP_Params.exactDistance = 200;
 KP_Params.exactTheta =  pi / 2;
 KP_Params.exactPhi = 0;
 

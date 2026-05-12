@@ -11,6 +11,9 @@ end
 ground_Z = 100;
 waterLevel_Z = -180;
 
+%Grid Square Size
+squareSize = 5; %Measured in cm. There are 10x7 of them
+
 %Camera Calibration variable loading.
 cam_Cal_Distance = 130;
 rel_CamPose_L = [40 -12.5 -15 0 0 0];
@@ -22,7 +25,7 @@ rel_CamPose_R_UCS = rel_CamPose_R*M_WorldToUCS;
 
 %% Simulation Parameters
 %simulation duration
-tspan = 10;
+tspan = 5;
 
 %Delay (in units of dt_sample) of how long to wait for lighting to calibrate
 startDelay_KP = 34; %Needs to be multiples of 2.
@@ -34,13 +37,14 @@ dt_sample = 0.03;
 
 
 %% Camera Parameters
+
 try
     %{
     Assigns distortion coefficients to array of size 5 [k1 k2 p1 p2 k3] from
     stereoParams. 
     Assigns intrinsic matrices (K_L and K_R)
     %}
-    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams4_25.mat"));
+    stereoCam = coder.load(fullfile(prj_path_list.UCS_lookup_path,"stereoParams.mat"));
     k_L = stereoCam.stereoParams.CameraParameters1.K;
     k_R = stereoCam.stereoParams.CameraParameters2.K;
 
