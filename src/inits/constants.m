@@ -66,47 +66,38 @@ Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Rb_PID.Kp = 3; Rb_PID.Ki = 0.01; Rb_PID.Kd = 2;
+Rb_PID.Kp = [0.5;0.5;0.5]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [0;0;0];
 Rb_PID.N = 100; %filter coefficient for the derivative term
-Rb_PID.output_sat = 3; %PID saturation point for velocity output
+Rb_PID.output_sat = 1; %PID saturation point for velocity output
 Rb_PID.int_sat = 1; %integral term saturation limit
 
-
 %Controller gains for velocity --> force %DRB
-dRbx_PID.Kp = 20; dRbx_PID.Ki = 5; dRbx_PID.Kd = 0;
-dRbx_PID.N = 100; %filter coefficient for the derivative term
-dRbx_PID.output_sat = 120; %PID saturation point for velocity output
-dRbx_PID.int_sat = 10; %integral term saturation limit
+dRb_PID.Kp = [60; 60; 60]; dRb_PID.Ki = [20; 20; 20]; dRb_PID.Kd = [0; 0; 0];
+dRb_PID.N = 100; %filter coefficient for the derivative term
+dRb_PID.output_sat = 100; %PID saturation point for velocity output
+dRb_PID.int_sat = 100; %integral term saturation limit
 
-dRby_PID.Kp = 2; dRby_PID.Ki = 1; dRby_PID.Kd = 0;
-dRby_PID.N = 100; %filter coefficient for the derivative term
-dRby_PID.output_sat = 120; %PID saturation point for velocity output
-dRby_PID.int_sat = 10; %integral term saturation limit
-
-dRbz_PID.Kp = 6; dRbz_PID.Ki = 1; dRbz_PID.Kd = 0;
-dRbz_PID.N = 100; %filter coefficient for the derivative term
-dRbz_PID.output_sat = 120; %PID saturation point for velocity output
-dRbz_PID.int_sat = 10; %integral term saturation limit
-
-%Controller gains for quaternion --> angular velocity
-qib_PID.Kp = 10; qib_PID.Ki = 2; qib_PID.Kd = 0.5;
+%Controller gains for quaternion --> angular velocity [roll, pitch, yaw,
+%scalar]
+qib_PID.Kp = [10;10;5;10]; qib_PID.Ki = [0;0;0;0]; qib_PID.Kd = [1;1;1;1];
 qib_PID.N = 100; %filter coefficient for the derivative term (unused)
 qib_PID.output_sat = 2*pi; %PID saturation point for velocity output
-qib_PID.int_sat = pi/6; %integral term saturation limit
+qib_PID.int_sat = pi/3; %integral term saturation limit
 
-%Controller gains for angular velocity --> torque %WB
-wb_PID.Kp = 20; wb_PID.Ki = 5; wb_PID.Kd = 0;
+%Controller gains for angular velocity --> torque 
+wb_PID.Kp = [5;5;5]; wb_PID.Ki = [5;5;5]; wb_PID.Kd = [0;0;0];
 wb_PID.N = 100; %filter coefficient for the derivative term
-wb_PID.output_sat = 40; %PID saturation point for velocity output
-wb_PID.int_sat = 5; %integral term saturation limit
+wb_PID.output_sat = 10; %PID saturation point for velocity output
+wb_PID.int_sat = 10; %integral term saturation limit
 
 %pwm cmd clamping
 pwm_lower_limit = 1100;
-pwm_upper_limit = 1800;
+pwm_upper_limit = 1900;
+pwm_zero_set = int32(1500.*ones(8,1));
 
 
 %% IMU
-Eul_bimu = [pi/2 0 0]; %misaligned by 30 degrees for testing
+Eul_bimu = [0 0 0]; %misaligned by 30 degrees for testing
 Cbimu = eulToRotm(Eul_bimu); %Rotation matrix from the sensor frame to body frame
 Cimub = Cbimu';
 

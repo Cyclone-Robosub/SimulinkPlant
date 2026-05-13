@@ -1,4 +1,4 @@
-function wb_u = quatPID(q, qu, q_proportional, q_integral, q_derivative)
+function wb_u = quatPID(q, qu, q_proportional, q_integral, q_derivative, overwrite_rate_setpoint_flag, wb_sp_inject)
 %{
 This function impliments equation 16 and 18 from Quaternion-Based Control
 Architecture for Determining Controllability/Maneuverability Limits by B.
@@ -33,5 +33,9 @@ dqe_des = Qe1*Qe1'*(q_proportional + q_integral + q_derivative); %Eqn 18
 
 % Calculate the angular velocity command for a constant qu
 wb_u = -Qe2'*(2*dqe_des); %Eqn 16
+
+if(overwrite_rate_setpoint_flag)
+    wb_u = wb_sp_inject;
+end
 
 end

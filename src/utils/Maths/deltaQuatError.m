@@ -1,4 +1,4 @@
-function delta_qe = deltaQuatError(q, qu)
+function delta_qe = deltaQuatError(q, qu, overwrite_state_error_flag, eul_error_inject)
 %{
 This function impliments equation 17 from Quaternion-Based Control
 Architecture for Determining Controllability/Maneuverability Limits by B.
@@ -22,6 +22,9 @@ Quaternion error. Note quatError.m uses the [vector; scalar] notation.
 %}
 qe = quatError(q, qu);
 
+if(overwrite_state_error_flag)
+    qe = eulToQuat(eul_error_inject);
+end
 %{
 Apply a sign change to make the scalar of qe positive. This corresponds
 with selecting the shorter rotational path to the target.

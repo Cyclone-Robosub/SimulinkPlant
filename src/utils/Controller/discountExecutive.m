@@ -1,4 +1,4 @@
-function [cmd, mission_idx_out] = discountExecutive(t, cmd_status, mission, reset)
+function [cmd, mission_idx_out, start_new_cmd_flag] = discountExecutive(t, cmd_status, mission, reset)
 %{
 This function uses the mission information, the clock time, and the status
 reported by the low-level controller to determine which command to send to
@@ -42,6 +42,8 @@ if(reset)
     mission_idx = 1;
 end
 
+%initialized to false
+start_new_cmd_flag = false;
 
 %check the status
 cmd_status = cmd_status(:)';
@@ -74,17 +76,28 @@ if(~advanced)
     if((timer >= mission(mission_idx).exec_timeout))
         [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...
             mission, t);
+        advanced = true;
     end %if
 end %if
 
 %make sure the mission_idx remains in the valid range
 mission_idx = max(1, min(mission_idx, numel(mission)));
-
 %select the command
 cmd = mission(mission_idx);
 
 %output the mission_idx for debugging purposes
 mission_idx_out = mission_idx;
+
+%check the conditions on start_new_cmd_flag
+if(advanced)
+    start_new_cmd_flag = true;
+elseif(reset)
+    start_new_cmd_flag = true;
+elseif(t <= 0.01) %sim just started
+    start_new_cmd_flag = true;
+else
+    start_new_cmd_flag = false;
+end
 
 %helper function advance_to_next
 function [mission_idx, cmd_start_time] = advance_to_next(mission_idx,...

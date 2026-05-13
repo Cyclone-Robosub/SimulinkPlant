@@ -1,4 +1,4 @@
-function modified_FT_List = trickFTListInjector(cmd, FT_cmd_list, FF_maneuvers)
+function modified_FT_List = trickFTListInjector(cmd, FT_cmd_list, FF_maneuvers, overwrite_FT_list_flag, FT_list_inject)
 
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
     switch char(cmd.trick_id)
@@ -36,11 +36,9 @@ else
 end
 
 
+if(overwrite_FT_list_flag)
+    modified_FT_List = FT_list_inject;
+end
+modified_FT_List = modified_FT_List(:);
 end
 
-%{
-{'FF_Forward_Trick', 'FF_Backward_Tric', 'FF_Up_Trick_____',...
-            'FF_Down_Trick___', 'FF_Left_Trick___', 'FF_Right_Trick__',...
-            'FF_PitchUp_Trick', 'FF_PitchDown_Tri', 'FF_YawRight_Tric',...
-            'FF_YawLeft_Trick', 'FF_RollRight_Tri', 'FF_RollLeft_Tric'}
-%}

@@ -4,18 +4,15 @@ A quick script to calculate the IMU rotation angle from a set of IMU data.
 Collect the data using Matlab HIL while the robot is stationary.
 %}
 
-%path to the ddRb_meas.mat file
-path = '/home/kjhaydon/Github/SimulinkPlant/src/scripts/data.mat';
+acc_meas = load(fullfile(prj_path_list.prior_run_data_path,"imu_acc.mat"),"imu_acc");
+acc_meas = acc_meas.imu_acc;
 
-data = load(path,"acc_data");
-acc_meas = squeeze(data.acc_data.Data);
-
-avg_meas = mean(acc_meas')';
-
-expected = [0;0;-9.81];
+avg_meas = mean(acc_meas)';
+g = norm(avg_meas);
+expected = [0;0;-g];
 
 %angle between the vectors [0 to 180]
-theta1 = acos(dot(avg_meas, expected)/9.81^2);
+theta1 = acos(dot(avg_meas, expected)/g^2);
 
 %rotation matrix candiates
 Cb_imu_1 = [1 0 0;...
