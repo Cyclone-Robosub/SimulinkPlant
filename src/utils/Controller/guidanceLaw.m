@@ -1,4 +1,4 @@
-function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd)
+function [qib_int_u, Rb_error, action_id_out, driving_yaw_target, Rb_u,debug] = guidanceLaw(X, Xu, Ri_e_tol, Eul_e_tol, cmd, overwrite_state_error_flag, Rb_error_inject, overwrite_state_setpoint_flag, Rb_sp_inject)
 %{
 This function breaks down the state X and target state Xu into body-centric
 commands. An inertial position and attitude error is manipulated so that
@@ -8,7 +8,7 @@ the target, and 3) aligns at the commanded attitude once at the target.
 Inputs:
 X - state vector in the form [Ri; qib, dRi, wb] where qib is expressed in
 the [vector; scalar] convention. 
-Xu - the target state vector
+Xu - the target state vector, overwrite_state_sp_flag, Rb_sp_inject
 
 Outputs:
 qib_int_u - an intermediate target quaternion to point the vehicle at the
@@ -19,6 +19,7 @@ dRbz_u - a velocity command in the up/down direction of the vehicle
 action_id - what the controller is currently trying to do (1 = point to wp, 2 =
 drive to wp)
 %}
+debug = 0;
 
 persistent persistant_yaw_target
 persistent action_id
@@ -49,21 +50,29 @@ Ri_xy_e = Ri_xy_u - Ri_xy;
 pitch_u = 0; %to keep vehicle level 
 roll_u = 0;
 yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
-
+debug = yaw_u;
 
 if(isempty(persistant_yaw_target))
-    yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
     persistant_yaw_target = yaw_u;
 end
 
-
+%TODO - add some filtering to prevent jitter from yaw_u recalc
+%TODO - remove unused persistent_yaw_target code
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
-    qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
+    qib_int_u = eulToQuat([roll_u, pitch_u, yaw_u]);
+    persistant_yaw_target = yaw_u;
 else
+    Eul_u = quatToEul(qib_u);
+    persistant_yaw_target = yaw_u;
     qib_int_u = qib_u;
+    
 end
-debug = norm(Ri_xy_e);
+Eul_u = quatToEul(qib_int_u);
+%{
+Eul_u is not switching backward for some reason when the vehicle passes
+waypoint.
+%}
 
 %If the trick ID is duration trick, no need to make any intermediate yaw
 %waypoints so just use the qib_u
@@ -75,6 +84,7 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
         qib_int_u = eulToQuat(Eul_u_modified);
     end
 end
+
 
 
 %calculate the quaternion error between the current and target attitudes
@@ -94,6 +104,7 @@ if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
     Rb_u = Cbi*Ri_u;
     Rb = Cbi*Ri;
     Rb_error = Rb_u - Rb;
+
     action_id = 1;
     
 
@@ -102,6 +113,10 @@ elseif(norm(Ri_xy_e) >= Ri_e_tol) %DRIVING
     %this will only be reached if the vehicle is level and pointing toward
     %the target, so no need to convert any of these to the body frame.
     %once we reach driving mode, clear the persistant yaw target
+    Cib = quatToRotm(qib);
+    Cbi = Cib';
+    Rb_u = Cbi*Ri_u;
+    
     Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
     action_id = 2;
     
@@ -118,11 +133,23 @@ else %SETTLING
     
 end
 
-%update the yaw target every time the action id changes from turning to
-%driving
+if(overwrite_state_setpoint_flag)
+    Rb_u = Rb_sp_inject;
+    Rb = Cbi*Ri;
+    Rb_error = Rb_u - Rb;
+end
+
+if(overwrite_state_error_flag)
+    Rb_error = Rb_error_inject;
+end
+
+%update the yaw target every time the action id changes
 if(action_id ~= prior_action_id)
     persistant_yaw_target = yaw_u;
 end
+
+
+
 
 action_id_out = action_id;
 driving_yaw_target = persistant_yaw_target;

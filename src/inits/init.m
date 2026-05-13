@@ -82,7 +82,6 @@ B0_ekf = zeros(3,1);
 %% Monte Carlo Setup
 %TBA
 
-
 %% Test Conditions
 % Not all test conditions are needed for every model
 fprintf("Defining test case.\n")
@@ -101,15 +100,39 @@ do_buoyancy_flag = 1;
 do_gravity_flag = 1;
 do_drag_flag = 1;
 do_thrusters_flag = 1;
-do_time_flag = 1; 
-do_torque_flag = 1; 
-do_force_flag = 1; 
+do_time_flag = 1;
+do_torque_flag = 1;
+do_force_flag = 1;
 use_true_state_flag = 0;
+allow_PID_resets_flag = 1;
+
+%controller tuning
+do_force_cmd_flag = true;
+do_moment_cmd_flag = true;
+
+overwrite_FT_list_flag = false;
+FT_list_inject = [0;0;0;0;0;0;0;0];
+
+overwrite_rate_error_flag = false;
+wb_error_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
+dRb_error_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
+
+overwrite_rate_setpoint_flag = false;
+wb_sp_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
+dRb_sp_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
+
+overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
+eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
+Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
+
+overwrite_state_setpoint_flag = false;
+eul_sp_inject = [0;0;0];
+Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
 Cbimu_meas = [1 0 0;...
-    0 -.9983 0.0587;...
-    0 -0.0587 -0.9983];
+    0 1 0;...
+    0 0 1];
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
@@ -183,17 +206,10 @@ results = fileToResults(results, to_file_block_path);
 plot_names = {"X", "X_est","cmd_status", "FT_cmd_list", "Eul_u"};
 plotAllOutputs(plots,results,plot_names);
 
-% try
-%     figure()
-%     Ri = squeeze(results.Ri.Data)';
-%     plot(Ri(:,1), Ri(:,2))
-%     xlabel("Xi")
-%     ylabel("Yi")
-% catch
-% end
-saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
+publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
-% saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
+%Gif
+% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("Done.\n\n")
 

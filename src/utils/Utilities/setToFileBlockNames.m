@@ -12,6 +12,10 @@ data_folder - the name of the folder where the data files will be saved
 %}
 
 
+if ~bdIsLoaded(sim_select)
+    open_system(sim_select);
+end
+
 to_file_blocks = find_system(sim_select, ...
     'LookUnderMasks', 'all', ...
     'FollowLinks',    'on',  ...
