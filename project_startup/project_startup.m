@@ -29,6 +29,7 @@ codegen_path = fullfile(root_path,'codegen','cpp_codegen_files');
 asv_path = fullfile(root_path,'codegen','autosaves');
 test_path = fullfile(root_path,"src/tests/");
 drafts_path = fullfile(root_path,"drafts");
+prior_run_data_path = fullfile(root_path, "src", "temp");
 
 %data lookup paths
 thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
@@ -107,6 +108,7 @@ prj_path_list.test_path = test_path;
 prj_path_list.drafts_path = drafts_path;
 prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.manny_patch_path = manny_patch_path;
+prj_path_list.prior_run_data_path = prior_run_data_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)

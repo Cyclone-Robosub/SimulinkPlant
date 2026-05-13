@@ -209,7 +209,7 @@ plotAllOutputs(plots,results,plot_names);
 publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
 %Gif
-% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
+saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("Done.\n\n")
 

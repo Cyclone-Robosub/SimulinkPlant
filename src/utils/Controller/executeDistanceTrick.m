@@ -8,12 +8,11 @@ switch char(cmd.trick_id)
         %set target waypoint once
         if(new_cmd_reset)
             %target quat
-            Eul_u = idle_wp(4:6).*(~cmd.wp_mask(4:6)) +...
-                cmd.wp(4:6).*(cmd.wp_mask(4:6));
+            Eul_u = X.Eul + cmd.wp(4:6).*(cmd.wp_mask(4:6));
 
             %add body position and body relative waypoint to get the
             %waypoint in the world view
-            cmd_specific_wp(1:3) = X.Ri + cmd.wp(1:3);
+            cmd_specific_wp(1:3) = X.Ri + (X.Cib)*cmd.wp(1:3);
             cmd_specific_wp(4:6) = Eul_u;
         end
 
