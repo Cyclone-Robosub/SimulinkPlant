@@ -1,4 +1,5 @@
-function sensors = sensorRosMsgToBus(IMU, VR, DRR)
+function sensors  = sensorRosMsgToBus(IMU, new_imu_flag, VR, new_vr_flag, DRR, new_drr_flag);
+
 %{
 This sensor takes the ROS2 messages for the IMU, DDR, and VR and packs the
 data into the sensor_bus for more convenient manipulation in Simulink.
@@ -132,4 +133,8 @@ sensors.imu_quat_cov = imu_quat_cov;
 sensors.imu_quat = imu_quat;
 sensors.imu_mag = imu_mag;
 sensors.imu_mag_cov = imu_mag_cov;
+sensors.imu_new_msg_flag = new_imu_flag;
+sensors.dvl_vr_new_msg_flag = new_vr_flag;
+sensors.dvl_drr_new_msg_flag = new_drr_flag;
+
 end

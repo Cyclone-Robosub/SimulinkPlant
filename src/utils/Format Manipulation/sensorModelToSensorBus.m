@@ -1,4 +1,4 @@
-function sensor_meas = sensorModelToSensorBus(linAccel,Gyro,Mag,dRb,alt_meas_dvl,dRb_cov_dvl, eul_dvl, Rb_dvl)
+function sensor_meas = sensorModelToSensorBus(linAccel,Gyro,Mag,dRb,alt_meas_dvl,dRb_cov_dvl, eul_dvl, Rb_dvl, new_imu_flag, new_vr_flag, new_drr_flag)
 
     sensor_meas.dvl_std = 0;
     sensor_meas.dvl_eul = eul_dvl;
@@ -29,4 +29,9 @@ function sensor_meas = sensorModelToSensorBus(linAccel,Gyro,Mag,dRb,alt_meas_dvl
     sensor_meas.imu_mag = Mag;
 
     sensor_meas.imu_mag_cov = zeros(3,3);
+
+    sensor_meas.imu_new_msg_flag = new_imu_flag;
+    sensor_meas.dvl_vr_new_msg_flag = new_vr_flag;
+    sensor_meas.dvl_drr_new_msg_flag = new_drr_flag;
+    
 end

@@ -103,8 +103,8 @@ do_thrusters_flag = 1;
 do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
-use_true_state_flag = 0;
-allow_PID_resets_flag = 0;
+use_true_state_flag = 1;
+allow_PID_resets_flag = 1;
 
 %controller tuning
 do_force_cmd_flag = true;
@@ -143,20 +143,20 @@ Cbimu_meas = C_yaw_180*[1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 120;
+tspan = 10;
 
 %timesteps for various simulation components
-dt_sim = 1/100; %sim timestep
+dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
-dt_dvl = roundToSimTimestep(1/5, dt_sim);
-dt_imu = roundToSimTimestep(1/100, dt_sim);
+dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
+dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
-mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+mission_file_name = "drive_in_square_validation_mission.txt"; 
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -194,7 +194,6 @@ simIn = Simulink.SimulationInput(model_select);
 
 %set the parameter `mission` containing all the cmd structures
 mission = Simulink.Parameter(mission);
-mission_param.DataType = 'Bus: cmd_bus';
 simIn = simIn.setVariable('mission', mission);
 
 %run the sim
@@ -215,9 +214,9 @@ plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl"};
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
-publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
+% publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 
-saveCalibrationData(results, prj_path_list.prior_run_data_path);
+% saveCalibrationData(results, prj_path_list.prior_run_data_path);
 %Gif
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
