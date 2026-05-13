@@ -44,7 +44,6 @@ switch char(cmd.trick_id)
             t, new_cmd_reset, cmd_specific_wp);
        
     case {'barrel_roll_____'}
-        %set the position on the waypoint 1m in the body x-direction
         if(new_cmd_reset)
             %only creates a far away position waypoint ONCE
             cmd_specific_wp(1:3) = X.Ri + (X.Cib)*[1000;0;0];

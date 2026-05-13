@@ -129,6 +129,11 @@ switch char(cmd.cmd_id) %case must match exactly with importMission.m
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t, new_cmd_reset, cmd_specific_wp);
         
+    case 'distance_trick__'
+        %do a trick that 
+        [cmd_status, hold_timer, X_u, hold_timer_start_time, cmd_specific_wp] = ...
+            executeDistanceTrick(cmd, idle_wp, X, hold_timer_start_time, ...
+            t, new_cmd_reset, cmd_specific_wp);
 
     otherwise
         %if we are not in a known command or are idle, just use idle_wp

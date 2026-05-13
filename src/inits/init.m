@@ -93,7 +93,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = true;
+initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -104,7 +104,7 @@ do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
 use_true_state_flag = 0;
-allow_PID_resets_flag = 0;
+allow_PID_resets_flag = 1;
 
 %controller tuning
 do_force_cmd_flag = true;
@@ -125,9 +125,9 @@ overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecu
 eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
-overwrite_state_setpoint_flag = true;
+overwrite_state_setpoint_flag = false;
 eul_sp_inject = [0;0;0];
-Rb_sp_inject = [0;0;0.2];
+Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
 
@@ -143,11 +143,11 @@ Cbimu_meas = C_yaw_180*[1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 120;
+tspan = 20;
 
 %timesteps for various simulation components
-dt_sim = 1/100; %sim timestep
-dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
+dt_sim = 1/1000; %sim timestep
+dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
@@ -156,7 +156,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -220,7 +220,5 @@ publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run
 saveCalibrationData(results, prj_path_list.prior_run_data_path);
 %Gif
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
-
-fprintf("\nDone.\n\n")
 
 
