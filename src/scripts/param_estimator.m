@@ -90,7 +90,7 @@ if sum(contains(params_to_estimate, "mass"))>=1
    %{
     vOpt = sdo.optimize(estFcn,v,opt)
     
-    m = vOpt(1).Vaue
+    m = vOpt(1).Value
     Sim_mass = createSimulator(Exp);
     sim_save = sim(Sim_mass);
     plotAllOutputs(plots,sim_save.LoggedData,plot_names)
