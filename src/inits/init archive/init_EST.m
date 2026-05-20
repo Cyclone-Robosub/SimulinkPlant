@@ -36,6 +36,31 @@ if(~exist('prj_path_list','var'))
     prj_path_list = getProjectPaths();
 end
 
+%% Set up for Parameter Estimation
+%load in data
+%save_file = "data/2026_05_02_..."
+save_file = "data/2026_05_02_18_22_11";
+results = Simulink.SimulationOutput;
+results = fileToResults(results,save_file);
+
+inputStructure.time = results.pwms.Time;
+inputSignal1 = double(results.pwms.Data);
+inputStructure.signals(1).values = inputSignal1(:,1);
+inputStructure.signals(2).values = inputSignal1(:,2);
+inputStructure.signals(3).values = inputSignal1(:,3);
+inputStructure.signals(4).values = inputSignal1(:,4);
+inputStructure.signals(5).values = inputSignal1(:,5);
+inputStructure.signals(6).values = inputSignal1(:,6);
+inputStructure.signals(7).values = inputSignal1(:,7);
+inputStructure.signals(8).values = inputSignal1(:,8);
+dt_sim =mean(results.pwms.Time(2:end)-results.pwms.Time(1:(end-1)));
+
+sim_signals = ["ddRb","wb","dRi","qib","Ri"];
+result_signal_names = ["imu_lin_acc", "imu_ang_vel", "dvl_vel","qib","dvl_pos"];
+sensorbus_blockpath = "Dynamics_SIM_EST/Subsystem Reference/Dynamics & Kinematics/MATLAB Function";
+
+model_select = "Dynamics_SIM_EST";
+open(model_select);
 %% Parameters
 recalculate_parameters_flag = true; 
 if(recalculate_parameters_flag)
@@ -115,21 +140,23 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+
+%tspan = 30;
+tspan = 999999;
 
 %timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
+%dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl = roundToSimTimestep(1/5, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_SIM";
-open_system(model_select);
+%mission_file_name = "drive_in_square_validation_mission.txt"; 
+%model_select = "FB_Controller_SIM";
+%open_system(model_select);
 
-%{
+
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
 setup_buses_flag = true;
@@ -141,7 +168,7 @@ if(setup_buses_flag)
     run('setup_sensor_bus.m');
     run('setup_RSFF_maneuvers_bus.m')
 end
-%}
+
 
 %set To-File block names
 %to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
@@ -150,44 +177,18 @@ end
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
-disableToWorkspaceBlocks(model_select);
-
-%% Set up for Parameter Estimation
-%load in data
-%save_file = "data/2026_05_02_..."
-save_file = "data/2026_05_02_18_22_11";
-results = struct();
-results = fileToResults(results,save_file);
-
-
-%sim_signals = ["linAccel", "Gyro", "Mag", "dRb", "alt_meas_dvl", "eul_dvl","Rb_dvl"];
-sim_signals = ["Ri", "qib", "dRi", "wb", "ddRi"];
-%sim_result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
-result_signal_names = ["imu_lin_acc", "imu_ang_vel","imu_mag", "dvl_vel", "dvl_alt","dvl_eul","dvl_pos"];
-%sensorbus_blockpath = "FB_Controller_SIM/Sensor Model/sensorModelToSensorBus";
-sensorbus_blockpath = "Dynamics_SIM/Subsystem_Reference (plant)/Dynamics & Kinematics/MATLAB Function";
-
-%% Parameter Estimation
-
-fprintf("Running Parameter Estimation.")
-params_to_estimate = ["mass"];
-run("param_estimator.m")
-
-%i might move these things into init ngl
-model_select = "plant.slx";
-open(model_select);
-
+%disableToWorkspaceBlocks(model_select);
 
 %% Post Processing
 fprintf("Running Post-Processing.\n")
-run('setup_plots.m')
+run('setup_plots_EST.m')
 
 % Add any the outputs of ToFile blocks to the results structure
-results = fileToResults(results, to_file_block_path);
+%results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-%plot_names = {"X", "X_est"};
+plot_names = {"X","pwm_cmd"};
 plotAllOutputs(plots,results,plot_names);
 
 % saveStateGif(results.Ri.Time,squeeze(results.Ri.Data),results.q.Data,prj_path_list.temp_path,"test");
@@ -195,4 +196,10 @@ plotAllOutputs(plots,results,plot_names);
 % saveOutputMat(results,prj_path_list.user_data_path,do_state_save_flag,do_gif_flag);
 
 fprintf("Done.\n\n")
+
+%% Parameter Estimation
+%{
+fprintf("Running Parameter Estimation.")
+params_to_estimate = ["drag"];
+run("param_estimator.m")
 %}

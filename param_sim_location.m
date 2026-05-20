@@ -8,6 +8,7 @@ classdef param_sim_location
         model = "";
         signals = [Simulink.SimulationData.Signal];
         blockpath = "";
+        input
     end
 
     methods
@@ -32,10 +33,11 @@ classdef param_sim_location
                 end
                 obj.signals(i).PortIndex = ports(i);
 
-                obj.signals(i).Values = find(results,signal_data_names(i));
+                obj.signals(i).Values = results.(signal_data_names(i));
                 %obj.signals(i).Values = obj.signals(i).Values.Data;
                 obj.signals(i).Values.Name = signal_names(i);
             end
+            %obj.input = double(results.pwms.Data); %might have to be changed depending of data
         end
 
         function [Exp,Sim] = createExperimentAndSimulator(obj)
@@ -46,23 +48,18 @@ classdef param_sim_location
             %   Experiment that will be used for parameter estimation.
            % try
                 %try
-                    Exp = sdo.Experiment(obj.model);
-                %catch
+                Exp = sdo.Experiment(obj.model);
+                
                     %warning("failed to set up an experiment")
                 Exp.OutputData = obj.signals;
                 Exp.InitialStates = sdo.getStateFromModel(obj.model);
+                %Exp.InputData = obj.input;
                 %[Exp.InitialStates.Minimum] = zeros(1,numel(Exp.InitialStates));
                 %[Exp.InitialStates.Free] = true;
-                try
-                    Sim = createSimulator(Exp);
-                    Sim.Name = obj.model; %I just needed somewhere to store the model name
-                    [Sim.LoggingInfo.Signals.PropagatedName] = obj.signals.Name;
-                catch
-                    warning("creation of simulator has failed")
-                end
-           % catch
-                %warning("Creation of experiment has failed. Check model name or signals")
-            %end
+                Sim = createSimulator(Exp);
+                Sim.Name = obj.model; %I just needed somewhere to store the model name
+                %[Sim.LoggingInfo.Signals.PropagatedName] = obj.signals.Name;
+                
         end
         function v = getParameters(obj, max, min, Exp)
             p = sdo.getParameterFromModel(obj.model,obj.params);
