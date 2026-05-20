@@ -138,19 +138,19 @@ sensor_bus.Elements(end+1) = el;
 
 el = Simulink.BusElement;
 el.Name = "imu_new_msg_flag";
-el.DataType = "boolean";
+el.DataType = "double";
 el.Dimensions = [1 1];
 sensor_bus.Elements(end+1) = el;
 
 el = Simulink.BusElement;
 el.Name = "dvl_vr_new_msg_flag";
-el.DataType = "boolean";
+el.DataType = "double";
 el.Dimensions = [1 1];
 sensor_bus.Elements(end+1) = el;
 
 el = Simulink.BusElement;
 el.Name = "dvl_drr_new_msg_flag";
-el.DataType = "boolean";
+el.DataType = "double";
 el.Dimensions = [1 1];
 sensor_bus.Elements(end+1) = el;
 

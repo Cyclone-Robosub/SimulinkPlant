@@ -93,7 +93,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = true;
+initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -121,16 +121,16 @@ overwrite_rate_setpoint_flag = false;
 wb_sp_inject = [0;0;0]; %[wbx; wby; wbz] rad/s
 dRb_sp_inject = [0;0;0]; %[dRbx; dRby; dRbz] m/s
 
-overwrite_state_error_flag = false; %if true, ignores guidanceLaw, discountExecutive, and commandExecuter
+%if true, ignores guidanceLaw, discountExecutive, and commandExecuter
+overwrite_state_error_flag = false; 
 eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
 overwrite_state_setpoint_flag = true;
 eul_sp_inject = [0;0;0];
-Rb_sp_inject = [0;0;0.2];
+Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
-
 C_yaw_180 = [cos(pi) -sin(pi) 0;...
     sin(pi) cos(pi) 0;...
     0 0 1];
@@ -147,7 +147,7 @@ tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
+dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
@@ -155,7 +155,7 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
-mission_file_name = "drive_in_square_validation_mission.txt"; 
+mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_SIM";
 % open_system(model_select);
 
@@ -169,6 +169,8 @@ if(setup_buses_flag)
     run('setup_state_bus.m');
     run('setup_sensor_bus.m');
     run('setup_RSFF_maneuvers_bus.m');
+    run('setup_imu_bus.m');
+    run('setup_dvl_bus.m');
 end
 
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
@@ -215,9 +217,7 @@ plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
-
 % saveCalibrationData(results, prj_path_list.prior_run_data_path);
-%Gif
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
