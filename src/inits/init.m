@@ -103,7 +103,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
-use_true_state_flag = 1;
+use_true_state_flag = 0;
 allow_PID_resets_flag = 1;
 
 %controller tuning
@@ -126,17 +126,20 @@ overwrite_state_error_flag = false;
 eul_error_inject = [0;0;0]; %[roll; pitch; yaw] rad
 Rb_error_inject = [0;0;0]; %[Rbx; Rby; Rbz] m
 
-overwrite_state_setpoint_flag = true;
+overwrite_state_setpoint_flag = false;
 eul_sp_inject = [0;0;0];
 Rb_sp_inject = [0;0;0];
 
 %measured imu misalignment
-C_yaw_180 = [cos(pi) -sin(pi) 0;...
-    sin(pi) cos(pi) 0;...
-    0 0 1];
-Cbimu_meas = C_yaw_180*[1 0 0;...
-    0 -0.9999 0.0148;...
-    0 -0.0148 -0.9999];
+% C_yaw_180 = [cos(pi) -sin(pi) 0;...
+%     sin(pi) cos(pi) 0;...
+%     0 0 1];
+% Cbimu_meas = C_yaw_180*[1 0 0;...
+%     0 -0.9999 0.0148;...
+%     0 -0.0148 -0.9999];
+
+%for running in sim
+Cbimu_meas = eye(3);
 
 
 %% Simulation Parameters
@@ -212,13 +215,13 @@ results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
-plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl"};
+plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_vs_true_imu", "est_vs_true_body_vel"};
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 % saveCalibrationData(results, prj_path_list.prior_run_data_path);
-% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
+saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
 

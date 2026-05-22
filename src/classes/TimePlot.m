@@ -69,7 +69,7 @@ classdef TimePlot
             try
                 n_rows = obj.layout(1);
                 n_cols = obj.layout(2);
-                K = n_rows*n_cols;        
+                K = n_rows*n_cols;
                 if(obj.is_plottable)
                     %create the figure
                     figure('Name',obj.name,'NumberTitle','off')
@@ -90,18 +90,18 @@ classdef TimePlot
                         %plot each signal
                         for j = 1:length(signal_idx_list)
                             plot(obj.t(:,signal_idx_list(j)),obj.signals(:,signal_idx_list(j)))
-                            xlabel(hlabelk)
-                            ylabel(v_labelk)
+                            xlabel(hlabelk, 'Interpreter', 'none')
+                            ylabel(v_labelk, 'Interpreter', 'none')
                             if(~isequal(subtitlek,""))
-                                title(subtitlek)
+                                title(subtitlek, 'Interpreter', 'none')
                             end
                         end
                         if(~isequal(legendk,""))
-                            legend(legendk)
+                            legend(legendk, 'Interpreter', 'none')
                         end
                     end
                     if(~isequal(obj.supertitle,""))
-                        sgtitle(obj.supertitle)
+                        sgtitle(obj.supertitle, 'Interpreter', 'none')
                     end
                 end
             catch
