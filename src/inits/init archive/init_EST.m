@@ -40,6 +40,7 @@ end
 %load in data
 %save_file = "data/2026_05_02_..."
 save_file = "data/2026_05_02_18_22_11";
+save_file = fullfile(prj_path_list.user_data_path, save_file);
 results = Simulink.SimulationOutput;
 results = fileToResults(results,save_file);
 
