@@ -4,13 +4,12 @@
 %       exclude files before 3:45 pm, 4:02 pm, and 5:23 pm
 
 %% useful file
-% we need to see if the folder constains a pwm.mat file
+% get all the folderst that have a pwm.mat file
 data_files = dir(prj_path_list.user_data_path);
-%integrate with the code matthew wrote to find which files have pwms saved
-data_files = data_files([11:15,17:25,27:numel(data_files)]);
+data_files = valid_data_files(data_files);
 
 %% plotting the  Mb_FB_cmd data
-save_file = data_files(52).name;
+save_file = data_files(end).name;
 save_file = fullfile(prj_path_list.user_data_path,save_file);
 results = Simulink.SimulationOutput;
 results = fileToResults(results,save_file);
