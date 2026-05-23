@@ -4,7 +4,8 @@
 %       exclude files before 3:45 pm, 4:02 pm, and 5:23 pm
 
 %% useful file
-% get all the folderst that have a pwm.mat filedata_files = dir(prj_path_list.user_data_path);
+% get all the folderst that have a pwm.mat file
+
 data_files = dir(prj_path_list.user_data_path);
 data_files = valid_data_files(data_files);
 
