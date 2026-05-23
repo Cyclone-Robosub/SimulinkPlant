@@ -35,7 +35,7 @@ if sum(contains(params_to_estimate, "inertia")) >= 1
     
     I = vOpt(1).Value; invM = vOpt(2).Value; inv_ = vOpt(3).Value;
     sim_save = sim(Sim_I);
-    sim_save.pwms = results.pwms;
+    sim_save.LoggedData.pwms = results.pwms;
     plotAllOutputs(plots,sim_save.LoggedData,plot_names)
 end
 
@@ -83,7 +83,8 @@ if sum(contains(params_to_estimate, "mass"))>=1
     opt = sdo.OptimizeOptions;
     opt.Method = 'lsqnonlin'; %least sqaures non linear method
     sim_save = sim(Sim_mass);
-    sim_save.pwms = results.pwms;
+    %sim_save.LoggedData.pwms = results.pwms;
+    plot_names = {"X"};
     plotAllOutputs(plots,sim_save.LoggedData,plot_names)
 
     %estimate the mass
