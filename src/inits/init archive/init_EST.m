@@ -65,10 +65,9 @@ end
 
 
 results = cell(size(files));
-for i = 1:lenth(files)
+for i = 1:length(files)
     file = files(i);
     load(fullfile(file.folder,file.name))
-    for
 end
 
 

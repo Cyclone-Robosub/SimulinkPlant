@@ -10,7 +10,7 @@ end
 
 
 %% useful file
-% get all the folderst that have a pwm.mat file
+% get all the folders that have pwm and Rb data
 data_files = dir(prj_path_list.user_data_path);
 data_files = valid_data_files(data_files);
 if ~isfolder(fullfile(prj_path_list.user_data_path,"L"))
@@ -116,6 +116,8 @@ function [choppedresults,timestamps,stampname,indexstamps] = dataChop(results,ma
 % data is a result object, mask is one of the masks made by snrThreshold,
 % priority is denoting roll, pitch, yaw
 % outputs besides choppedresults are mostly just for debugging
+    results = getResultsProperties(results, []);
+    set_param
     names = results.who;
     choppedresults(1) = results;
     timestamps = zeros(1,1); 
