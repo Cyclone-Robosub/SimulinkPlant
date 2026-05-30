@@ -141,7 +141,6 @@ Rb_sp_inject = [0;0;0];
 %for running in sim
 Cbimu_meas = eye(3);
 
-
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
@@ -219,10 +218,10 @@ plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
+run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 % saveCalibrationData(results, prj_path_list.prior_run_data_path);
-saveStateGif(results,prj_path_list.prior_run_data_path,'test')
+% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
-
 
