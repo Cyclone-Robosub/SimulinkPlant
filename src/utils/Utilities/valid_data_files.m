@@ -11,8 +11,9 @@ function valid_files = valid_data_files(data_files)
     for i = 1:length(data_files)
         data_file = data_files(i).name;
         pwms_file = fullfile(data_files_path,data_file,"pwms.mat");
+        Rb_file = fullfile(data_files_path,data_file,"Rb.mat");
     
-        if isfile(pwms_file)
+        if isfile(pwms_file) && isfile(Rb_file)
             valid_files(end + 1) = data_files(i);
         end
     end

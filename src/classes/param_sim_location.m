@@ -37,7 +37,7 @@ classdef param_sim_location
                 %obj.signals(i).Values = obj.signals(i).Values.Data;
                 obj.signals(i).Values.Name = signal_names(i);
             end
-            %obj.input = double(results.pwms.Data); %might have to be changed depending of data
+            obj.input = double(results.pwms.Data); %might have to be changed depending of data
         end
 
         function [Exp,Sim] = createExperimentAndSimulator(obj)
@@ -46,14 +46,10 @@ classdef param_sim_location
             %   estimated as well as what signals they are estimated from.
             %   This method then uses that information to make an sdo
             %   Experiment that will be used for parameter estimation.
-           % try
-                %try
                 Exp = sdo.Experiment(obj.model);
-                
-                    %warning("failed to set up an experiment")
                 Exp.OutputData = obj.signals;
                 Exp.InitialStates = sdo.getStateFromModel(obj.model);
-                %Exp.InputData = obj.input;
+                Exp.InputData = obj.input;
                 %[Exp.InitialStates.Minimum] = zeros(1,numel(Exp.InitialStates));
                 %[Exp.InitialStates.Free] = true;
                 Sim = createSimulator(Exp);

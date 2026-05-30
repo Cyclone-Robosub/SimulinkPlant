@@ -21,8 +21,10 @@ the Project tab is visible at the top of the screen).
 %{
 This is the parameter estimation init, cloned off the current main init
 file (as of 4/23/26). Similar to the main init, this script will run
-similations and otherscripts, in particular, those used for parameter
-estimation.
+similations and other scripts, in particular, those used for parameter
+estimation. There are also some key differeneces associated with the
+parameter estimation task, such as data preprocessing and the utilization
+of the exclusive use of the dynamics_EST model.
 %}
 
 
@@ -38,12 +40,39 @@ end
 
 %% Set up for Parameter Estimation
 %load in data
+
+%{
 %save_file = "data/2026_05_02_..."
 save_file = "data/2026_05_02_18_22_11";
 save_file = fullfile(prj_path_list.user_data_path, save_file);
+
 results = Simulink.SimulationOutput;
 results = fileToResults(results,save_file);
+%}
+moment_type = "L"; %change this depending on the moment you want to focus on
 
+try
+    files = dir(fullfile(prj_path_list.user_data_path,moment_type));
+    %file = files(end-37);
+    %load(fullfile(file.folder,file.name)) %index to chose run (index must be above 2)
+    %results = choppedresults(1); %somehow going to have to index this to set up multiple experiemnts...
+catch
+    run("useful_data_id.m")
+    file = files(end-37);
+    %load(fullfile(file.folder,file.name))
+    %results = choppedresults(1);
+end
+
+
+results = cell(size(files));
+for i = 1:lenth(files)
+    file = files(i);
+    load(fullfile(file.folder,file.name))
+    for
+end
+
+
+%% fiz so that it is itterative
 inputStructure.time = results.pwms.Time;
 inputSignal1 = double(results.pwms.Data);
 inputStructure.signals(1).values = inputSignal1(:,1);
@@ -56,8 +85,8 @@ inputStructure.signals(7).values = inputSignal1(:,7);
 inputStructure.signals(8).values = inputSignal1(:,8);
 dt_sim =mean(results.pwms.Time(2:end)-results.pwms.Time(1:(end-1)));
 
-sim_signals = ["ddRb","wb","dRi","qib","Ri"];
-result_signal_names = ["imu_lin_acc", "imu_ang_vel", "dvl_vel","qib","dvl_pos"];
+sim_signals = ["ddRb","wb","dRi","qib","Ri"]; %names of the signals in the Dynamics sim
+result_signal_names = ["imu_lin_acc", "imu_ang_vel", "dvl_vel","qib","dvl_pos"]; %correlating sensor data
 sensorbus_blockpath = "Dynamics_SIM_EST/Subsystem Reference/Dynamics & Kinematics/MATLAB Function";
 
 model_select = "Dynamics_SIM_EST";
@@ -82,15 +111,18 @@ end
 %% Initial Conditions
 fprintf("Defining initial conditions.\n")
 %initial intertial position
-xi_0 = 0; yi_0 = 0; zi_0 = 0;
+% xi_0 = 0; yi_0 = 0; zi_0 = 0;
+xi_0 = squeeze(results.Ri.Data(1,1,1));yi_0 = squeeze(results.Ri.Data(2,1,1)); zi_0 = squeeze(results.Ri.Data(3,1,1));
 Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
-ui_0 = 0; vi_0 = 0; wi_0 = 0;
+%ui_0 = 0; vi_0 = 0; wi_0 = 0;
+ui_0 = results.dvl_vel.Data(1,1,1); vi_0 = results.dvl_vel.Data(2,1,1); wi_0 = results.dvl_vel.Data(3,1,1);
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
-phi_0 = 0; theta_0 = 0; psi_0 = 0;
+%phi_0 = 0; theta_0 = 0; psi_0 = 0;
+phi_0 = results.Eul.Data(1,1,1); theta_0 = results.Eul.Data(2,1,1); psi_0 = results.Eul.Data(3,1,1);
 Eul_0 = [phi_0; theta_0; psi_0]; %[roll, pitch, yaw]
 
 %other attitude representations
@@ -98,7 +130,8 @@ Cib_0 = eulToRotm(Eul_0);
 q_0 = eulToQuat(Eul_0); %[vector; scalar]
 
 %initial angular velocity
-wbx_0 = 0; wby_0 = 0; wbz_0 = 0;
+%wbx_0 = 0; wby_0 = 0; wbz_0 = 0;
+wbx_0 = results.wb.Data(1,1,1); wby_0 = results.wb.Data(2,1,1); wbz_0 = results.wb.Data(3,1,1);
 wb_0 = [wbx_0; wby_0; wbz_0];
 
 %pack initial state

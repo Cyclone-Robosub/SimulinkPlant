@@ -18,10 +18,9 @@ Exp = setEstimatedValues(Exp,v);
 %running simulator to comapare with experimental data.
 Simulator = createSimulator(Exp,Simulator);
 Simulator = sim(Simulator);
-    
-SimLog = Simulator.LoggedData.logsout{1}.Values;
-    
-    
+
+SimLog = Simulator.LoggedData.logsout{1}.Values;  
+ 
 imu_lin_acc = SimLog.ddRi;
 lin_acc_x = timeseries(squeeze(imu_lin_acc.Data(1,:,:)),imu_lin_acc.Time);
 ref_lin_acc_x = timeseries(squeeze(Exp.OutputData(1).Values.Data(1,:,:)),Exp.OutputData(1).Values.Time);
@@ -76,12 +75,16 @@ ref_alt = timeseries(squeeze(Exp.OutputData(5).Values.Data),Exp.OutputData(5).Va
 alt_error = evalRequirement(r,alt,ref_alt);
 %}
 
-dvl_eul = SimLog.qib;
+%{
+dvl_eul = quat2eul(squeeze(SimLog.qib.Data(i))');
+%}
+%dvl_eul = SimLog.Eul; %i need to fix this!!!!!!!!!!!!!!!
 %{
 for i = 1:length(dvl_eul.Data)
     dvl_eul.Data([1:3],:,i) = quatToEul(dvl_eul.Data(:,:,i));
 end
 %}
+%{
 eul_phi = timeseries(squeeze(dvl_eul.Data(1,:,:)),dvl_eul.Time);
 ref_eul_phi = timeseries(squeeze(Exp.OutputData(4).Values.Data(1,:,:)),Exp.OutputData(4).Values.Time);
 eul_phi_error = evalRequirement(r,eul_phi,ref_eul_phi);
@@ -91,7 +94,20 @@ eul_psi_error = evalRequirement(r,eul_psi,ref_eul_psi);
 eul_theta = timeseries(squeeze(dvl_eul.Data(3,:,:)),dvl_eul.Time);
 ref_eul_theta = timeseries(squeeze(Exp.OutputData(4).Values.Data(3,:,:)),Exp.OutputData(4).Values.Time);
 eul_theta_error = evalRequirement(r,eul_theta,ref_eul_theta);
-
+%}
+qib = SimLog.qib;
+qib_1 = timeseries(squeeze(qib.Data(1,:,:)),qib.Time);
+ref_qib_1 = timeseries(squeeze(Exp.OutputData(4).Values.Data(1,:,:)),Exp.OutputData(4).Values.Time);
+qib_1_error = evalRequirement(r,qib_1,ref_qib_1);
+qib_2 = timeseries(squeeze(qib.Data(2,:,:)),qib.Time);
+ref_qib_2 = timeseries(squeeze(Exp.OutputData(4).Values.Data(2,:,:)),Exp.OutputData(4).Values.Time);
+qib_2_error = evalRequirement(r,qib_2,ref_qib_2);
+qib_3 = timeseries(squeeze(qib.Data(3,:,:)),qib.Time);
+ref_qib_3 = timeseries(squeeze(Exp.OutputData(4).Values.Data(3,:,:)),Exp.OutputData(4).Values.Time);
+qib_3_error = evalRequirement(r,qib_3,ref_qib_3);
+qib_4 = timeseries(squeeze(qib.Data(4,:,:)),qib.Time);
+ref_qib_4 = timeseries(squeeze(Exp.OutputData(4).Values.Data(4,:,:)),Exp.OutputData(4).Values.Time);
+qib_4_error = evalRequirement(r,qib_4,ref_qib_4);
 
 dvl_pos = SimLog.Ri;
 pos_x = timeseries(squeeze(dvl_pos.Data(1,:,:)),dvl_pos.Time);
@@ -110,7 +126,7 @@ Error = [lin_acc_x_error(:); lin_acc_y_error(:);lin_acc_z_error(:); ...
          %mag_x_error(:);mag_y_error(:);mag_z_error(:);...
          vel_x_error(:);vel_y_error(:);vel_z_error(:);...
          %alt_error(:);...
-         eul_phi_error(:);eul_psi_error(:);eul_theta_error(:);...
+         qib_1_error(:);qib_2_error(:);qib_3_error(:);qib_4_error(:);
          pos_x_error(:);pos_y_error(:);pos_z_error(:)];
 
 values.F = Error(:);
