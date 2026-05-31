@@ -93,7 +93,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = false;
+initial_joystick_mode_enabled_flag = true;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -134,22 +134,22 @@ Rb_sp_inject = [0;0;0];
 % C_yaw_180 = [cos(pi) -sin(pi) 0;...
 %     sin(pi) cos(pi) 0;...
 %     0 0 1];
-% Cbimu_meas = C_yaw_180*[1 0 0;...
-%     0 -0.9999 0.0148;...
-%     0 -0.0148 -0.9999];
+Cbimu_meas = [-1 0 0;...
+    0 0.9908 0.1350;...
+    0 0.1350 -0.9908];
 
-%for running in sim
-Cbimu_meas = eye(3);
+% %for running in sim
+% Cbimu_meas = eye(3);
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 10;
+tspan = 120;
 
 %timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
+dt_sim = 1/100; %sim timestep
+dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
@@ -158,7 +158,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "FB_Controller_SIM";
+model_select = "Integrated_Joystick_HIL";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -220,7 +220,7 @@ plotAllOutputs(plots,results,plot_names);
 %Publish Controller Report
 run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
-% saveCalibrationData(results, prj_path_list.prior_run_data_path);
+saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")

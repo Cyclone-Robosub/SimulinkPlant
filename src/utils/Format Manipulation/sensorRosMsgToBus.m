@@ -133,8 +133,8 @@ sensors.imu_quat_cov = imu_quat_cov;
 sensors.imu_quat = imu_quat;
 sensors.imu_mag = imu_mag;
 sensors.imu_mag_cov = imu_mag_cov;
-sensors.imu_new_msg_flag = new_imu_flag;
-sensors.dvl_vr_new_msg_flag = new_vr_flag;
-sensors.dvl_drr_new_msg_flag = new_drr_flag;
+sensors.imu_new_msg_flag = double(new_imu_flag);
+sensors.dvl_vr_new_msg_flag = double(new_vr_flag);
+sensors.dvl_drr_new_msg_flag = double(new_drr_flag);
 
 end
