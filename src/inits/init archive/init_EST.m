@@ -24,7 +24,7 @@ file (as of 4/23/26). Similar to the main init, this script will run
 similations and other scripts, in particular, those used for parameter
 estimation. There are also some key differeneces associated with the
 parameter estimation task, such as data preprocessing and the utilization
-of the exclusive use of the dynamics_EST model.
+of the exclusive use of the Dynamics_SIM_EST model.
 %}
 
 
@@ -53,23 +53,35 @@ moment_type = "L"; %change this depending on the moment you want to focus on
 
 try
     files = dir(fullfile(prj_path_list.user_data_path,moment_type));
-    %file = files(end-37);
-    %load(fullfile(file.folder,file.name)) %index to chose run (index must be above 2)
-    %results = choppedresults(1); %somehow going to have to index this to set up multiple experiemnts...
+    %comment out for itteration
+    file = files(end-37);
+    load(fullfile(file.folder,file.name)) %index to chose run (index must be above 2)
+    results = choppedresults(1); %somehow going to have to index this to set up multiple experiemnts...
 catch
     run("useful_data_id.m")
     file = files(end-37);
     %load(fullfile(file.folder,file.name))
     %results = choppedresults(1);
 end
-
+%{
 
 results = cell(size(files));
-for i = 1:length(files)
+<<<<<<< Updated upstream
+
     file = files(i);
     load(fullfile(file.folder,file.name))
+=======
+count = 1;
+for i = 1:lenth(files)
+    file = files(i);
+    load(fullfile(file.folder,file.name))
+    for j = 1:length(choppedresults)
+        results{count} = choppedresutls(j)
+        count = count+1;
+    end
+>>>>>>> Stashed changes
 end
-
+%}
 
 %% fiz so that it is itterative
 inputStructure.time = results.pwms.Time;
@@ -86,7 +98,7 @@ dt_sim =mean(results.pwms.Time(2:end)-results.pwms.Time(1:(end-1)));
 
 sim_signals = ["ddRb","wb","dRi","qib","Ri"]; %names of the signals in the Dynamics sim
 result_signal_names = ["imu_lin_acc", "imu_ang_vel", "dvl_vel","qib","dvl_pos"]; %correlating sensor data
-sensorbus_blockpath = "Dynamics_SIM_EST/Subsystem Reference/Dynamics & Kinematics/MATLAB Function";
+sensorbus_blockpath = "Dynamics_SIM_EST/Dynamics_SIM/Subsystem Reference/Dynamics & Kinematics/MATLAB Function";
 
 model_select = "Dynamics_SIM_EST";
 open(model_select);
@@ -116,12 +128,12 @@ Ri_0 = [xi_0; yi_0; zi_0];
 
 %initial intertial velocity
 %ui_0 = 0; vi_0 = 0; wi_0 = 0;
-ui_0 = results.dvl_vel.Data(1,1,1); vi_0 = results.dvl_vel.Data(2,1,1); wi_0 = results.dvl_vel.Data(3,1,1);
+ui_0 = squeeze(results.dvl_vel.Data(1,1,1)); vi_0 = squeeze(results.dvl_vel.Data(2,1,1)); wi_0 = squeeze(results.dvl_vel.Data(3,1,1));
 dRi_0 = [ui_0; vi_0; wi_0];
 
 %initial euler angles
 %phi_0 = 0; theta_0 = 0; psi_0 = 0;
-phi_0 = results.Eul.Data(1,1,1); theta_0 = results.Eul.Data(2,1,1); psi_0 = results.Eul.Data(3,1,1);
+phi_0 = squeeze(results.Eul.Data(1,1,1)); theta_0 = squeeze(results.Eul.Data(2,1,1)); psi_0 = squeeze(results.Eul.Data(3,1,1));
 Eul_0 = [phi_0; theta_0; psi_0]; %[roll, pitch, yaw]
 
 %other attitude representations
@@ -130,7 +142,7 @@ q_0 = eulToQuat(Eul_0); %[vector; scalar]
 
 %initial angular velocity
 %wbx_0 = 0; wby_0 = 0; wbz_0 = 0;
-wbx_0 = results.wb.Data(1,1,1); wby_0 = results.wb.Data(2,1,1); wbz_0 = results.wb.Data(3,1,1);
+wbx_0 = squeeze(results.wb.Data(1,1,1)); wby_0 = squeeze(results.wb.Data(2,1,1)); wbz_0 = squeeze(results.wb.Data(3,1,1));
 wb_0 = [wbx_0; wby_0; wbz_0];
 
 %pack initial state

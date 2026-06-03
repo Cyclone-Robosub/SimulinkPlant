@@ -1,8 +1,6 @@
 %% param_estimator
 %   Script where parameter estimation is run.
 
-% bro, I have no idea what matricies are like for parameter estimation...
-% bro, we probably are only able to stimate from the experimental data
 % experimental data includes dw,ddw,ddRi,dRi
 
 %need to update for using plant instead of FB_Controller_SIM
@@ -70,7 +68,7 @@ end
 
 %% mass estimation
 if sum(contains(params_to_estimate, "mass"))>=1
-    subsystem_blockpath = "Subsystem Reference (plant)";
+    subsystem_blockpath = "Dynamics_SIM/Subsystem Reference (plant)";
     mass_EST_info = param_sim_location(results, {'m'}, model_select, subsystem_blockpath, sim_signals, result_signal_names, sensorbus_blockpath, [0,0,0,0,0], [5,4,3,2,1]);
 
     [Exp_mass,Sim_mass] = mass_EST_info.createExperimentAndSimulator();
@@ -83,9 +81,16 @@ if sum(contains(params_to_estimate, "mass"))>=1
     opt = sdo.OptimizeOptions;
     opt.Method = 'lsqnonlin'; %least sqaures non linear method
     sim_save = sim(Sim_mass);
-    %sim_save.LoggedData.pwms = results.pwms;
-    plot_names = {"X"};
-    plotAllOutputs(plots,sim_save.LoggedData,plot_names)
+    plot_names = {"X","pwm_cmd"};
+    sim_save_results = sim_save.LoggedData;
+    sim_save_results.pwms = timeseries( ...
+        [sim_save.Inputs(1).Values.Data,sim_save.Inputs(2).Values.Data,...
+        sim_save.Inputs(3).Values.Data,sim_save.Inputs(4).Values.Data,...
+        sim_save.Inputs(5).Values.Data,sim_save.Inputs(6).Values.Data,...
+        sim_save.Inputs(7).Values.Data,sim_save.Inputs(8).Values.Data],...
+        sim_save.Inputs(1).Values.Time, 'Name', 'pwms');
+    %sim_save_results.pwms.Name = 'pwms';
+    plotAllOutputs(plots,sim_save_results,plot_names)
 
     %estimate the mass
    %{
