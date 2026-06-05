@@ -14,6 +14,8 @@ classdef param_sim_location
     end
 
     methods
+        % Need to change results variable to be some sort of list to support
+        % multiple experiments
         function obj = param_sim_location(results, params, model, blockpath, signal_names, signal_data_names, signal_paths, outin, ports)
             %PARAM_FROM_SIM Construct an instance of this class
             %   Detailed explanation goes here
@@ -80,7 +82,7 @@ classdef param_sim_location
             obj.iState{2} = [0 0 0];
         end
 
-        function [Exp,Sim] = createExperimentAndSimulator(obj)
+        function [Exp,Sim] = createExperiments(obj)
             %createExperiment creates expeiment from a param_sim_location
             %   param_simloc contains information for the parameters to be
             %   estimated as well as what signals they are estimated from.
@@ -99,15 +101,7 @@ classdef param_sim_location
                                  obj.input(7).Values.Data,...
                                  obj.input(8).Values.Data,...
                                  1500.*ones(size(obj.input(2).Values.Data))];
-                % Exp.InputData(2) = obj.input(2).Values.Data;
-                % Exp.InputData(3) = obj.input(3).Values.Data;
-                % Exp.InputData(4) = obj.input(4).Values.Data;
-                % Exp.InputData(5) = obj.input(5).Values.Data;
-                % Exp.InputData(6) = obj.input(6).Values.Data;
-                % Exp.InputData(7) = obj.input(7).Values.Data;
-                % Exp.InputData(8) = obj.input(8).Values.Data;
-                %[Exp.InitialStates.Minimum] = zeros(1,numel(Exp.InitialStates));
-                %[Exp.InitialStates.Free] = true;
+
                 %INITIAL STATES EXCLUSIVE TO DYNAMICS SIM
                     X0 = sdo.getStateFromModel(obj.model);
                     X0(1).Value = obj.iState{1};
@@ -121,6 +115,16 @@ classdef param_sim_location
                 %[Sim.LoggingInfo.Signals.PropagatedName] = obj.signals.Name;
                 
         end
+
+        function simulator = createSim(experiments)
+            simulator = createSimulator(experiments(1));
+            for i = 1:numel(experiments)
+                simulator = createSimulator(experiments(i), simulator);
+            end
+            simulator.Inputs = obj.input;
+            simulator.Name = obj.model;
+        end
+
         function v = getParameters(obj, max, min, Exp)
             p = sdo.getParameterFromModel(obj.model,obj.params);
             for i = 1:length(p)

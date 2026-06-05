@@ -116,8 +116,7 @@ function [choppedresults,timestamps,stampname,indexstamps] = dataChop(results,ma
 % data is a result object, mask is one of the masks made by snrThreshold,
 % priority is denoting roll, pitch, yaw
 % outputs besides choppedresults are mostly just for debugging
-    results = getResultsProperties(results, []);
-    set_param
+    results = getResultsProperties(results, ["Mb_FB_cmd", "pwms", "Ri", "dvl_vel", "Eul", "wb"]);
     names = results.who;
     choppedresults(1) = results;
     timestamps = zeros(1,1); 
