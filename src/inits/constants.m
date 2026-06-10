@@ -32,7 +32,7 @@ invM = inv(M);
 rho = 998; %[kg/m3] at 20 C
 
 %gravity
-gi = [0;0;-9.81];
+gi = [0;0;-9.806];
 
 %vector from center of mass to center of volume for buoyancy calcs
 R_cm2cv = R_o2cv-R_o2cm; % center of mass to center of volume
@@ -66,13 +66,13 @@ Ri_e_tol = 1; %only leave this large for testing sliding maneuvers
 Eul_e_tol = 10*pi/180; %If I make this too small the controller bounces a lot on edges. As low as 10 works
 
 %Controller gains for position --> velocity
-Rb_PID.Kp = [0.5;0.5;0.5]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [0;0;0];
+Rb_PID.Kp = [0.5;0.5;1]; Rb_PID.Ki = [0;0;0]; Rb_PID.Kd = [0;0;0];
 Rb_PID.N = 100; %filter coefficient for the derivative term
 Rb_PID.output_sat = 1; %PID saturation point for velocity output
 Rb_PID.int_sat = 1; %integral term saturation limit
 
 %Controller gains for velocity --> force %DRB
-dRb_PID.Kp = [60; 60; 60]; dRb_PID.Ki = [20; 20; 20]; dRb_PID.Kd = [0; 0; 0];
+dRb_PID.Kp = [60; 60; 100]; dRb_PID.Ki = [20; 20; 20]; dRb_PID.Kd = [0; 0; 0];
 dRb_PID.N = 100; %filter coefficient for the derivative term
 dRb_PID.output_sat = 100; %PID saturation point for velocity output
 dRb_PID.int_sat = 100; %integral term saturation limit
@@ -85,7 +85,7 @@ qib_PID.output_sat = 2*pi; %PID saturation point for velocity output
 qib_PID.int_sat = pi/3; %integral term saturation limit
 
 %Controller gains for angular velocity --> torque 
-wb_PID.Kp = [5;5;5]; wb_PID.Ki = [5;5;5]; wb_PID.Kd = [0;0;0];
+wb_PID.Kp = [1;5;5]; wb_PID.Ki = [1;5;5]; wb_PID.Kd = [0;0;0];
 wb_PID.N = 100; %filter coefficient for the derivative term
 wb_PID.output_sat = 10; %PID saturation point for velocity output
 wb_PID.int_sat = 10; %integral term saturation limit

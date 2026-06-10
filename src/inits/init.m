@@ -135,8 +135,8 @@ Rb_sp_inject = [0;0;0];
 %     sin(pi) cos(pi) 0;...
 %     0 0 1];
 Cbimu_meas = [-1 0 0;...
-    0 0.9908 0.1350;...
-    0 0.1350 -0.9908];
+    0 0.9992 0.0389;...
+    0 0.0389 -0.9992];
 
 % %for running in sim
 % Cbimu_meas = eye(3);
@@ -145,7 +145,7 @@ Cbimu_meas = [-1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 120;
+tspan = 360;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
