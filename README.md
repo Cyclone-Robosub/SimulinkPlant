@@ -1,6 +1,18 @@
 ## Task List
-- [x] Update this Readme with up to date inforomation
-- [x] Replace all file system imports with constants created on run startup to make codegen compatible.
-- [ ] Cascaded Controller
-- [ ] Sensor Parsing
-- [ ] Sensor Fusion
+-[] Change Manny Gif Tool to use the Results structure.
+  
+-[] Update the output ref frames of the Sensor Model to match the real DVL.
+
+-[] Add zeroing axis rotation behavior from real DVL to the sensor model.
+
+-[] Add a helper function to re-name the folder containing data from the prior run.
+
+-[] Add a helper function to move the +bus_conv_fcns folder to the codegen directory.
+
+-[] Add a demo script and use instructions to the README.
+
+-[] Research IMU calibration for the InertialSense IMU that can account for the rotation of all three axis (low priority).
+
+-[] Add a data folder playback feature to see the plots and gif from a folder of data.
+
+-[] Update Manny gif tool with more perspective modes, a ground track, and waypoint labels.
