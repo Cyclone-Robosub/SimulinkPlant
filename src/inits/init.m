@@ -16,6 +16,10 @@ archive.
 To use this codebase successfully, make sure project_startup.m has been
 added to the project settings and ran and that the project is open (i.e.
 the Project tab is visible at the top of the screen).
+
+Run this to check if all the right messages are present. 
+msgs = ros2('msg', 'list');
+msgs(contains(msgs, 'custom_interfaces'))
 %}
 
 
@@ -158,7 +162,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Integrated_Joystick_HIL";
+model_select = "Mission_Manager_HIL";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
