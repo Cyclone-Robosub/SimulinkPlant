@@ -166,6 +166,10 @@ mission_file_name = "mission_file.txt";
 model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
+%Unreal Cosim Toggles
+show_camera_feed_flag = true;
+showCameraFeed(model_select,show_camera_feed_flag);
+
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
 setup_buses_flag = true;
