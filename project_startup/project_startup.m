@@ -153,13 +153,10 @@ fprintf("Cache and CodeGen file paths are setup.\n");
 
 %% 4 - Clear the temporary folder for a clean workspace if there is anything in it
 %suppress warnings for removed temp files
-try
-    warningState = warning('off','all');
-    clearTemp();
-    warning(warningState);
-    fprintf("Temporary files have been cleared out.\n");
-catch
-end
+warningState = warning('off','all');
+clearTemp();
+warning(warningState);
+fprintf("Temporary files have been cleared out.\n");
 
 %% 5 - Add tests to the Test Browser
 %Facilitates changing UCS variables from matlab terminal
