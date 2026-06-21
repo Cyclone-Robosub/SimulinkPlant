@@ -50,6 +50,7 @@ if(rerun_constants_flag)
     run('constants.m') %load all necessary constants into the workspace
 end
 
+
 %% Initial Conditions
 fprintf("Defining initial conditions.\n")
 %initial intertial position
@@ -97,7 +98,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = true;
+initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -107,7 +108,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
-use_true_state_flag = 0;
+use_true_state_flag = 1;
 allow_PID_resets_flag = 1;
 
 %controller tuning
@@ -149,10 +150,10 @@ Cbimu_meas = [-1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 360;
+tspan = 15;
 
 %timesteps for various simulation components
-dt_sim = 1/100; %sim timestep
+dt_sim = 1/1000; %sim timestep
 dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
@@ -162,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Mission_Manager_HIL";
+model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
 %setup for bus objects (necessary to use structures in Simulink)
@@ -178,6 +179,11 @@ if(setup_buses_flag)
     run('setup_imu_bus.m');
     run('setup_dvl_bus.m');
 end
+
+
+%constants file for Unreal Cosim
+run('constants_UCS.m');
+run('constants_Props_UCS.m')
 
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
 %set To-File block names
@@ -222,9 +228,9 @@ plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_
 plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
-run('controller_report.m');
+% run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
-saveCalibrationData(results, prj_path_list.prior_run_data_path);
+% saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")

@@ -16,3 +16,9 @@
 -[] Add a data folder playback feature to see the plots and gif from a folder of data.
 
 -[] Update Manny gif tool with more perspective modes, a ground track, and waypoint labels.
+
+-[] Add a utility called openDataFolder to open the data folder.
+
+-[] Add a utility to find the folder to run ros2genmsg
+
+-[] Add a utility to move +busconversions or delete +busconversions

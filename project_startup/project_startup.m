@@ -29,6 +29,11 @@ codegen_path = fullfile(root_path,'codegen','cpp_codegen_files');
 asv_path = fullfile(root_path,'codegen','autosaves');
 test_path = fullfile(root_path,"src/tests/");
 drafts_path = fullfile(root_path,"drafts");
+UCS_lookup_path = fullfile(src_path,'utils','UCS Lookups');
+vision_path = fullfile(src_path,'utils','Vision');
+UCS_path = fullfile(src_path,'utils','UCS');
+saved_images_path = fullfile(root_path, "SavedImages");
+unreal_build_path = fullfile(root_path, "DROP UCS PACKAGED BUILD HERE");
 
 %data lookup paths
 thruster_lookup_path = fullfile(src_path,'utils','T200 Thruster Lookups');
@@ -92,7 +97,29 @@ if(~isfolder(user_data_path))
     fprintf("Folder for data outputs is missing. Creating it now.\n")
     mkdir(user_data_path);
 end
+if(~isfolder(saved_images_path))
+    fprintf("Folder for image outputs is missing. Creating it now.\n")
+    mkdir(saved_images_path);
+    mkdir(fullfile(saved_images_path, "CalibrationImages"));
+    mkdir(fullfile(saved_images_path, "CalibrationImages/LeftCamera"));
+    mkdir(fullfile(saved_images_path, "CalibrationImages/RightCamera"));
+    mkdir(fullfile(saved_images_path, "KeyPointData"));
+end
+if(~isfolder(unreal_build_path))
+    fprintf("Folder for Unreal Packaged Build is missing. Creating it now.\n")
+    mkdir(unreal_build_path);
+end
 
+unreal_executable_path = fullfile(unreal_build_path, "EllingtonPoolSim.exe");
+
+if(~isfile(unreal_executable_path))
+    fprintf("Unreal Executable not found. Please add files to DROP UCS PACKAGED...\nMake sure to take take all files out of the folder that says your OS (ie. Windows, Linux) and drop them in the folder.\n")
+    unreal_EXE_found = false;
+else
+    fprintf("Unreal Executable found, linking exe to UCS simulink models. Feel free to comment out the run('link_EXE_UCS.m') line in project_startup.m if this task has been done before.\n")
+    unreal_EXE_found = true;
+    run('link_EXE_UCS.m')
+end
 prj_path_list.root_path = root_path;
 prj_path_list.src_path = src_path;
 prj_path_list.temp_path = temp_path;
@@ -107,6 +134,11 @@ prj_path_list.test_path = test_path;
 prj_path_list.drafts_path = drafts_path;
 prj_path_list.thruster_lookup_path = thruster_lookup_path;
 prj_path_list.manny_patch_path = manny_patch_path;
+prj_path_list.UCS_lookup_path = UCS_lookup_path;
+prj_path_list.vision_path = vision_path;
+prj_path_list.UCS_path = UCS_path;
+prj_path_list.saved_images_path = saved_images_path;
+prj_path_list.unreal_build_path = unreal_build_path;
 save(fullfile(startup_path,"prj_path_list.mat"),"prj_path_list",'-mat');
 
 cd(prj_path_list.root_path)
@@ -128,6 +160,8 @@ fprintf("Temporary files have been cleared out.\n");
 
 
 %% 5 - Add tests to the Test Browser
-%TODO
+%Facilitates changing UCS variables from matlab terminal
+run('terminalStruct_UCS.m')
 
+%TODO
 fprintf("Setup complete.\n\n")

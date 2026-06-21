@@ -31,7 +31,7 @@ el.Dimensions = [1 1];
 dvl_bus.Elements(end+1) = el;
 
 el = Simulink.BusElement;
-el.Name = 'Rb_dvl';
+el.Name = 'Ri_dvl';
 el.Dimensions = [3 1];
 dvl_bus.Elements(end+1) = el;
 

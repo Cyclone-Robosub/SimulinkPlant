@@ -7,7 +7,7 @@ Mag = imu_readings.imu_mag;
 new_imu_flag = imu_readings.new_imu_flag;
 
 eul_dvl = dvl_readings.Eul_dvl;
-Rb_dvl = dvl_readings.Rb_dvl;
+Ri_dvl = dvl_readings.Ri_dvl;
 dRb = dvl_readings.dRb_dvl;
 alt_meas_dvl = dvl_readings.alt_dvl;
 dRb_cov_dvl = dvl_readings.dRb_cov_dvl;
@@ -17,7 +17,7 @@ new_drr_flag = dvl_readings.new_drr_flag;
 %Pack into the sensor message structure
 sensor_meas.dvl_std = 0;
 sensor_meas.dvl_eul = eul_dvl;
-sensor_meas.dvl_pos = Rb_dvl;
+sensor_meas.dvl_pos = Ri_dvl;
 
 sensor_meas.dvl_vel = dRb;
 sensor_meas.dvl_alt = alt_meas_dvl;
