@@ -163,12 +163,12 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "FB_Controller_UCS";
+model_select = "Mission_Manager_HIL";
 % open_system(model_select);
 
-%Unreal Cosim Toggles
-show_camera_feed_flag = false;
-showCameraFeed(model_select,show_camera_feed_flag);
+% %Unreal Cosim Toggles
+% show_camera_feed_flag = false;
+% showCameraFeed(model_select,show_camera_feed_flag);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 
