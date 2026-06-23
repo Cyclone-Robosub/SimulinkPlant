@@ -76,7 +76,7 @@ wb_0 = [wbx_0; wby_0; wbz_0];
 %pack initial state
 X0 = [Ri_0;q_0;dRi_0;wb_0];
 
-%initial conditions for the state estimator
+% %initial conditions for the state estimator
 q0_ekf = [0 0 0 1]';
 q0_est = [0 0 0 1]';
 P0_ekf = 0.1*eye(6); 
@@ -108,7 +108,7 @@ do_thrusters_flag = 1;
 do_time_flag = 1;
 do_torque_flag = 1;
 do_force_flag = 1;
-use_true_state_flag = 1;
+use_true_state_flag = 0;
 allow_PID_resets_flag = 1;
 
 %controller tuning
@@ -139,12 +139,12 @@ Rb_sp_inject = [0;0;0];
 % C_yaw_180 = [cos(pi) -sin(pi) 0;...
 %     sin(pi) cos(pi) 0;...
 %     0 0 1];
-Cbimu_meas = [-1 0 0;...
-    0 0.9992 0.0389;...
-    0 0.0389 -0.9992];
+% Cbimu_meas = [-1 0 0;...
+%     0 0.9992 0.0389;...
+%     0 0.0389 -0.9992];
 
 % %for running in sim
-% Cbimu_meas = eye(3);
+Cbimu_meas = eye(3);
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
@@ -165,6 +165,10 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 mission_file_name = "mission_file.txt"; 
 model_select = "FB_Controller_UCS";
 % open_system(model_select);
+
+%Unreal Cosim Toggles
+show_camera_feed_flag = false;
+showCameraFeed(model_select,show_camera_feed_flag);
 
 %setup for bus objects (necessary to use structures in Simulink)
 max_commands_in_mission = 64; 

@@ -15,7 +15,6 @@ if ispc
     system(['explorer "' folderPath '"']);
 elseif ismac
     system(['open "' folderPath '" &']);
-    fprintf('Kill yourself.');
 elseif isunix
     system(['xdg-open "' folderPath '" &']);
 else
