@@ -15,7 +15,7 @@
 
 
 %cm
-gate1_Pose = [1000 0 0 0 0 0];
+gate1_Pose = [-780 1490 0 0 0 0];
 
 %List of Path locations.
 pathPoses = zeros(2, 6);

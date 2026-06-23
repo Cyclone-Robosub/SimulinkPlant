@@ -118,7 +118,7 @@ if(~isfile(unreal_executable_path))
 else
     fprintf("Unreal Executable found, linking exe to UCS simulink models. Feel free to comment out the run('link_EXE_UCS.m') line in project_startup.m if this task has been done before.\n")
     unreal_EXE_found = true;
-    run('link_EXE_UCS.m')
+    %run('link_EXE_UCS.m')
 end
 prj_path_list.root_path = root_path;
 prj_path_list.src_path = src_path;
@@ -157,7 +157,6 @@ warningState = warning('off','all');
 clearTemp();
 warning(warningState);
 fprintf("Temporary files have been cleared out.\n");
-
 
 %% 5 - Add tests to the Test Browser
 %Facilitates changing UCS variables from matlab terminal
