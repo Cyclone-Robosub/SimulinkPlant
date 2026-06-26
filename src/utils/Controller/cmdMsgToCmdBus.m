@@ -64,7 +64,7 @@ cmd [cmd_bus structure]
 %}
 
 % command_id: uint8 -> int8 (double check dimension)
-cmd.cmd_id = int8(cmd_msg.command_id);
+cmd.cmd_id = int8(cmd_msg.command_id)';
 
 % waypoint: Pose6D -> 6x1 double
 cmd.wp = [cmd_msg.waypoint.x;
@@ -94,13 +94,13 @@ cmd.wp_tol = [cmd_msg.tolerance.x;
 cmd.hold_time = cmd_msg.hold_time;
 
 % object: uint8 -> int8
-cmd.obj_id = int8(cmd_msg.object);
+cmd.obj_id = int8(cmd_msg.object)';
 
 % confidence: double passthrough
 cmd.conf = cmd_msg.confidence;
 
 % trick: uint8 -> int8
-cmd.trick_id = int8(cmd_msg.trick);
+cmd.trick_id = int8(cmd_msg.trick)';
 
 % duration: double passthrough
 cmd.exec_timeout = cmd_msg.duration;

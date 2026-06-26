@@ -42,8 +42,6 @@ if(reset)
     mission_idx = 1;
 end
 
-%initialized to false
-start_new_cmd_flag = false;
 
 %check the status
 cmd_status = cmd_status(:)';
