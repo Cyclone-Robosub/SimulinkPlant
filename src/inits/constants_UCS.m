@@ -16,12 +16,17 @@ squareSize = 5; %Measured in cm. There are 10x7 of them
 
 %Camera Calibration variable loading.
 cam_Cal_Distance = 130;
-rel_CamPose_L = [40 -2.5 -15 0 0 0];
-rel_CamPose_R = [40 2.5 -15 0 0 0];
+rel_CamPose_L = [38 -2.4 -14 0 0 0];
+rel_CamPose_R = [38 2.4 -14 0 0 0];
+rel_CamPose_B = [23 0 8 0 -pi/2 0];
+
+camHardwareDistK = [0.33 0.16 0 0 0];
+
 M_WorldToUCS = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (180 / pi) 0 0; 0 0 0 0 (180 / pi) 0; 0 0 0 0 0 (180 / pi)];
 M_UCSToWorld = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 -1 0 0 0; 0 0 0 (pi / 180) 0 0; 0 0 0 0 (pi / 180) 0; 0 0 0 0 0 (pi / 180)];
 rel_CamPose_L_UCS = rel_CamPose_L*M_WorldToUCS;
 rel_CamPose_R_UCS = rel_CamPose_R*M_WorldToUCS;
+rel_CamPose_B_UCS = rel_CamPose_B*M_WorldToUCS;
 
 
 %Delay (in units of dt_sample) of how long to wait for lighting to calibrate
