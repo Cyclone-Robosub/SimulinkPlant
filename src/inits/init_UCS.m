@@ -21,7 +21,7 @@ if(~isfile(unreal_executable_path))
 end
 
 %simulation duration
-tspan = 5;
+tspan = 15;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -50,9 +50,13 @@ simIn = simIn.setVariable('stereo_params', stereo_params);
 
 %run the sim
 results = sim(simIn);
+
+%{
 dM = results.disparityMap.signals.values(:,:,3);
 dM = double(dM);
 repM = results.reprojectionmatrix.signals.values(:,:,3);
 pointCloud = reconstructScene(dM,repM);
 pcshow(pointCloud)
+%}
+
 %% Post Processing
