@@ -26,6 +26,15 @@ else
     end
 end
 
+%timesteps for various simulation components
+dt_sim = 1/1000; %sim timestep
+dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
+dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
+dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
+dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
+dt_imu = roundToSimTimestep(1/100, dt_sim);
+dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
+
 %% Parameters
 %Always run constants_UCS first as values in it may be overridden by model
 %specific constants.
