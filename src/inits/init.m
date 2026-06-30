@@ -154,7 +154,7 @@ tspan = 30;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
+dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
@@ -236,7 +236,7 @@ plotAllOutputs(plots,results,plot_names);
 % run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 saveCalibrationData(results, prj_path_list.prior_run_data_path);
-% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
+saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
 
