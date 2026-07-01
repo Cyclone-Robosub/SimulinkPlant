@@ -98,7 +98,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = false;
+initial_joystick_mode_enabled_flag = true;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -140,21 +140,21 @@ Rb_sp_inject = [0;0;0];
 
 
 % %for running in sim
-Cbimu_meas = eye(3);
-% 
-% Cbimu_meas = [1 0 0;...
-%     0 0.0438 -0.999;...
-%     0 0.999 0.0438];
+% Cbimu_meas = eye(3);
+
+Cbimu_meas = [1 0 0;...
+    0 -0.0370 -0.9993;...
+    0 0.9993 -0.0370];
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 600;
 
 %timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
-dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
+dt_sim = 1/100; %sim timestep
+dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
@@ -163,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Mission_Manager_SIM";
+model_select = "Mission_Manager_HIL";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
@@ -230,13 +230,13 @@ results = fileToResults(results, to_file_block_path);
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_vs_true_imu", "est_vs_true_body_vel"};
-plotAllOutputs(plots,results,plot_names);
+% plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
 % run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
 saveCalibrationData(results, prj_path_list.prior_run_data_path);
-saveStateGif(results,prj_path_list.prior_run_data_path,'test')
+% saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
 
