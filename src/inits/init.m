@@ -167,7 +167,7 @@ model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
-show_camera_feed_flag = true;
+show_camera_feed_flag = false;
 save_camera_feed_flag = true;
 showCameraFeed(model_select,show_camera_feed_flag);
 setUnrealScenePath(model_select);
@@ -203,6 +203,7 @@ prj_path_list.prior_run_data_path = to_file_block_path;
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select);
+%Override disableToWorkspaceBlocks for saving camera feed
 if save_camera_feed_flag
     set_param('FB_Controller_UCS/Camera Model/Save Camera Feed/To Workspace Left', 'Commented', 'off');
     set_param('FB_Controller_UCS/Camera Model/Save Camera Feed/To Workspace Right', 'Commented', 'off');
