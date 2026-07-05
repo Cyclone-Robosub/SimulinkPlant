@@ -98,7 +98,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = true;
+initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -140,12 +140,12 @@ Rb_sp_inject = [0;0;0];
 
 
 % %for running in sim
-% Cbimu_meas = eye(3);
-
+Cbimu_meas = eye(3);
+%{
 Cbimu_meas = [1 0 0;...
     0 -0.0370 -0.9993;...
     0 0.9993 -0.0370];
-
+%}
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
 
