@@ -21,7 +21,7 @@ if(~isfile(unreal_executable_path))
 end
 
 %simulation duration
-tspan = 15;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep

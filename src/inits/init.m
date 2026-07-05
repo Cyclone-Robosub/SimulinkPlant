@@ -150,7 +150,11 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
+<<<<<<< HEAD
 tspan = 360;
+=======
+tspan = 10;
+>>>>>>> 3acdee9b16eb660b6a9b4a7d8c27c80f544847d0
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
@@ -162,12 +166,13 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
-mission_file_name = "mission_file.txt"; 
-model_select = "Mission_Manager_HIL";
+mission_file_name = "drive_in_square_validation_mission.txt"; 
+model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
-show_camera_feed_flag = false;
+show_camera_feed_flag = true;
+save_camera_feed_flag = false;
 showCameraFeed(model_select,show_camera_feed_flag);
 setUnrealScenePath(model_select);
 
@@ -190,9 +195,14 @@ end
 run('constants_UCS.m');
 run('constants_Props_UCS.m')
 
+%constant overrides for Unreal. Comment out to use defaults
+%manateeOriginPose = [0 0 0 0 0 0]; %Keep roll pitch yaw 0 0 0 for now.
+
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
+
 %set To-File block names
 enableToFileBlocks(model_select);
+
 %disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 prj_path_list.prior_run_data_path = to_file_block_path;
@@ -200,6 +210,12 @@ prj_path_list.prior_run_data_path = to_file_block_path;
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select);
+%Override disableToWorkspaceBlocks for saving camera feed
+if save_camera_feed_flag
+    set_param('FB_Controller_UCS/Camera Model/Save Camera Feed/To Workspace Left', 'Commented', 'off');
+    set_param('FB_Controller_UCS/Camera Model/Save Camera Feed/To Workspace Right', 'Commented', 'off');
+    %set_param('FB_Controller_UCS/Camera Model/Save Camera Feed/To Workspace Bottom', 'Commented', 'off');
+end
 
 %import the mission text file as an array of cmd objects
 mission_file_path = fullfile(prj_path_list.inits_path,mission_file_name);
@@ -238,5 +254,7 @@ plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_
 saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
-fprintf("\nDone.\n\n")
+%Save to file Camera Stream
+saveUCSCameraStream(save_camera_feed_flag, saved_images_path, results, tspan, dt_sample);
 
+fprintf("\nDone.\n\n")
