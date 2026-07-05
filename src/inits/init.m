@@ -163,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_UCS";
+model_select = "Mission_Manager_SIM";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
@@ -229,6 +229,8 @@ simIn = simIn.setVariable('mission', mission);
 
 %run the sim
 results = sim(simIn);
+
+defaultToFileBlockNames(model_select);
 
 %% Post Processing
 close all
