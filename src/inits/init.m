@@ -150,7 +150,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 3;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
@@ -162,13 +162,13 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
-mission_file_name = "mission_file.txt"; 
+mission_file_name = "drive_in_square_validation_mission.txt"; 
 model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
-show_camera_feed_flag = false;
-save_camera_feed_flag = true;
+show_camera_feed_flag = true;
+save_camera_feed_flag = false;
 showCameraFeed(model_select,show_camera_feed_flag);
 setUnrealScenePath(model_select);
 
@@ -190,6 +190,9 @@ end
 %constants file for Unreal Cosim
 run('constants_UCS.m');
 run('constants_Props_UCS.m')
+
+%constant overrides for Unreal. Comment out to use defaults
+%manateeOriginPose = [0 0 0 0 0 0]; %Keep roll pitch yaw 0 0 0 for now.
 
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
 
