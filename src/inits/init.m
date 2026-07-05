@@ -163,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "Mission_Manager_SIM";
+model_select = "FB_Controller_UCS";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
@@ -244,7 +244,7 @@ results = fileToResults(results, to_file_block_path);
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
 plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_vs_true_imu", "est_vs_true_body_vel"};
-% plotAllOutputs(plots,results,plot_names);
+plotAllOutputs(plots,results,plot_names);
 
 %Publish Controller Report
 % run('controller_report.m');
