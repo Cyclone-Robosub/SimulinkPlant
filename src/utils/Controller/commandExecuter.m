@@ -95,7 +95,7 @@ if((action_id == DRIVING_ACTION_ID) && (prior_action_id ~= DRIVING_ACTION_ID))
     idle_wp(6) = driving_yaw_target;
 end
 if(new_cmd_reset)
-    idle_wp = [Ri;0;0;yaw];
+    % idle_wp = [Ri;0;0;yaw];
     idle_wp = [0;0;0;0;0;yaw];
 end
 

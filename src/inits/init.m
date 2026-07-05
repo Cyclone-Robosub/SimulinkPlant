@@ -147,7 +147,7 @@ Cbimu_meas = eye(3);
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -160,7 +160,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "drive_in_square_validation_mission.txt"; 
-model_select = "FB_Controller_SIM";
+model_select = "Mission_Manager_SIM";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
