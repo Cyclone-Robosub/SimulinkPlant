@@ -150,7 +150,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 600;
+tspan = 10;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
