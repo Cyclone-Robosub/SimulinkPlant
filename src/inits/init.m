@@ -159,6 +159,7 @@ dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
+dt_debug = roundToSimTimestep(1/10, dt_sim); %for debug publisher
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
