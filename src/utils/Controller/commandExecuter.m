@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out] = commandExecuter(t, cmd, X, action_id, driving_yaw_target, new_cmd_reset)
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out, mission_is_started_flag] = commandExecuter(t, cmd, X, action_id, driving_yaw_target,new_cmd_reset, mission_is_started_flag);
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -95,7 +95,7 @@ if((action_id == DRIVING_ACTION_ID) && (prior_action_id ~= DRIVING_ACTION_ID))
     idle_wp(6) = driving_yaw_target;
 end
 if(new_cmd_reset)
-    idle_wp = [Ri;0;0;yaw];
+    % idle_wp = [Ri;0;0;yaw];
     idle_wp = [0;0;0;0;0;yaw];
 end
 
@@ -130,7 +130,14 @@ switch char(cmd.cmd_id) %case must match exactly with importMission.m
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t, new_cmd_reset, cmd_specific_wp);
         
-
+    case 'idle____________'
+        %if we are not in a known command or are idle, just use idle_wp
+        X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...
+            zeros(3,1)];
+        hold_timer_start_time = t; 
+        hold_timer = 0;
+        cmd_status = int8('RUNN');
+        mission_is_started_flag = false;
     otherwise
         %if we are not in a known command or are idle, just use idle_wp
         X_u = [idle_wp(1:3); eulToQuat(idle_wp(4:6)); zeros(3,1);...

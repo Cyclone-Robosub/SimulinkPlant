@@ -11,6 +11,9 @@ end
 ground_Z = 100;
 waterLevel_Z = -180;
 
+%Manatee Origin Relative to Unreal Origin
+manateeOriginPose = [-1100 1640 -20 0 0 0]; %Currently just set roll pitch yaw always to 0 0 0.
+
 %Grid Square Size
 squareSize = 5; %Measured in cm. There are 10x7 of them
 
