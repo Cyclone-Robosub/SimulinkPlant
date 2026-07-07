@@ -163,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Mission_Manager_SIM";
+model_select = "Mission_Manager_HIL";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
