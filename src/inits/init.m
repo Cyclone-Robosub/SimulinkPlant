@@ -98,7 +98,7 @@ const_voltage = 15;
 const_joy = [0 0 0 0 0 0]'; %[Y, X ,Rise,Sink,Yaw,Pitch]
 FT_list_test = 10*[0 0 0 0 10 -10 10 -10]';
 test_pwm_list = [1500 1500 1500 1500 1500 1500 1500 1500]';
-initial_joystick_mode_enabled_flag = true;
+initial_joystick_mode_enabled_flag = false;
 
 %flags are used to turn parts of the simulation on and off
 do_buoyancy_flag = 1;
@@ -163,7 +163,7 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "Mission_Manager_HIL";
+model_select = "matlab_node";
 % open_system(model_select);
 
 % %Unreal Cosim Toggles
@@ -192,10 +192,10 @@ run('constants_Props_UCS.m')
 
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
 %set To-File block names
-enableToFileBlocks(model_select);
-%disableToFileBlocks(model_select);
-to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
-prj_path_list.prior_run_data_path = to_file_block_path;
+%enableToFileBlocks(model_select);
+disableToFileBlocks(model_select);
+%to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
+%prj_path_list.prior_run_data_path = to_file_block_path;
 
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
