@@ -154,7 +154,7 @@ tspan = 360;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep
-dt_data = roundToSimTimestep(1/100, dt_sim); %data saving timestep
+dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
@@ -198,9 +198,8 @@ run('constants_Props_UCS.m')
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
 
 %set To-File block names
-enableToFileBlocks(model_select);
-
-%disableToFileBlocks(model_select);
+% enableToFileBlocks(model_select);
+disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 prj_path_list.prior_run_data_path = to_file_block_path;
 
@@ -250,10 +249,10 @@ plotAllOutputs(plots,results,plot_names);
 %Publish Controller Report
 % run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
-saveCalibrationData(results, prj_path_list.prior_run_data_path);
+% saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 %Save to file Camera Stream
-saveUCSCameraStream(save_camera_feed_flag, saved_images_path, results, tspan, dt_sample);
+% saveUCSCameraStream(save_camera_feed_flag, saved_images_path, results, tspan, dt_sample);
 
 fprintf("\nDone.\n\n")
