@@ -1,4 +1,4 @@
-function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out, mission_is_started_flag] = commandExecuter(t, cmd, X, action_id, driving_yaw_target,new_cmd_reset, mission_is_started_flag);
+function [X_u, cmd_status,hold_timer_out,cmd_hold_time, idle_wp_out, mission_is_started_flag, debug] = commandExecuter(t, cmd, X, action_id, driving_yaw_target,new_cmd_reset, mission_is_started_flag);
 %{
 This function handles a single command at a time from discountExecutive.
 
@@ -29,6 +29,7 @@ failure to spot the target object within the hold-time at the waypoint.
 set velocity downstream to drive to waypoints.
 
 %}
+debug = 0;
 
 %unpack current states from X (class X_bus)
 Eul = X.Eul;
@@ -43,6 +44,8 @@ persistent hold_timer_start_time
 persistent idle_wp
 persistent cmd_specific_wp
 persistent prior_action_id
+
+
 
 %{
 idle_wp is the value the controller will go to in the following
@@ -128,6 +131,12 @@ switch char(cmd.cmd_id) %case must match exactly with importMission.m
         %do a trick that lasts for a specific duration
         [cmd_status, hold_timer, X_u, hold_timer_start_time, cmd_specific_wp] = ...
             executeDurationTrick(cmd, idle_wp, X, hold_timer_start_time,...
+            t, new_cmd_reset, cmd_specific_wp);
+    case 'distance_trick__'
+        %create a body relative waypoint and drive there using the
+        %specified trick
+        [cmd_status, hold_timer, X_u, hold_timer_start_time, cmd_specific_wp, debug] = ...
+            executeDistanceTrick(cmd, idle_wp, X, hold_timer_start_time,...
             t, new_cmd_reset, cmd_specific_wp);
         
     case 'idle____________'

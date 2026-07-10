@@ -96,16 +96,6 @@ Eul_u is not switching backward for some reason when the vehicle passes
 waypoint.
 %}
 
-% %If the trick ID is duration trick, no need to make any intermediate yaw
-% %waypoints so just use the qib_u
-% if(isequal(char(cmd.cmd_id),'duration_trick__'))
-%     qib_int_u = qib_u;
-%     if(isequal(char(cmd.trick_id), 'barrel_roll_____'))
-%         Eul_u = quatToEul(qib_u);
-%         Eul_u_modified = [0; Eul_u(2); Eul_u(3)];
-%         qib_int_u = eulToQuat(Eul_u_modified);
-%     end
-% end
 
 
 
@@ -114,6 +104,14 @@ qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 
 %calculate the roll, pitch, and yaw error from this quaternion
 Eul_e = quatToEul(qib_e);
+
+%If the trick ID is duration trick, no need to make any intermediate yaw
+%waypoints so just use the qib_u
+if(isequal(char(cmd.cmd_id),'distance_trick__') || isequal(char(cmd.cmd_id),'drv_to_world_wp_'))
+    if(isequal(char(cmd.trick_id), 'barrel_roll_____'))
+        Eul_e = [0; Eul_e(2); Eul_e(3)];
+    end
+end
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
