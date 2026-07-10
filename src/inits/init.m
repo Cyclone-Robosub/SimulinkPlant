@@ -150,7 +150,7 @@ Cbimu_meas = eye(3);
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 60;
 
 %timesteps for various simulation components
 dt_sim = 1/1000; %sim timestep
@@ -164,10 +164,19 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-model_select = "FB_Controller_SIM";
-% open_system(model_select);
+% model_select = "Integrated_Joystick_HIL"; %for matlab only HIL
+% model_select = "FB_Controller_SIM"; %for matlab only sim
+% model_select = "Mission_Manager_SIM"; %for matlab + sys-arch mission manager run locally for SIM
+model_select = "Mission_Manager_HIL"; %for matlab + sys-arch mission manager run remote for HIL
 
-% %Unreal Cosim Toggles
+%{
+Note, if you receive an error from the ROS blocks saying something about a
+different model that is not the one you have selected not being loaded this
+is a limitation from using ros blocks in subsystem references. The fix for
+this is running`bdclose('all')` then resetting your model.
+%}
+
+% Unreal Cosim Toggles
 show_camera_feed_flag = true;
 save_camera_feed_flag = false;
 showCameraFeed(model_select,show_camera_feed_flag);
