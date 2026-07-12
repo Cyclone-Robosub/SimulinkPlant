@@ -24,6 +24,8 @@ debug = 0;
 persistent persistant_yaw_target
 persistent action_id
 persistent prior_action_id
+persistent new_waypoint_latch %true for the single step when a new waypoint is received
+persistent prior_Ri_u %used to update latch
 
 if(isempty(action_id))
     action_id = 1;
@@ -31,6 +33,16 @@ end
 if(isempty(prior_action_id))
     prior_action_id = action_id;
 end
+if(isempty(new_waypoint_latch))
+    new_waypoint_latch = false;
+end
+if(isempty(prior_Ri_u))
+    prior_Ri_u = [999;999;999];
+end
+if(isempty(persistant_yaw_target))
+    persistant_yaw_target = 0;
+end
+
 
 
 %unpack the required inputs (wb_u and dRi_u are assumed zero)
@@ -39,51 +51,51 @@ Ri_u = Xu(1:3);
 qib = X.qib; %[vector, scalar]
 qib_u = Xu(4:7);
 
+
+if(~isequal(prior_Ri_u, Ri_u))
+    new_waypoint_latch = true;
+    prior_Ri_u = Ri_u;
+else
+    new_waypoint_latch = false;
+    prior_Ri_u = Ri_u;
+end
+
 %project the position target and position onto the xy inertial plane
 Ri_xy_u = [Ri_u(1); Ri_u(2)];
 Ri_xy = [Ri(1); Ri(2)]; 
-
 %find the error vector from the vehicle to the target
 Ri_xy_e = Ri_xy_u - Ri_xy; 
-
-%find the yaw to point at the target
 pitch_u = 0; %to keep vehicle level 
 roll_u = 0;
 yaw_u = atan2(Ri_xy_e(2),Ri_xy_e(1)); %pi
-debug = yaw_u;
 
-if(isempty(persistant_yaw_target))
+if(new_waypoint_latch)
+    %find the yaw to point at the target
+    persistant_yaw_target = yaw_u;
+
+elseif(action_id ~= prior_action_id)
+    %update the yaw target every time the action id changes
     persistant_yaw_target = yaw_u;
 end
+
+
+
 
 %TODO - add some filtering to prevent jitter from yaw_u recalc
 %TODO - remove unused persistent_yaw_target code
 %if the position error is large, use yaw target for the target quaternion
 if(norm(Ri_xy_e) >= Ri_e_tol)
-    qib_int_u = eulToQuat([roll_u, pitch_u, yaw_u]);
-    persistant_yaw_target = yaw_u;
+    qib_int_u = eulToQuat([roll_u, pitch_u, persistant_yaw_target]);
+    % persistant_yaw_target = yaw_u;
 else
-    Eul_u = quatToEul(qib_u);
-    persistant_yaw_target = yaw_u;
+    % persistant_yaw_target = yaw_u;
     qib_int_u = qib_u;
-    
 end
-Eul_u = quatToEul(qib_int_u);
 %{
 Eul_u is not switching backward for some reason when the vehicle passes
 waypoint.
 %}
 
-%If the trick ID is duration trick, no need to make any intermediate yaw
-%waypoints so just use the qib_u
-if(isequal(char(cmd.cmd_id),'duration_trick__'))
-    qib_int_u = qib_u;
-    if(isequal(char(cmd.trick_id), 'barrel_roll_____'))
-        Eul_u = quatToEul(qib_u);
-        Eul_u_modified = [0; Eul_u(2); Eul_u(3)];
-        qib_int_u = eulToQuat(Eul_u_modified);
-    end
-end
 
 
 
@@ -92,6 +104,14 @@ qib_e = quatError(qib, qib_int_u); %expected in the form [vector; scalar]
 
 %calculate the roll, pitch, and yaw error from this quaternion
 Eul_e = quatToEul(qib_e);
+
+%If the trick ID is duration trick, no need to make any intermediate yaw
+%waypoints so just use the qib_u
+if(isequal(char(cmd.cmd_id),'distance_trick__') || isequal(char(cmd.cmd_id),'drv_to_world_wp_'))
+    if(isequal(char(cmd.trick_id), 'barrel_roll_____'))
+        Eul_e = [0; Eul_e(2); Eul_e(3)];
+    end
+end
 
 %if any of the angle errors are large, don't command forward or up
 if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
@@ -103,7 +123,7 @@ if(max(abs(Eul_e)) > Eul_e_tol) %TURNING
     Rb_u = Cbi*Ri_u;
     Rb = Cbi*Ri;
     Rb_error = Rb_u - Rb;
-    Rb_error = [0;0;0]; %overwrite (comment out if you want to allow position control during rotation)
+    Rb_error = [0;0;Rb_error(3)]; %overwrite (comment out if you want to allow position control during rotation)
     action_id = 1;
     
 
@@ -115,8 +135,10 @@ elseif(norm(Ri_xy_e) >= Ri_e_tol) %DRIVING
     Cib = quatToRotm(qib);
     Cbi = Cib';
     Rb_u = Cbi*Ri_u;
-    
-    Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
+    Rb = Cbi*Ri;
+
+    Rb_error = Rb_u - Rb;
+    % Rb_error = [norm(Ri_xy_e); 0; Ri_u(3) - Ri(3)];
     action_id = 2;
     
 
@@ -142,10 +164,7 @@ if(overwrite_state_error_flag)
     Rb_error = Rb_error_inject;
 end
 
-%update the yaw target every time the action id changes
-if(action_id ~= prior_action_id)
-    persistant_yaw_target = yaw_u;
-end
+
 
 
 
