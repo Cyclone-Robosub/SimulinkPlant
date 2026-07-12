@@ -209,6 +209,10 @@ enableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 prj_path_list.prior_run_data_path = to_file_block_path;
 
+
+%Data stores for debug
+enableDebugDataStores(model_select);
+disableDebugDataStores(model_select);
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select)
