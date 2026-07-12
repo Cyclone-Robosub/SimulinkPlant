@@ -135,9 +135,6 @@ overwrite_state_setpoint_flag = false;
 eul_sp_inject = [0;0;0];
 Rb_sp_inject = [0;0;0];
 
-%measured imu misalignment
-
-
 
 % %for running in sim
 Cbimu_meas = eye(3);
@@ -150,10 +147,10 @@ Cbimu_meas = eye(3);
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 60;
+tspan = 360;
 
 %timesteps for various simulation components
-dt_sim = 1/1000; %sim timestep
+dt_sim = 1/100; %sim timestep
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
