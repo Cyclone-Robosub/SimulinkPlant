@@ -160,6 +160,7 @@ dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
 dt_dvl_vr = roundToSimTimestep(1/20, dt_sim);
 dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
+dt_debug = 1/100;
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
@@ -225,7 +226,7 @@ fprintf("Running Post-Processing.\n")
 run('setup_plots.m')
 
 % Add any the outputs of ToFile blocks to the results structure
-results = fileToResults(results, to_file_block_path);
+%results = fileToResults(results, to_file_block_path);
 
 % Enter the names of all the plots as a comma separated cell array
 % Refer to setup_plots.m to see the valid plot names
@@ -235,7 +236,7 @@ plot_names = {"X", "X_est", "pwm_cmd", "cmd_status", "dvl", "est_vs_true", "est_
 %Publish Controller Report
 % run('controller_report.m');
 % publish('controller_report.m','format','pdf','outputDir',prj_path_list.prior_run_data_path,'evalCode',true,'showCode',false);
-saveCalibrationData(results, prj_path_list.prior_run_data_path);
+%saveCalibrationData(results, prj_path_list.prior_run_data_path);
 % saveStateGif(results,prj_path_list.prior_run_data_path,'test')
 
 fprintf("\nDone.\n\n")
