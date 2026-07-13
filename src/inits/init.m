@@ -136,9 +136,9 @@ eul_sp_inject = [0;0;0];
 Rb_sp_inject = [0;0;0];
 
 
-% %for running in sim
-% Cbimu_meas = eye(3);
-% 
+%for running in sim
+% Cbimu_meas = eye(3); %change tag
+
 Cbimu_meas = [1 0 0;...
     0 -0.0370 -0.9993;...
     0 0.9993 -0.0370];
@@ -147,10 +147,10 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 360;
+tspan = 30;
 
 %timesteps for various simulation components
-dt_sim = 1/100; %sim timestep
+dt_sim = 1/100; %sim timestep %change tag
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
@@ -159,12 +159,12 @@ dt_imu = roundToSimTimestep(1/100, dt_sim);
 dt_debug = roundToSimTimestep(1/10, dt_sim); %for debug publisher
 dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
-%mission file and model
+%mission file and model %change tag
 mission_file_name = "mission_file.txt"; 
 % model_select = "FB_Controller_SIM"; %for matlab only sim
+model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
 % model_select = "Mission_Manager_SIM"; %for matlab + sys-arch mission manager run locally for SIM
-% model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
-model_select = "Mission_Manager_HIL";
+% model_select = "Mission_Manager_HIL";
 %{
 Note, if you receive an error from the ROS blocks saying something about a
 different model that is not the one you have selected not being loaded this
@@ -202,19 +202,19 @@ run('constants_Props_UCS.m')
 
 fprintf("Configuring toWorkspace and toFile Blocks.\n")
 
-%set To-File block names
+%set To-File block names %change tag
 enableToFileBlocks(model_select);
 % disableToFileBlocks(model_select);
 to_file_block_path = setToFileBlockNames(model_select, prj_path_list.user_data_path);
 prj_path_list.prior_run_data_path = to_file_block_path;
 
-
 %Data stores for debug
-enableDebugDataStores(model_select);
+enableDebugDataStores(model_select); %change tag
 % disableDebugDataStores(model_select);
+
 %comment or uncomment the to-workspace blocks (for performance reasons)
-%enableToWorkspaceBlocks(model_select);
-disableToWorkspaceBlocks(model_select)
+enableToWorkspaceBlocks(model_select);
+% disableToWorkspaceBlocks(model_select)
 
 %Override disableToWorkspaceBlocks for saving camera feed
 if save_camera_feed_flag
