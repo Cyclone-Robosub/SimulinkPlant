@@ -137,11 +137,11 @@ Rb_sp_inject = [0;0;0];
 
 
 % %for running in sim
-Cbimu_meas = eye(3);
+% Cbimu_meas = eye(3);
 % 
-% Cbimu_meas = [1 0 0;...
-%     0 -0.0370 -0.9993;...
-%     0 0.9993 -0.0370];
+Cbimu_meas = [1 0 0;...
+    0 -0.0370 -0.9993;...
+    0 0.9993 -0.0370];
 
 %% Simulation Parameters
 fprintf("Setting simulation config.\n")
@@ -161,11 +161,10 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model
 mission_file_name = "mission_file.txt"; 
-% model_select = "Integrated_Joystick_HIL"; %for matlab only HIL
 % model_select = "FB_Controller_SIM"; %for matlab only sim
 % model_select = "Mission_Manager_SIM"; %for matlab + sys-arch mission manager run locally for SIM
-model_select = "Mission_Manager_HIL"; %for matlab + sys-arch mission manager run remote for HIL
-
+% model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
+model_select = "Mission_Manager_HIL";
 %{
 Note, if you receive an error from the ROS blocks saying something about a
 different model that is not the one you have selected not being loaded this
@@ -212,7 +211,7 @@ prj_path_list.prior_run_data_path = to_file_block_path;
 
 %Data stores for debug
 enableDebugDataStores(model_select);
-disableDebugDataStores(model_select);
+% disableDebugDataStores(model_select);
 %comment or uncomment the to-workspace blocks (for performance reasons)
 %enableToWorkspaceBlocks(model_select);
 disableToWorkspaceBlocks(model_select)

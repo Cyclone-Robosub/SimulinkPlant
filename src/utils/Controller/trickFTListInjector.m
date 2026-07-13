@@ -31,8 +31,18 @@ if(isequal(char(cmd.cmd_id),'duration_trick__'))
         otherwise
             modified_FT_List = FT_cmd_list;
     end
-else
+elseif(isequal(char(cmd.cmd_id),'idle____________'))
+    modified_FT_List = zeros(8,1);
+elseif(isequal(char(cmd.cmd_id),'drv_to_world_wp_'))
     modified_FT_List = FT_cmd_list;
+elseif(isequal(char(cmd.cmd_id),'drv_to_wp_seek__'))
+    modified_FT_List = FT_cmd_list;
+elseif(isequal(char(cmd.cmd_id),'track_obj_wp____'))
+    modified_FT_List = FT_cmd_list;
+elseif(isequal(char(cmd.cmd_id),'distance_trick__'))
+    modified_FT_List = FT_cmd_list;
+else
+    modified_FT_List = zeros(8,1);
 end
 
 

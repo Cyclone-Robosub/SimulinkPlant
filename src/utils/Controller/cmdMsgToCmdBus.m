@@ -105,6 +105,10 @@ cmd.trick_id = int8(cmd_msg.trick)';
 % duration: double passthrough
 cmd.exec_timeout = cmd_msg.duration;
 
+%special case for tricks that need to use duration instead of command
+if(isequal(cmd.cmd_id,int8('duration_trick__')))
+    cmd.hold_time = cmd_msg.duration;
+end
 end
 
 
