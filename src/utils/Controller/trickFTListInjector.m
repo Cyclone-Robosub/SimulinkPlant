@@ -1,5 +1,7 @@
-function modified_FT_List = trickFTListInjector(cmd, FT_cmd_list, FF_maneuvers, overwrite_FT_list_flag, FT_list_inject)
+function [modified_FT_List, dropper_trigger] = trickFTListInjector(cmd, FT_cmd_list, FF_maneuvers, overwrite_FT_list_flag, FT_list_inject)
+
 dropper_trigger = false;
+
 if(isequal(char(cmd.cmd_id),'duration_trick__'))
     switch char(cmd.trick_id)
         case 'ff_forward______'
