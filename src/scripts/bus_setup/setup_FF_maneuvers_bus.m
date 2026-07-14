@@ -32,11 +32,11 @@ left = left.setForce(5.*[0 0 -1 0 0 0]);
 
 pitchUp = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"pitchUp");
 pitchUp = pitchUp.setID(7);
-pitchUp = pitchUp.setForce(5.*[0 0 0 0 1 0]); 
+pitchUp = pitchUp.setForce(120.*[0 0 0 0 1 0]); 
 
 pitchDown = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"pitchDown");
 pitchDown = pitchDown.setID(8);
-pitchDown = pitchDown.setForce(5.*[0 0 0 0 -1 0]); 
+pitchDown = pitchDown.setForce(120.*[0 0 0 0 -1 0]); 
 
 yawRight = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"yawRight");
 yawRight = yawRight.setID(9);
@@ -48,7 +48,7 @@ yawLeft = yawLeft.setForce(10*[0 0 0 0 0 -1]);
 
 rollRight = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"rollRight");
 rollRight = rollRight.setID(11);
-rollRight = rollRight.setForce(5*[0 0 0 1 0 0]); 
+rollRight = rollRight.setForce(120*[0 0 0 1 0 0]); 
 
 rollLeft = Maneuver(0,max_force_default,FT_wrench,MT_wrench,"rollLeft");
 rollLeft = rollLeft.setID(12);

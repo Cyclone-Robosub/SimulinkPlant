@@ -147,7 +147,7 @@ Cbimu_meas = [1 0 0;...
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 600;
 
 %timesteps for various simulation components
 dt_sim = 1/100; %sim timestep %change tag
@@ -162,9 +162,10 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 %mission file and model %change tag
 mission_file_name = "mission_file.txt"; 
 % model_select = "FB_Controller_SIM"; %for matlab only sim
-model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
+% model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
 % model_select = "Mission_Manager_SIM"; %for matlab + sys-arch mission manager run locally for SIM
-% model_select = "Mission_Manager_HIL";
+model_select = "Mission_Manager_HIL";
+
 %{
 Note, if you receive an error from the ROS blocks saying something about a
 different model that is not the one you have selected not being loaded this
