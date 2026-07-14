@@ -138,7 +138,7 @@ Rb_sp_inject = [0;0;0];
 
 %for running in sim
 Cbimu_meas = eye(3); %change tag
-% 
+
 % Cbimu_meas = [1 0 0;...
 %     0 -0.0370 -0.9993;...
 %     0 0.9993 -0.0370];
@@ -147,10 +147,10 @@ Cbimu_meas = eye(3); %change tag
 fprintf("Setting simulation config.\n")
 
 %simulation duration
-tspan = 30;
+tspan = 10;
 
 %timesteps for various simulation components
-dt_sim = 1/100; %sim timestep %change tag
+dt_sim = 1/1000; %sim timestep %change tag
 dt_data = roundToSimTimestep(1/30, dt_sim); %data saving timestep
 dt_control = roundToSimTimestep(1/100, dt_sim); %controller timestep
 dt_dvl_drr = roundToSimTimestep(1/5, dt_sim);
@@ -161,10 +161,11 @@ dt_heartbeat = roundToSimTimestep(1/2, dt_sim);
 
 %mission file and model %change tag
 mission_file_name = "mission_file.txt"; 
-model_select = "FB_Controller_SIM"; %for matlab only sim
-% model_select = "Integrated_Joystick_HIL"; %for matlab + sys-arch mission manager run remote for HIL
-% model_select = "Mission_Manager_SIM"; %for matlab + sys-arch mission manager run locally for SIM
+% model_select = "FB_Controller_SIM";
+% model_select = "Integrated_Joystick_HIL";
+% model_select = "Mission_Manager_SIM";
 % model_select = "Mission_Manager_HIL";
+model_select = "CodeGen_Tester_HIL";
 
 %{
 Note, if you receive an error from the ROS blocks saying something about a
