@@ -2,7 +2,7 @@
 file_name = "example_waypoints.txt";
 
 start_position = [0.5,-1.25];
-depth_target = 1;
+depth_target = -1;
 
 if(~exist('prj_path_list','var')) 
     prj_path_list = getProjectPaths();
