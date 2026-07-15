@@ -1,7 +1,7 @@
 %list of waypoints in the pool's reference frame (aligned coordinate frame)
 file_name = "example_waypoints.txt";
 
-start_position = [0.5,-6.5];
+start_position = [0.5,6.35];
 depth_target = -1;
 
 if(~exist('prj_path_list','var')) 

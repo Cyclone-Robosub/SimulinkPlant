@@ -1,16 +1,17 @@
 x_coord,y_coord,z_label,label
-0.5,-6.5,0,starting point
-3.6,-6.5,0,front gate
-5.4,-6.5,0,after gate
-7.8,-8.3,0,enter slolumn
-8.5,-8.3,0,slalom 1
-10.6,-7.4,0,slalom 2
-12.8,-9,0,slalom 3
-14,-9,0,slalom exit
-19.4,-7.2,0,ocotgon
-18.75,-3.6,0,bin 1
-19.4,-3.25,0,bin 2
-10.6,-7.4,0,wp1
-5.4,-6.5,0,after gate
-3.6,-6.5,0,front gate
-0.5,-6.5,0,starting point
+0.5,6.35,0,starting point
+2,6.35,0,front gate
+4.3,6.35,0,after gate
+5.5,5.6,0,enter slolumn
+6.7,5.6,0,slalom 1
+9,5.7,0,slalom 2
+11.2,4.7,0,slalom 3
+12.5,4.7,0,slalom exit
+13.5,4.3,0,ocotgon
+14.1,1.8,0,bin 1
+15.5,2,0,bin 2
+12,1.5,0,wp1
+5.7,1.5,0,wp2
+4.3,6.35,0,after gate
+2,6.35,0,front gate
+0.5,6.35,0,starting point
